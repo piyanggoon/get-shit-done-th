@@ -1,6 +1,6 @@
 {
     "name": "get-shit-done-th",
-    "version": "1.4.0",
+    "version": "1.4.1",
     "description": "ระบบ meta-prompting, context engineering และ spec-driven development สำหรับ Claude Code เวอร์ชันภาษาไทย",
     "bin": {
         "get-shit-done-th": "bin/install.js"
