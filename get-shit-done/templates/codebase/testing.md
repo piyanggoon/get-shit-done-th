@@ -1,50 +1,50 @@
-# Testing Patterns Template
+# เทมเพลต Testing Patterns
 
-Template for `.planning/codebase/TESTING.md` - captures test framework and patterns.
+เทมเพลตสำหรับ `.planning/codebase/TESTING.md` - บันทึก test framework และ patterns
 
-**Purpose:** Document how tests are written and run. Guide for adding tests that match existing patterns.
+**วัตถุประสงค์:** บันทึกว่า tests เขียนและรันอย่างไร Guide สำหรับเพิ่ม tests ที่ตรงกับ patterns ที่มีอยู่
 
 ---
 
-## File Template
+## เทมเพลตไฟล์
 
 ```markdown
 # Testing Patterns
 
-**Analysis Date:** [YYYY-MM-DD]
+**วันที่วิเคราะห์:** [YYYY-MM-DD]
 
 ## Test Framework
 
 **Runner:**
-- [Framework: e.g., "Jest 29.x", "Vitest 1.x"]
-- [Config: e.g., "jest.config.js in project root"]
+- [Framework: เช่น "Jest 29.x", "Vitest 1.x"]
+- [Config: เช่น "jest.config.js ใน project root"]
 
 **Assertion Library:**
-- [Library: e.g., "built-in expect", "chai"]
-- [Matchers: e.g., "toBe, toEqual, toThrow"]
+- [Library: เช่น "built-in expect", "chai"]
+- [Matchers: เช่น "toBe, toEqual, toThrow"]
 
 **Run Commands:**
 ```bash
-[e.g., "npm test" or "npm run test"]              # Run all tests
-[e.g., "npm test -- --watch"]                     # Watch mode
-[e.g., "npm test -- path/to/file.test.ts"]       # Single file
-[e.g., "npm run test:coverage"]                   # Coverage report
+[เช่น "npm test" หรือ "npm run test"]              # รันทุก tests
+[เช่น "npm test -- --watch"]                       # Watch mode
+[เช่น "npm test -- path/to/file.test.ts"]         # Single file
+[เช่น "npm run test:coverage"]                     # Coverage report
 ```
 
 ## Test File Organization
 
-**Location:**
-- [Pattern: e.g., "*.test.ts alongside source files"]
-- [Alternative: e.g., "__tests__/ directory" or "separate tests/ tree"]
+**ตำแหน่ง:**
+- [Pattern: เช่น "*.test.ts ข้างๆ source files"]
+- [Alternative: เช่น "__tests__/ directory" หรือ "separate tests/ tree"]
 
-**Naming:**
-- [Unit tests: e.g., "module-name.test.ts"]
-- [Integration: e.g., "feature-name.integration.test.ts"]
-- [E2E: e.g., "user-flow.e2e.test.ts"]
+**การตั้งชื่อ:**
+- [Unit tests: เช่น "module-name.test.ts"]
+- [Integration: เช่น "feature-name.integration.test.ts"]
+- [E2E: เช่น "user-flow.e2e.test.ts"]
 
-**Structure:**
+**โครงสร้าง:**
 ```
-[Show actual directory pattern, e.g.:
+[แสดง actual directory pattern เช่น:
 src/
   lib/
     utils.ts
@@ -59,7 +59,7 @@ src/
 
 **Suite Organization:**
 ```typescript
-[Show actual pattern used, e.g.:
+[แสดง actual pattern ที่ใช้ เช่น:
 
 describe('ModuleName', () => {
   describe('functionName', () => {
@@ -78,45 +78,45 @@ describe('ModuleName', () => {
 ```
 
 **Patterns:**
-- [Setup: e.g., "beforeEach for shared setup, avoid beforeAll"]
-- [Teardown: e.g., "afterEach to clean up, restore mocks"]
-- [Structure: e.g., "arrange/act/assert pattern required"]
+- [Setup: เช่น "beforeEach สำหรับ shared setup, หลีกเลี่ยง beforeAll"]
+- [Teardown: เช่น "afterEach สำหรับ clean up, restore mocks"]
+- [Structure: เช่น "arrange/act/assert pattern required"]
 
 ## Mocking
 
 **Framework:**
-- [Tool: e.g., "Jest built-in mocking", "Vitest vi", "Sinon"]
-- [Import mocking: e.g., "vi.mock() at top of file"]
+- [Tool: เช่น "Jest built-in mocking", "Vitest vi", "Sinon"]
+- [Import mocking: เช่น "vi.mock() ที่ top ของไฟล์"]
 
 **Patterns:**
 ```typescript
-[Show actual mocking pattern, e.g.:
+[แสดง actual mocking pattern เช่น:
 
 // Mock external dependency
 vi.mock('./external-service', () => ({
   fetchData: vi.fn()
 }));
 
-// Mock in test
+// Mock ใน test
 const mockFetch = vi.mocked(fetchData);
 mockFetch.mockResolvedValue({ data: 'test' });
 ]
 ```
 
-**What to Mock:**
-- [e.g., "External APIs, file system, database"]
-- [e.g., "Time/dates (use vi.useFakeTimers)"]
-- [e.g., "Network calls (use mock fetch)"]
+**อะไรควร Mock:**
+- [เช่น "External APIs, file system, database"]
+- [เช่น "Time/dates (use vi.useFakeTimers)"]
+- [เช่น "Network calls (use mock fetch)"]
 
-**What NOT to Mock:**
-- [e.g., "Pure functions, utilities"]
-- [e.g., "Internal business logic"]
+**อะไรไม่ควร Mock:**
+- [เช่น "Pure functions, utilities"]
+- [เช่น "Internal business logic"]
 
 ## Fixtures and Factories
 
 **Test Data:**
 ```typescript
-[Show pattern for creating test data, e.g.:
+[แสดง pattern สำหรับสร้าง test data เช่น:
 
 // Factory pattern
 function createTestUser(overrides?: Partial<User>): User {
@@ -134,48 +134,48 @@ export const mockUsers = [/* ... */];
 ]
 ```
 
-**Location:**
-- [e.g., "tests/fixtures/ for shared fixtures"]
-- [e.g., "factory functions in test file or tests/factories/"]
+**ตำแหน่ง:**
+- [เช่น "tests/fixtures/ สำหรับ shared fixtures"]
+- [เช่น "factory functions ใน test file หรือ tests/factories/"]
 
 ## Coverage
 
 **Requirements:**
-- [Target: e.g., "80% line coverage", "no specific target"]
-- [Enforcement: e.g., "CI blocks <80%", "coverage for awareness only"]
+- [Target: เช่น "80% line coverage", "no specific target"]
+- [Enforcement: เช่น "CI blocks <80%", "coverage for awareness only"]
 
 **Configuration:**
-- [Tool: e.g., "built-in coverage via --coverage flag"]
-- [Exclusions: e.g., "exclude *.test.ts, config files"]
+- [Tool: เช่น "built-in coverage via --coverage flag"]
+- [Exclusions: เช่น "exclude *.test.ts, config files"]
 
 **View Coverage:**
 ```bash
-[e.g., "npm run test:coverage"]
-[e.g., "open coverage/index.html"]
+[เช่น "npm run test:coverage"]
+[เช่น "open coverage/index.html"]
 ```
 
 ## Test Types
 
 **Unit Tests:**
-- [Scope: e.g., "test single function/class in isolation"]
-- [Mocking: e.g., "mock all external dependencies"]
-- [Speed: e.g., "must run in <1s per test"]
+- [Scope: เช่น "test single function/class in isolation"]
+- [Mocking: เช่น "mock ทุก external dependencies"]
+- [Speed: เช่น "ต้องรันใน <1s ต่อ test"]
 
 **Integration Tests:**
-- [Scope: e.g., "test multiple modules together"]
-- [Mocking: e.g., "mock external services, use real internal modules"]
-- [Setup: e.g., "use test database, seed data"]
+- [Scope: เช่น "test หลาย modules ด้วยกัน"]
+- [Mocking: เช่น "mock external services, ใช้ real internal modules"]
+- [Setup: เช่น "use test database, seed data"]
 
 **E2E Tests:**
-- [Framework: e.g., "Playwright for E2E"]
-- [Scope: e.g., "test full user flows"]
-- [Location: e.g., "e2e/ directory separate from unit tests"]
+- [Framework: เช่น "Playwright สำหรับ E2E"]
+- [Scope: เช่น "test full user flows"]
+- [ตำแหน่ง: เช่น "e2e/ directory แยกจาก unit tests"]
 
 ## Common Patterns
 
 **Async Testing:**
 ```typescript
-[Show pattern, e.g.:
+[แสดง pattern เช่น:
 
 it('should handle async operation', async () => {
   const result = await asyncFunction();
@@ -186,7 +186,7 @@ it('should handle async operation', async () => {
 
 **Error Testing:**
 ```typescript
-[Show pattern, e.g.:
+[แสดง pattern เช่น:
 
 it('should throw on invalid input', () => {
   expect(() => functionCall()).toThrow('error message');
@@ -200,26 +200,26 @@ it('should reject on failure', async () => {
 ```
 
 **Snapshot Testing:**
-- [Usage: e.g., "for React components only" or "not used"]
-- [Location: e.g., "__snapshots__/ directory"]
+- [Usage: เช่น "สำหรับ React components only" หรือ "not used"]
+- [ตำแหน่ง: เช่น "__snapshots__/ directory"]
 
 ---
 
-*Testing analysis: [date]*
-*Update when test patterns change*
+*Testing analysis: [วันที่]*
+*อัปเดตเมื่อ test patterns เปลี่ยน*
 ```
 
 <good_examples>
 ```markdown
 # Testing Patterns
 
-**Analysis Date:** 2025-01-20
+**วันที่วิเคราะห์:** 2025-01-20
 
 ## Test Framework
 
 **Runner:**
 - Vitest 1.0.4
-- Config: vitest.config.ts in project root
+- Config: vitest.config.ts ใน project root
 
 **Assertion Library:**
 - Vitest built-in expect
@@ -227,7 +227,7 @@ it('should reject on failure', async () => {
 
 **Run Commands:**
 ```bash
-npm test                              # Run all tests
+npm test                              # รันทุก tests
 npm test -- --watch                   # Watch mode
 npm test -- path/to/file.test.ts     # Single file
 npm run test:coverage                 # Coverage report
@@ -235,15 +235,15 @@ npm run test:coverage                 # Coverage report
 
 ## Test File Organization
 
-**Location:**
-- *.test.ts alongside source files
-- No separate tests/ directory
+**ตำแหน่ง:**
+- *.test.ts ข้างๆ source files
+- ไม่มี separate tests/ directory
 
-**Naming:**
-- unit-name.test.ts for all tests
-- No distinction between unit/integration in filename
+**การตั้งชื่อ:**
+- unit-name.test.ts สำหรับทุก tests
+- ไม่มีการแยกระหว่าง unit/integration ใน filename
 
-**Structure:**
+**โครงสร้าง:**
 ```
 src/
   lib/
@@ -254,7 +254,7 @@ src/
     install-service.test.ts
   bin/
     install.ts
-    (no test - integration tested via CLI)
+    (ไม่มี test - integration tested via CLI)
 ```
 
 ## Test Structure
@@ -288,16 +288,16 @@ describe('ModuleName', () => {
 ```
 
 **Patterns:**
-- Use beforeEach for per-test setup, avoid beforeAll
-- Use afterEach to restore mocks: vi.restoreAllMocks()
-- Explicit arrange/act/assert comments in complex tests
-- One assertion focus per test (but multiple expects OK)
+- ใช้ beforeEach สำหรับ per-test setup, หลีกเลี่ยง beforeAll
+- ใช้ afterEach เพื่อ restore mocks: vi.restoreAllMocks()
+- Explicit arrange/act/assert comments ใน complex tests
+- หนึ่ง assertion focus ต่อ test (แต่หลาย expects OK)
 
 ## Mocking
 
 **Framework:**
 - Vitest built-in mocking (vi)
-- Module mocking via vi.mock() at top of test file
+- Module mocking via vi.mock() ที่ top ของ test file
 
 **Patterns:**
 ```typescript
@@ -314,20 +314,20 @@ describe('test suite', () => {
     const mockFn = vi.mocked(externalFunction);
     mockFn.mockReturnValue('mocked result');
 
-    // test code using mocked function
+    // test code ที่ใช้ mocked function
 
     expect(mockFn).toHaveBeenCalledWith('expected arg');
   });
 });
 ```
 
-**What to Mock:**
+**อะไรควร Mock:**
 - File system operations (fs-extra)
 - Child process execution (child_process.exec)
 - External API calls
 - Environment variables (process.env)
 
-**What NOT to Mock:**
+**อะไรไม่ควร Mock:**
 - Internal pure functions
 - Simple utilities (string manipulation, array helpers)
 - TypeScript types
@@ -336,7 +336,7 @@ describe('test suite', () => {
 
 **Test Data:**
 ```typescript
-// Factory functions in test file
+// Factory functions ใน test file
 function createTestConfig(overrides?: Partial<Config>): Config {
   return {
     targetDir: '/tmp/test',
@@ -345,7 +345,7 @@ function createTestConfig(overrides?: Partial<Config>): Config {
   };
 }
 
-// Shared fixtures in tests/fixtures/
+// Shared fixtures ใน tests/fixtures/
 // tests/fixtures/sample-command.md
 export const sampleCommand = `---
 description: Test command
@@ -353,17 +353,17 @@ description: Test command
 Content here`;
 ```
 
-**Location:**
-- Factory functions: define in test file near usage
-- Shared fixtures: tests/fixtures/ (for multi-file test data)
-- Mock data: inline in test when simple, factory when complex
+**ตำแหน่ง:**
+- Factory functions: define ใน test file ใกล้ usage
+- Shared fixtures: tests/fixtures/ (สำหรับ multi-file test data)
+- Mock data: inline ใน test เมื่อง่าย, factory เมื่อซับซ้อน
 
 ## Coverage
 
 **Requirements:**
-- No enforced coverage target
-- Coverage tracked for awareness
-- Focus on critical paths (parsers, service logic)
+- ไม่มี enforced coverage target
+- Coverage tracked สำหรับ awareness
+- เน้น critical paths (parsers, service logic)
 
 **Configuration:**
 - Vitest coverage via c8 (built-in)
@@ -379,17 +379,17 @@ open coverage/index.html
 
 **Unit Tests:**
 - Test single function in isolation
-- Mock all external dependencies (fs, child_process)
-- Fast: each test <100ms
-- Examples: parser.test.ts, validator.test.ts
+- Mock ทุก external dependencies (fs, child_process)
+- Fast: แต่ละ test <100ms
+- ตัวอย่าง: parser.test.ts, validator.test.ts
 
 **Integration Tests:**
-- Test multiple modules together
-- Mock only external boundaries (file system, process)
-- Examples: install-service.test.ts (tests service + parser)
+- Test หลาย modules ด้วยกัน
+- Mock แค่ external boundaries (file system, process)
+- ตัวอย่าง: install-service.test.ts (tests service + parser)
 
 **E2E Tests:**
-- Not currently used
+- ไม่ได้ใช้ปัจจุบัน
 - CLI integration tested manually
 
 ## Common Patterns
@@ -428,53 +428,53 @@ it('mocks file system', () => {
 ```
 
 **Snapshot Testing:**
-- Not used in this codebase
-- Prefer explicit assertions for clarity
+- ไม่ได้ใช้ใน codebase นี้
+- Prefer explicit assertions สำหรับความชัดเจน
 
 ---
 
 *Testing analysis: 2025-01-20*
-*Update when test patterns change*
+*อัปเดตเมื่อ test patterns เปลี่ยน*
 ```
 </good_examples>
 
 <guidelines>
-**What belongs in TESTING.md:**
-- Test framework and runner configuration
-- Test file location and naming patterns
+**อะไรควรอยู่ใน TESTING.md:**
+- Test framework และ runner configuration
+- Test file location และ naming patterns
 - Test structure (describe/it, beforeEach patterns)
-- Mocking approach and examples
+- Mocking approach และตัวอย่าง
 - Fixture/factory patterns
 - Coverage requirements
-- How to run tests (commands)
-- Common testing patterns in actual code
+- วิธีรัน tests (commands)
+- Common testing patterns ในโค้ดจริง
 
-**What does NOT belong here:**
-- Specific test cases (defer to actual test files)
-- Technology choices (that's STACK.md)
-- CI/CD setup (that's deployment docs)
+**อะไรไม่ควรอยู่ที่นี่:**
+- Specific test cases (defer ไปอ่าน test files จริง)
+- Technology choices (นั่นคือ STACK.md)
+- CI/CD setup (นั่นคือ deployment docs)
 
-**When filling this template:**
-- Check package.json scripts for test commands
-- Find test config file (jest.config.js, vitest.config.ts)
-- Read 3-5 existing test files to identify patterns
-- Look for test utilities in tests/ or test-utils/
-- Check for coverage configuration
-- Document actual patterns used, not ideal patterns
+**เมื่อกรอกเทมเพลตนี้:**
+- ตรวจสอบ package.json scripts สำหรับ test commands
+- หา test config file (jest.config.js, vitest.config.ts)
+- อ่าน 3-5 existing test files เพื่อระบุ patterns
+- มองหา test utilities ใน tests/ หรือ test-utils/
+- ตรวจสอบ coverage configuration
+- Document actual patterns ที่ใช้ ไม่ใช่ ideal patterns
 
-**Useful for phase planning when:**
-- Adding new features (write matching tests)
+**มีประโยชน์สำหรับ phase planning เมื่อ:**
+- เพิ่ม features ใหม่ (เขียน matching tests)
 - Refactoring (maintain test patterns)
 - Fixing bugs (add regression tests)
-- Understanding verification approach
-- Setting up test infrastructure
+- เข้าใจ verification approach
+- ตั้งค่า test infrastructure
 
-**Analysis approach:**
-- Check package.json for test framework and scripts
-- Read test config file for coverage, setup
-- Examine test file organization (collocated vs separate)
-- Review 5 test files for patterns (mocking, structure, assertions)
-- Look for test utilities, fixtures, factories
-- Note any test types (unit, integration, e2e)
-- Document commands for running tests
+**แนวทาง Analysis:**
+- ตรวจสอบ package.json สำหรับ test framework และ scripts
+- อ่าน test config file สำหรับ coverage, setup
+- ตรวจสอบ test file organization (collocated vs separate)
+- Review 5 test files สำหรับ patterns (mocking, structure, assertions)
+- มองหา test utilities, fixtures, factories
+- Note test types ใดๆ (unit, integration, e2e)
+- Document commands สำหรับรัน tests
 </guidelines>

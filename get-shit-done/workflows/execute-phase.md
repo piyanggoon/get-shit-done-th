@@ -1,29 +1,29 @@
 <purpose>
-Execute a phase prompt (PLAN.md) and create the outcome summary (SUMMARY.md).
+Execute phase prompt (PLAN.md) และสร้าง outcome summary (SUMMARY.md)
 </purpose>
 
 <required_reading>
-Read STATE.md before any operation to load project context.
+อ่าน STATE.md ก่อนทุก operation เพื่อโหลด project context
 </required_reading>
 
 <process>
 
 <step name="load_project_state" priority="first">
-Before any operation, read project state:
+ก่อนทุก operation อ่าน project state:
 
 ```bash
 cat .planning/STATE.md 2>/dev/null
 ```
 
-**If file exists:** Parse and internalize:
+**หากไฟล์มี:** Parse และซึมซับ:
 
 - Current position (phase, plan, status)
-- Accumulated decisions (constraints on this execution)
-- Deferred issues (context for deviations)
-- Blockers/concerns (things to watch for)
+- Accumulated decisions (constraints สำหรับ execution นี้)
+- Deferred issues (context สำหรับ deviations)
+- Blockers/concerns (สิ่งที่ต้องระวัง)
 - Brief alignment status
 
-**If file missing but .planning/ exists:**
+**หากไฟล์ไม่มีแต่ .planning/ มี:**
 
 ```
 STATE.md missing but planning artifacts exist.
@@ -32,51 +32,49 @@ Options:
 2. Continue without project state (may lose accumulated context)
 ```
 
-**If .planning/ doesn't exist:** Error - project not initialized.
-
-This ensures every execution has full project context.
+**หาก .planning/ ไม่มี:** Error - project not initialized
 </step>
 
 <step name="identify_plan">
-Find the next plan to execute:
-- Check roadmap for "In progress" phase
-- Find plans in that phase directory
-- Identify first plan without corresponding SUMMARY
+หา plan ถัดไปที่จะ execute:
+- ตรวจสอบ roadmap สำหรับ phase ที่ "In progress"
+- หา plans ใน phase directory นั้น
+- ระบุ plan แรกที่ไม่มี SUMMARY ที่สอดคล้อง
 
 ```bash
 cat .planning/ROADMAP.md
-# Look for phase with "In progress" status
-# Then find plans in that phase
+# มองหา phase ที่มี status "In progress"
+# แล้วหา plans ใน phase นั้น
 ls .planning/phases/XX-name/*-PLAN.md 2>/dev/null | sort
 ls .planning/phases/XX-name/*-SUMMARY.md 2>/dev/null | sort
 ```
 
 **Logic:**
 
-- If `01-01-PLAN.md` exists but `01-01-SUMMARY.md` doesn't → execute 01-01
-- If `01-01-SUMMARY.md` exists but `01-02-SUMMARY.md` doesn't → execute 01-02
-- Pattern: Find first PLAN file without matching SUMMARY file
+- หาก `01-01-PLAN.md` มีแต่ `01-01-SUMMARY.md` ไม่มี → execute 01-01
+- หาก `01-01-SUMMARY.md` มีแต่ `01-02-SUMMARY.md` ไม่มี → execute 01-02
+- Pattern: หาไฟล์ PLAN แรกที่ไม่มี SUMMARY file ที่ตรงกัน
 
 **Decimal phase handling:**
 
-Phase directories can be integer or decimal format:
+Phase directories อาจเป็นรูปแบบ integer หรือ decimal:
 
 - Integer: `.planning/phases/01-foundation/01-01-PLAN.md`
 - Decimal: `.planning/phases/01.1-hotfix/01.1-01-PLAN.md`
 
-Parse phase number from path (handles both formats):
+Parse phase number จาก path (handles ทั้งสองรูปแบบ):
 
 ```bash
-# Extract phase number (handles XX or XX.Y format)
+# ดึง phase number (handles XX หรือ XX.Y format)
 PHASE=$(echo "$PLAN_PATH" | grep -oE '[0-9]+(\.[0-9]+)?-[0-9]+')
 ```
 
-SUMMARY naming follows same pattern:
+SUMMARY naming ตาม pattern เดียวกัน:
 
 - Integer: `01-01-SUMMARY.md`
 - Decimal: `01.1-01-SUMMARY.md`
 
-Confirm with user if ambiguous.
+ยืนยันกับผู้ใช้หากไม่ชัดเจน
 
 <config-check>
 ```bash
@@ -86,17 +84,17 @@ cat .planning/config.json 2>/dev/null
 
 <if mode="yolo">
 ```
-⚡ Auto-approved: Execute {phase}-{plan}-PLAN.md
+⚡ อนุมัติอัตโนมัติ: Execute {phase}-{plan}-PLAN.md
 [Plan X of Y for Phase Z]
 
 Starting execution...
 ```
 
-Proceed directly to parse_segments step.
+ดำเนินการไปยังขั้นตอน parse_segments โดยตรง
 </if>
 
 <if mode="interactive" OR="custom with gates.execute_next_plan true">
-Present:
+แสดง:
 
 ```
 Found plan to execute: {phase}-{plan}-PLAN.md
@@ -105,46 +103,46 @@ Found plan to execute: {phase}-{plan}-PLAN.md
 Proceed with execution?
 ```
 
-Wait for confirmation before proceeding.
+รอการยืนยันก่อนดำเนินการ
 </if>
 </step>
 
 <step name="record_start_time">
-Record execution start time for performance tracking:
+บันทึกเวลาเริ่ม execution สำหรับ performance tracking:
 
 ```bash
 PLAN_START_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 PLAN_START_EPOCH=$(date +%s)
 ```
 
-Store in shell variables for duration calculation at completion.
+เก็บใน shell variables สำหรับการคำนวณ duration เมื่อเสร็จ
 </step>
 
 <step name="parse_segments">
-**Intelligent segmentation: Parse plan into execution segments.**
+**Intelligent segmentation: Parse plan เป็น execution segments**
 
-Plans are divided into segments by checkpoints. Each segment is routed to optimal execution context (subagent or main).
+Plans แบ่งเป็น segments ด้วย checkpoints แต่ละ segment route ไป execution context ที่เหมาะสม (subagent หรือ main)
 
-**1. Check for checkpoints:**
+**1. ตรวจสอบ checkpoints:**
 
 ```bash
-# Find all checkpoints and their types
+# หา checkpoints ทั้งหมดและ types
 grep -n "type=\"checkpoint" .planning/phases/XX-name/{phase}-{plan}-PLAN.md
 ```
 
-**2. Analyze execution strategy:**
+**2. วิเคราะห์ execution strategy:**
 
-**If NO checkpoints found:**
+**หากไม่พบ checkpoints:**
 
-- **Fully autonomous plan** - spawn single subagent for entire plan
-- Subagent gets fresh 200k context, executes all tasks, creates SUMMARY, commits
-- Main context: Just orchestration (~5% usage)
+- **Fully autonomous plan** - spawn single subagent สำหรับ plan ทั้งหมด
+- Subagent ได้ fresh 200k context, execute ทุก tasks, สร้าง SUMMARY, commits
+- Main context: แค่ orchestration (~5% usage)
 
-**If checkpoints found, parse into segments:**
+**หากพบ checkpoints, parse เป็น segments:**
 
-Segment = tasks between checkpoints (or start→first checkpoint, or last checkpoint→end)
+Segment = tasks ระหว่าง checkpoints (หรือ start→first checkpoint, หรือ last checkpoint→end)
 
-**For each segment, determine routing:**
+**สำหรับแต่ละ segment กำหนด routing:**
 
 ```
 Segment routing rules:
@@ -185,28 +183,28 @@ Tasks 2-5: Main context (need decision from checkpoint 1)
 No segmentation benefit - execute entirely in main
 ```
 
-**4. Why this works:**
+**4. ทำไมถึงใช้ได้:**
 
 **Segmentation benefits:**
 
-- Fresh context for each autonomous segment (0% start every time)
-- Main context only for checkpoints (~10-20% total)
-- Can handle 10+ task plans if properly segmented
-- Quality impossible to degrade in autonomous segments
+- Fresh context สำหรับแต่ละ autonomous segment (0% start ทุกครั้ง)
+- Main context สำหรับ checkpoints เท่านั้น (~10-20% total)
+- รองรับ plans 10+ tasks หาก segmented ถูกต้อง
+- Quality เป็นไปไม่ได้ที่จะลดลงใน autonomous segments
 
-**When segmentation provides no benefit:**
+**เมื่อ segmentation ไม่มีประโยชน์:**
 
-- Checkpoint is decision/human-action and following tasks depend on outcome
-- Better to execute sequentially in main than break flow
+- Checkpoint เป็น decision/human-action และ tasks ถัดไปขึ้นกับ outcome
+- ดีกว่าที่จะ execute sequentially ใน main มากกว่า break flow
 
 **5. Implementation:**
 
-**For fully autonomous plans:**
+**สำหรับ fully autonomous plans:**
 
 ```
-1. Run init_agent_tracking step first (see step below)
+1. Run init_agent_tracking step first (ดู step ด้านล่าง)
 
-2. Use Task tool with subagent_type="general-purpose":
+2. ใช้ Task tool ด้วย subagent_type="general-purpose":
 
    Prompt: "Execute plan at .planning/phases/{phase}-{plan}-PLAN.md
 
@@ -216,12 +214,12 @@ No segmentation benefit - execute entirely in main
 
    When complete, report: plan name, tasks completed, SUMMARY path, commit hash."
 
-3. After Task tool returns with agent_id:
+3. หลัง Task tool return ด้วย agent_id:
 
-   a. Write agent_id to current-agent-id.txt:
+   a. เขียน agent_id ลง current-agent-id.txt:
       echo "[agent_id]" > .planning/current-agent-id.txt
 
-   b. Append spawn entry to agent-history.json:
+   b. เพิ่ม spawn entry ลง agent-history.json:
       {
         "agent_id": "[agent_id from Task response]",
         "task_description": "Execute full plan {phase}-{plan} (autonomous)",
@@ -233,22 +231,22 @@ No segmentation benefit - execute entirely in main
         "completion_timestamp": null
       }
 
-4. Wait for subagent to complete
+4. รอ subagent complete
 
-5. After subagent completes successfully:
+5. หลัง subagent completes สำเร็จ:
 
-   a. Update agent-history.json entry:
-      - Find entry with matching agent_id
-      - Set status: "completed"
-      - Set completion_timestamp: "[ISO timestamp]"
+   a. อัปเดต agent-history.json entry:
+      - หา entry ที่มี agent_id ตรงกัน
+      - ตั้ง status: "completed"
+      - ตั้ง completion_timestamp: "[ISO timestamp]"
 
-   b. Clear current-agent-id.txt:
+   b. ล้าง current-agent-id.txt:
       rm .planning/current-agent-id.txt
 
-6. Report completion to user
+6. Report completion ให้ผู้ใช้
 ```
 
-**For segmented plans (has verify-only checkpoints):**
+**สำหรับ segmented plans (มี verify-only checkpoints):**
 
 ```
 Execute segment-by-segment:
@@ -269,7 +267,7 @@ After all segments complete:
   Commit with all changes
 ```
 
-**For decision-dependent plans:**
+**สำหรับ decision-dependent plans:**
 
 ```
 Execute in main context (standard flow below)
@@ -277,88 +275,87 @@ No subagent routing
 Quality maintained through small scope (2-3 tasks per plan)
 ```
 
-See step name="segment_execution" for detailed segment execution loop.
+ดู step name="segment_execution" สำหรับ detailed segment execution loop
 </step>
 
 <step name="init_agent_tracking">
-**Initialize agent tracking for subagent resume capability.**
+**Initialize agent tracking สำหรับ subagent resume capability**
 
-Before spawning any subagents, set up tracking infrastructure:
+ก่อน spawn subagents ใดๆ ตั้งค่า tracking infrastructure:
 
-**1. Create/verify tracking files:**
+**1. สร้าง/verify tracking files:**
 
 ```bash
-# Create agent history file if doesn't exist
+# สร้าง agent history file หากไม่มี
 if [ ! -f .planning/agent-history.json ]; then
   echo '{"version":"1.0","max_entries":50,"entries":[]}' > .planning/agent-history.json
 fi
 
-# Clear any stale current-agent-id (from interrupted sessions)
-# Will be populated when subagent spawns
+# ล้าง stale current-agent-id (จาก interrupted sessions)
+# จะถูกกรอกเมื่อ subagent spawns
 rm -f .planning/current-agent-id.txt
 ```
 
-**2. Check for interrupted agents (resume detection):**
+**2. ตรวจสอบ interrupted agents (resume detection):**
 
 ```bash
-# Check if current-agent-id.txt exists from previous interrupted session
+# ตรวจสอบว่า current-agent-id.txt มีจาก previous interrupted session
 if [ -f .planning/current-agent-id.txt ]; then
   INTERRUPTED_ID=$(cat .planning/current-agent-id.txt)
   echo "Found interrupted agent: $INTERRUPTED_ID"
 fi
 ```
 
-**If interrupted agent found:**
-- The agent ID file exists from a previous session that didn't complete
-- This agent can potentially be resumed using Task tool's `resume` parameter
-- Present to user: "Previous session was interrupted. Resume agent [ID] or start fresh?"
-- If resume: Use Task tool with `resume` parameter set to the interrupted ID
-- If fresh: Clear the file and proceed normally
+**หากพบ interrupted agent:**
+- Agent ID file มีจาก previous session ที่ไม่ complete
+- Agent นี้อาจ resume ได้โดยใช้ Task tool's `resume` parameter
+- แสดงให้ผู้ใช้: "Previous session was interrupted. Resume agent [ID] or start fresh?"
+- หาก resume: ใช้ Task tool ด้วย `resume` parameter ตั้งเป็น interrupted ID
+- หาก fresh: ล้างไฟล์และดำเนินการปกติ
 
 **3. Prune old entries (housekeeping):**
 
-If agent-history.json has more than `max_entries`:
-- Remove oldest entries with status "completed"
-- Never remove entries with status "spawned" (may need resume)
-- Keep file under size limit for fast reads
+หาก agent-history.json มีมากกว่า `max_entries`:
+- ลบ entries เก่าสุดที่มี status "completed"
+- อย่าลบ entries ที่มี status "spawned" (อาจต้อง resume)
+- เก็บไฟล์ให้ต่ำกว่า size limit สำหรับ fast reads
 
-**When to run this step:**
-- Pattern A (fully autonomous): Before spawning the single subagent
-- Pattern B (segmented): Before the segment execution loop
-- Pattern C (main context): Skip - no subagents spawned
+**เมื่อต้องรัน step นี้:**
+- Pattern A (fully autonomous): ก่อน spawn single subagent
+- Pattern B (segmented): ก่อน segment execution loop
+- Pattern C (main context): ข้าม - ไม่มี subagents spawned
 </step>
 
 <step name="segment_execution">
-**Detailed segment execution loop for segmented plans.**
+**Detailed segment execution loop สำหรับ segmented plans**
 
-**This step applies ONLY to segmented plans (Pattern B: has checkpoints, but they're verify-only).**
+**Step นี้ใช้กับ segmented plans เท่านั้น (Pattern B: มี checkpoints แต่เป็น verify-only)**
 
-For Pattern A (fully autonomous) and Pattern C (decision-dependent), skip this step.
+สำหรับ Pattern A (fully autonomous) และ Pattern C (decision-dependent) ข้าม step นี้
 
 **Execution flow:**
 
-````
-1. Parse plan to identify segments:
-   - Read plan file
-   - Find checkpoint locations: grep -n "type=\"checkpoint" PLAN.md
-   - Identify checkpoint types: grep "type=\"checkpoint" PLAN.md | grep -o 'checkpoint:[^"]*'
-   - Build segment map:
+```
+1. Parse plan เพื่อระบุ segments:
+   - อ่านไฟล์ plan
+   - หา checkpoint locations: grep -n "type=\"checkpoint" PLAN.md
+   - ระบุ checkpoint types: grep "type=\"checkpoint" PLAN.md | grep -o 'checkpoint:[^"]*'
+   - สร้าง segment map:
      * Segment 1: Start → first checkpoint (tasks 1-X)
-     * Checkpoint 1: Type and location
+     * Checkpoint 1: Type และ location
      * Segment 2: After checkpoint 1 → next checkpoint (tasks X+1 to Y)
-     * Checkpoint 2: Type and location
-     * ... continue for all segments
+     * Checkpoint 2: Type และ location
+     * ... ต่อสำหรับทุก segments
 
-2. For each segment in order:
+2. สำหรับแต่ละ segment ตามลำดับ:
 
-   A. Determine routing (apply rules from parse_segments):
+   A. กำหนด routing (apply rules จาก parse_segments):
       - No prior checkpoint? → Subagent
       - Prior checkpoint was human-verify? → Subagent
       - Prior checkpoint was decision/human-action? → Main context
 
-   B. If routing = Subagent:
-      ```
-      Spawn Task tool with subagent_type="general-purpose":
+   B. หาก routing = Subagent:
+      Spawn Task tool ด้วย subagent_type="general-purpose":
 
       Prompt: "Execute tasks [task numbers/names] from plan at [plan path].
 
@@ -380,12 +377,12 @@ For Pattern A (fully autonomous) and Pattern C (decision-dependent), skip this s
       - Deviations encountered
       - Any issues or blockers"
 
-      **After Task tool returns with agent_id:**
+      **หลัง Task tool returns ด้วย agent_id:**
 
-      1. Write agent_id to current-agent-id.txt:
+      1. เขียน agent_id ลง current-agent-id.txt:
          echo "[agent_id]" > .planning/current-agent-id.txt
 
-      2. Append spawn entry to agent-history.json:
+      2. เพิ่ม spawn entry ลง agent-history.json:
          {
            "agent_id": "[agent_id from Task response]",
            "task_description": "Execute tasks [X-Y] from plan {phase}-{plan}",
@@ -397,139 +394,86 @@ For Pattern A (fully autonomous) and Pattern C (decision-dependent), skip this s
            "completion_timestamp": null
          }
 
-      Wait for subagent to complete
-      Capture results (files changed, deviations, etc.)
+      รอ subagent complete
+      จับ results (files changed, deviations, etc.)
 
-      **After subagent completes successfully:**
+      **หลัง subagent completes สำเร็จ:**
 
-      1. Update agent-history.json entry:
-         - Find entry with matching agent_id
-         - Set status: "completed"
-         - Set completion_timestamp: "[ISO timestamp]"
+      1. อัปเดต agent-history.json entry:
+         - หา entry ที่มี agent_id ตรงกัน
+         - ตั้ง status: "completed"
+         - ตั้ง completion_timestamp: "[ISO timestamp]"
 
-      2. Clear current-agent-id.txt:
+      2. ล้าง current-agent-id.txt:
          rm .planning/current-agent-id.txt
 
-      ```
-
-   C. If routing = Main context:
-      Execute tasks in main using standard execution flow (step name="execute")
+   C. หาก routing = Main context:
+      Execute tasks ใน main โดยใช้ standard execution flow (step name="execute")
       Track results locally
 
-   D. After segment completes (whether subagent or main):
-      Continue to next checkpoint/segment
+   D. หลัง segment completes (whether subagent or main):
+      ดำเนินการไป next checkpoint/segment
 
-3. After ALL segments complete:
+3. หลังทุก segments complete:
 
-   A. Aggregate results from all segments:
-      - Collect files created/modified from all segments
-      - Collect deviations from all segments
-      - Collect decisions from all checkpoints
-      - Merge into complete picture
+   A. รวม results จากทุก segments:
+      - รวบรวม files created/modified จากทุก segments
+      - รวบรวม deviations จากทุก segments
+      - รวบรวม decisions จากทุก checkpoints
+      - Merge เป็นภาพรวมสมบูรณ์
 
-   B. Create SUMMARY.md:
-      - Use aggregated results
-      - Document all work from all segments
-      - Include deviations from all segments
-      - Note which segments were subagented
+   B. สร้าง SUMMARY.md:
+      - ใช้ aggregated results
+      - Document งานทั้งหมดจากทุก segments
+      - Include deviations จากทุก segments
+      - Note segments ที่เป็น subagented
 
    C. Commit:
-      - Stage all files from all segments
+      - Stage ทุกไฟล์จากทุก segments
       - Stage SUMMARY.md
-      - Commit with message following plan guidance
-      - Include note about segmented execution if relevant
+      - Commit ด้วย message ตาม plan guidance
+      - Include note เกี่ยวกับ segmented execution หาก relevant
 
    D. Report completion
+```
 
-**Example execution trace:**
-
-````
-
-Plan: 01-02-PLAN.md (8 tasks, 2 verify checkpoints)
-
-Parsing segments...
-
-- Segment 1: Tasks 1-3 (autonomous)
-- Checkpoint 4: human-verify
-- Segment 2: Tasks 5-6 (autonomous)
-- Checkpoint 7: human-verify
-- Segment 3: Task 8 (autonomous)
-
-Routing analysis:
-
-- Segment 1: No prior checkpoint → SUBAGENT ✓
-- Checkpoint 4: Verify only → MAIN (required)
-- Segment 2: After verify → SUBAGENT ✓
-- Checkpoint 7: Verify only → MAIN (required)
-- Segment 3: After verify → SUBAGENT ✓
-
-Execution:
-[1] Spawning subagent for tasks 1-3...
-→ Subagent completes: 3 files modified, 0 deviations
-[2] Executing checkpoint 4 (human-verify)...
-════════════════════════════════════════
-CHECKPOINT: Verification Required
-Task 4 of 8: Verify database schema
-I built: User and Session tables with relations
-How to verify: Check src/db/schema.ts for correct types
-════════════════════════════════════════
-User: "approved"
-[3] Spawning subagent for tasks 5-6...
-→ Subagent completes: 2 files modified, 1 deviation (added error handling)
-[4] Executing checkpoint 7 (human-verify)...
-User: "approved"
-[5] Spawning subagent for task 8...
-→ Subagent completes: 1 file modified, 0 deviations
-
-Aggregating results...
-
-- Total files: 6 modified
-- Total deviations: 1
-- Segmented execution: 3 subagents, 2 checkpoints
-
-Creating SUMMARY.md...
-Committing...
-✓ Complete
-
-````
-
-**Benefits of this pattern:**
-- Main context usage: ~20% (just orchestration + checkpoints)
+**ประโยชน์ของ pattern นี้:**
+- Main context usage: ~20% (แค่ orchestration + checkpoints)
 - Subagent 1: Fresh 0-30% (tasks 1-3)
 - Subagent 2: Fresh 0-30% (tasks 5-6)
 - Subagent 3: Fresh 0-20% (task 8)
-- All autonomous work: Peak quality
-- Can handle large plans with many tasks if properly segmented
+- งาน autonomous ทั้งหมด: Peak quality
+- รองรับ large plans ที่มีหลาย tasks หาก segmented ถูกต้อง
 
-**When NOT to use segmentation:**
-- Plan has decision/human-action checkpoints that affect following tasks
-- Following tasks depend on checkpoint outcome
-- Better to execute in main sequentially in those cases
+**เมื่อไม่ควรใช้ segmentation:**
+- Plan มี decision/human-action checkpoints ที่ส่งผลต่อ tasks ถัดไป
+- Tasks ถัดไปขึ้นกับ checkpoint outcome
+- ดีกว่าที่จะ execute ใน main sequentially ในกรณีเหล่านั้น
 </step>
 
 <step name="load_prompt">
-Read the plan prompt:
+อ่าน plan prompt:
 ```bash
 cat .planning/phases/XX-name/{phase}-{plan}-PLAN.md
-````
+```
 
-This IS the execution instructions. Follow it exactly.
+นี่คือ execution instructions ทำตามอย่างแม่นยำ
 
-**If plan references CONTEXT.md:**
-The CONTEXT.md file provides the user's vision for this phase — how they imagine it working, what's essential, and what's out of scope. Honor this context throughout execution.
+**หาก plan reference CONTEXT.md:**
+ไฟล์ CONTEXT.md ให้วิสัยทัศน์ของผู้ใช้สำหรับ phase นี้ — พวกเขาจินตนาการว่ามันทำงานอย่างไร อะไรจำเป็น และอะไรอยู่นอกขอบเขต เคารพ context นี้ตลอด execution
 </step>
 
 <step name="previous_phase_check">
-Before executing, check if previous phase had issues:
+ก่อน executing ตรวจสอบว่า previous phase มี issues:
 
 ```bash
-# Find previous phase summary
+# หา previous phase summary
 ls .planning/phases/*/SUMMARY.md 2>/dev/null | sort -r | head -2 | tail -1
 ```
 
-If previous phase SUMMARY.md has "Issues Encountered" != "None" or "Next Phase Readiness" mentions blockers:
+หาก previous phase SUMMARY.md มี "Issues Encountered" != "None" หรือ "Next Phase Readiness" mention blockers:
 
-Use AskUserQuestion:
+ใช้ AskUserQuestion:
 
 - header: "Previous Issues"
 - question: "Previous phase had unresolved items: [summary]. How to proceed?"
@@ -537,70 +481,70 @@ Use AskUserQuestion:
   - "Proceed anyway" - Issues won't block this phase
   - "Address first" - Let's resolve before continuing
   - "Review previous" - Show me the full summary
-    </step>
+</step>
 
 <step name="execute">
-Execute each task in the prompt. **Deviations are normal** - handle them automatically using embedded rules below.
+Execute แต่ละ task ใน prompt **Deviations เป็นเรื่องปกติ** - handle อัตโนมัติโดยใช้ embedded rules ด้านล่าง
 
-1. Read the @context files listed in the prompt
+1. อ่าน @context files ที่ลิสต์ใน prompt
 
-2. For each task:
+2. สำหรับแต่ละ task:
 
-   **If `type="auto"`:**
+   **หาก `type="auto"`:**
 
-   **Before executing:** Check if task has `tdd="true"` attribute:
-   - If yes: Follow TDD execution flow (see `<tdd_execution>`) - RED → GREEN → REFACTOR cycle with atomic commits per stage
-   - If no: Standard implementation
+   **ก่อน executing:** ตรวจสอบว่า task มี `tdd="true"` attribute:
+   - หากใช่: ทำตาม TDD execution flow (ดู `<tdd_execution>`) - RED → GREEN → REFACTOR cycle ด้วย atomic commits ต่อ stage
+   - หากไม่: Standard implementation
 
-   - Work toward task completion
-   - **If CLI/API returns authentication error:** Handle as authentication gate (see below)
-   - **When you discover additional work not in plan:** Apply deviation rules (see below) automatically
-   - Continue implementing, applying rules as needed
-   - Run the verification
-   - Confirm done criteria met
-   - **Commit the task** (see `<task_commit>` below)
-   - Track task completion and commit hash for Summary documentation
-   - Continue to next task
+   - ทำงานสู่ task completion
+   - **หาก CLI/API return authentication error:** Handle เป็น authentication gate (ดูด้านล่าง)
+   - **เมื่อค้นพบงานเพิ่มที่ไม่อยู่ใน plan:** Apply deviation rules (ดูด้านล่าง) อัตโนมัติ
+   - ดำเนินการ implementing, apply rules ตามต้องการ
+   - รัน verification
+   - ยืนยัน done criteria met
+   - **Commit task** (ดู `<task_commit>` ด้านล่าง)
+   - Track task completion และ commit hash สำหรับ Summary documentation
+   - ดำเนินการไป next task
 
-   **If `type="checkpoint:*"`:**
+   **หาก `type="checkpoint:*"`:**
 
-   - STOP immediately (do not continue to next task)
-   - Execute checkpoint_protocol (see below)
-   - Wait for user response
-   - Verify if possible (check files, env vars, etc.)
-   - Only after user confirmation: continue to next task
+   - หยุดทันที (อย่าดำเนินการไป next task)
+   - Execute checkpoint_protocol (ดูด้านล่าง)
+   - รอการตอบจากผู้ใช้
+   - Verify หากเป็นไปได้ (check files, env vars, etc.)
+   - หลังจากผู้ใช้ยืนยันเท่านั้น: ดำเนินการไป next task
 
-3. Run overall verification checks from `<verification>` section
-4. Confirm all success criteria from `<success_criteria>` section met
-5. Document all deviations in Summary (automatic - see deviation_documentation below)
-   </step>
+3. รัน overall verification checks จากส่วน `<verification>`
+4. ยืนยัน success criteria ทั้งหมดจากส่วน `<success_criteria>` met
+5. Document deviations ทั้งหมดใน Summary (อัตโนมัติ - ดู deviation_documentation ด้านล่าง)
+</step>
 
 <authentication_gates>
 
-## Handling Authentication Errors During Execution
+## Handling Authentication Errors ระหว่าง Execution
 
-**When you encounter authentication errors during `type="auto"` task execution:**
+**เมื่อพบ authentication errors ระหว่าง `type="auto"` task execution:**
 
-This is NOT a failure. Authentication gates are expected and normal. Handle them dynamically:
+นี่ไม่ใช่ failure Authentication gates คาดหวังและปกติ Handle แบบ dynamic:
 
 **Authentication error indicators:**
 
 - CLI returns: "Error: Not authenticated", "Not logged in", "Unauthorized", "401", "403"
 - API returns: "Authentication required", "Invalid API key", "Missing credentials"
-- Command fails with: "Please run {tool} login" or "Set {ENV_VAR} environment variable"
+- Command fails with: "Please run {tool} login" หรือ "Set {ENV_VAR} environment variable"
 
 **Authentication gate protocol:**
 
-1. **Recognize it's an auth gate** - Not a bug, just needs credentials
-2. **STOP current task execution** - Don't retry repeatedly
-3. **Create dynamic checkpoint:human-action** - Present it to user immediately
-4. **Provide exact authentication steps** - CLI commands, where to get keys
-5. **Wait for user to authenticate** - Let them complete auth flow
-6. **Verify authentication works** - Test that credentials are valid
-7. **Retry the original task** - Resume automation where you left off
-8. **Continue normally** - Don't treat this as an error in Summary
+1. **รับรู้ว่าเป็น auth gate** - ไม่ใช่ bug แค่ต้องการ credentials
+2. **หยุด current task execution** - อย่า retry ซ้ำๆ
+3. **สร้าง dynamic checkpoint:human-action** - แสดงให้ผู้ใช้ทันที
+4. **ให้ exact authentication steps** - CLI commands, ที่ไหนจะหา keys
+5. **รอผู้ใช้ authenticate** - ปล่อยให้พวกเขา complete auth flow
+6. **Verify authentication works** - ทดสอบว่า credentials valid
+7. **Retry original task** - Resume automation ที่หยุดไว้
+8. **ดำเนินการปกติ** - อย่า treat นี้เป็น error ใน Summary
 
-**Example: Vercel deployment hits auth error**
+**ตัวอย่าง: Vercel deployment โดน auth error**
 
 ```
 Task 3: Deploy to Vercel
@@ -643,49 +587,49 @@ Running: vercel --yes
 Task 3 complete. Continuing to task 4...
 ```
 
-**In Summary documentation:**
+**ใน Summary documentation:**
 
-Document authentication gates as normal flow, not deviations:
+Document authentication gates เป็น normal flow ไม่ใช่ deviations:
 
 ```markdown
 ## Authentication Gates
 
-During execution, I encountered authentication requirements:
+ระหว่าง execution ฉันพบ authentication requirements:
 
 1. Task 3: Vercel CLI required authentication
-   - Paused for `vercel login`
-   - Resumed after authentication
+   - Paused สำหรับ `vercel login`
+   - Resumed หลัง authentication
    - Deployed successfully
 
 These are normal gates, not errors.
 ```
 
-**Key principles:**
+**หลักการสำคัญ:**
 
-- Authentication gates are NOT failures or bugs
-- They're expected interaction points during first-time setup
-- Handle them gracefully and continue automation after unblocked
-- Don't mark tasks as "failed" or "incomplete" due to auth gates
-- Document them as normal flow, separate from deviations
-  </authentication_gates>
+- Authentication gates ไม่ใช่ failures หรือ bugs
+- เป็น expected interaction points ระหว่าง first-time setup
+- Handle อย่าง gracefully และดำเนินการ automation หลัง unblocked
+- อย่า mark tasks ว่า "failed" หรือ "incomplete" เพราะ auth gates
+- Document เป็น normal flow แยกจาก deviations
+</authentication_gates>
 
 <deviation_rules>
 
 ## Automatic Deviation Handling
 
-**While executing tasks, you WILL discover work not in the plan.** This is normal.
+**ขณะ executing tasks คุณจะค้นพบงานที่ไม่อยู่ใน plan** นี่เป็นเรื่องปกติ
 
-Apply these rules automatically. Track all deviations for Summary documentation.
+Apply rules เหล่านี้อัตโนมัติ Track deviations ทั้งหมดสำหรับ Summary documentation
 
 ---
 
 **RULE 1: Auto-fix bugs**
 
-**Trigger:** Code doesn't work as intended (broken behavior, incorrect output, errors)
+**Trigger:** Code ไม่ทำงานตามที่ตั้งใจ (broken behavior, incorrect output, errors)
 
-**Action:** Fix immediately, track for Summary
+**Action:** Fix ทันที track สำหรับ Summary
 
-**Examples:**
+**ตัวอย่าง:**
 
 - Wrong SQL query returning incorrect data
 - Logic errors (inverted condition, off-by-one, infinite loop)
@@ -697,23 +641,23 @@ Apply these rules automatically. Track all deviations for Summary documentation.
 
 **Process:**
 
-1. Fix the bug inline
-2. Add/update tests to prevent regression
+1. Fix bug inline
+2. Add/update tests เพื่อป้องกัน regression
 3. Verify fix works
-4. Continue task
-5. Track in deviations list: `[Rule 1 - Bug] [description]`
+4. ดำเนินการ task
+5. Track ใน deviations list: `[Rule 1 - Bug] [description]`
 
-**No user permission needed.** Bugs must be fixed for correct operation.
+**ไม่ต้องขออนุญาต** Bugs ต้อง fix สำหรับ correct operation
 
 ---
 
 **RULE 2: Auto-add missing critical functionality**
 
-**Trigger:** Code is missing essential features for correctness, security, or basic operation
+**Trigger:** Code ขาด essential features สำหรับ correctness, security, หรือ basic operation
 
-**Action:** Add immediately, track for Summary
+**Action:** เพิ่มทันที track สำหรับ Summary
 
-**Examples:**
+**ตัวอย่าง:**
 
 - Missing error handling (no try/catch, unhandled promise rejections)
 - No input validation (accepts malicious data, type coercion issues)
@@ -727,24 +671,24 @@ Apply these rules automatically. Track all deviations for Summary documentation.
 
 **Process:**
 
-1. Add the missing functionality inline
-2. Add tests for the new functionality
+1. เพิ่ม missing functionality inline
+2. เพิ่ม tests สำหรับ new functionality
 3. Verify it works
-4. Continue task
-5. Track in deviations list: `[Rule 2 - Missing Critical] [description]`
+4. ดำเนินการ task
+5. Track ใน deviations list: `[Rule 2 - Missing Critical] [description]`
 
-**Critical = required for correct/secure/performant operation**
-**No user permission needed.** These are not "features" - they're requirements for basic correctness.
+**Critical = required สำหรับ correct/secure/performant operation**
+**ไม่ต้องขออนุญาต** เหล่านี้ไม่ใช่ "features" - เป็น requirements สำหรับ basic correctness
 
 ---
 
 **RULE 3: Auto-fix blocking issues**
 
-**Trigger:** Something prevents you from completing current task
+**Trigger:** บางอย่างป้องกันคุณจาก completing current task
 
-**Action:** Fix immediately to unblock, track for Summary
+**Action:** Fix ทันทีเพื่อ unblock track สำหรับ Summary
 
-**Examples:**
+**ตัวอย่าง:**
 
 - Missing dependency (package not installed, import fails)
 - Wrong types blocking compilation
@@ -757,26 +701,26 @@ Apply these rules automatically. Track all deviations for Summary documentation.
 
 **Process:**
 
-1. Fix the blocking issue
-2. Verify task can now proceed
-3. Continue task
-4. Track in deviations list: `[Rule 3 - Blocking] [description]`
+1. Fix blocking issue
+2. Verify task สามารถดำเนินการได้แล้ว
+3. ดำเนินการ task
+4. Track ใน deviations list: `[Rule 3 - Blocking] [description]`
 
-**No user permission needed.** Can't complete task without fixing blocker.
+**ไม่ต้องขออนุญาต** ทำ task ไม่ได้ถ้าไม่ fix blocker
 
 ---
 
 **RULE 4: Ask about architectural changes**
 
-**Trigger:** Fix/addition requires significant structural modification
+**Trigger:** Fix/addition ต้องการ significant structural modification
 
-**Action:** STOP, present to user, wait for decision
+**Action:** หยุด แสดงให้ผู้ใช้ รอ decision
 
-**Examples:**
+**ตัวอย่าง:**
 
-- Adding new database table (not just column)
+- Adding new database table (ไม่ใช่แค่ column)
 - Major schema changes (changing primary key, splitting tables)
-- Introducing new service layer or architectural pattern
+- Introducing new service layer หรือ architectural pattern
 - Switching libraries/frameworks (React → Vue, REST → GraphQL)
 - Changing authentication approach (sessions → JWT)
 - Adding new infrastructure (message queue, cache layer, CDN)
@@ -785,8 +729,8 @@ Apply these rules automatically. Track all deviations for Summary documentation.
 
 **Process:**
 
-1. STOP current task
-2. Present clearly:
+1. หยุด current task
+2. แสดงชัดเจน:
 
 ```
 ⚠️ Architectural Decision Needed
@@ -801,74 +745,74 @@ Alternatives: [other approaches, or "none apparent"]
 Proceed with proposed change? (yes / different approach / defer)
 ```
 
-3. WAIT for user response
-4. If approved: implement, track as `[Rule 4 - Architectural] [description]`
-5. If different approach: discuss and implement
-6. If deferred: log to ISSUES.md, continue without change
+3. รอการตอบจากผู้ใช้
+4. หากอนุมัติ: implement, track as `[Rule 4 - Architectural] [description]`
+5. หากแนวทางอื่น: discuss และ implement
+6. หาก deferred: log ไป ISSUES.md, ดำเนินการโดยไม่เปลี่ยน
 
-**User decision required.** These changes affect system design.
+**ต้องการ user decision** การเปลี่ยนแปลงเหล่านี้ส่งผลต่อ system design
 
 ---
 
 **RULE 5: Log non-critical enhancements**
 
-**Trigger:** Improvement that would enhance code but isn't essential now
+**Trigger:** Improvement ที่จะ enhance code แต่ไม่จำเป็นตอนนี้
 
-**Action:** Add to .planning/ISSUES.md automatically, continue task
+**Action:** เพิ่มลง .planning/ISSUES.md อัตโนมัติ ดำเนินการ task
 
-**Examples:**
+**ตัวอย่าง:**
 
-- Performance optimization (works correctly, just slower than ideal)
-- Code refactoring (works, but could be cleaner/DRY-er)
-- Better naming (works, but variables could be clearer)
-- Organizational improvements (works, but file structure could be better)
-- Nice-to-have UX improvements (works, but could be smoother)
-- Additional test coverage beyond basics (basics exist, could be more thorough)
-- Documentation improvements (code works, docs could be better)
+- Performance optimization (ทำงานถูกต้อง แค่ช้ากว่าที่ดี)
+- Code refactoring (ทำงาน แต่ cleaner/DRY-er ได้)
+- Better naming (ทำงาน แต่ variables clearer ได้)
+- Organizational improvements (ทำงาน แต่ file structure ดีกว่าได้)
+- Nice-to-have UX improvements (ทำงาน แต่ smoother ได้)
+- Additional test coverage beyond basics (basics มี thorough กว่าได้)
+- Documentation improvements (code ทำงาน docs ดีกว่าได้)
 - Accessibility enhancements beyond minimum
 
 **Process:**
 
-1. Create .planning/ISSUES.md if doesn't exist (use `~/.claude/get-shit-done/templates/issues.md`)
-2. Add entry with ISS-XXX number (auto-increment)
+1. สร้าง .planning/ISSUES.md หากไม่มี (ใช้ `~/.claude/get-shit-done/templates/issues.md`)
+2. เพิ่ม entry ด้วยหมายเลข ISS-XXX (auto-increment)
 3. Brief notification: `📋 Logged enhancement: [brief] (ISS-XXX)`
-4. Continue task without implementing
+4. ดำเนินการ task โดยไม่ implementing
 
-**No user permission needed.** Logging for future consideration.
+**ไม่ต้องขออนุญาต** Logging สำหรับพิจารณาในอนาคต
 
 ---
 
-**RULE PRIORITY (when multiple could apply):**
+**RULE PRIORITY (เมื่อหลายอันใช้ได้):**
 
-1. **If Rule 4 applies** → STOP and ask (architectural decision)
-2. **If Rules 1-3 apply** → Fix automatically, track for Summary
-3. **If Rule 5 applies** → Log to ISSUES.md, continue
-4. **If genuinely unsure which rule** → Apply Rule 4 (ask user)
+1. **หาก Rule 4 ใช้ได้** → หยุดและถาม (architectural decision)
+2. **หาก Rules 1-3 ใช้ได้** → Fix อัตโนมัติ track สำหรับ Summary
+3. **หาก Rule 5 ใช้ได้** → Log ไป ISSUES.md ดำเนินการ
+4. **หากไม่แน่ใจว่า rule ไหนจริงๆ** → Apply Rule 4 (ถามผู้ใช้)
 
 **Edge case guidance:**
 
 - "This validation is missing" → Rule 2 (critical for security)
 - "This validation could be better" → Rule 5 (enhancement)
 - "This crashes on null" → Rule 1 (bug)
-- "This could be faster" → Rule 5 (enhancement) UNLESS actually timing out → Rule 2 (critical)
+- "This could be faster" → Rule 5 (enhancement) ยกเว้น actually timing out → Rule 2 (critical)
 - "Need to add table" → Rule 4 (architectural)
 - "Need to add column" → Rule 1 or 2 (depends: fixing bug or adding critical field)
 
-**When in doubt:** Ask yourself "Does this affect correctness, security, or ability to complete task?"
+**เมื่อสงสัย:** ถามตัวเอง "สิ่งนี้ส่งผลต่อ correctness, security, หรือ ability to complete task?"
 
-- YES → Rules 1-3 (fix automatically)
+- YES → Rules 1-3 (fix อัตโนมัติ)
 - NO → Rule 5 (log it)
-- MAYBE → Rule 4 (ask user)
+- MAYBE → Rule 4 (ถามผู้ใช้)
 
 </deviation_rules>
 
 <deviation_documentation>
 
-## Documenting Deviations in Summary
+## Documenting Deviations ใน Summary
 
-After all tasks complete, Summary MUST include deviations section.
+หลังทุก tasks complete, Summary ต้องมี deviations section
 
-**If no deviations:**
+**หากไม่มี deviations:**
 
 ```markdown
 ## Deviations from Plan
@@ -876,7 +820,7 @@ After all tasks complete, Summary MUST include deviations section.
 None - plan executed exactly as written.
 ```
 
-**If deviations occurred:**
+**หากมี deviations:**
 
 ```markdown
 ## Deviations from Plan
@@ -886,7 +830,7 @@ None - plan executed exactly as written.
 **1. [Rule 1 - Bug] Fixed case-sensitive email uniqueness constraint**
 
 - **Found during:** Task 4 (Follow/unfollow API implementation)
-- **Issue:** User.email unique constraint was case-sensitive - Test@example.com and test@example.com were both allowed, causing duplicate accounts
+- **Issue:** User.email unique constraint was case-sensitive - Test@example.com และ test@example.com ทั้งคู่ allowed ทำให้ duplicate accounts
 - **Fix:** Changed to `CREATE UNIQUE INDEX users_email_unique ON users (LOWER(email))`
 - **Files modified:** src/models/User.ts, migrations/003_fix_email_unique.sql
 - **Verification:** Unique constraint test passes - duplicate emails properly rejected
@@ -895,15 +839,15 @@ None - plan executed exactly as written.
 **2. [Rule 2 - Missing Critical] Added JWT expiry validation to auth middleware**
 
 - **Found during:** Task 3 (Protected route implementation)
-- **Issue:** Auth middleware wasn't checking token expiry - expired tokens were being accepted
-- **Fix:** Added exp claim validation in middleware, reject with 401 if expired
+- **Issue:** Auth middleware wasn't checking token expiry - expired tokens ถูก accept
+- **Fix:** Added exp claim validation ใน middleware, reject with 401 if expired
 - **Files modified:** src/middleware/auth.ts, src/middleware/auth.test.ts
 - **Verification:** Expired token test passes - properly rejects with 401
 - **Commit:** def456g
 
 ### Deferred Enhancements
 
-Logged to .planning/ISSUES.md for future consideration:
+Logged to .planning/ISSUES.md สำหรับพิจารณาในอนาคต:
 
 - ISS-001: Refactor UserService into smaller modules (discovered in Task 3)
 - ISS-002: Add connection pooling for Redis (discovered in Task 6)
@@ -914,97 +858,97 @@ Logged to .planning/ISSUES.md for future consideration:
 **Impact on plan:** All auto-fixes necessary for correctness/security/performance. No scope creep.
 ```
 
-**This provides complete transparency:**
+**นี่ให้ความโปร่งใสสมบูรณ์:**
 
-- Every deviation documented
-- Why it was needed
-- What rule applied
-- What was done
-- User can see exactly what happened beyond the plan
+- ทุก deviation documented
+- ทำไมถึงจำเป็น
+- Rule ไหน applied
+- ทำอะไร
+- ผู้ใช้เห็นได้ชัดเจนว่าเกิดอะไรขึ้นนอกเหนือจาก plan
 
 </deviation_documentation>
 
 <tdd_plan_execution>
 ## TDD Plan Execution
 
-When executing a plan with `type: tdd` in frontmatter, follow the RED-GREEN-REFACTOR cycle for the single feature defined in the plan.
+เมื่อ executing plan ที่มี `type: tdd` ใน frontmatter ทำตาม RED-GREEN-REFACTOR cycle สำหรับ single feature ที่กำหนดใน plan
 
-**1. Check test infrastructure (if first TDD plan):**
-If no test framework configured:
-- Detect project type from package.json/requirements.txt/etc.
+**1. ตรวจสอบ test infrastructure (หากเป็น TDD plan แรก):**
+หากไม่มี test framework configured:
+- Detect project type จาก package.json/requirements.txt/etc.
 - Install minimal test framework (Jest, pytest, Go testing, etc.)
-- Create test config file
+- สร้าง test config file
 - Verify: run empty test suite
-- This is part of the RED phase, not a separate task
+- นี่เป็นส่วนของ RED phase ไม่ใช่ task แยก
 
 **2. RED - Write failing test:**
-- Read `<behavior>` element for test specification
-- Create test file if doesn't exist (follow project conventions)
-- Write test(s) that describe expected behavior
-- Run tests - MUST fail (if passes, test is wrong or feature exists)
+- อ่าน `<behavior>` element สำหรับ test specification
+- สร้าง test file หากไม่มี (follow project conventions)
+- เขียน test(s) ที่อธิบาย expected behavior
+- Run tests - ต้อง fail (หาก passes test ผิดหรือ feature มีอยู่แล้ว)
 - Commit: `test({phase}-{plan}): add failing test for [feature]`
 
 **3. GREEN - Implement to pass:**
-- Read `<implementation>` element for guidance
-- Write minimal code to make test pass
-- Run tests - MUST pass
+- อ่าน `<implementation>` element สำหรับ guidance
+- เขียน minimal code เพื่อให้ test pass
+- Run tests - ต้อง pass
 - Commit: `feat({phase}-{plan}): implement [feature]`
 
-**4. REFACTOR (if needed):**
-- Clean up code if obvious improvements
-- Run tests - MUST still pass
-- Commit only if changes made: `refactor({phase}-{plan}): clean up [feature]`
+**4. REFACTOR (หากจำเป็น):**
+- Clean up code หากมี obvious improvements
+- Run tests - ต้องยังคง pass
+- Commit เฉพาะหากมี changes: `refactor({phase}-{plan}): clean up [feature]`
 
-**Commit pattern for TDD plans:**
-Each TDD plan produces 2-3 atomic commits:
+**Commit pattern สำหรับ TDD plans:**
+แต่ละ TDD plan ผลิต 2-3 atomic commits:
 1. `test({phase}-{plan}): add failing test for X`
 2. `feat({phase}-{plan}): implement X`
 3. `refactor({phase}-{plan}): clean up X` (optional)
 
 **Error handling:**
-- If test doesn't fail in RED phase: Test is wrong or feature already exists. Investigate before proceeding.
-- If test doesn't pass in GREEN phase: Debug implementation, keep iterating until green.
-- If tests fail in REFACTOR phase: Undo refactor, commit was premature.
+- หาก test ไม่ fail ใน RED phase: Test ผิดหรือ feature มีอยู่แล้ว Investigate ก่อน proceeding
+- หาก test ไม่ pass ใน GREEN phase: Debug implementation keep iterating until green
+- หาก tests fail ใน REFACTOR phase: Undo refactor commit premature
 
 **Verification:**
-After TDD plan completion, ensure:
-- All tests pass
-- Test coverage for the new behavior exists
-- No unrelated tests broken
+หลัง TDD plan completion ตรวจสอบ:
+- ทุก tests pass
+- Test coverage สำหรับ new behavior มี
+- ไม่มี unrelated tests broken
 
-**Why TDD uses dedicated plans:** TDD requires 2-3 execution cycles (RED → GREEN → REFACTOR), each with file reads, test runs, and potential debugging. This consumes 40-50% of context for a single feature. Dedicated plans ensure full quality throughout the cycle.
+**ทำไม TDD ใช้ dedicated plans:** TDD ต้องการ 2-3 execution cycles (RED → GREEN → REFACTOR) แต่ละอันมี file reads, test runs และ potential debugging นี่ใช้ 40-50% ของ context สำหรับ single feature Dedicated plans รับประกัน full quality ตลอด cycle
 
-**Comparison:**
-- Standard plans: Multiple tasks, 1 commit per task, 2-4 commits total
-- TDD plans: Single feature, 2-3 commits for RED/GREEN/REFACTOR cycle
+**การเปรียบเทียบ:**
+- Standard plans: Multiple tasks, 1 commit per task, 2-4 commits รวม
+- TDD plans: Single feature, 2-3 commits สำหรับ RED/GREEN/REFACTOR cycle
 
-See `~/.claude/get-shit-done/references/tdd.md` for TDD plan structure.
+ดู `~/.claude/get-shit-done/references/tdd.md` สำหรับ TDD plan structure
 </tdd_plan_execution>
 
 <task_commit>
 ## Task Commit Protocol
 
-After each task completes (verification passed, done criteria met), commit immediately:
+หลังแต่ละ task completes (verification passed, done criteria met) commit ทันที:
 
-**1. Identify modified files:**
+**1. ระบุ modified files:**
 
-Track files changed during this specific task (not the entire plan):
+Track files ที่เปลี่ยนระหว่าง task นี้เฉพาะ (ไม่ใช่ plan ทั้งหมด):
 
 ```bash
 git status --short
 ```
 
-**2. Stage only task-related files:**
+**2. Stage เฉพาะ task-related files:**
 
-Stage each file individually (NEVER use `git add .` or `git add -A`):
+Stage แต่ละ file individually (อย่าใช้ `git add .` หรือ `git add -A` เด็ดขาด):
 
 ```bash
-# Example - adjust to actual files modified by this task
+# ตัวอย่าง - adjust ตาม actual files modified by this task
 git add src/api/auth.ts
 git add src/types/user.ts
 ```
 
-**3. Determine commit type:**
+**3. กำหนด commit type:**
 
 | Type | When to Use | Example |
 |------|-------------|---------|
@@ -1030,7 +974,7 @@ git commit -m "{type}({phase}-{plan}): {concise task description}
 "
 ```
 
-**Examples:**
+**ตัวอย่าง:**
 
 ```bash
 # Standard plan task
@@ -1049,37 +993,37 @@ git commit -m "fix(08-02): correct email validation regex
 "
 ```
 
-**Note:** TDD plans have their own commit pattern (test/feat/refactor for RED/GREEN/REFACTOR phases). See `<tdd_plan_execution>` section above.
+**หมายเหตุ:** TDD plans มี commit pattern ของตัวเอง (test/feat/refactor สำหรับ RED/GREEN/REFACTOR phases) ดู `<tdd_plan_execution>` section ด้านบน
 
-**5. Record commit hash:**
+**5. บันทึก commit hash:**
 
-After committing, capture hash for SUMMARY.md:
+หลัง committing จับ hash สำหรับ SUMMARY.md:
 
 ```bash
 TASK_COMMIT=$(git rev-parse --short HEAD)
 echo "Task ${TASK_NUM} committed: ${TASK_COMMIT}"
 ```
 
-Store in array or list for SUMMARY generation:
+เก็บใน array หรือ list สำหรับ SUMMARY generation:
 ```bash
 TASK_COMMITS+=("Task ${TASK_NUM}: ${TASK_COMMIT}")
 ```
 
-**Atomic commit benefits:**
-- Each task independently revertable
-- Git bisect finds exact failing task
-- Git blame traces line to specific task context
-- Clear history for Claude in future sessions
-- Better observability for AI-automated workflow
+**ประโยชน์ของ Atomic commit:**
+- แต่ละ task revertable แยกกัน
+- Git bisect หา exact failing task
+- Git blame trace line ไป specific task context
+- History ชัดเจนสำหรับ Claude ใน future sessions
+- Observability ดีกว่าสำหรับ AI-automated workflow
 
 </task_commit>
 
 <step name="checkpoint_protocol">
-When encountering `type="checkpoint:*"`:
+เมื่อเจอ `type="checkpoint:*"`:
 
-**Critical: Claude automates everything with CLI/API before checkpoints.** Checkpoints are for verification and decisions, not manual work.
+**สำคัญ: Claude automate ทุกอย่างด้วย CLI/API ก่อน checkpoints** Checkpoints สำหรับ verification และ decisions ไม่ใช่ manual work
 
-**Display checkpoint clearly:**
+**แสดง checkpoint ชัดเจน:**
 
 ```
 ════════════════════════════════════════
@@ -1094,25 +1038,25 @@ Task [X] of [Y]: [Action/What-Built/Decision]
 ════════════════════════════════════════
 ```
 
-**For checkpoint:human-verify (90% of checkpoints):**
+**สำหรับ checkpoint:human-verify (90% ของ checkpoints):**
 
 ```
-I automated: [what was automated - deployed, built, configured]
+I automated: [อะไรที่ automated - deployed, built, configured]
 
 How to verify:
 1. [Step 1 - exact command/URL]
 2. [Step 2 - what to check]
 3. [Step 3 - expected behavior]
 
-[Resume signal - e.g., "Type 'approved' or describe issues"]
+[Resume signal - เช่น "Type 'approved' or describe issues"]
 ```
 
-**For checkpoint:decision (9% of checkpoints):**
+**สำหรับ checkpoint:decision (9% ของ checkpoints):**
 
 ```
 Decision needed: [decision]
 
-Context: [why this matters]
+Context: [ทำไมสำคัญ]
 
 Options:
 1. [option-id]: [name]
@@ -1123,41 +1067,41 @@ Options:
    Pros: [pros]
    Cons: [cons]
 
-[Resume signal - e.g., "Select: option-id"]
+[Resume signal - เช่น "Select: option-id"]
 ```
 
-**For checkpoint:human-action (1% - rare, only for truly unavoidable manual steps):**
+**สำหรับ checkpoint:human-action (1% - rare, เฉพาะ truly unavoidable manual steps):**
 
 ```
-I automated: [what Claude already did via CLI/API]
+I automated: [อะไรที่ Claude ทำแล้วผ่าน CLI/API]
 
-Need your help with: [the ONE thing with no CLI/API - email link, 2FA code]
+Need your help with: [สิ่งหนึ่งที่ไม่มี CLI/API - email link, 2FA code]
 
 Instructions:
 [Single unavoidable step]
 
 I'll verify after: [verification]
 
-[Resume signal - e.g., "Type 'done' when complete"]
+[Resume signal - เช่น "Type 'done' when complete"]
 ```
 
-**After displaying:** WAIT for user response. Do NOT hallucinate completion. Do NOT continue to next task.
+**หลังแสดง:** รอการตอบจากผู้ใช้ อย่า hallucinate completion อย่าดำเนินการไป next task
 
-**After user responds:**
+**หลังผู้ใช้ตอบ:**
 
-- Run verification if specified (file exists, env var set, tests pass, etc.)
-- If verification passes or N/A: continue to next task
-- If verification fails: inform user, wait for resolution
+- Run verification หากระบุ (file exists, env var set, tests pass, etc.)
+- หาก verification passes หรือ N/A: ดำเนินการไป next task
+- หาก verification fails: แจ้งผู้ใช้ รอ resolution
 
-See ~/.claude/get-shit-done/references/checkpoints.md for complete checkpoint guidance.
+ดู ~/.claude/get-shit-done/references/checkpoints.md สำหรับ checkpoint guidance ครบถ้วน
 </step>
 
 <step name="verification_failure_gate">
-If any task verification fails:
+หาก task verification ใดๆ fail:
 
-STOP. Do not continue to next task.
+หยุด อย่าดำเนินการไป next task
 
-Present inline:
+แสดง inline:
 "Verification failed for Task [X]: [task name]
 
 Expected: [verification criteria]
@@ -1169,13 +1113,13 @@ How to proceed?
 2. Skip - Mark as incomplete, continue
 3. Stop - Pause execution, investigate"
 
-Wait for user decision.
+รอ user decision
 
-If user chose "Skip", note it in SUMMARY.md under "Issues Encountered".
+หากผู้ใช้เลือก "Skip" note ใน SUMMARY.md under "Issues Encountered"
 </step>
 
 <step name="record_completion_time">
-Record execution end time and calculate duration:
+บันทึกเวลาสิ้นสุด execution และคำนวณ duration:
 
 ```bash
 PLAN_END_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
@@ -1193,53 +1137,53 @@ else
 fi
 ```
 
-Pass timing data to SUMMARY.md creation.
+ส่ง timing data ไป SUMMARY.md creation
 </step>
 
 <step name="create_summary">
-Create `{phase}-{plan}-SUMMARY.md` as specified in the prompt's `<output>` section.
-Use ~/.claude/get-shit-done/templates/summary.md for structure.
+สร้าง `{phase}-{plan}-SUMMARY.md` ตามที่ระบุในส่วน `<output>` ของ prompt
+ใช้ ~/.claude/get-shit-done/templates/summary.md สำหรับโครงสร้าง
 
 **File location:** `.planning/phases/XX-name/{phase}-{plan}-SUMMARY.md`
 
 **Frontmatter population:**
 
-Before writing summary content, populate frontmatter fields from execution context:
+ก่อนเขียน summary content กรอก frontmatter fields จาก execution context:
 
 1. **Basic identification:**
-   - phase: From PLAN.md frontmatter
-   - plan: From PLAN.md frontmatter
-   - subsystem: Categorize based on phase focus (auth, payments, ui, api, database, infra, testing, etc.)
-   - tags: Extract tech keywords (libraries, frameworks, tools used)
+   - phase: จาก PLAN.md frontmatter
+   - plan: จาก PLAN.md frontmatter
+   - subsystem: จัดหมวดหมู่ตาม phase focus (auth, payments, ui, api, database, infra, testing, etc.)
+   - tags: ดึง tech keywords (libraries, frameworks, tools used)
 
 2. **Dependency graph:**
-   - requires: List prior phases this built upon (check PLAN.md context section for referenced prior summaries)
-   - provides: Extract from accomplishments - what was delivered
-   - affects: Infer from phase description/goal what future phases might need this
+   - requires: List prior phases ที่สร้างบน (check PLAN.md context section for referenced prior summaries)
+   - provides: ดึงจาก accomplishments - อะไรที่ delivered
+   - affects: อนุมานจาก phase description/goal ว่า future phases ใดอาจต้องการนี้
 
 3. **Tech tracking:**
-   - tech-stack.added: New libraries from package.json changes or requirements
-   - tech-stack.patterns: Architectural patterns established (from decisions/accomplishments)
+   - tech-stack.added: New libraries จาก package.json changes หรือ requirements
+   - tech-stack.patterns: Architectural patterns ที่ตั้ง (จาก decisions/accomplishments)
 
 4. **File tracking:**
-   - key-files.created: From "Files Created/Modified" section
-   - key-files.modified: From "Files Created/Modified" section
+   - key-files.created: จากส่วน "Files Created/Modified"
+   - key-files.modified: จากส่วน "Files Created/Modified"
 
 5. **Decisions:**
-   - key-decisions: Extract from "Decisions Made" section
+   - key-decisions: ดึงจากส่วน "Decisions Made"
 
 6. **Issues:**
-   - issues-created: Check if ISSUES.md was updated during execution
+   - issues-created: ตรวจสอบว่า ISSUES.md updated ระหว่าง execution
 
 7. **Metrics:**
-   - duration: From $DURATION variable
-   - completed: From $PLAN_END_TIME (date only, format YYYY-MM-DD)
+   - duration: จาก $DURATION variable
+   - completed: จาก $PLAN_END_TIME (date only, format YYYY-MM-DD)
 
-Note: If subsystem/affects are unclear, use best judgment based on phase name and accomplishments. Can be refined later.
+Note: หาก subsystem/affects ไม่ชัดเจน ใช้ best judgment ตาม phase name และ accomplishments สามารถ refine later
 
 **Title format:** `# Phase [X] Plan [Y]: [Name] Summary`
 
-The one-liner must be SUBSTANTIVE:
+One-liner ต้อง SUBSTANTIVE:
 
 - Good: "JWT auth with refresh rotation using jose library"
 - Bad: "Authentication implemented"
@@ -1254,12 +1198,12 @@ The one-liner must be SUBSTANTIVE:
 
 **Next Step section:**
 
-- If more plans exist in this phase: "Ready for {phase}-{next-plan}-PLAN.md"
-- If this is the last plan: "Phase complete, ready for transition"
-  </step>
+- หากมี plans เพิ่มใน phase นี้: "Ready for {phase}-{next-plan}-PLAN.md"
+- หากนี่เป็น plan สุดท้าย: "Phase complete, ready for transition"
+</step>
 
 <step name="update_current_position">
-Update Current Position section in STATE.md to reflect plan completion.
+อัปเดตส่วน Current Position ใน STATE.md เพื่อสะท้อน plan completion
 
 **Format:**
 
@@ -1274,12 +1218,12 @@ Progress: [progress bar]
 
 **Calculate progress bar:**
 
-- Count total plans across all phases (from ROADMAP.md or ROADMAP.md)
-- Count completed plans (count SUMMARY.md files that exist)
+- นับ plans ทั้งหมดในทุก phases (จาก ROADMAP.md)
+- นับ completed plans (นับ SUMMARY.md files ที่มี)
 - Progress = (completed / total) × 100%
-- Render: ░ for incomplete, █ for complete
+- Render: ░ สำหรับ incomplete, █ สำหรับ complete
 
-**Example - completing 02-01-PLAN.md (plan 5 of 10 total):**
+**ตัวอย่าง - completing 02-01-PLAN.md (plan 5 of 10 total):**
 
 Before:
 
@@ -1309,38 +1253,38 @@ Progress: ███████░░░ 50%
 
 **Step complete when:**
 
-- [ ] Phase number shows current phase (X of total)
-- [ ] Plan number shows plans complete in current phase (N of total-in-phase)
-- [ ] Status reflects current state (In progress / Phase complete)
-- [ ] Last activity shows today's date and the plan just completed
-- [ ] Progress bar calculated correctly from total completed plans
-      </step>
+- [ ] Phase number แสดง current phase (X of total)
+- [ ] Plan number แสดง plans complete ใน current phase (N of total-in-phase)
+- [ ] Status สะท้อน current state (In progress / Phase complete)
+- [ ] Last activity แสดงวันที่วันนี้และ plan ที่เพิ่งเสร็จ
+- [ ] Progress bar คำนวณถูกต้องจาก total completed plans
+</step>
 
 <step name="extract_decisions_and_issues">
-Extract decisions, issues, and concerns from SUMMARY.md into STATE.md accumulated context.
+ดึง decisions, issues และ concerns จาก SUMMARY.md ลง STATE.md accumulated context
 
 **Decisions Made:**
 
-- Read SUMMARY.md "## Decisions Made" section
-- If content exists (not "None"):
-  - Add each decision to STATE.md Decisions table
+- อ่าน SUMMARY.md ส่วน "## Decisions Made"
+- หากมี content (ไม่ใช่ "None"):
+  - เพิ่มแต่ละ decision ลง STATE.md Decisions table
   - Format: `| [phase number] | [decision summary] | [rationale] |`
 
 **Deferred Issues:**
 
-- Read SUMMARY.md to check if new issues were logged to ISSUES.md
-- If new ISS-XXX entries created:
-  - Update STATE.md "Deferred Issues" section
+- อ่าน SUMMARY.md เพื่อตรวจสอบว่า issues ใหม่ถูก log ไป ISSUES.md
+- หากมี ISS-XXX entries ใหม่:
+  - อัปเดตส่วน "Deferred Issues" ใน STATE.md
 
 **Blockers/Concerns:**
 
-- Read SUMMARY.md "## Next Phase Readiness" section
-- If contains blockers or concerns:
-  - Add to STATE.md "Blockers/Concerns Carried Forward"
-    </step>
+- อ่าน SUMMARY.md ส่วน "## Next Phase Readiness"
+- หากมี blockers หรือ concerns:
+  - เพิ่มลง "Blockers/Concerns Carried Forward" ใน STATE.md
+</step>
 
 <step name="update_session_continuity">
-Update Session Continuity section in STATE.md to enable resumption in future sessions.
+อัปเดตส่วน Session Continuity ใน STATE.md เพื่อ enable resumption ใน future sessions
 
 **Format:**
 
@@ -1350,54 +1294,54 @@ Stopped at: Completed {phase}-{plan}-PLAN.md
 Resume file: [path to .continue-here if exists, else "None"]
 ```
 
-**Size constraint note:** Keep STATE.md under 150 lines total.
+**Size constraint note:** เก็บ STATE.md ต่ำกว่า 150 lines total
 </step>
 
 <step name="issues_review_gate">
-Before proceeding, check SUMMARY.md content.
+ก่อนดำเนินการ ตรวจสอบ SUMMARY.md content
 
-If "Issues Encountered" is NOT "None":
+หาก "Issues Encountered" ไม่ใช่ "None":
 
 <if mode="yolo">
 ```
-⚡ Auto-approved: Issues acknowledgment
-⚠️ Note: Issues were encountered during execution:
+⚡ อนุมัติอัตโนมัติ: รับทราบ Issues
+⚠️ Note: Issues พบระหว่าง execution:
 - [Issue 1]
 - [Issue 2]
 (Logged - continuing in yolo mode)
 ```
 
-Continue without waiting.
+ดำเนินการโดยไม่รอ
 </if>
 
 <if mode="interactive" OR="custom with gates.issues_review true">
-Present issues and wait for acknowledgment before proceeding.
+แสดง issues และรอการรับทราบก่อนดำเนินการ
 </if>
 </step>
 
 <step name="update_roadmap">
-Update the roadmap file:
+อัปเดต roadmap file:
 
 ```bash
 ROADMAP_FILE=".planning/ROADMAP.md"
 ```
 
-**If more plans remain in this phase:**
+**หากยังมี plans เหลือใน phase นี้:**
 
-- Update plan count: "2/3 plans complete"
-- Keep phase status as "In progress"
+- อัปเดต plan count: "2/3 plans complete"
+- เก็บ phase status เป็น "In progress"
 
-**If this was the last plan in the phase:**
+**หากนี่เป็น plan สุดท้ายใน phase:**
 
 - Mark phase complete: status → "Complete"
-- Add completion date
-  </step>
+- เพิ่ม completion date
+</step>
 
 <step name="git_commit_metadata">
 Commit execution metadata (SUMMARY + STATE + ROADMAP):
 
-**Note:** All task code has already been committed during execution (one commit per task).
-PLAN.md was already committed during plan-phase. This final commit captures execution results only.
+**Note:** Task code ทั้งหมด commit แล้วระหว่าง execution (one commit per task)
+PLAN.md commit แล้วระหว่าง plan-phase Final commit นี้จับ execution results เท่านั้น
 
 **1. Stage execution artifacts:**
 
@@ -1416,7 +1360,7 @@ git add .planning/ROADMAP.md
 
 ```bash
 git status
-# Should show only execution artifacts (SUMMARY, STATE, ROADMAP), no code files
+# ควรแสดงเฉพาะ execution artifacts (SUMMARY, STATE, ROADMAP) ไม่มี code files
 ```
 
 **4. Commit metadata:**
@@ -1435,7 +1379,7 @@ EOF
 )"
 ```
 
-**Example:**
+**ตัวอย่าง:**
 
 ```bash
 git commit -m "$(cat <<'EOF'
@@ -1451,7 +1395,7 @@ EOF
 )"
 ```
 
-**Git log after plan execution:**
+**Git log หลัง plan execution:**
 
 ```
 abc123f docs(08-02): complete user registration plan
@@ -1460,123 +1404,123 @@ hij789k feat(08-02): implement password hashing with bcrypt
 lmn012o feat(08-02): create user registration endpoint
 ```
 
-Each task has its own commit, followed by one metadata commit documenting plan completion.
+แต่ละ task มี commit ของตัว ตามด้วย metadata commit หนึ่งอัน documenting plan completion
 
-For commit message conventions, see ~/.claude/get-shit-done/references/git-integration.md
+สำหรับ commit message conventions ดู ~/.claude/get-shit-done/references/git-integration.md
 </step>
 
 <step name="update_codebase_map">
-**If .planning/codebase/ exists:**
+**หาก .planning/codebase/ มี:**
 
-Check what changed across all task commits in this plan:
+ตรวจสอบอะไรเปลี่ยนในทุก task commits ใน plan นี้:
 
 ```bash
-# Find first task commit (right after previous plan's docs commit)
+# หา first task commit (หลังจาก previous plan's docs commit)
 FIRST_TASK=$(git log --oneline --grep="feat({phase}-{plan}):" --grep="fix({phase}-{plan}):" --grep="test({phase}-{plan}):" --reverse | head -1 | cut -d' ' -f1)
 
-# Get all changes from first task through now
+# ดู changes ทั้งหมดจาก first task ถึงตอนนี้
 git diff --name-only ${FIRST_TASK}^..HEAD 2>/dev/null
 ```
 
-**Update only if structural changes occurred:**
+**อัปเดตเฉพาะหาก structural changes เกิดขึ้น:**
 
 | Change Detected | Update Action |
 |-----------------|---------------|
-| New directory in src/ | STRUCTURE.md: Add to directory layout |
-| package.json deps changed | STACK.md: Add/remove from dependencies list |
-| New file pattern (e.g., first .test.ts) | CONVENTIONS.md: Note new pattern |
-| New external API client | INTEGRATIONS.md: Add service entry with file path |
-| Config file added/changed | STACK.md: Update configuration section |
-| File renamed/moved | Update paths in relevant docs |
+| New directory ใน src/ | STRUCTURE.md: เพิ่มลง directory layout |
+| package.json deps changed | STACK.md: Add/remove จาก dependencies list |
+| New file pattern (เช่น first .test.ts) | CONVENTIONS.md: Note new pattern |
+| New external API client | INTEGRATIONS.md: เพิ่ม service entry ด้วย file path |
+| Config file added/changed | STACK.md: อัปเดต configuration section |
+| File renamed/moved | อัปเดต paths ใน relevant docs |
 
-**Skip update if only:**
-- Code changes within existing files
+**ข้าม update หาก:**
+- Code changes ภายใน existing files
 - Bug fixes
 - Content changes (no structural impact)
 
 **Update format:**
-Make single targeted edits - add a bullet point, update a path, or remove a stale entry. Don't rewrite sections.
+ทำ single targeted edits - เพิ่ม bullet point, อัปเดต path, หรือลบ stale entry อย่าเขียนใหม่ sections
 
 ```bash
 git add .planning/codebase/*.md
-git commit --amend --no-edit  # Include in metadata commit
+git commit --amend --no-edit  # Include ใน metadata commit
 ```
 
-**If .planning/codebase/ doesn't exist:**
-Skip this step.
+**หาก .planning/codebase/ ไม่มี:**
+ข้าม step นี้
 </step>
 
 <step name="check_phase_issues">
-**Check if issues were created during this phase:**
+**ตรวจสอบว่า issues ถูกสร้างระหว่าง phase นี้:**
 
 ```bash
-# Check if ISSUES.md exists and has issues from current phase
+# ตรวจสอบว่า ISSUES.md มีและมี issues จาก current phase
 if [ -f .planning/ISSUES.md ]; then
   grep -E "Phase ${PHASE}.*Task" .planning/ISSUES.md | grep -v "^#" || echo "NO_ISSUES_THIS_PHASE"
 fi
 ```
 
-**If issues were created during this phase:**
+**หาก issues ถูกสร้างระหว่าง phase นี้:**
 
 ```
-📋 Issues logged during this phase:
+📋 Issues logged ระหว่าง phase นี้:
 - ISS-XXX: [brief description]
 - ISS-YYY: [brief description]
 
-Review these now?
+Review ตอนนี้?
 ```
 
-Use AskUserQuestion:
+ใช้ AskUserQuestion:
 - header: "Phase Issues"
-- question: "[N] issues were logged during this phase. Review now?"
+- question: "[N] issues ถูก logged ระหว่าง phase นี้ Review ตอนนี้?"
 - options:
   - "Review issues" - Analyze with /gsd:consider-issues
-  - "Continue" - Address later, proceed to next work
+  - "Continue" - จัดการทีหลัง ดำเนินการไป next work
 
-**If "Review issues" selected:**
+**หากเลือก "Review issues":**
 - Invoke: `SlashCommand("/gsd:consider-issues")`
-- After consider-issues completes, return to offer_next
+- หลัง consider-issues completes กลับไป offer_next
 
-**If "Continue" selected or no issues found:**
-- Proceed to offer_next step
+**หากเลือก "Continue" หรือไม่พบ issues:**
+- ดำเนินการไป offer_next step
 
-**In YOLO mode:**
-- Note issues were logged but don't prompt: `📋 [N] issues logged this phase (review later with /gsd:consider-issues)`
-- Continue to offer_next automatically
+**ใน YOLO mode:**
+- Note issues ถูก logged แต่ไม่ prompt: `📋 [N] issues logged phase นี้ (review later with /gsd:consider-issues)`
+- ดำเนินการไป offer_next อัตโนมัติ
 </step>
 
 <step name="offer_next">
-**MANDATORY: Verify remaining work before presenting next steps.**
+**บังคับ: Verify remaining work ก่อนแสดง next steps**
 
-Do NOT skip this verification. Do NOT assume phase or milestone completion without checking.
+อย่าข้าม verification นี้ อย่าสมมติ phase หรือ milestone completion โดยไม่ตรวจสอบ
 
-**Step 1: Count plans and summaries in current phase**
+**Step 1: นับ plans และ summaries ใน current phase**
 
-List files in the phase directory:
+List files ใน phase directory:
 
 ```bash
 ls -1 .planning/phases/[current-phase-dir]/*-PLAN.md 2>/dev/null | wc -l
 ls -1 .planning/phases/[current-phase-dir]/*-SUMMARY.md 2>/dev/null | wc -l
 ```
 
-State the counts: "This phase has [X] plans and [Y] summaries."
+ระบุจำนวน: "Phase นี้มี [X] plans และ [Y] summaries"
 
 **Step 2: Route based on plan completion**
 
-Compare the counts from Step 1:
+เปรียบเทียบจำนวนจาก Step 1:
 
 | Condition | Meaning | Action |
 |-----------|---------|--------|
-| summaries < plans | More plans remain | Go to **Route A** |
-| summaries = plans | Phase complete | Go to Step 3 |
+| summaries < plans | มี plans เหลือ | ไป **Route A** |
+| summaries = plans | Phase complete | ไป Step 3 |
 
 ---
 
-**Route A: More plans remain in this phase**
+**Route A: มี plans เหลือใน phase นี้**
 
-Identify the next unexecuted plan:
-- Find the first PLAN.md file that has no matching SUMMARY.md
-- Read its `<objective>` section
+ระบุ next unexecuted plan:
+- หาไฟล์ PLAN.md แรกที่ไม่มี SUMMARY.md ที่ตรงกัน
+- อ่านส่วน `<objective>`
 
 <if mode="yolo">
 ```
@@ -1585,10 +1529,10 @@ Summary: .planning/phases/{phase-dir}/{phase}-{plan}-SUMMARY.md
 
 {Y} of {X} plans complete for Phase {Z}.
 
-⚡ Auto-continuing: Execute next plan ({phase}-{next-plan})
+⚡ ดำเนินการต่ออัตโนมัติ: Execute next plan ({phase}-{next-plan})
 ```
 
-Loop back to identify_plan step automatically.
+Loop back ไป identify_plan step อัตโนมัติ
 </if>
 
 <if mode="interactive" OR="custom with gates.execute_next_plan true">
@@ -1600,56 +1544,56 @@ Summary: .planning/phases/{phase-dir}/{phase}-{plan}-SUMMARY.md
 
 ---
 
-## ▶ Next Up
+## ▶ ถัดไป
 
 **{phase}-{next-plan}: [Plan Name]** — [objective from next PLAN.md]
 
 `/gsd:execute-plan .planning/phases/{phase-dir}/{phase}-{next-plan}-PLAN.md`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → context window ใหม่</sub>
 
 ---
 
-**Also available:**
-- `/gsd:verify-work {phase}-{plan}` — manual acceptance testing before continuing
-- Review what was built before continuing
+**ยังมีให้เลือก:**
+- `/gsd:verify-work {phase}-{plan}` — manual acceptance testing ก่อนดำเนินการต่อ
+- Review what was built ก่อนดำเนินการต่อ
 
 ---
 ```
 
-Wait for user to clear and run next command.
+รอผู้ใช้ clear และ run next command
 </if>
 
-**STOP here if Route A applies. Do not continue to Step 3.**
+**หยุดที่นี่หาก Route A applies อย่าดำเนินการไป Step 3**
 
 ---
 
-**Step 3: Check milestone status (only when all plans in phase are complete)**
+**Step 3: ตรวจสอบ milestone status (เฉพาะเมื่อทุก plans ใน phase complete)**
 
-Read ROADMAP.md and extract:
-1. Current phase number (from the plan just completed)
-2. All phase numbers listed in the current milestone section
+อ่าน ROADMAP.md และดึง:
+1. Current phase number (จาก plan ที่เพิ่งเสร็จ)
+2. ทุก phase numbers ที่ listed ในส่วน current milestone
 
-To find phases in the current milestone, look for:
-- Phase headers: lines starting with `### Phase` or `#### Phase`
-- Phase list items: lines like `- [ ] **Phase X:` or `- [x] **Phase X:`
+เพื่อหา phases ใน current milestone มองหา:
+- Phase headers: lines ที่เริ่มด้วย `### Phase` หรือ `#### Phase`
+- Phase list items: lines like `- [ ] **Phase X:` หรือ `- [x] **Phase X:`
 
-Count total phases in the current milestone and identify the highest phase number.
+นับ phases ทั้งหมดใน current milestone และระบุ highest phase number
 
-State: "Current phase is {X}. Milestone has {N} phases (highest: {Y})."
+ระบุ: "Current phase is {X}. Milestone has {N} phases (highest: {Y})."
 
 **Step 4: Route based on milestone status**
 
 | Condition | Meaning | Action |
 |-----------|---------|--------|
-| current phase < highest phase | More phases remain | Go to **Route B** |
-| current phase = highest phase | Milestone complete | Go to **Route C** |
+| current phase < highest phase | มี phases เหลือ | ไป **Route B** |
+| current phase = highest phase | Milestone complete | ไป **Route C** |
 
 ---
 
-**Route B: Phase complete, more phases remain in milestone**
+**Route B: Phase complete, มี phases เหลือใน milestone**
 
-Read ROADMAP.md to get the next phase's name and goal.
+อ่าน ROADMAP.md เพื่อดูชื่อและ goal ของ next phase
 
 ```
 Plan {phase}-{plan} complete.
@@ -1657,32 +1601,32 @@ Summary: .planning/phases/{phase-dir}/{phase}-{plan}-SUMMARY.md
 
 ## ✓ Phase {Z}: {Phase Name} Complete
 
-All {Y} plans finished.
+ทุก {Y} plans เสร็จ
 
 ---
 
-## ▶ Next Up
+## ▶ ถัดไป
 
-**Phase {Z+1}: {Next Phase Name}** — {Goal from ROADMAP.md}
+**Phase {Z+1}: {Next Phase Name}** — {Goal จาก ROADMAP.md}
 
 `/gsd:plan-phase {Z+1}`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → context window ใหม่</sub>
 
 ---
 
-**Also available:**
-- `/gsd:verify-work {Z}` — manual acceptance testing before continuing
-- `/gsd:discuss-phase {Z+1}` — gather context first
-- `/gsd:research-phase {Z+1}` — investigate unknowns
-- Review phase accomplishments before continuing
+**ยังมีให้เลือก:**
+- `/gsd:verify-work {Z}` — manual acceptance testing ก่อนดำเนินการต่อ
+- `/gsd:discuss-phase {Z+1}` — รวบรวม context ก่อน
+- `/gsd:research-phase {Z+1}` — สืบค้นสิ่งที่ไม่รู้
+- Review phase accomplishments ก่อนดำเนินการต่อ
 
 ---
 ```
 
 ---
 
-**Route C: Milestone complete (all phases done)**
+**Route C: Milestone complete (ทุก phases done)**
 
 ```
 🎉 MILESTONE COMPLETE!
@@ -1692,29 +1636,22 @@ Summary: .planning/phases/{phase-dir}/{phase}-{plan}-SUMMARY.md
 
 ## ✓ Phase {Z}: {Phase Name} Complete
 
-All {Y} plans finished.
+ทุก {Y} plans เสร็จ
 
 ════════════════════════════════════════
-All {N} phases complete!
-Milestone is 100% done.
+ทุก {N} phases complete!
+Milestone เสร็จ 100%
 ════════════════════════════════════════
 
 ---
 
-## ▶ Next Up
+## ▶ ถัดไป
 
-**Complete Milestone** — archive and prepare for next
+**Complete Milestone** — archive และเตรียมสำหรับ next
 
 `/gsd:complete-milestone`
 
-<sub>`/clear` first → fresh context window</sub>
-
----
-
-**Also available:**
-- `/gsd:verify-work` — manual acceptance testing before completing milestone
-- `/gsd:add-phase <description>` — add another phase before completing
-- Review accomplishments before archiving
+<sub>`/clear` ก่อน → context window ใหม่</sub>
 
 ---
 ```
@@ -1724,11 +1661,16 @@ Milestone is 100% done.
 </process>
 
 <success_criteria>
-
-- All tasks from PLAN.md completed
-- All verifications pass
-- SUMMARY.md created with substantive content
-- STATE.md updated (position, decisions, issues, session)
-- ROADMAP.md updated
-- If codebase map exists: map updated with execution changes (or skipped if no significant changes)
-  </success_criteria>
+Execution สำเร็จเมื่อ:
+- [ ] STATE.md โหลด project context restored
+- [ ] PLAN.md ระบุและ executed
+- [ ] ทุก tasks executed (auto) หรือ guided (checkpoints)
+- [ ] Deviations handled ตาม rules และ documented
+- [ ] Verification checks ผ่าน
+- [ ] SUMMARY.md สร้างพร้อม all sections
+- [ ] STATE.md อัปเดต (position, decisions, issues, session)
+- [ ] ROADMAP.md อัปเดตพร้อม progress
+- [ ] Codebase map อัปเดตหาก structural changes
+- [ ] Git commits ทำ (per-task + metadata)
+- [ ] ผู้ใช้รู้ขั้นตอนถัดไป
+</success_criteria>

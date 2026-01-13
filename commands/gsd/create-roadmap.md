@@ -1,6 +1,6 @@
 ---
 name: gsd:create-roadmap
-description: Create roadmap with phases for the project
+description: สร้าง roadmap พร้อม phases สำหรับโปรเจค
 allowed-tools:
   - Read
   - Write
@@ -10,9 +10,9 @@ allowed-tools:
 ---
 
 <objective>
-Create project roadmap with phase breakdown.
+สร้าง project roadmap พร้อมการแบ่ง phases
 
-Roadmaps define what work happens in what order. Run after /gsd:new-project.
+Roadmaps กำหนดว่างานอะไรเกิดขึ้นในลำดับไหน รันหลัง /gsd:new-project
 </objective>
 
 <execution_context>
@@ -30,69 +30,69 @@ Roadmaps define what work happens in what order. Run after /gsd:new-project.
 
 <step name="validate">
 ```bash
-# Verify project exists
-[ -f .planning/PROJECT.md ] || { echo "ERROR: No PROJECT.md found. Run /gsd:new-project first."; exit 1; }
+# ตรวจสอบว่ามีโปรเจค
+[ -f .planning/PROJECT.md ] || { echo "ERROR: ไม่พบ PROJECT.md รัน /gsd:new-project ก่อน"; exit 1; }
 ```
 </step>
 
 <step name="check_existing">
-Check if roadmap already exists:
+ตรวจสอบว่ามี roadmap อยู่แล้วหรือไม่:
 
 ```bash
 [ -f .planning/ROADMAP.md ] && echo "ROADMAP_EXISTS" || echo "NO_ROADMAP"
 ```
 
-**If ROADMAP_EXISTS:**
-Use AskUserQuestion:
-- header: "Roadmap exists"
-- question: "A roadmap already exists. What would you like to do?"
+**ถ้า ROADMAP_EXISTS:**
+ใช้ AskUserQuestion:
+- header: "มี Roadmap แล้ว"
+- question: "มี roadmap อยู่แล้ว จะทำอย่างไร?"
 - options:
-  - "View existing" - Show current roadmap
-  - "Replace" - Create new roadmap (will overwrite)
-  - "Cancel" - Keep existing roadmap
+  - "ดู roadmap เดิม" - แสดง roadmap ปัจจุบัน
+  - "แทนที่" - สร้าง roadmap ใหม่ (จะเขียนทับ)
+  - "ยกเลิก" - เก็บ roadmap เดิมไว้
 
-If "View existing": `cat .planning/ROADMAP.md` and exit
-If "Cancel": Exit
-If "Replace": Continue with workflow
+ถ้า "ดู roadmap เดิม": `cat .planning/ROADMAP.md` และออก
+ถ้า "ยกเลิก": ออก
+ถ้า "แทนที่": ดำเนินการ workflow ต่อ
 </step>
 
 <step name="create_roadmap">
-Follow the create-roadmap.md workflow starting from detect_domain step.
+ทำตาม create-roadmap.md workflow เริ่มจาก detect_domain step
 
-The workflow handles:
-- Domain expertise detection
-- Phase identification
-- Research flags for each phase
-- Confirmation gates (respecting config mode)
-- ROADMAP.md creation
-- STATE.md initialization
-- Phase directory creation
+Workflow จัดการ:
+- การตรวจจับ domain expertise
+- การระบุ phases
+- Research flags สำหรับแต่ละ phase
+- Confirmation gates (ตาม config mode)
+- สร้าง ROADMAP.md
+- Initialize STATE.md
+- สร้างโฟลเดอร์ phase
 - Git commit
 </step>
 
 <step name="done">
 ```
-Roadmap created:
+สร้าง Roadmap แล้ว:
 - Roadmap: .planning/ROADMAP.md
 - State: .planning/STATE.md
-- [N] phases defined
+- [N] phases กำหนดแล้ว
 
 ---
 
-## ▶ Next Up
+## ▶ ถัดไป
 
-**Phase 1: [Name]** — [Goal from ROADMAP.md]
+**Phase 1: [Name]** — [Goal จาก ROADMAP.md]
 
 `/gsd:plan-phase 1`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → เริ่ม context window ใหม่</sub>
 
 ---
 
-**Also available:**
-- `/gsd:discuss-phase 1` — gather context first
-- `/gsd:research-phase 1` — investigate unknowns
-- Review roadmap
+**ตัวเลือกอื่น:**
+- `/gsd:discuss-phase 1` — รวบรวม context ก่อน
+- `/gsd:research-phase 1` — ค้นคว้าสิ่งที่ไม่รู้
+- ดู roadmap
 
 ---
 ```
@@ -107,9 +107,9 @@ Roadmap created:
 </output>
 
 <success_criteria>
-- [ ] PROJECT.md validated
-- [ ] ROADMAP.md created with phases
-- [ ] STATE.md initialized
-- [ ] Phase directories created
-- [ ] Changes committed
+- [ ] ตรวจสอบ PROJECT.md แล้ว
+- [ ] สร้าง ROADMAP.md พร้อม phases แล้ว
+- [ ] Initialize STATE.md แล้ว
+- [ ] สร้างโฟลเดอร์ phase แล้ว
+- [ ] Commit changes แล้ว
 </success_criteria>

@@ -1,255 +1,255 @@
-# Architecture Template
+# เทมเพลต Architecture
 
-Template for `.planning/codebase/ARCHITECTURE.md` - captures conceptual code organization.
+เทมเพลตสำหรับ `.planning/codebase/ARCHITECTURE.md` - บันทึกการจัดระเบียบโค้ดเชิงแนวคิด
 
-**Purpose:** Document how the code is organized at a conceptual level. Complements STRUCTURE.md (which shows physical file locations).
+**วัตถุประสงค์:** บันทึกว่าโค้ดถูกจัดระเบียบอย่างไรในระดับแนวคิด เสริม STRUCTURE.md (ซึ่งแสดงตำแหน่งไฟล์ทางกายภาพ)
 
 ---
 
-## File Template
+## เทมเพลตไฟล์
 
 ```markdown
 # Architecture
 
-**Analysis Date:** [YYYY-MM-DD]
+**วันที่วิเคราะห์:** [YYYY-MM-DD]
 
-## Pattern Overview
+## ภาพรวม Pattern
 
-**Overall:** [Pattern name: e.g., "Monolithic CLI", "Serverless API", "Full-stack MVC"]
+**โดยรวม:** [ชื่อ Pattern: เช่น "Monolithic CLI", "Serverless API", "Full-stack MVC"]
 
-**Key Characteristics:**
-- [Characteristic 1: e.g., "Single executable"]
-- [Characteristic 2: e.g., "Stateless request handling"]
-- [Characteristic 3: e.g., "Event-driven"]
+**ลักษณะสำคัญ:**
+- [ลักษณะ 1: เช่น "Single executable"]
+- [ลักษณะ 2: เช่น "Stateless request handling"]
+- [ลักษณะ 3: เช่น "Event-driven"]
 
 ## Layers
 
-[Describe the conceptual layers and their responsibilities]
+[อธิบาย conceptual layers และความรับผิดชอบ]
 
-**[Layer Name]:**
-- Purpose: [What this layer does]
-- Contains: [Types of code: e.g., "route handlers", "business logic"]
-- Depends on: [What it uses: e.g., "data layer only"]
-- Used by: [What uses it: e.g., "API routes"]
+**[ชื่อ Layer]:**
+- วัตถุประสงค์: [layer นี้ทำอะไร]
+- ประกอบด้วย: [ประเภทโค้ด: เช่น "route handlers", "business logic"]
+- ขึ้นอยู่กับ: [ใช้อะไร: เช่น "data layer only"]
+- ใช้โดย: [อะไรใช้มัน: เช่น "API routes"]
 
-**[Layer Name]:**
-- Purpose: [What this layer does]
-- Contains: [Types of code]
-- Depends on: [What it uses]
-- Used by: [What uses it]
+**[ชื่อ Layer]:**
+- วัตถุประสงค์: [layer นี้ทำอะไร]
+- ประกอบด้วย: [ประเภทโค้ด]
+- ขึ้นอยู่กับ: [ใช้อะไร]
+- ใช้โดย: [อะไรใช้มัน]
 
 ## Data Flow
 
-[Describe the typical request/execution lifecycle]
+[อธิบาย typical request/execution lifecycle]
 
-**[Flow Name] (e.g., "HTTP Request", "CLI Command", "Event Processing"):**
+**[ชื่อ Flow] (เช่น "HTTP Request", "CLI Command", "Event Processing"):**
 
-1. [Entry point: e.g., "User runs command"]
-2. [Processing step: e.g., "Router matches path"]
-3. [Processing step: e.g., "Controller validates input"]
-4. [Processing step: e.g., "Service executes logic"]
-5. [Output: e.g., "Response returned"]
+1. [Entry point: เช่น "User runs command"]
+2. [Processing step: เช่น "Router matches path"]
+3. [Processing step: เช่น "Controller validates input"]
+4. [Processing step: เช่น "Service executes logic"]
+5. [Output: เช่น "Response returned"]
 
 **State Management:**
-- [How state is handled: e.g., "Stateless - no persistent state", "Database per request", "In-memory cache"]
+- [จัดการ state อย่างไร: เช่น "Stateless - no persistent state", "Database per request", "In-memory cache"]
 
 ## Key Abstractions
 
-[Core concepts/patterns used throughout the codebase]
+[Core concepts/patterns ที่ใช้ทั่ว codebase]
 
-**[Abstraction Name]:**
-- Purpose: [What it represents]
-- Examples: [e.g., "UserService, ProjectService"]
-- Pattern: [e.g., "Singleton", "Factory", "Repository"]
+**[ชื่อ Abstraction]:**
+- วัตถุประสงค์: [แทนอะไร]
+- ตัวอย่าง: [เช่น "UserService, ProjectService"]
+- Pattern: [เช่น "Singleton", "Factory", "Repository"]
 
-**[Abstraction Name]:**
-- Purpose: [What it represents]
-- Examples: [Concrete examples]
-- Pattern: [Pattern used]
+**[ชื่อ Abstraction]:**
+- วัตถุประสงค์: [แทนอะไร]
+- ตัวอย่าง: [ตัวอย่างจริง]
+- Pattern: [Pattern ที่ใช้]
 
 ## Entry Points
 
-[Where execution begins]
+[ที่ที่ execution เริ่ม]
 
 **[Entry Point]:**
-- Location: [Brief: e.g., "src/index.ts", "API Gateway triggers"]
-- Triggers: [What invokes it: e.g., "CLI invocation", "HTTP request"]
-- Responsibilities: [What it does: e.g., "Parse args, route to command"]
+- ตำแหน่ง: [สั้น: เช่น "src/index.ts", "API Gateway triggers"]
+- Triggers: [อะไร invoke มัน: เช่น "CLI invocation", "HTTP request"]
+- ความรับผิดชอบ: [ทำอะไร: เช่น "Parse args, route to command"]
 
 ## Error Handling
 
-**Strategy:** [How errors are handled: e.g., "Exception bubbling to top-level handler", "Per-route error middleware"]
+**กลยุทธ์:** [จัดการ errors อย่างไร: เช่น "Exception bubbling to top-level handler", "Per-route error middleware"]
 
 **Patterns:**
-- [Pattern: e.g., "try/catch at controller level"]
-- [Pattern: e.g., "Error codes returned to user"]
+- [Pattern: เช่น "try/catch at controller level"]
+- [Pattern: เช่น "Error codes returned to user"]
 
 ## Cross-Cutting Concerns
 
-[Aspects that affect multiple layers]
+[Aspects ที่ส่งผลต่อหลาย layers]
 
 **Logging:**
-- [Approach: e.g., "Winston logger, injected per-request"]
+- [แนวทาง: เช่น "Winston logger, injected per-request"]
 
 **Validation:**
-- [Approach: e.g., "Zod schemas at API boundary"]
+- [แนวทาง: เช่น "Zod schemas at API boundary"]
 
 **Authentication:**
-- [Approach: e.g., "JWT middleware on protected routes"]
+- [แนวทาง: เช่น "JWT middleware on protected routes"]
 
 ---
 
-*Architecture analysis: [date]*
-*Update when major patterns change*
+*Architecture analysis: [วันที่]*
+*อัปเดตเมื่อ major patterns เปลี่ยน*
 ```
 
 <good_examples>
 ```markdown
 # Architecture
 
-**Analysis Date:** 2025-01-20
+**วันที่วิเคราะห์:** 2025-01-20
 
-## Pattern Overview
+## ภาพรวม Pattern
 
-**Overall:** CLI Application with Plugin System
+**โดยรวม:** CLI Application พร้อม Plugin System
 
-**Key Characteristics:**
-- Single executable with subcommands
+**ลักษณะสำคัญ:**
+- Single executable พร้อม subcommands
 - Plugin-based extensibility
-- File-based state (no database)
+- File-based state (ไม่มี database)
 - Synchronous execution model
 
 ## Layers
 
 **Command Layer:**
-- Purpose: Parse user input and route to appropriate handler
-- Contains: Command definitions, argument parsing, help text
-- Location: `src/commands/*.ts`
-- Depends on: Service layer for business logic
-- Used by: CLI entry point (`src/index.ts`)
+- วัตถุประสงค์: Parse user input และ route ไปยัง handler ที่เหมาะสม
+- ประกอบด้วย: Command definitions, argument parsing, help text
+- ตำแหน่ง: `src/commands/*.ts`
+- ขึ้นอยู่กับ: Service layer สำหรับ business logic
+- ใช้โดย: CLI entry point (`src/index.ts`)
 
 **Service Layer:**
-- Purpose: Core business logic
-- Contains: FileService, TemplateService, InstallService
-- Location: `src/services/*.ts`
-- Depends on: File system utilities, external tools
-- Used by: Command handlers
+- วัตถุประสงค์: Core business logic
+- ประกอบด้วย: FileService, TemplateService, InstallService
+- ตำแหน่ง: `src/services/*.ts`
+- ขึ้นอยู่กับ: File system utilities, external tools
+- ใช้โดย: Command handlers
 
 **Utility Layer:**
-- Purpose: Shared helpers and abstractions
-- Contains: File I/O wrappers, path resolution, string formatting
-- Location: `src/utils/*.ts`
-- Depends on: Node.js built-ins only
-- Used by: Service layer
+- วัตถุประสงค์: Shared helpers และ abstractions
+- ประกอบด้วย: File I/O wrappers, path resolution, string formatting
+- ตำแหน่ง: `src/utils/*.ts`
+- ขึ้นอยู่กับ: Node.js built-ins only
+- ใช้โดย: Service layer
 
 ## Data Flow
 
 **CLI Command Execution:**
 
-1. User runs: `gsd new-project`
-2. Commander parses args and flags
+1. ผู้ใช้รัน: `gsd new-project`
+2. Commander parses args และ flags
 3. Command handler invoked (`src/commands/new-project.ts`)
-4. Handler calls service methods (`src/services/project.ts` → `create()`)
-5. Service reads templates, processes files, writes output
-6. Results logged to console
-7. Process exits with status code
+4. Handler เรียก service methods (`src/services/project.ts` → `create()`)
+5. Service อ่าน templates, process files, เขียน output
+6. Results logged ไปยัง console
+7. Process exits พร้อม status code
 
 **State Management:**
-- File-based: All state lives in `.planning/` directory
-- No persistent in-memory state
-- Each command execution is independent
+- File-based: state ทั้งหมดอยู่ใน `.planning/` directory
+- ไม่มี persistent in-memory state
+- แต่ละ command execution เป็นอิสระ
 
 ## Key Abstractions
 
 **Service:**
-- Purpose: Encapsulate business logic for a domain
-- Examples: `src/services/file.ts`, `src/services/template.ts`, `src/services/project.ts`
-- Pattern: Singleton-like (imported as modules, not instantiated)
+- วัตถุประสงค์: Encapsulate business logic สำหรับ domain
+- ตัวอย่าง: `src/services/file.ts`, `src/services/template.ts`, `src/services/project.ts`
+- Pattern: Singleton-like (imported เป็น modules ไม่ได้ instantiated)
 
 **Command:**
-- Purpose: CLI command definition
-- Examples: `src/commands/new-project.ts`, `src/commands/plan-phase.ts`
+- วัตถุประสงค์: CLI command definition
+- ตัวอย่าง: `src/commands/new-project.ts`, `src/commands/plan-phase.ts`
 - Pattern: Commander.js command registration
 
 **Template:**
-- Purpose: Reusable document structures
-- Examples: PROJECT.md, PLAN.md templates
-- Pattern: Markdown files with substitution variables
+- วัตถุประสงค์: Reusable document structures
+- ตัวอย่าง: PROJECT.md, PLAN.md templates
+- Pattern: Markdown files พร้อม substitution variables
 
 ## Entry Points
 
 **CLI Entry:**
-- Location: `src/index.ts`
-- Triggers: User runs `gsd <command>`
-- Responsibilities: Register commands, parse args, display help
+- ตำแหน่ง: `src/index.ts`
+- Triggers: User รัน `gsd <command>`
+- ความรับผิดชอบ: Register commands, parse args, display help
 
 **Commands:**
-- Location: `src/commands/*.ts`
-- Triggers: Matched command from CLI
-- Responsibilities: Validate input, call services, format output
+- ตำแหน่ง: `src/commands/*.ts`
+- Triggers: Matched command จาก CLI
+- ความรับผิดชอบ: Validate input, call services, format output
 
 ## Error Handling
 
-**Strategy:** Throw exceptions, catch at command level, log and exit
+**กลยุทธ์:** Throw exceptions, catch ที่ command level, log และ exit
 
 **Patterns:**
-- Services throw Error with descriptive messages
-- Command handlers catch, log error to stderr, exit(1)
-- Validation errors shown before execution (fail fast)
+- Services throw Error พร้อม descriptive messages
+- Command handlers catch, log error ไปยัง stderr, exit(1)
+- Validation errors แสดงก่อน execution (fail fast)
 
 ## Cross-Cutting Concerns
 
 **Logging:**
-- Console.log for normal output
-- Console.error for errors
-- Chalk for colored output
+- Console.log สำหรับ normal output
+- Console.error สำหรับ errors
+- Chalk สำหรับ colored output
 
 **Validation:**
-- Zod schemas for config file parsing
-- Manual validation in command handlers
-- Fail fast on invalid input
+- Zod schemas สำหรับ config file parsing
+- Manual validation ใน command handlers
+- Fail fast เมื่อ input ไม่ถูกต้อง
 
 **File Operations:**
 - FileService abstraction over fs-extra
-- All paths validated before operations
+- ทุก paths validated ก่อน operations
 - Atomic writes (temp file + rename)
 
 ---
 
 *Architecture analysis: 2025-01-20*
-*Update when major patterns change*
+*อัปเดตเมื่อ major patterns เปลี่ยน*
 ```
 </good_examples>
 
 <guidelines>
-**What belongs in ARCHITECTURE.md:**
-- Overall architectural pattern (monolith, microservices, layered, etc.)
-- Conceptual layers and their relationships
+**อะไรควรอยู่ใน ARCHITECTURE.md:**
+- Overall architectural pattern (monolith, microservices, layered, เป็นต้น)
+- Conceptual layers และความสัมพันธ์
 - Data flow / request lifecycle
-- Key abstractions and patterns
+- Key abstractions และ patterns
 - Entry points
 - Error handling strategy
 - Cross-cutting concerns (logging, auth, validation)
 
-**What does NOT belong here:**
-- Exhaustive file listings (that's STRUCTURE.md)
-- Technology choices (that's STACK.md)
-- Line-by-line code walkthrough (defer to code reading)
-- Implementation details of specific features
+**อะไรไม่ควรอยู่ที่นี่:**
+- Exhaustive file listings (นั่นคือ STRUCTURE.md)
+- Technology choices (นั่นคือ STACK.md)
+- Line-by-line code walkthrough (defer ไปอ่านโค้ด)
+- Implementation details ของ features เฉพาะ
 
-**File paths ARE welcome:**
-Include file paths as concrete examples of abstractions. Use backtick formatting: `src/services/user.ts`. This makes the architecture document actionable for Claude when planning.
+**File paths ยินดีต้อนรับ:**
+รวม file paths เป็นตัวอย่างจริงของ abstractions ใช้ backtick formatting: `src/services/user.ts` สิ่งนี้ทำให้ architecture document actionable สำหรับ Claude เมื่อวางแผน
 
-**When filling this template:**
-- Read main entry points (index, server, main)
-- Identify layers by reading imports/dependencies
-- Trace a typical request/command execution
+**เมื่อกรอกเทมเพลตนี้:**
+- อ่าน main entry points (index, server, main)
+- ระบุ layers โดยอ่าน imports/dependencies
+- Trace typical request/command execution
 - Note recurring patterns (services, controllers, repositories)
-- Keep descriptions conceptual, not mechanical
+- รักษา descriptions เป็น conceptual ไม่ใช่ mechanical
 
-**Useful for phase planning when:**
-- Adding new features (where does it fit in the layers?)
-- Refactoring (understanding current patterns)
-- Identifying where to add code (which layer handles X?)
-- Understanding dependencies between components
+**มีประโยชน์สำหรับ phase planning เมื่อ:**
+- เพิ่ม features ใหม่ (มันอยู่ที่ไหนใน layers?)
+- Refactoring (เข้าใจ current patterns)
+- ระบุที่จะเพิ่มโค้ด (layer ไหนจัดการ X?)
+- เข้าใจ dependencies ระหว่าง components
 </guidelines>

@@ -1,14 +1,14 @@
 ---
 name: gsd:new-milestone
-description: Create a new milestone with phases for an existing project
-argument-hint: "[milestone name, e.g., 'v2.0 Features']"
+description: สร้าง milestone ใหม่พร้อม phases สำหรับโปรเจคที่มีอยู่
+argument-hint: "[milestone name, เช่น 'v2.0 Features']"
 ---
 
 <objective>
-Create a new milestone for an existing project with defined phases.
+สร้าง milestone ใหม่สำหรับโปรเจคที่มีอยู่พร้อม phases ที่กำหนด
 
-Purpose: After completing a milestone (or when ready to define next chunk of work), creates the milestone structure in ROADMAP.md with phases, updates STATE.md, and creates phase directories.
-Output: New milestone in ROADMAP.md, updated STATE.md, phase directories created
+วัตถุประสงค์: หลังจาก milestone เสร็จ (หรือเมื่อพร้อมกำหนดงาน chunk ถัดไป) สร้าง milestone structure ใน ROADMAP.md พร้อม phases, อัพเดท STATE.md, และสร้างโฟลเดอร์ phase
+Output: Milestone ใหม่ใน ROADMAP.md, อัพเดท STATE.md, สร้างโฟลเดอร์ phase แล้ว
 </objective>
 
 <execution_context>
@@ -17,43 +17,43 @@ Output: New milestone in ROADMAP.md, updated STATE.md, phase directories created
 </execution_context>
 
 <context>
-Milestone name: $ARGUMENTS (optional - will prompt if not provided)
+Milestone name: $ARGUMENTS (optional - จะ prompt ถ้าไม่ระบุ)
 
-**Load project state first:**
+**โหลด project state ก่อน:**
 @.planning/STATE.md
 
-**Load roadmap:**
+**โหลด roadmap:**
 @.planning/ROADMAP.md
 
-**Load milestones (if exists):**
+**โหลด milestones (ถ้ามี):**
 @.planning/MILESTONES.md
 </context>
 
 <process>
-1. Load project context (STATE.md, ROADMAP.md, MILESTONES.md)
-2. Calculate next milestone version and starting phase number
-3. If milestone name provided in arguments, use it; otherwise prompt
-4. Gather phases (per depth setting: quick 3-5, standard 5-8, comprehensive 8-12):
-   - If called from /gsd:discuss-milestone, use provided context
-   - Otherwise, prompt for phase breakdown
-5. Detect research needs for each phase
-6. Confirm phases (respect config.json gate settings)
-7. Follow create-milestone.md workflow:
-   - Update ROADMAP.md with new milestone section
-   - Create phase directories
-   - Update STATE.md for new milestone
+1. โหลด project context (STATE.md, ROADMAP.md, MILESTONES.md)
+2. คำนวณ milestone version ถัดไปและ starting phase number
+3. ถ้าระบุ milestone name ใน arguments ใช้เลย ไม่งั้น prompt
+4. รวบรวม phases (ตาม depth setting: quick 3-5, standard 5-8, comprehensive 8-12):
+   - ถ้าเรียกจาก /gsd:discuss-milestone ใช้ context ที่ให้มา
+   - ไม่งั้น prompt สำหรับ phase breakdown
+5. ตรวจจับ research needs สำหรับแต่ละ phase
+6. ยืนยัน phases (ตาม config.json gate settings)
+7. ทำตาม create-milestone.md workflow:
+   - อัพเดท ROADMAP.md ด้วย milestone section ใหม่
+   - สร้างโฟลเดอร์ phase
+   - อัพเดท STATE.md สำหรับ milestone ใหม่
    - Git commit milestone creation
-8. Offer next steps (discuss first phase, plan first phase, review)
+8. เสนอขั้นตอนถัดไป (discuss first phase, plan first phase, review)
 </process>
 
 <success_criteria>
 
-- Next phase number calculated correctly (continues from previous milestone)
-- Phases defined per depth setting (quick: 3-5, standard: 5-8, comprehensive: 8-12)
-- Research flags assigned for each phase
-- ROADMAP.md updated with new milestone section
-- Phase directories created
-- STATE.md reset for new milestone
-- Git commit made
-- User knows next steps
+- คำนวณ next phase number ถูกต้อง (ต่อจาก milestone ก่อนหน้า)
+- กำหนด phases ตาม depth setting (quick: 3-5, standard: 5-8, comprehensive: 8-12)
+- กำหนด research flags สำหรับแต่ละ phase
+- อัพเดท ROADMAP.md ด้วย milestone section ใหม่
+- สร้างโฟลเดอร์ phase แล้ว
+- Reset STATE.md สำหรับ milestone ใหม่
+- Git commit แล้ว
+- ผู้ใช้รู้ขั้นตอนถัดไป
   </success_criteria>

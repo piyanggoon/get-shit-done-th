@@ -1,47 +1,47 @@
 <purpose>
-Comprehensive research on HOW to implement a phase before planning.
+การวิจัยอย่างครอบคลุมเกี่ยวกับวิธี implement phase ก่อนวางแผน
 
-Triggered by /gsd:research-phase command when the domain is niche, complex, or Claude's training is likely stale.
+Triggered โดย /gsd:research-phase command เมื่อ domain เป็น niche, ซับซ้อน หรือ training ของ Claude น่าจะเก่า
 
-Produces RESEARCH.md with ecosystem knowledge that informs quality planning - not just "which library" but "how do experts build this."
+สร้าง RESEARCH.md พร้อม ecosystem knowledge ที่ให้ข้อมูล quality planning - ไม่ใช่แค่ "library ไหน" แต่ "ผู้เชี่ยวชาญสร้างสิ่งนี้อย่างไร"
 </purpose>
 
 <when_to_use>
-**This workflow is for domains where Claude fails without research:**
+**Workflow นี้สำหรับ domains ที่ Claude ล้มเหลวโดยไม่ research:**
 - 3D graphics (Three.js, Babylon.js, procedural generation, level design)
 - Game development (physics engines, collision, AI, ECS patterns)
 - Audio/music (Web Audio, DSP, synthesis, MIDI)
 - Shaders (GLSL, Metal, ISF, compute shaders)
 - ML/AI integration (model serving, inference, vector DBs)
 - Real-time systems (WebSockets, WebRTC, CRDT sync)
-- Specialized frameworks with active ecosystems Claude may not know
+- Specialized frameworks ที่มี active ecosystems ที่ Claude อาจไม่รู้
 
-**Skip this for commodity domains:**
+**ข้ามสำหรับ commodity domains:**
 - Standard auth (JWT, OAuth)
 - CRUD APIs
-- Forms and validation
+- Forms และ validation
 - Well-documented integrations (Stripe, SendGrid)
 </when_to_use>
 
 <key_insight>
-The current "mandatory discovery" in plan-phase asks: "Which library should I use?"
+"mandatory discovery" ปัจจุบันใน plan-phase ถามว่า: "ฉันควรใช้ library ไหน?"
 
-This workflow asks: "What do I not know that I don't know?"
+Workflow นี้ถามว่า: "อะไรที่ฉันไม่รู้ว่าฉันไม่รู้?"
 
-For niche domains, the question isn't library selection - it's:
-- What's the established architecture pattern?
-- What libraries form the standard stack?
-- What problems do people commonly hit?
-- What's SOTA vs what Claude thinks is SOTA?
-- What should NOT be hand-rolled?
+สำหรับ niche domains คำถามไม่ใช่การเลือก library - มันคือ:
+- Established architecture pattern คืออะไร?
+- Libraries อะไรประกอบเป็น standard stack?
+- ปัญหาอะไรที่คนมักเจอ?
+- อะไรคือ SOTA vs อะไรที่ Claude คิดว่าเป็น SOTA?
+- อะไรที่ไม่ควรทำเอง?
 </key_insight>
 
 <process>
 
 <step name="validate_phase" priority="first">
-Phase number: $ARGUMENTS (required)
+Phase number: $ARGUMENTS (ต้องการ)
 
-Validate phase exists in roadmap:
+ตรวจสอบ phase มีอยู่ใน roadmap:
 
 ```bash
 if [ -f .planning/ROADMAP.md ]; then
@@ -49,33 +49,33 @@ if [ -f .planning/ROADMAP.md ]; then
 fi
 ```
 
-**If phase not found:**
+**หากไม่พบ phase:**
 ```
 Error: Phase ${PHASE} not found in roadmap.
 
 Use /gsd:progress to see available phases.
 ```
-Exit workflow.
+ออกจาก workflow
 
-**If phase found:**
-Extract:
+**หากพบ phase:**
+ดึง:
 - Phase number
 - Phase name
 - Phase description
-- Any "Research: Likely" flags
+- "Research: Likely" flags ใดๆ
 
-Continue to check_existing.
+ดำเนินการไป check_existing
 </step>
 
 <step name="check_existing">
-Check if RESEARCH.md already exists for this phase:
+ตรวจสอบว่า RESEARCH.md มีอยู่แล้วสำหรับ phase นี้หรือไม่:
 
 ```bash
 ls .planning/phases/${PHASE}-*/RESEARCH.md 2>/dev/null
 ls .planning/phases/${PHASE}-*/${PHASE}-RESEARCH.md 2>/dev/null
 ```
 
-**If exists:**
+**หากมี:**
 ```
 Phase ${PHASE} already has research: [path to RESEARCH.md]
 
@@ -85,51 +85,51 @@ What's next?
 3. Skip - Use existing research as-is
 ```
 
-Wait for user response.
+รอการตอบจากผู้ใช้
 
-If "Update research": Load existing RESEARCH.md, proceed to research with update mindset
-If "View existing": Read and display RESEARCH.md, then offer update/skip
-If "Skip": Exit workflow
+หาก "Update research": โหลด RESEARCH.md ที่มี ดำเนินการ research ด้วย update mindset
+หาก "View existing": อ่านและแสดง RESEARCH.md แล้วเสนอ update/skip
+หาก "Skip": ออกจาก workflow
 
-**If doesn't exist:**
-Continue to load_context.
+**หากไม่มี:**
+ดำเนินการไป load_context
 </step>
 
 <step name="load_context">
-Load available context to inform research direction:
+โหลด context ที่มีเพื่อให้ข้อมูลทิศทาง research:
 
 **1. Project context:**
 ```bash
 cat .planning/PROJECT.md 2>/dev/null | head -50
 ```
 
-**2. Phase context (if exists from /gsd:discuss-phase):**
+**2. Phase context (หากมีจาก /gsd:discuss-phase):**
 ```bash
 cat .planning/phases/${PHASE}-*/${PHASE}-CONTEXT.md 2>/dev/null
 ```
 
-If CONTEXT.md exists, use it to understand:
-- User's specific goals for this phase
-- Constraints mentioned
-- Any preferences stated
+หาก CONTEXT.md มี ใช้เพื่อเข้าใจ:
+- เป้าหมายเฉพาะของผู้ใช้สำหรับ phase นี้
+- Constraints ที่กล่าวถึง
+- Preferences ใดๆ ที่ระบุ
 
 **3. Prior phase decisions:**
 ```bash
 cat .planning/STATE.md 2>/dev/null | grep -A20 "## Accumulated Decisions"
 ```
 
-These may constrain technology choices.
+สิ่งเหล่านี้อาจ constrain technology choices
 
-Present what was found:
+แสดงสิ่งที่พบ:
 ```
-Research context for Phase ${PHASE}: ${PHASE_NAME}
+Research context สำหรับ Phase ${PHASE}: ${PHASE_NAME}
 
 Roadmap description: ${PHASE_DESCRIPTION}
 
-[If CONTEXT.md exists:]
+[หาก CONTEXT.md มี:]
 Phase context available - will incorporate user preferences.
 
-[If prior decisions exist:]
+[หาก prior decisions มี:]
 Prior decisions to respect: [list relevant ones]
 
 Proceeding with ecosystem research...
@@ -137,89 +137,89 @@ Proceeding with ecosystem research...
 </step>
 
 <step name="identify_domains">
-Analyze the phase description to identify what needs researching.
+วิเคราะห์ phase description เพื่อระบุอะไรที่ต้อง research
 
-**Ask: "What knowledge do I need to actually implement this well?"**
+**ถาม: "ความรู้อะไรที่ฉันต้องการเพื่อ implement สิ่งนี้อย่างดี?"**
 
-Categories to consider:
+Categories ที่พิจารณา:
 
 **1. Core Technology:**
-- What's the primary technology/framework?
-- What version is current? (Claude's training may be stale)
-- What's the standard setup/toolchain?
+- Primary technology/framework คืออะไร?
+- Version ปัจจุบันคืออะไร? (training ของ Claude อาจเก่า)
+- Standard setup/toolchain คืออะไร?
 
 **2. Ecosystem/Stack:**
-- What libraries do experts pair with this?
-- What's the "blessed" stack for this problem domain?
-- What helper libraries exist that I might not know about?
+- Experts pair libraries อะไรกับสิ่งนี้?
+- "Blessed" stack สำหรับ problem domain นี้คืออะไร?
+- Helper libraries อะไรมีที่ฉันอาจไม่รู้?
 
 **3. Architecture Patterns:**
-- How do experts structure this type of project?
-- What design patterns apply?
-- What's the recommended project organization?
+- Experts โครงสร้าง project ประเภทนี้อย่างไร?
+- Design patterns อะไรใช้ได้?
+- Project organization ที่แนะนำคืออะไร?
 
 **4. Common Pitfalls:**
-- What do beginners get wrong?
-- What are the "gotchas" in this domain?
-- What mistakes lead to rewrites?
+- Beginners ทำผิดอะไร?
+- "Gotchas" ใน domain นี้คืออะไร?
+- ความผิดพลาดอะไรนำไปสู่การ rewrite?
 
 **5. What NOT to Hand-Roll:**
-- What existing solutions should be used instead of custom code?
-- What problems look simple but have nasty edge cases?
-- What libraries solve problems I don't know I have?
+- Existing solutions อะไรควรใช้แทน custom code?
+- ปัญหาอะไรดูง่ายแต่มี nasty edge cases?
+- Libraries อะไรแก้ปัญหาที่ฉันไม่รู้ว่ามี?
 
 **6. Current State of the Art:**
-- What's changed recently in this ecosystem?
-- What approaches are now considered outdated?
-- What new tools/patterns have emerged?
+- อะไรเปลี่ยนเร็วๆ นี้ใน ecosystem นี้?
+- Approaches อะไรถือว่า outdated แล้ว?
+- Tools/patterns ใหม่อะไรเกิดขึ้น?
 
-Present research scope:
+แสดง research scope:
 ```
 Research domains identified:
 
-1. Core: [e.g., "Three.js for 3D web graphics"]
-2. Ecosystem: [e.g., "Physics engine, asset loading, controls"]
-3. Patterns: [e.g., "Scene graph architecture, game loop patterns"]
-4. Pitfalls: [e.g., "Performance, memory, mobile compatibility"]
-5. Don't hand-roll: [e.g., "Physics, collision detection, procedural generation"]
-6. SOTA check: [e.g., "WebGPU vs WebGL, drei ecosystem"]
+1. Core: [เช่น "Three.js for 3D web graphics"]
+2. Ecosystem: [เช่น "Physics engine, asset loading, controls"]
+3. Patterns: [เช่น "Scene graph architecture, game loop patterns"]
+4. Pitfalls: [เช่น "Performance, memory, mobile compatibility"]
+5. Don't hand-roll: [เช่น "Physics, collision detection, procedural generation"]
+6. SOTA check: [เช่น "WebGPU vs WebGL, drei ecosystem"]
 
 Proceeding with comprehensive research...
 ```
 </step>
 
 <step name="execute_research">
-Execute research systematically for each domain identified.
+Execute research อย่างเป็นระบบสำหรับแต่ละ domain ที่ระบุ
 
-**CRITICAL: Source hierarchy - Context7 BEFORE WebSearch**
+**สำคัญ: Source hierarchy - Context7 ก่อน WebSearch**
 
-Claude's training data is 6-18 months stale. Treat pre-existing knowledge as hypothesis, not fact.
+ข้อมูล training ของ Claude เก่า 6-18 เดือน Treat pre-existing knowledge เป็น hypothesis ไม่ใช่ fact
 
 <research_protocol>
 
-**For each domain, in order:**
+**สำหรับแต่ละ domain ตามลำดับ:**
 
 **1. Context7 First (authoritative, current):**
 ```
-For core technology:
+สำหรับ core technology:
 - mcp__context7__resolve-library-id with libraryName: "[main technology]"
 - mcp__context7__get-library-docs with topic: "getting started"
 - mcp__context7__get-library-docs with topic: "[specific concern]"
 
-For ecosystem libraries:
-- Resolve and fetch docs for each major library
-- Focus on integration patterns, not just API reference
+สำหรับ ecosystem libraries:
+- Resolve และ fetch docs สำหรับแต่ละ major library
+- โฟกัสที่ integration patterns ไม่ใช่แค่ API reference
 ```
 
 **2. Official Documentation:**
-- Use WebFetch for official docs not in Context7
-- Check for "ecosystem" or "community" pages
-- Look for "awesome-{technology}" lists
-- Check GitHub trending/stars for the domain
+- ใช้ WebFetch สำหรับ official docs ที่ไม่อยู่ใน Context7
+- ตรวจสอบ "ecosystem" หรือ "community" pages
+- มองหา "awesome-{technology}" lists
+- ตรวจสอบ GitHub trending/stars สำหรับ domain
 
-**3. WebSearch for Ecosystem Discovery:**
+**3. WebSearch สำหรับ Ecosystem Discovery:**
 ```
-Ecosystem discovery queries (use {current_year}):
+Ecosystem discovery queries (ใช้ {current_year}):
 - "[technology] best practices {current_year}"
 - "[technology] recommended libraries {current_year}"
 - "[technology] common mistakes"
@@ -228,26 +228,26 @@ Ecosystem discovery queries (use {current_year}):
 - "[technology] performance optimization"
 - "[technology] project structure"
 
-For niche domains:
+สำหรับ niche domains:
 - "[technology] tutorials {current_year}"
 - "[technology] examples github"
 - "[technology] showcase"
 ```
 
-**4. Cross-Verification (MANDATORY):**
-Every WebSearch finding MUST be verified:
-- Check Context7 or official docs to confirm
-- Mark confidence level (HIGH if verified, MEDIUM if partially verified, LOW if WebSearch only)
-- Flag contradictions between sources
+**4. Cross-Verification (บังคับ):**
+ทุก WebSearch finding ต้องได้รับการ verify:
+- ตรวจสอบ Context7 หรือ official docs เพื่อยืนยัน
+- ทำเครื่องหมาย confidence level (HIGH หาก verified, MEDIUM หาก partially verified, LOW หาก WebSearch only)
+- Flag contradictions ระหว่าง sources
 
 </research_protocol>
 
 <research_execution>
-Execute research queries and document findings as you go:
+Execute research queries และ document findings ระหว่างทาง:
 
 **Core Technology Findings:**
-- Current version: [from Context7]
-- Key changes since [Claude's training]: [from docs/WebSearch]
+- Current version: [จาก Context7]
+- Key changes since [Claude's training]: [จาก docs/WebSearch]
 - Setup approach: [verified pattern]
 
 **Ecosystem Stack:**
@@ -266,8 +266,8 @@ Execute research queries and document findings as you go:
 - [Pitfall 3]: [what goes wrong, how to avoid]
 
 **Don't Hand-Roll:**
-- [Problem]: Use [library] instead because [reason]
-- [Problem]: Use [library] instead because [reason]
+- [Problem]: ใช้ [library] แทนเพราะ [reason]
+- [Problem]: ใช้ [library] แทนเพราะ [reason]
 
 **SOTA Updates:**
 - [Old approach]: Now superseded by [new approach]
@@ -277,79 +277,79 @@ Execute research queries and document findings as you go:
 </step>
 
 <step name="quality_check">
-Before creating RESEARCH.md, run through research-pitfalls.md checklist:
+ก่อนสร้าง RESEARCH.md run through research-pitfalls.md checklist:
 
-**From ~/.claude/get-shit-done/references/research-pitfalls.md:**
+**จาก ~/.claude/get-shit-done/references/research-pitfalls.md:**
 
-- [ ] All enumerated items investigated (not just some)
-- [ ] Negative claims verified with official docs
-- [ ] Multiple sources cross-referenced for critical claims
-- [ ] URLs provided for authoritative sources
+- [ ] ทุก enumerated items investigated (ไม่ใช่แค่บางอัน)
+- [ ] Negative claims verified กับ official docs
+- [ ] Multiple sources cross-referenced สำหรับ critical claims
+- [ ] URLs provided สำหรับ authoritative sources
 - [ ] Publication dates checked (prefer recent/current)
 - [ ] Tool/environment-specific variations documented
 - [ ] Confidence levels assigned honestly
-- [ ] Assumptions distinguished from verified facts
+- [ ] Assumptions distinguished จาก verified facts
 - [ ] "What might I have missed?" review completed
 
-**Additional checks for ecosystem research:**
-- [ ] Checked for libraries Claude might not know about
-- [ ] Verified version numbers are current
-- [ ] Confirmed patterns still recommended (not deprecated)
-- [ ] Looked for "don't do this" warnings in docs
-- [ ] Checked for breaking changes in recent versions
+**เพิ่มเติมสำหรับ ecosystem research:**
+- [ ] ตรวจสอบ libraries ที่ Claude อาจไม่รู้
+- [ ] Verified version numbers เป็น current
+- [ ] Confirmed patterns ยังคง recommended (ไม่ deprecated)
+- [ ] มองหา "don't do this" warnings ใน docs
+- [ ] ตรวจสอบ breaking changes ใน recent versions
 </step>
 
 <step name="write_research">
-Create RESEARCH.md using accumulated findings.
+สร้าง RESEARCH.md โดยใช้ accumulated findings
 
 **File location:** `.planning/phases/${PHASE}-${SLUG}/${PHASE}-RESEARCH.md`
 
-**If phase directory doesn't exist:**
-Create it: `.planning/phases/${PHASE}-${SLUG}/`
+**หาก phase directory ไม่มี:**
+สร้างมัน: `.planning/phases/${PHASE}-${SLUG}/`
 
-Use template from ~/.claude/get-shit-done/templates/research.md
+ใช้ template จาก ~/.claude/get-shit-done/templates/research.md
 
-Populate sections with verified findings from research execution.
+กรอก sections ด้วย verified findings จาก research execution
 
 **Critical content requirements:**
 
 **1. Standard Stack section:**
-- List specific libraries with versions
-- Explain what each does and why it's standard
-- Note any alternatives and when to use them
+- List specific libraries พร้อม versions
+- อธิบายแต่ละอันทำอะไรและทำไมถึงเป็น standard
+- Note alternatives ใดๆ และเมื่อใดที่ใช้
 
 **2. Architecture Patterns section:**
-- Document recommended patterns with code examples if available
+- Document recommended patterns พร้อม code examples หากมี
 - Include project structure recommendations
-- Note what patterns to avoid
+- Note patterns อะไรที่ต้องหลีกเลี่ยง
 
 **3. Don't Hand-Roll section:**
-- Be explicit about what problems have existing solutions
-- Explain why custom solutions are worse
-- List the libraries to use instead
+- Be explicit ว่าปัญหาอะไรมี existing solutions
+- อธิบายทำไม custom solutions แย่กว่า
+- List libraries ที่ใช้แทน
 
 **4. Common Pitfalls section:**
-- Specific mistakes with explanations
-- How to avoid each
-- Warning signs to watch for
+- Specific mistakes พร้อม explanations
+- วิธีหลีกเลี่ยงแต่ละอัน
+- Warning signs ที่ต้องระวัง
 
 **5. Code Examples section:**
-- Include verified code patterns from Context7/official docs
-- Show the "right way" to do common operations
-- Note any gotchas in the examples
+- Include verified code patterns จาก Context7/official docs
+- แสดง "right way" ในการทำ common operations
+- Note gotchas ใดๆ ใน examples
 
-Write file.
+เขียนไฟล์
 </step>
 
 <step name="confirm_creation">
-Present RESEARCH.md summary to user:
+แสดงสรุป RESEARCH.md ให้ผู้ใช้:
 
 ```
 Created: .planning/phases/${PHASE}-${SLUG}/${PHASE}-RESEARCH.md
 
 ## Research Summary
 
-**Domain:** [what was researched]
+**Domain:** [อะไรที่ researched]
 
 **Standard Stack:**
 - [Library 1] - [brief what/why]
@@ -361,8 +361,8 @@ Created: .planning/phases/${PHASE}-${SLUG}/${PHASE}-RESEARCH.md
 - [Pattern 2]
 
 **Don't Hand-Roll:**
-- [Thing 1] - use [library] instead
-- [Thing 2] - use [library] instead
+- [Thing 1] - ใช้ [library] แทน
+- [Thing 2] - ใช้ [library] แทน
 
 **Top Pitfalls:**
 - [Pitfall 1]
@@ -371,7 +371,7 @@ Created: .planning/phases/${PHASE}-${SLUG}/${PHASE}-RESEARCH.md
 **Confidence:** [HIGH/MEDIUM/LOW] - [brief reason]
 
 What's next?
-1. Plan this phase (/gsd:plan-phase ${PHASE}) - RESEARCH.md will be loaded automatically
+1. Plan this phase (/gsd:plan-phase ${PHASE}) - RESEARCH.md จะถูกโหลดอัตโนมัติ
 2. Dig deeper - Research specific areas more thoroughly
 3. Review full RESEARCH.md
 4. Done for now
@@ -394,43 +394,43 @@ EOF
 )"
 ```
 
-Confirm: "Committed: docs(${PHASE}): complete phase research"
+ยืนยัน: "Committed: docs(${PHASE}): complete phase research"
 </step>
 
 </process>
 
 <success_criteria>
-- [ ] Phase validated against roadmap
-- [ ] Research domains identified from phase description
-- [ ] Context7 consulted for all relevant libraries
-- [ ] Official docs consulted where Context7 lacks coverage
-- [ ] WebSearch used for ecosystem discovery
-- [ ] All WebSearch findings cross-verified
+- [ ] Phase validated กับ roadmap
+- [ ] Research domains ระบุจาก phase description
+- [ ] Context7 consulted สำหรับทุก relevant libraries
+- [ ] Official docs consulted ที่ Context7 ไม่ครอบคลุม
+- [ ] WebSearch ใช้สำหรับ ecosystem discovery
+- [ ] ทุก WebSearch findings cross-verified
 - [ ] Quality checklist completed
-- [ ] RESEARCH.md created with comprehensive ecosystem knowledge
-- [ ] Standard stack documented with versions
+- [ ] RESEARCH.md สร้างพร้อม comprehensive ecosystem knowledge
+- [ ] Standard stack documented พร้อม versions
 - [ ] Architecture patterns documented
-- [ ] "Don't hand-roll" list is clear and actionable
+- [ ] "Don't hand-roll" list ชัดเจนและ actionable
 - [ ] Common pitfalls catalogued
 - [ ] Confidence levels assigned honestly
-- [ ] RESEARCH.md committed to git
-- [ ] User knows next steps (plan phase)
+- [ ] RESEARCH.md committed ไป git
+- [ ] ผู้ใช้รู้ขั้นตอนถัดไป (plan phase)
 </success_criteria>
 
 <integration_with_planning>
-When /gsd:plan-phase runs after research:
+เมื่อ /gsd:plan-phase รันหลัง research:
 
-1. plan-phase detects RESEARCH.md exists in phase directory
-2. RESEARCH.md loaded as @context reference
-3. "Standard stack" informs library choices in tasks
-4. "Don't hand-roll" prevents custom solutions where libraries exist
-5. "Common pitfalls" inform verification criteria
-6. "Architecture patterns" inform task structure
-7. "Code examples" can be referenced in task actions
+1. plan-phase detects RESEARCH.md มีอยู่ใน phase directory
+2. RESEARCH.md โหลดเป็น @context reference
+3. "Standard stack" ให้ข้อมูล library choices ใน tasks
+4. "Don't hand-roll" ป้องกัน custom solutions ที่มี libraries
+5. "Common pitfalls" ให้ข้อมูล verification criteria
+6. "Architecture patterns" ให้ข้อมูล task structure
+7. "Code examples" สามารถ reference ใน task actions
 
-This produces higher quality plans because Claude knows:
-- What tools experts use
-- What patterns to follow
-- What mistakes to avoid
-- What NOT to build from scratch
+นี่สร้าง plans คุณภาพสูงกว่าเพราะ Claude รู้:
+- Tools อะไรที่ experts ใช้
+- Patterns อะไรที่ต้องทำตาม
+- Mistakes อะไรที่ต้องหลีกเลี่ยง
+- อะไรที่ไม่ควรสร้างจาก scratch
 </integration_with_planning>

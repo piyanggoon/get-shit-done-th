@@ -1,13 +1,13 @@
 ---
 name: gsd:discuss-milestone
-description: Gather context for next milestone through adaptive questioning
+description: รวบรวม context สำหรับ milestone ถัดไปผ่านการถามคำถามแบบปรับตัว
 ---
 
 <objective>
-Help you figure out what to build in the next milestone through collaborative thinking.
+ช่วยคุณหาว่าจะสร้างอะไรใน milestone ถัดไปผ่านการคิดร่วมกัน
 
-Purpose: After completing a milestone, explore what features you want to add, improve, or fix. Features first — scope and phases derive from what you want to build.
-Output: Context gathered, then routes to /gsd:new-milestone
+วัตถุประสงค์: หลังจาก milestone เสร็จ สำรวจว่าคุณต้องการเพิ่ม ปรับปรุง หรือแก้ไขฟีเจอร์อะไร ฟีเจอร์มาก่อน — scope และ phases มาจากสิ่งที่คุณต้องการสร้าง
+Output: รวบรวม context แล้ว จากนั้น route ไปยัง /gsd:new-milestone
 </objective>
 
 <execution_context>
@@ -15,33 +15,33 @@ Output: Context gathered, then routes to /gsd:new-milestone
 </execution_context>
 
 <context>
-**Load project state first:**
+**โหลด project state ก่อน:**
 @.planning/STATE.md
 
-**Load roadmap:**
+**โหลด roadmap:**
 @.planning/ROADMAP.md
 
-**Load milestones (if exists):**
+**โหลด milestones (ถ้ามี):**
 @.planning/MILESTONES.md
 </context>
 
 <process>
-1. Verify previous milestone complete (or acknowledge active milestone)
-2. Present context from previous milestone (accomplishments, phase count)
-3. Follow discuss-milestone.md workflow with **ALL questions using AskUserQuestion**:
-   - Use AskUserQuestion: "What do you want to add, improve, or fix?" with feature categories
-   - Use AskUserQuestion to dig into features they mention
-   - Use AskUserQuestion to help them articulate what matters most
-   - Use AskUserQuestion for decision gate (ready / ask more / let me add context)
-4. Hand off to /gsd:new-milestone with gathered context
+1. ตรวจสอบว่า milestone ก่อนหน้าเสร็จแล้ว (หรือรับทราบ milestone ที่ active อยู่)
+2. แสดง context จาก milestone ก่อนหน้า (accomplishments, จำนวน phases)
+3. ทำตาม discuss-milestone.md workflow โดย**ทุกคำถามใช้ AskUserQuestion**:
+   - ใช้ AskUserQuestion: "คุณต้องการเพิ่ม ปรับปรุง หรือแก้ไขอะไร?" พร้อม feature categories
+   - ใช้ AskUserQuestion เพื่อขุดลึกเรื่องฟีเจอร์ที่พูดถึง
+   - ใช้ AskUserQuestion เพื่อช่วยให้พูดออกมาว่าอะไรสำคัญที่สุด
+   - ใช้ AskUserQuestion สำหรับ decision gate (พร้อม / ถามเพิ่ม / ขอเพิ่ม context)
+4. ส่งต่อไปยัง /gsd:new-milestone พร้อม context ที่รวบรวม
 
-**CRITICAL: ALL questions use AskUserQuestion. Never ask inline text questions.**
+**สำคัญมาก: ทุกคำถามใช้ AskUserQuestion อย่าถามคำถาม inline text**
 </process>
 
 <success_criteria>
 
-- Project state loaded and presented
-- Previous milestone context summarized
-- Milestone scope gathered through adaptive questioning
-- Context handed off to /gsd:new-milestone
+- โหลดและแสดง project state แล้ว
+- สรุป context ของ milestone ก่อนหน้าแล้ว
+- รวบรวม milestone scope ผ่านการถามคำถามแบบปรับตัว
+- ส่งต่อ context ไปยัง /gsd:new-milestone แล้ว
   </success_criteria>

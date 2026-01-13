@@ -1,156 +1,156 @@
-# External Integrations Template
+# เทมเพลต External Integrations
 
-Template for `.planning/codebase/INTEGRATIONS.md` - captures external service dependencies.
+เทมเพลตสำหรับ `.planning/codebase/INTEGRATIONS.md` - บันทึก external service dependencies
 
-**Purpose:** Document what external systems this codebase communicates with. Focused on "what lives outside our code that we depend on."
+**วัตถุประสงค์:** บันทึกว่า codebase นี้ติดต่อกับ external systems อะไรบ้าง เน้นที่ "อะไรอยู่นอกโค้ดของเราที่เราขึ้นอยู่กับ"
 
 ---
 
-## File Template
+## เทมเพลตไฟล์
 
 ```markdown
 # External Integrations
 
-**Analysis Date:** [YYYY-MM-DD]
+**วันที่วิเคราะห์:** [YYYY-MM-DD]
 
 ## APIs & External Services
 
 **Payment Processing:**
-- [Service] - [What it's used for: e.g., "subscription billing, one-time payments"]
-  - SDK/Client: [e.g., "stripe npm package v14.x"]
-  - Auth: [e.g., "API key in STRIPE_SECRET_KEY env var"]
-  - Endpoints used: [e.g., "checkout sessions, webhooks"]
+- [Service] - [ใช้สำหรับ: เช่น "subscription billing, one-time payments"]
+  - SDK/Client: [เช่น "stripe npm package v14.x"]
+  - Auth: [เช่น "API key ใน STRIPE_SECRET_KEY env var"]
+  - Endpoints ที่ใช้: [เช่น "checkout sessions, webhooks"]
 
 **Email/SMS:**
-- [Service] - [What it's used for: e.g., "transactional emails"]
-  - SDK/Client: [e.g., "sendgrid/mail v8.x"]
-  - Auth: [e.g., "API key in SENDGRID_API_KEY env var"]
-  - Templates: [e.g., "managed in SendGrid dashboard"]
+- [Service] - [ใช้สำหรับ: เช่น "transactional emails"]
+  - SDK/Client: [เช่น "sendgrid/mail v8.x"]
+  - Auth: [เช่น "API key ใน SENDGRID_API_KEY env var"]
+  - Templates: [เช่น "managed ใน SendGrid dashboard"]
 
 **External APIs:**
-- [Service] - [What it's used for]
-  - Integration method: [e.g., "REST API via fetch", "GraphQL client"]
-  - Auth: [e.g., "OAuth2 token in AUTH_TOKEN env var"]
-  - Rate limits: [if applicable]
+- [Service] - [ใช้สำหรับ]
+  - Integration method: [เช่น "REST API via fetch", "GraphQL client"]
+  - Auth: [เช่น "OAuth2 token ใน AUTH_TOKEN env var"]
+  - Rate limits: [ถ้ามี]
 
 ## Data Storage
 
 **Databases:**
-- [Type/Provider] - [e.g., "PostgreSQL on Supabase"]
-  - Connection: [e.g., "via DATABASE_URL env var"]
-  - Client: [e.g., "Prisma ORM v5.x"]
-  - Migrations: [e.g., "prisma migrate in migrations/"]
+- [Type/Provider] - [เช่น "PostgreSQL on Supabase"]
+  - Connection: [เช่น "via DATABASE_URL env var"]
+  - Client: [เช่น "Prisma ORM v5.x"]
+  - Migrations: [เช่น "prisma migrate ใน migrations/"]
 
 **File Storage:**
-- [Service] - [e.g., "AWS S3 for user uploads"]
-  - SDK/Client: [e.g., "@aws-sdk/client-s3"]
-  - Auth: [e.g., "IAM credentials in AWS_* env vars"]
-  - Buckets: [e.g., "prod-uploads, dev-uploads"]
+- [Service] - [เช่น "AWS S3 สำหรับ user uploads"]
+  - SDK/Client: [เช่น "@aws-sdk/client-s3"]
+  - Auth: [เช่น "IAM credentials ใน AWS_* env vars"]
+  - Buckets: [เช่น "prod-uploads, dev-uploads"]
 
 **Caching:**
-- [Service] - [e.g., "Redis for session storage"]
-  - Connection: [e.g., "REDIS_URL env var"]
-  - Client: [e.g., "ioredis v5.x"]
+- [Service] - [เช่น "Redis สำหรับ session storage"]
+  - Connection: [เช่น "REDIS_URL env var"]
+  - Client: [เช่น "ioredis v5.x"]
 
 ## Authentication & Identity
 
 **Auth Provider:**
-- [Service] - [e.g., "Supabase Auth", "Auth0", "custom JWT"]
-  - Implementation: [e.g., "Supabase client SDK"]
-  - Token storage: [e.g., "httpOnly cookies", "localStorage"]
-  - Session management: [e.g., "JWT refresh tokens"]
+- [Service] - [เช่น "Supabase Auth", "Auth0", "custom JWT"]
+  - Implementation: [เช่น "Supabase client SDK"]
+  - Token storage: [เช่น "httpOnly cookies", "localStorage"]
+  - Session management: [เช่น "JWT refresh tokens"]
 
 **OAuth Integrations:**
-- [Provider] - [e.g., "Google OAuth for sign-in"]
-  - Credentials: [e.g., "GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET"]
-  - Scopes: [e.g., "email, profile"]
+- [Provider] - [เช่น "Google OAuth สำหรับ sign-in"]
+  - Credentials: [เช่น "GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET"]
+  - Scopes: [เช่น "email, profile"]
 
 ## Monitoring & Observability
 
 **Error Tracking:**
-- [Service] - [e.g., "Sentry"]
-  - DSN: [e.g., "SENTRY_DSN env var"]
-  - Release tracking: [e.g., "via SENTRY_RELEASE"]
+- [Service] - [เช่น "Sentry"]
+  - DSN: [เช่น "SENTRY_DSN env var"]
+  - Release tracking: [เช่น "via SENTRY_RELEASE"]
 
 **Analytics:**
-- [Service] - [e.g., "Mixpanel for product analytics"]
-  - Token: [e.g., "MIXPANEL_TOKEN env var"]
-  - Events tracked: [e.g., "user actions, page views"]
+- [Service] - [เช่น "Mixpanel สำหรับ product analytics"]
+  - Token: [เช่น "MIXPANEL_TOKEN env var"]
+  - Events tracked: [เช่น "user actions, page views"]
 
 **Logs:**
-- [Service] - [e.g., "CloudWatch", "Datadog", "none (stdout only)"]
-  - Integration: [e.g., "AWS Lambda built-in"]
+- [Service] - [เช่น "CloudWatch", "Datadog", "none (stdout only)"]
+  - Integration: [เช่น "AWS Lambda built-in"]
 
 ## CI/CD & Deployment
 
 **Hosting:**
-- [Platform] - [e.g., "Vercel", "AWS Lambda", "Docker on ECS"]
-  - Deployment: [e.g., "automatic on main branch push"]
-  - Environment vars: [e.g., "configured in Vercel dashboard"]
+- [Platform] - [เช่น "Vercel", "AWS Lambda", "Docker on ECS"]
+  - Deployment: [เช่น "automatic on main branch push"]
+  - Environment vars: [เช่น "configured ใน Vercel dashboard"]
 
 **CI Pipeline:**
-- [Service] - [e.g., "GitHub Actions"]
-  - Workflows: [e.g., "test.yml, deploy.yml"]
-  - Secrets: [e.g., "stored in GitHub repo secrets"]
+- [Service] - [เช่น "GitHub Actions"]
+  - Workflows: [เช่น "test.yml, deploy.yml"]
+  - Secrets: [เช่น "stored ใน GitHub repo secrets"]
 
 ## Environment Configuration
 
 **Development:**
 - Required env vars: [List critical vars]
-- Secrets location: [e.g., ".env.local (gitignored)", "1Password vault"]
-- Mock/stub services: [e.g., "Stripe test mode", "local PostgreSQL"]
+- Secrets location: [เช่น ".env.local (gitignored)", "1Password vault"]
+- Mock/stub services: [เช่น "Stripe test mode", "local PostgreSQL"]
 
 **Staging:**
-- Environment-specific differences: [e.g., "uses staging Stripe account"]
-- Data: [e.g., "separate staging database"]
+- Environment-specific differences: [เช่น "uses staging Stripe account"]
+- Data: [เช่น "separate staging database"]
 
 **Production:**
-- Secrets management: [e.g., "Vercel environment variables"]
-- Failover/redundancy: [e.g., "multi-region DB replication"]
+- Secrets management: [เช่น "Vercel environment variables"]
+- Failover/redundancy: [เช่น "multi-region DB replication"]
 
 ## Webhooks & Callbacks
 
 **Incoming:**
-- [Service] - [Endpoint: e.g., "/api/webhooks/stripe"]
-  - Verification: [e.g., "signature validation via stripe.webhooks.constructEvent"]
-  - Events: [e.g., "payment_intent.succeeded, customer.subscription.updated"]
+- [Service] - [Endpoint: เช่น "/api/webhooks/stripe"]
+  - Verification: [เช่น "signature validation via stripe.webhooks.constructEvent"]
+  - Events: [เช่น "payment_intent.succeeded, customer.subscription.updated"]
 
 **Outgoing:**
-- [Service] - [What triggers it]
-  - Endpoint: [e.g., "external CRM webhook on user signup"]
-  - Retry logic: [if applicable]
+- [Service] - [อะไร trigger มัน]
+  - Endpoint: [เช่น "external CRM webhook on user signup"]
+  - Retry logic: [ถ้ามี]
 
 ---
 
-*Integration audit: [date]*
-*Update when adding/removing external services*
+*Integration audit: [วันที่]*
+*อัปเดตเมื่อเพิ่ม/ลบ external services*
 ```
 
 <good_examples>
 ```markdown
 # External Integrations
 
-**Analysis Date:** 2025-01-20
+**วันที่วิเคราะห์:** 2025-01-20
 
 ## APIs & External Services
 
 **Payment Processing:**
-- Stripe - Subscription billing and one-time course payments
+- Stripe - Subscription billing และ one-time course payments
   - SDK/Client: stripe npm package v14.8
-  - Auth: API key in STRIPE_SECRET_KEY env var
-  - Endpoints used: checkout sessions, customer portal, webhooks
+  - Auth: API key ใน STRIPE_SECRET_KEY env var
+  - Endpoints ที่ใช้: checkout sessions, customer portal, webhooks
 
 **Email/SMS:**
 - SendGrid - Transactional emails (receipts, password resets)
   - SDK/Client: @sendgrid/mail v8.1
-  - Auth: API key in SENDGRID_API_KEY env var
-  - Templates: Managed in SendGrid dashboard (template IDs in code)
+  - Auth: API key ใน SENDGRID_API_KEY env var
+  - Templates: Managed ใน SendGrid dashboard (template IDs ในโค้ด)
 
 **External APIs:**
 - OpenAI API - Course content generation
   - Integration method: REST API via openai npm package v4.x
-  - Auth: Bearer token in OPENAI_API_KEY env var
-  - Rate limits: 3500 requests/min (tier 3)
+  - Auth: Bearer token ใน OPENAI_API_KEY env var
+  - Rate limits: 3500 requests/นาที (tier 3)
 
 ## Data Storage
 
@@ -158,24 +158,24 @@ Template for `.planning/codebase/INTEGRATIONS.md` - captures external service de
 - PostgreSQL on Supabase - Primary data store
   - Connection: via DATABASE_URL env var
   - Client: Prisma ORM v5.8
-  - Migrations: prisma migrate in prisma/migrations/
+  - Migrations: prisma migrate ใน prisma/migrations/
 
 **File Storage:**
 - Supabase Storage - User uploads (profile images, course materials)
   - SDK/Client: @supabase/supabase-js v2.x
-  - Auth: Service role key in SUPABASE_SERVICE_ROLE_KEY
+  - Auth: Service role key ใน SUPABASE_SERVICE_ROLE_KEY
   - Buckets: avatars (public), course-materials (private)
 
 **Caching:**
-- None currently (all database queries, no Redis)
+- ไม่มีปัจจุบัน (ทุก database queries ไม่มี Redis)
 
 ## Authentication & Identity
 
 **Auth Provider:**
 - Supabase Auth - Email/password + OAuth
-  - Implementation: Supabase client SDK with server-side session management
+  - Implementation: Supabase client SDK พร้อม server-side session management
   - Token storage: httpOnly cookies via @supabase/ssr
-  - Session management: JWT refresh tokens handled by Supabase
+  - Session management: JWT refresh tokens handled โดย Supabase
 
 **OAuth Integrations:**
 - Google OAuth - Social sign-in
@@ -185,28 +185,28 @@ Template for `.planning/codebase/INTEGRATIONS.md` - captures external service de
 ## Monitoring & Observability
 
 **Error Tracking:**
-- Sentry - Server and client errors
+- Sentry - Server และ client errors
   - DSN: SENTRY_DSN env var
   - Release tracking: Git commit SHA via SENTRY_RELEASE
 
 **Analytics:**
-- None (planned: Mixpanel)
+- ไม่มี (วางแผน: Mixpanel)
 
 **Logs:**
 - Vercel logs - stdout/stderr only
-  - Retention: 7 days on Pro plan
+  - Retention: 7 วันบน Pro plan
 
 ## CI/CD & Deployment
 
 **Hosting:**
 - Vercel - Next.js app hosting
   - Deployment: Automatic on main branch push
-  - Environment vars: Configured in Vercel dashboard (synced to .env.example)
+  - Environment vars: Configured ใน Vercel dashboard (synced ไปยัง .env.example)
 
 **CI Pipeline:**
-- GitHub Actions - Tests and type checking
+- GitHub Actions - Tests และ type checking
   - Workflows: .github/workflows/ci.yml
-  - Secrets: None needed (public repo tests only)
+  - Secrets: ไม่ต้องการ (public repo tests only)
 
 ## Environment Configuration
 
@@ -216,13 +216,13 @@ Template for `.planning/codebase/INTEGRATIONS.md` - captures external service de
 - Mock/stub services: Stripe test mode, Supabase local dev project
 
 **Staging:**
-- Uses separate Supabase staging project
+- ใช้ separate Supabase staging project
 - Stripe test mode
 - Same Vercel account, different environment
 
 **Production:**
 - Secrets management: Vercel environment variables
-- Database: Supabase production project with daily backups
+- Database: Supabase production project พร้อม daily backups
 
 ## Webhooks & Callbacks
 
@@ -232,49 +232,49 @@ Template for `.planning/codebase/INTEGRATIONS.md` - captures external service de
   - Events: payment_intent.succeeded, customer.subscription.updated, customer.subscription.deleted
 
 **Outgoing:**
-- None
+- ไม่มี
 
 ---
 
 *Integration audit: 2025-01-20*
-*Update when adding/removing external services*
+*อัปเดตเมื่อเพิ่ม/ลบ external services*
 ```
 </good_examples>
 
 <guidelines>
-**What belongs in INTEGRATIONS.md:**
-- External services the code communicates with
-- Authentication patterns (where secrets live, not the secrets themselves)
-- SDKs and client libraries used
-- Environment variable names (not values)
-- Webhook endpoints and verification methods
+**อะไรควรอยู่ใน INTEGRATIONS.md:**
+- External services ที่โค้ดติดต่อด้วย
+- Authentication patterns (secrets อยู่ที่ไหน ไม่ใช่ secrets เอง)
+- SDKs และ client libraries ที่ใช้
+- Environment variable names (ไม่ใช่ values)
+- Webhook endpoints และ verification methods
 - Database connection patterns
 - File storage locations
-- Monitoring and logging services
+- Monitoring และ logging services
 
-**What does NOT belong here:**
-- Actual API keys or secrets (NEVER write these)
-- Internal architecture (that's ARCHITECTURE.md)
-- Code patterns (that's PATTERNS.md)
-- Technology choices (that's STACK.md)
-- Performance issues (that's CONCERNS.md)
+**อะไรไม่ควรอยู่ที่นี่:**
+- Actual API keys หรือ secrets (ไม่เขียนสิ่งเหล่านี้เด็ดขาด)
+- Internal architecture (นั่นคือ ARCHITECTURE.md)
+- Code patterns (นั่นคือ PATTERNS.md)
+- Technology choices (นั่นคือ STACK.md)
+- Performance issues (นั่นคือ CONCERNS.md)
 
-**When filling this template:**
-- Check .env.example or .env.template for required env vars
-- Look for SDK imports (stripe, @sendgrid/mail, etc.)
-- Check for webhook handlers in routes/endpoints
-- Note where secrets are managed (not the secrets)
+**เมื่อกรอกเทมเพลตนี้:**
+- ตรวจสอบ .env.example หรือ .env.template สำหรับ required env vars
+- มองหา SDK imports (stripe, @sendgrid/mail, เป็นต้น)
+- ตรวจสอบ webhook handlers ใน routes/endpoints
+- Note ว่า secrets managed ที่ไหน (ไม่ใช่ secrets)
 - Document environment-specific differences (dev/staging/prod)
-- Include auth patterns for each service
+- รวม auth patterns สำหรับแต่ละ service
 
-**Useful for phase planning when:**
-- Adding new external service integrations
+**มีประโยชน์สำหรับ phase planning เมื่อ:**
+- เพิ่ม external service integrations ใหม่
 - Debugging authentication issues
-- Understanding data flow outside the application
-- Setting up new environments
+- เข้าใจ data flow นอก application
+- ตั้งค่า environments ใหม่
 - Auditing third-party dependencies
-- Planning for service outages or migrations
+- วางแผนสำหรับ service outages หรือ migrations
 
 **Security note:**
-Document WHERE secrets live (env vars, Vercel dashboard, 1Password), never WHAT the secrets are.
+Document WHERE secrets อยู่ (env vars, Vercel dashboard, 1Password) ไม่ใช่ WHAT secrets เป็น
 </guidelines>

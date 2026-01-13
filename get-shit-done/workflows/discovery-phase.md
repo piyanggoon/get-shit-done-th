@@ -1,260 +1,260 @@
 <purpose>
-Execute discovery at the appropriate depth level.
-Produces DISCOVERY.md (for Level 2-3) that informs PLAN.md creation.
+ดำเนินการ discovery ที่ระดับความลึกที่เหมาะสม
+สร้าง DISCOVERY.md (สำหรับ Level 2-3) ที่ให้ข้อมูลการสร้าง PLAN.md
 
-Called from plan-phase.md's mandatory_discovery step with a depth parameter.
+เรียกจากขั้นตอน mandatory_discovery ของ plan-phase.md พร้อมพารามิเตอร์ depth
 
-NOTE: For comprehensive ecosystem research ("how do experts build this"), use /gsd:research-phase instead, which produces RESEARCH.md.
+หมายเหตุ: สำหรับการวิจัย ecosystem อย่างครอบคลุม ("ผู้เชี่ยวชาญสร้างสิ่งนี้อย่างไร") ใช้ /gsd:research-phase แทน ซึ่งสร้าง RESEARCH.md
 </purpose>
 
 <depth_levels>
-**This workflow supports three depth levels:**
+**Workflow นี้รองรับสามระดับความลึก:**
 
-| Level | Name         | Time      | Output                                       | When                                      |
+| Level | ชื่อ         | เวลา      | Output                                       | เมื่อไหร่                                 |
 | ----- | ------------ | --------- | -------------------------------------------- | ----------------------------------------- |
-| 1     | Quick Verify | 2-5 min   | No file, proceed with verified knowledge     | Single library, confirming current syntax |
-| 2     | Standard     | 15-30 min | DISCOVERY.md                                 | Choosing between options, new integration |
-| 3     | Deep Dive    | 1+ hour   | Detailed DISCOVERY.md with validation gates  | Architectural decisions, novel problems   |
+| 1     | Quick Verify | 2-5 นาที  | ไม่มีไฟล์ ดำเนินการด้วยความรู้ที่ยืนยันแล้ว  | Single library, ยืนยัน syntax ปัจจุบัน    |
+| 2     | Standard     | 15-30 นาที| DISCOVERY.md                                 | เลือกระหว่างตัวเลือก, integration ใหม่   |
+| 3     | Deep Dive    | 1+ ชั่วโมง| DISCOVERY.md ละเอียดพร้อม validation gates   | การตัดสินใจ architectural, ปัญหาใหม่      |
 
-**Depth is determined by plan-phase.md before routing here.**
+**Depth กำหนดโดย plan-phase.md ก่อน route มาที่นี่**
 </depth_levels>
 
 <source_hierarchy>
-**MANDATORY: Context7 BEFORE WebSearch**
+**บังคับ: Context7 ก่อน WebSearch**
 
-Claude's training data is 6-18 months stale. Always verify.
+ข้อมูล training ของ Claude เก่า 6-18 เดือน ตรวจสอบเสมอ
 
-1. **Context7 MCP FIRST** - Current docs, no hallucination
-2. **Official docs** - When Context7 lacks coverage
-3. **WebSearch LAST** - For comparisons and trends only
+1. **Context7 MCP ก่อน** - Docs ปัจจุบัน ไม่มี hallucination
+2. **Official docs** - เมื่อ Context7 ไม่ครอบคลุม
+3. **WebSearch สุดท้าย** - สำหรับการเปรียบเทียบและ trends เท่านั้น
 
-See ~/.claude/get-shit-done/templates/discovery.md `<discovery_protocol>` for full protocol.
+ดู ~/.claude/get-shit-done/templates/discovery.md `<discovery_protocol>` สำหรับ protocol เต็ม
 </source_hierarchy>
 
 <process>
 
 <step name="determine_depth">
-Check the depth parameter passed from plan-phase.md:
+ตรวจสอบพารามิเตอร์ depth ที่ส่งมาจาก plan-phase.md:
 - `depth=verify` → Level 1 (Quick Verification)
 - `depth=standard` → Level 2 (Standard Discovery)
 - `depth=deep` → Level 3 (Deep Dive)
 
-Route to appropriate level workflow below.
+Route ไป workflow ระดับที่เหมาะสมด้านล่าง
 </step>
 
 <step name="level_1_quick_verify">
-**Level 1: Quick Verification (2-5 minutes)**
+**Level 1: Quick Verification (2-5 นาที)**
 
-For: Single known library, confirming syntax/version still correct.
+สำหรับ: Single library ที่รู้จัก ยืนยัน syntax/version ยังถูกต้อง
 
-**Process:**
+**กระบวนการ:**
 
-1. Resolve library in Context7:
+1. Resolve library ใน Context7:
 
    ```
    mcp__context7__resolve-library-id with libraryName: "[library]"
    ```
 
-2. Fetch relevant docs:
+2. Fetch docs ที่เกี่ยวข้อง:
 
    ```
    mcp__context7__get-library-docs with:
-   - context7CompatibleLibraryID: [from step 1]
-   - topic: [specific concern]
+   - context7CompatibleLibraryID: [จากขั้นตอน 1]
+   - topic: [concern เฉพาะ]
    ```
 
-3. Verify:
+3. ตรวจสอบ:
 
-   - Current version matches expectations
-   - API syntax unchanged
-   - No breaking changes in recent versions
+   - Version ปัจจุบันตรงกับที่คาดหวัง
+   - API syntax ไม่เปลี่ยน
+   - ไม่มี breaking changes ใน versions ล่าสุด
 
-4. **If verified:** Return to plan-phase.md with confirmation. No DISCOVERY.md needed.
+4. **หากตรวจสอบแล้ว:** กลับไป plan-phase.md พร้อมการยืนยัน ไม่ต้องสร้าง DISCOVERY.md
 
-5. **If concerns found:** Escalate to Level 2.
+5. **หากพบข้อกังวล:** ยกระดับไป Level 2
 
-**Output:** Verbal confirmation to proceed, or escalation to Level 2.
+**Output:** การยืนยันด้วยวาจาเพื่อดำเนินการต่อ หรือยกระดับไป Level 2
 </step>
 
 <step name="level_2_standard">
-**Level 2: Standard Discovery (15-30 minutes)**
+**Level 2: Standard Discovery (15-30 นาที)**
 
-For: Choosing between options, new external integration.
+สำหรับ: เลือกระหว่างตัวเลือก, external integration ใหม่
 
-**Process:**
+**กระบวนการ:**
 
-1. **Identify what to discover:**
+1. **ระบุสิ่งที่ต้อง discover:**
 
-   - What options exist?
-   - What are the key comparison criteria?
-   - What's our specific use case?
+   - มีตัวเลือกอะไรบ้าง?
+   - เกณฑ์เปรียบเทียบหลักคืออะไร?
+   - use case เฉพาะของเราคืออะไร?
 
-2. **Context7 for each option:**
+2. **Context7 สำหรับแต่ละตัวเลือก:**
 
    ```
-   For each library/framework:
+   สำหรับแต่ละ library/framework:
    - mcp__context7__resolve-library-id
-   - mcp__context7__get-library-docs (mode: "code" for API, "info" for concepts)
+   - mcp__context7__get-library-docs (mode: "code" สำหรับ API, "info" สำหรับ concepts)
    ```
 
-3. **Official docs** for anything Context7 lacks.
+3. **Official docs** สำหรับสิ่งที่ Context7 ไม่มี
 
-4. **WebSearch** for comparisons:
+4. **WebSearch** สำหรับการเปรียบเทียบ:
 
    - "[option A] vs [option B] {current_year}"
    - "[option] known issues"
    - "[option] with [our stack]"
 
-5. **Cross-verify:** Any WebSearch finding → confirm with Context7/official docs.
+5. **Cross-verify:** ทุก WebSearch finding → ยืนยันกับ Context7/official docs
 
-6. **Quality check:** Before finalizing findings, consult ~/.claude/get-shit-done/references/research-pitfalls.md to avoid common research gaps.
+6. **Quality check:** ก่อน finalize findings ปรึกษา ~/.claude/get-shit-done/references/research-pitfalls.md เพื่อหลีกเลี่ยง research gaps ทั่วไป
 
-7. **Create DISCOVERY.md** using ~/.claude/get-shit-done/templates/discovery.md structure:
+7. **สร้าง DISCOVERY.md** ใช้โครงสร้าง ~/.claude/get-shit-done/templates/discovery.md:
 
-   - Summary with recommendation
-   - Key findings per option
-   - Code examples from Context7
-   - Confidence level (should be MEDIUM-HIGH for Level 2)
+   - Summary พร้อม recommendation
+   - Key findings ต่อตัวเลือก
+   - Code examples จาก Context7
+   - Confidence level (ควรเป็น MEDIUM-HIGH สำหรับ Level 2)
 
-8. Return to plan-phase.md.
+8. กลับไป plan-phase.md
 
 **Output:** `.planning/phases/XX-name/DISCOVERY.md`
 </step>
 
 <step name="level_3_deep_dive">
-**Level 3: Deep Dive (1+ hour)**
+**Level 3: Deep Dive (1+ ชั่วโมง)**
 
-For: Architectural decisions, novel problems, high-risk choices.
+สำหรับ: การตัดสินใจ architectural, ปัญหาใหม่, ตัวเลือกความเสี่ยงสูง
 
-**Process:**
+**กระบวนการ:**
 
-1. **Scope the discovery** using ~/.claude/get-shit-done/templates/discovery.md:
+1. **กำหนดขอบเขต discovery** ใช้ ~/.claude/get-shit-done/templates/discovery.md:
 
-   - Define clear scope
-   - Define include/exclude boundaries
-   - List specific questions to answer
+   - กำหนด scope ชัดเจน
+   - กำหนดขอบเขต include/exclude
+   - ลิสต์คำถามเฉพาะที่ต้องตอบ
 
-2. **Exhaustive Context7 research:**
+2. **Context7 research อย่างละเอียด:**
 
-   - All relevant libraries
-   - Related patterns and concepts
-   - Multiple topics per library if needed
+   - Libraries ที่เกี่ยวข้องทั้งหมด
+   - Patterns และ concepts ที่เกี่ยวข้อง
+   - หลาย topics ต่อ library หากจำเป็น
 
-3. **Official documentation deep read:**
+3. **อ่าน Official documentation ลึก:**
 
    - Architecture guides
    - Best practices sections
    - Migration/upgrade guides
    - Known limitations
 
-4. **WebSearch for ecosystem context:**
+4. **WebSearch สำหรับ ecosystem context:**
 
-   - How others solved similar problems
-   - Production experiences
-   - Gotchas and anti-patterns
-   - Recent changes/announcements
+   - คนอื่นแก้ปัญหาที่คล้ายกันอย่างไร
+   - ประสบการณ์ production
+   - Gotchas และ anti-patterns
+   - การเปลี่ยนแปลง/ประกาศล่าสุด
 
-5. **Cross-verify ALL findings:**
+5. **Cross-verify ทุก findings:**
 
-   - Every WebSearch claim → verify with authoritative source
-   - Mark what's verified vs assumed
-   - Flag contradictions
+   - ทุก WebSearch claim → ตรวจสอบกับแหล่งที่มีอำนาจ
+   - ทำเครื่องหมายสิ่งที่ verified vs assumed
+   - Flag ความขัดแย้ง
 
-6. **Quality check:** Before finalizing findings, consult ~/.claude/get-shit-done/references/research-pitfalls.md to ensure comprehensive coverage and avoid common research gaps.
+6. **Quality check:** ก่อน finalize findings ปรึกษา ~/.claude/get-shit-done/references/research-pitfalls.md เพื่อให้ครอบคลุมและหลีกเลี่ยง research gaps ทั่วไป
 
-7. **Create comprehensive DISCOVERY.md:**
+7. **สร้าง DISCOVERY.md ครอบคลุม:**
 
-   - Full structure from ~/.claude/get-shit-done/templates/discovery.md
-   - Quality report with source attribution
-   - Confidence by finding
-   - If LOW confidence on any critical finding → add validation checkpoints
+   - โครงสร้างเต็มจาก ~/.claude/get-shit-done/templates/discovery.md
+   - Quality report พร้อม source attribution
+   - Confidence ต่อ finding
+   - หาก LOW confidence ใน critical finding ใดๆ → เพิ่ม validation checkpoints
 
-8. **Confidence gate:** If overall confidence is LOW, present options before proceeding.
+8. **Confidence gate:** หาก overall confidence เป็น LOW นำเสนอตัวเลือกก่อนดำเนินการ
 
-9. Return to plan-phase.md.
+9. กลับไป plan-phase.md
 
-**Output:** `.planning/phases/XX-name/DISCOVERY.md` (comprehensive)
+**Output:** `.planning/phases/XX-name/DISCOVERY.md` (ครอบคลุม)
 </step>
 
 <step name="identify_unknowns">
-**For Level 2-3:** Define what we need to learn.
+**สำหรับ Level 2-3:** กำหนดสิ่งที่ต้องเรียนรู้
 
-Ask: What do we need to learn before we can plan this phase?
+ถาม: เราต้องเรียนรู้อะไรก่อนจะวางแผน phase นี้ได้?
 
-- Technology choices?
+- ตัวเลือก Technology?
 - Best practices?
 - API patterns?
 - Architecture approach?
   </step>
 
 <step name="create_discovery_scope">
-Use ~/.claude/get-shit-done/templates/discovery.md.
+ใช้ ~/.claude/get-shit-done/templates/discovery.md
 
-Include:
+รวม:
 
-- Clear discovery objective
-- Scoped include/exclude lists
-- Source preferences (official docs, Context7, current year)
-- Output structure for DISCOVERY.md
+- Discovery objective ที่ชัดเจน
+- รายการ include/exclude ที่กำหนดขอบเขต
+- Source preferences (official docs, Context7, ปีปัจจุบัน)
+- โครงสร้าง output สำหรับ DISCOVERY.md
   </step>
 
 <step name="execute_discovery">
-Run the discovery:
-- Use web search for current info
-- Use Context7 MCP for library docs
-- Prefer current year sources
-- Structure findings per template
+รัน discovery:
+- ใช้ web search สำหรับข้อมูลปัจจุบัน
+- ใช้ Context7 MCP สำหรับ library docs
+- ชอบ sources ปีปัจจุบัน
+- จัดโครงสร้าง findings ตาม template
 </step>
 
 <step name="create_discovery_output">
-Write `.planning/phases/XX-name/DISCOVERY.md`:
-- Summary with recommendation
-- Key findings with sources
-- Code examples if applicable
+เขียน `.planning/phases/XX-name/DISCOVERY.md`:
+- Summary พร้อม recommendation
+- Key findings พร้อม sources
+- Code examples หากใช้ได้
 - Metadata (confidence, dependencies, open questions, assumptions)
 </step>
 
 <step name="confidence_gate">
-After creating DISCOVERY.md, check confidence level.
+หลังสร้าง DISCOVERY.md ตรวจสอบ confidence level
 
-If confidence is LOW:
-Use AskUserQuestion:
+หาก confidence เป็น LOW:
+ใช้ AskUserQuestion:
 
 - header: "Low Confidence"
-- question: "Discovery confidence is LOW: [reason]. How would you like to proceed?"
+- question: "Discovery confidence เป็น LOW: [เหตุผล] ต้องการดำเนินการอย่างไร?"
 - options:
-  - "Dig deeper" - Do more research before planning
-  - "Proceed anyway" - Accept uncertainty, plan with caveats
-  - "Pause" - I need to think about this
+  - "Dig deeper" - ทำ research เพิ่มก่อนวางแผน
+  - "Proceed anyway" - ยอมรับความไม่แน่นอน วางแผนพร้อม caveats
+  - "Pause" - ฉันต้องคิดเรื่องนี้
 
-If confidence is MEDIUM:
-Inline: "Discovery complete (medium confidence). [brief reason]. Proceed to planning?"
+หาก confidence เป็น MEDIUM:
+Inline: "Discovery เสร็จ (medium confidence) [เหตุผลสั้นๆ] ดำเนินการวางแผน?"
 
-If confidence is HIGH:
-Proceed directly, just note: "Discovery complete (high confidence)."
+หาก confidence เป็น HIGH:
+ดำเนินการโดยตรง เพียงแจ้ง: "Discovery เสร็จ (high confidence)"
 </step>
 
 <step name="open_questions_gate">
-If DISCOVERY.md has open_questions:
+หาก DISCOVERY.md มี open_questions:
 
-Present them inline:
-"Open questions from discovery:
+แสดง inline:
+"Open questions จาก discovery:
 
 - [Question 1]
 - [Question 2]
 
-These may affect implementation. Acknowledge and proceed? (yes / address first)"
+สิ่งเหล่านี้อาจส่งผลต่อ implementation รับทราบและดำเนินการ? (yes / address first)"
 
-If "address first": Gather user input on questions, update discovery.
+หาก "address first": รวบรวม input จากผู้ใช้เกี่ยวกับคำถาม อัปเดต discovery
 </step>
 
 <step name="offer_next">
 ```
-Discovery complete: .planning/phases/XX-name/DISCOVERY.md
+Discovery เสร็จ: .planning/phases/XX-name/DISCOVERY.md
 Recommendation: [one-liner]
 Confidence: [level]
 
-What's next?
+ถัดไปคืออะไร?
 
 1. Discuss phase context (/gsd:discuss-phase [current-phase])
 2. Create phase plan (/gsd:plan-phase [current-phase])
@@ -263,31 +263,31 @@ What's next?
 
 ```
 
-NOTE: DISCOVERY.md is NOT committed separately. It will be committed with phase completion.
+หมายเหตุ: DISCOVERY.md ไม่ได้ commit แยก จะ commit พร้อม phase completion
 </step>
 
 </process>
 
 <success_criteria>
 **Level 1 (Quick Verify):**
-- Context7 consulted for library/topic
-- Current state verified or concerns escalated
-- Verbal confirmation to proceed (no files)
+- Context7 ปรึกษาสำหรับ library/topic
+- ยืนยันสถานะปัจจุบันหรือยกระดับข้อกังวล
+- การยืนยันด้วยวาจาเพื่อดำเนินการ (ไม่มีไฟล์)
 
 **Level 2 (Standard):**
-- Context7 consulted for all options
+- Context7 ปรึกษาสำหรับทุกตัวเลือก
 - WebSearch findings cross-verified
-- DISCOVERY.md created with recommendation
-- Confidence level MEDIUM or higher
-- Ready to inform PLAN.md creation
+- DISCOVERY.md สร้างพร้อม recommendation
+- Confidence level MEDIUM หรือสูงกว่า
+- พร้อมให้ข้อมูลการสร้าง PLAN.md
 
 **Level 3 (Deep Dive):**
-- Discovery scope defined
-- Context7 exhaustively consulted
-- All WebSearch findings verified against authoritative sources
-- DISCOVERY.md created with comprehensive analysis
-- Quality report with source attribution
-- If LOW confidence findings → validation checkpoints defined
-- Confidence gate passed
-- Ready to inform PLAN.md creation
+- Discovery scope กำหนด
+- Context7 ปรึกษาอย่างละเอียด
+- ทุก WebSearch findings verified กับ authoritative sources
+- DISCOVERY.md สร้างพร้อมการวิเคราะห์ครอบคลุม
+- Quality report พร้อม source attribution
+- หาก LOW confidence findings → validation checkpoints กำหนด
+- Confidence gate ผ่าน
+- พร้อมให้ข้อมูลการสร้าง PLAN.md
 </success_criteria>

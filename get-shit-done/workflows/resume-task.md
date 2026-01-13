@@ -1,28 +1,28 @@
 <trigger>
-Use this workflow when:
-- User runs /gsd:resume-task
-- Need to continue interrupted subagent execution
-- Resuming work after session ended mid-plan
+ใช้ workflow นี้เมื่อ:
+- ผู้ใช้รัน /gsd:resume-task
+- ต้องการดำเนินการ interrupted subagent execution ต่อ
+- Resume งานหลัง session จบกลาง plan
 </trigger>
 
 <purpose>
-Resume an interrupted subagent execution using the Task tool's resume parameter.
+Resume interrupted subagent execution โดยใช้ Task tool's resume parameter
 
-Enables seamless continuation of autonomous work that was interrupted by session timeout, user exit, or crash.
+เปิดใช้ seamless continuation ของ autonomous work ที่ถูก interrupt โดย session timeout, user exit หรือ crash
 </purpose>
 
 <process>
 
 <step name="parse_arguments">
-Parse the optional agent_id argument:
+Parse optional agent_id argument:
 
 ```bash
-# Check if argument provided
+# ตรวจสอบว่า argument ให้มาหรือไม่
 if [ -n "$ARGUMENTS" ]; then
   AGENT_ID="$ARGUMENTS"
   echo "Using provided agent ID: $AGENT_ID"
 else
-  # Read from current-agent-id.txt
+  # อ่านจาก current-agent-id.txt
   if [ -f .planning/current-agent-id.txt ] && [ -s .planning/current-agent-id.txt ]; then
     AGENT_ID=$(cat .planning/current-agent-id.txt | tr -d '\n')
     echo "Using current agent ID: $AGENT_ID"
@@ -33,8 +33,8 @@ else
 fi
 ```
 
-**If no agent ID found:**
-Present error:
+**หากไม่พบ agent ID:**
+แสดง error:
 ```
 No active agent to resume.
 
@@ -46,31 +46,31 @@ There's no interrupted agent recorded. This could mean:
 Use /gsd:progress to check project status.
 ```
 
-**If agent ID found:** Continue to validate_agent step.
+**หากพบ agent ID:** ดำเนินการไป validate_agent step
 </step>
 
 <step name="validate_agent">
-Validate the agent exists and is resumable:
+Validate ว่า agent มีอยู่และ resumable:
 
 ```bash
-# Check if agent-history.json exists
+# ตรวจสอบว่า agent-history.json มีหรือไม่
 if [ ! -f .planning/agent-history.json ]; then
   echo "ERROR: No agent history found"
   exit 1
 fi
 
-# Read history and find the agent
+# อ่าน history และหา agent
 cat .planning/agent-history.json
 ```
 
-**Parse agent-history.json and find entry matching AGENT_ID:**
+**Parse agent-history.json และหา entry ที่ตรงกับ AGENT_ID:**
 
-Check the entry status:
-- **If status = "completed":** Error - agent already completed
-- **If status = "spawned" or "interrupted":** Valid for resume
-- **If not found:** Error - agent ID not in history
+ตรวจสอบ entry status:
+- **หาก status = "completed":** Error - agent เสร็จแล้ว
+- **หาก status = "spawned" หรือ "interrupted":** Valid สำหรับ resume
+- **หากไม่พบ:** Error - agent ID ไม่อยู่ใน history
 
-**If agent already completed:**
+**หาก agent เสร็จแล้ว:**
 ```
 Agent already completed.
 
@@ -81,7 +81,7 @@ Task: [task_description]
 This agent finished successfully. No resume needed.
 ```
 
-**If agent not found:**
+**หากไม่พบ agent:**
 ```
 Agent ID not found in history.
 
@@ -93,27 +93,27 @@ Available agents:
 Did you mean one of these?
 ```
 
-**If valid for resume:** Continue to check_conflicts step.
+**หาก valid สำหรับ resume:** ดำเนินการไป check_conflicts step
 </step>
 
 <step name="check_conflicts">
-Check for file modifications since the agent was spawned.
+ตรวจสอบ file modifications ตั้งแต่ agent ถูก spawn
 
-**Read the agent entry to get context:**
+**อ่าน agent entry เพื่อดู context:**
 - phase, plan, segment information
-- timestamp of spawn
+- timestamp ของ spawn
 
-**Check for git changes since spawn:**
+**ตรวจสอบ git changes ตั้งแต่ spawn:**
 
 ```bash
-# Get files modified since agent spawn
-# Note: This is a best-effort check - relies on git status
+# ดู files ที่ modified ตั้งแต่ agent spawn
+# Note: นี่เป็น best-effort check - rely on git status
 git status --short
 ```
 
-**If modifications detected:**
+**หากตรวจพบ modifications:**
 
-Use AskUserQuestion to warn user:
+ใช้ AskUserQuestion เพื่อเตือนผู้ใช้:
 
 ```
 Files modified since agent was interrupted:
@@ -128,35 +128,35 @@ Options:
 Select option:
 ```
 
-Wait for user response.
+รอการตอบจากผู้ใช้
 
-**If user selects "Abort":**
+**หากผู้ใช้เลือก "Abort":**
 ```
 Resume aborted. Review your changes and run /gsd:resume-task when ready.
 ```
-End workflow.
+จบ workflow
 
-**If user selects "Continue anyway" or no conflicts found:**
-Continue to update_status step.
+**หากผู้ใช้เลือก "Continue anyway" หรือไม่พบ conflicts:**
+ดำเนินการไป update_status step
 </step>
 
 <step name="update_status">
-Update the agent status to "interrupted" if it was "spawned" (marking the interruption point):
+อัปเดต agent status เป็น "interrupted" หากเป็น "spawned" (marking the interruption point):
 
 ```bash
-# Read current history
+# อ่าน current history
 HISTORY=$(cat .planning/agent-history.json)
 ```
 
-Update the entry in agent-history.json:
-- If status was "spawned", change to "interrupted"
-- Add note about resume attempt
+อัปเดต entry ใน agent-history.json:
+- หาก status เป็น "spawned" เปลี่ยนเป็น "interrupted"
+- เพิ่ม note เกี่ยวกับ resume attempt
 
-This provides audit trail of the interruption before resume.
+นี้ให้ audit trail ของ interruption ก่อน resume
 </step>
 
 <step name="resume_agent">
-Resume the agent using Task tool's resume parameter:
+Resume agent โดยใช้ Task tool's resume parameter:
 
 ```
 Resuming agent: [agent_id]
@@ -166,7 +166,7 @@ Phase: [phase]-[plan]
 The agent will continue from where it left off...
 ```
 
-**Use Task tool with resume parameter:**
+**ใช้ Task tool ด้วย resume parameter:**
 
 ```
 Task(
@@ -177,19 +177,19 @@ Task(
 )
 ```
 
-Wait for agent completion.
+รอ agent completion
 
-**On agent completion:**
-- Capture any results returned
-- Continue to completion_update step
+**เมื่อ agent completes:**
+- จับ results ใดๆ ที่ returned
+- ดำเนินการไป completion_update step
 </step>
 
 <step name="completion_update">
-Update tracking files on successful completion:
+อัปเดต tracking files เมื่อ completion สำเร็จ:
 
-**1. Update agent-history.json:**
+**1. อัปเดต agent-history.json:**
 
-Add new entry marking the resume completion:
+เพิ่ม entry ใหม่ marking resume completion:
 ```json
 {
   "agent_id": "[AGENT_ID]",
@@ -203,14 +203,14 @@ Add new entry marking the resume completion:
 }
 ```
 
-**2. Clear current-agent-id.txt:**
+**2. ล้าง current-agent-id.txt:**
 
 ```bash
-# Clear the current agent file
+# ล้าง current agent file
 > .planning/current-agent-id.txt
 ```
 
-**3. Present completion message:**
+**3. แสดง completion message:**
 
 ```
 Agent resumed and completed successfully.
@@ -225,9 +225,9 @@ The agent's work has been incorporated. Check git status for changes.
 </step>
 
 <step name="handle_errors">
-Error handling for resume failures:
+Error handling สำหรับ resume failures:
 
-**If Task tool returns error on resume:**
+**หาก Task tool return error เมื่อ resume:**
 ```
 Failed to resume agent.
 
@@ -245,15 +245,15 @@ Options:
 Run /gsd:execute-plan to start fresh if needed.
 ```
 
-Do NOT clear current-agent-id.txt on error - allow retry.
+อย่าล้าง current-agent-id.txt เมื่อ error - ให้ retry ได้
 </step>
 
 </process>
 
 <success_criteria>
-Resume is complete when:
-- [ ] Agent resumed successfully via Task tool resume parameter
-- [ ] Agent-history.json updated with completion status
-- [ ] Current-agent-id.txt cleared
-- [ ] User informed of completion
+Resume complete เมื่อ:
+- [ ] Agent resumed สำเร็จผ่าน Task tool resume parameter
+- [ ] Agent-history.json อัปเดตด้วย completion status
+- [ ] Current-agent-id.txt ล้าง
+- [ ] ผู้ใช้แจ้ง completion
 </success_criteria>

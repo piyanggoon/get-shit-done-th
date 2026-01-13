@@ -1,7 +1,7 @@
 ---
 type: prompt
 name: gsd:complete-milestone
-description: Archive completed milestone and prepare for next version
+description: Archive milestone ที่เสร็จแล้วและเตรียมสำหรับเวอร์ชันถัดไป
 argument-hint: <version>
 allowed-tools:
   - Read
@@ -10,14 +10,14 @@ allowed-tools:
 ---
 
 <objective>
-Mark milestone {{version}} complete, archive to milestones/, and update ROADMAP.md.
+ทำเครื่องหมาย milestone {{version}} ว่าเสร็จแล้ว archive ไปยัง milestones/ และอัพเดท ROADMAP.md
 
-Purpose: Create historical record of shipped version, collapse completed work in roadmap, and prepare for next milestone.
-Output: Milestone archived, roadmap reorganized, git tagged.
+วัตถุประสงค์: สร้างบันทึกประวัติของเวอร์ชันที่ ship แล้ว ยุบงานที่เสร็จแล้วใน roadmap และเตรียมสำหรับ milestone ถัดไป
+Output: Milestone archived, roadmap reorganized, git tagged
 </objective>
 
 <execution_context>
-**Load these files NOW (before proceeding):**
+**โหลดไฟล์เหล่านี้ก่อน (ก่อนดำเนินการ):**
 
 - @~/.claude/get-shit-done/workflows/complete-milestone.md (main workflow)
 - @~/.claude/get-shit-done/templates/milestone-archive.md (archive template)
@@ -31,76 +31,76 @@ Output: Milestone archived, roadmap reorganized, git tagged.
 
 **User input:**
 
-- Version: {{version}} (e.g., "1.0", "1.1", "2.0")
+- Version: {{version}} (เช่น "1.0", "1.1", "2.0")
   </context>
 
 <process>
 
-**Follow complete-milestone.md workflow:**
+**ทำตาม complete-milestone.md workflow:**
 
-1. **Verify readiness:**
+1. **ตรวจสอบความพร้อม:**
 
-   - Check all phases in milestone have completed plans (SUMMARY.md exists)
-   - Present milestone scope and stats
-   - Wait for confirmation
+   - ตรวจสอบว่า phases ทั้งหมดใน milestone มี plans ที่เสร็จแล้ว (มี SUMMARY.md)
+   - แสดง scope และสถิติของ milestone
+   - รอการยืนยัน
 
-2. **Gather stats:**
+2. **รวบรวมสถิติ:**
 
-   - Count phases, plans, tasks
-   - Calculate git range, file changes, LOC
-   - Extract timeline from git log
-   - Present summary, confirm
+   - นับ phases, plans, tasks
+   - คำนวณ git range, file changes, LOC
+   - ดึง timeline จาก git log
+   - แสดงสรุป, ยืนยัน
 
-3. **Extract accomplishments:**
+3. **ดึง accomplishments:**
 
-   - Read all phase SUMMARY.md files in milestone range
-   - Extract 4-6 key accomplishments
-   - Present for approval
+   - อ่านไฟล์ SUMMARY.md ทั้งหมดใน phase range ของ milestone
+   - ดึง 4-6 accomplishments หลัก
+   - แสดงเพื่อขออนุมัติ
 
 4. **Archive milestone:**
 
-   - Create `.planning/milestones/v{{version}}-ROADMAP.md`
-   - Extract full phase details from ROADMAP.md
-   - Fill milestone-archive.md template
-   - Update ROADMAP.md to one-line summary with link
-   - Offer to create next milestone
+   - สร้าง `.planning/milestones/v{{version}}-ROADMAP.md`
+   - ดึงรายละเอียด phase เต็มจาก ROADMAP.md
+   - กรอก milestone-archive.md template
+   - อัพเดท ROADMAP.md เป็นสรุปบรรทัดเดียวพร้อม link
+   - เสนอให้สร้าง milestone ถัดไป
 
-5. **Update PROJECT.md:**
+5. **อัพเดท PROJECT.md:**
 
-   - Add "Current State" section with shipped version
-   - Add "Next Milestone Goals" section
-   - Archive previous content in `<details>` (if v1.1+)
+   - เพิ่ม section "Current State" พร้อมเวอร์ชันที่ ship
+   - เพิ่ม section "Next Milestone Goals"
+   - Archive เนื้อหาเดิมใน `<details>` (ถ้า v1.1+)
 
-6. **Commit and tag:**
+6. **Commit และ tag:**
 
    - Stage: MILESTONES.md, PROJECT.md, ROADMAP.md, STATE.md, archive file
    - Commit: `chore: archive v{{version}} milestone`
    - Tag: `git tag -a v{{version}} -m "[milestone summary]"`
-   - Ask about pushing tag
+   - ถามเรื่อง push tag
 
-7. **Offer next steps:**
-   - Plan next milestone
+7. **เสนอขั้นตอนถัดไป:**
+   - วางแผน milestone ถัดไป
    - Archive planning
-   - Done for now
+   - เสร็จสิ้นสำหรับตอนนี้
 
 </process>
 
 <success_criteria>
 
-- Milestone archived to `.planning/milestones/v{{version}}-ROADMAP.md`
-- ROADMAP.md collapsed to one-line entry
-- PROJECT.md updated with current state
-- Git tag v{{version}} created
-- Commit successful
-- User knows next steps
+- Milestone archived ไปยัง `.planning/milestones/v{{version}}-ROADMAP.md`
+- ROADMAP.md ยุบเป็นรายการบรรทัดเดียว
+- PROJECT.md อัพเดทด้วยสถานะปัจจุบัน
+- Git tag v{{version}} สร้างแล้ว
+- Commit สำเร็จ
+- ผู้ใช้รู้ขั้นตอนถัดไป
   </success_criteria>
 
 <critical_rules>
 
-- **Load workflow first:** Read complete-milestone.md before executing
-- **Verify completion:** All phases must have SUMMARY.md files
-- **User confirmation:** Wait for approval at verification gates
-- **Archive before collapsing:** Always create archive file before updating ROADMAP.md
-- **One-line summary:** Collapsed milestone in ROADMAP.md should be single line with link
-- **Context efficiency:** Archive keeps ROADMAP.md constant size
+- **โหลด workflow ก่อน:** อ่าน complete-milestone.md ก่อนดำเนินการ
+- **ตรวจสอบความเสร็จสมบูรณ์:** Phases ทั้งหมดต้องมีไฟล์ SUMMARY.md
+- **ยืนยันจากผู้ใช้:** รอการอนุมัติที่ verification gates
+- **Archive ก่อนยุบ:** สร้างไฟล์ archive ก่อนอัพเดท ROADMAP.md เสมอ
+- **สรุปบรรทัดเดียว:** Milestone ที่ยุบใน ROADMAP.md ควรเป็นบรรทัดเดียวพร้อม link
+- **ประสิทธิภาพ context:** Archive ทำให้ ROADMAP.md มีขนาดคงที่
   </critical_rules>

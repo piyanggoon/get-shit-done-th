@@ -2,7 +2,7 @@
 
 # GET SHIT DONE
 
-**A light-weight and powerful meta-prompting, context engineering and spec-driven development system for Claude Code by TÂCHES.**
+**ระบบ meta-prompting, context engineering และ spec-driven development ที่เบาและทรงพลังสำหรับ Claude Code โดย TÂCHES**
 
 [![npm version](https://img.shields.io/npm/v/get-shit-done-cc?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/get-shit-done-cc)
 [![npm downloads](https://img.shields.io/npm/dm/get-shit-done-cc?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/get-shit-done-cc)
@@ -15,7 +15,7 @@
 npx get-shit-done-cc
 ```
 
-**Works on Mac, Windows, and Linux.**
+**ใช้ได้บน Mac, Windows และ Linux**
 
 <br>
 
@@ -23,74 +23,74 @@ npx get-shit-done-cc
 
 <br>
 
-*"If you know clearly what you want, this WILL build it for you. No bs."*
+*"ถ้าคุณรู้ชัดเจนว่าต้องการอะไร มันจะสร้างให้คุณ ไม่มีเรื่องไร้สาระ"*
 
-*"I've done SpecKit, OpenSpec and Taskmaster — this has produced the best results for me."*
+*"ผมเคยใช้ SpecKit, OpenSpec และ Taskmaster — อันนี้ให้ผลลัพธ์ดีที่สุดสำหรับผม"*
 
-*"By far the most powerful addition to my Claude Code. Nothing over-engineered. Literally just gets shit done."*
+*"เป็นส่วนเสริมที่ทรงพลังที่สุดสำหรับ Claude Code ของผม ไม่มีอะไรซับซ้อนเกินไป แค่ทำงานให้เสร็จจริงๆ"*
 
 <br>
 
-**Trusted by engineers at Amazon, Google, Shopify, and Webflow.**
+**ได้รับความไว้วางใจจากวิศวกรที่ Amazon, Google, Shopify และ Webflow**
 
-[Why I Built This](#why-i-built-this) · [How It Works](#how-it-works) · [Commands](#commands) · [Why It Works](#why-it-works)
+[ทำไมผมถึงสร้างสิ่งนี้](#ทำไมผมถึงสร้างสิ่งนี้) · [มันทำงานอย่างไร](#มันทำงานอย่างไร) · [Commands](#commands) · [ทำไมมันถึงได้ผล](#ทำไมมันถึงได้ผล)
 
 </div>
 
 ---
 
-## Why I Built This
+## ทำไมผมถึงสร้างสิ่งนี้
 
-I'm a solo developer. I don't write code — Claude Code does.
+ผมเป็น solo developer ผมไม่เขียนโค้ด — Claude Code เขียน
 
-Other spec-driven development tools exist; BMAD, Speckit... But they all seem to make things way more complicated than they need to be (sprint ceremonies, story points, stakeholder syncs, retrospectives, Jira workflows) or lack real big picture understanding of what you're building. I'm not a 50-person software company. I don't want to play enterprise theater. I'm just a creative person trying to build great things that work.
+เครื่องมือ spec-driven development อื่นๆ มีอยู่; BMAD, Speckit... แต่พวกมันดูเหมือนจะทำทุกอย่างซับซ้อนกว่าที่จำเป็น (sprint ceremonies, story points, stakeholder syncs, retrospectives, Jira workflows) หรือขาดความเข้าใจภาพรวมจริงๆ ของสิ่งที่คุณกำลังสร้าง ผมไม่ใช่บริษัทซอฟต์แวร์ 50 คน ผมไม่อยากเล่นละคร enterprise ผมแค่เป็นคนครีเอทีฟที่พยายามสร้างสิ่งดีๆ ที่ใช้งานได้
 
-So I built GSD. The complexity is in the system, not in your workflow. Behind the scenes: context engineering, XML prompt formatting, subagent orchestration, state management. What you see: a few commands that just work.
+เลยสร้าง GSD ขึ้นมา ความซับซ้อนอยู่ในระบบ ไม่ใช่ใน workflow ของคุณ เบื้องหลัง: context engineering, XML prompt formatting, subagent orchestration, state management สิ่งที่คุณเห็น: แค่ไม่กี่ commands ที่ทำงานได้เลย
 
-The system gives Claude everything it needs to do the work *and* verify it. I trust the workflow. It just does a good job.
+ระบบให้ทุกอย่างที่ Claude ต้องการเพื่อทำงาน *และ* ตรวจสอบมัน ผมไว้ใจ workflow มันทำงานได้ดี
 
-That's what this is. No enterprise roleplay bullshit. Just an incredibly effective system for building cool stuff consistently using Claude Code.
+นี่คือสิ่งนี้ ไม่มีเรื่องไร้สาระแบบ enterprise แค่ระบบที่มีประสิทธิภาพสุดๆ สำหรับสร้างของเจ๋งๆ อย่างสม่ำเสมอโดยใช้ Claude Code
 
 — **TÂCHES**
 
 ---
 
-Vibecoding has a bad reputation. You describe what you want, AI generates code, and you get inconsistent garbage that falls apart at scale.
+Vibecoding มีชื่อเสียงไม่ดี คุณอธิบายสิ่งที่ต้องการ AI สร้างโค้ด และคุณได้ขยะที่ไม่สม่ำเสมอที่พังเมื่อ scale
 
-GSD fixes that. It's the context engineering layer that makes Claude Code reliable. Describe your idea, let the system extract everything it needs to know, and let Claude Code get to work.
-
----
-
-## Who This Is For
-
-People who want to describe what they want and have it built correctly — without pretending they're running a 50-person engineering org.
+GSD แก้ปัญหานั้น มันคือ context engineering layer ที่ทำให้ Claude Code น่าเชื่อถือ อธิบายไอเดียของคุณ ปล่อยให้ระบบดึงทุกอย่างที่ต้องรู้ และปล่อยให้ Claude Code ทำงาน
 
 ---
 
-## Getting Started
+## สิ่งนี้เหมาะสำหรับใคร
+
+คนที่ต้องการอธิบายสิ่งที่ต้องการและให้มันถูกสร้างอย่างถูกต้อง — โดยไม่ต้องแกล้งทำเป็นว่ากำลังบริหารทีม engineering 50 คน
+
+---
+
+## เริ่มต้น
 
 ```bash
 npx get-shit-done-cc
 ```
 
-That's it. Verify with `/gsd:help`.
+เท่านั้น ตรวจสอบด้วย `/gsd:help`
 
 <details>
-<summary><strong>Non-interactive Install (Docker, CI, Scripts)</strong></summary>
+<summary><strong>ติดตั้งแบบ Non-interactive (Docker, CI, Scripts)</strong></summary>
 
 ```bash
-npx get-shit-done-cc --global   # Install to ~/.claude/
-npx get-shit-done-cc --local    # Install to ./.claude/
+npx get-shit-done-cc --global   # ติดตั้งไปที่ ~/.claude/
+npx get-shit-done-cc --local    # ติดตั้งไปที่ ./.claude/
 ```
 
-Use `--global` (`-g`) or `--local` (`-l`) to skip the interactive prompt.
+ใช้ `--global` (`-g`) หรือ `--local` (`-l`) เพื่อข้าม interactive prompt
 
 </details>
 
 <details>
-<summary><strong>Development Installation</strong></summary>
+<summary><strong>ติดตั้งสำหรับ Development</strong></summary>
 
-Clone the repository and run the installer locally:
+Clone repository และรัน installer แบบ local:
 
 ```bash
 git clone https://github.com/glittercowboy/get-shit-done.git
@@ -98,25 +98,25 @@ cd get-shit-done
 node bin/install.js --local
 ```
 
-Installs to `./.claude/` for testing modifications before contributing.
+ติดตั้งไปที่ `./.claude/` สำหรับทดสอบการแก้ไขก่อน contribute
 
 </details>
 
-### Recommended: Skip Permissions Mode
+### แนะนำ: โหมด Skip Permissions
 
-GSD is designed for frictionless automation. Run Claude Code with:
+GSD ออกแบบมาสำหรับ automation ที่ไม่มีอุปสรรค รัน Claude Code ด้วย:
 
 ```bash
 claude --dangerously-skip-permissions
 ```
 
 > [!TIP]
-> This is how GSD is intended to be used — stopping to approve `date` and `git commit` 50 times defeats the purpose.
+> นี่คือวิธีที่ตั้งใจให้ใช้ GSD — หยุดอนุมัติ `date` และ `git commit` 50 ครั้งเอาชนะวัตถุประสงค์
 
 <details>
-<summary><strong>Alternative: Granular Permissions</strong></summary>
+<summary><strong>ทางเลือก: Granular Permissions</strong></summary>
 
-If you prefer not to use that flag, add this to your project's `.claude/settings.json`:
+ถ้าคุณไม่ต้องการใช้ flag นั้น เพิ่มสิ่งนี้ไปที่ `.claude/settings.json` ของโปรเจกต์:
 
 ```json
 {
@@ -148,142 +148,142 @@ If you prefer not to use that flag, add this to your project's `.claude/settings
 
 ---
 
-## How It Works
+## มันทำงานอย่างไร
 
-### 1. Start with an idea
+### 1. เริ่มด้วยไอเดีย
 
 ```
 /gsd:new-project
 ```
 
-The system asks questions. Keeps asking until it has everything — your goals, constraints, tech preferences, edge cases. You go back and forth until the idea is fully captured. Creates **PROJECT.md**.
+ระบบถามคำถาม ถามต่อจนกว่าจะมีทุกอย่าง — เป้าหมาย, ข้อจำกัด, preferences เทคโนโลยี, edge cases คุณโต้ตอบไปมาจนไอเดียถูกจับได้ครบ สร้าง **PROJECT.md**
 
-### 2. Create roadmap
+### 2. สร้าง roadmap
 
 ```
 /gsd:create-roadmap
 ```
 
-Produces:
-- **ROADMAP.md** — Phases from start to finish
-- **STATE.md** — Living memory that persists across sessions
+สร้าง:
+- **ROADMAP.md** — เฟสตั้งแต่เริ่มจนจบ
+- **STATE.md** — ความจำที่มีชีวิตที่คงอยู่ข้าม sessions
 
-### 3. Plan and execute phases
-
-```
-/gsd:plan-phase 1      # System creates atomic task plans
-/gsd:execute-plan      # Subagent implements autonomously
-```
-
-Each phase breaks into 2-3 atomic tasks. Each task runs in a fresh subagent context — 200k tokens purely for implementation, zero degradation.
-
-### 4. Ship and iterate
+### 3. วางแผนและรันเฟส
 
 ```
-/gsd:complete-milestone   # Archive v1, prep for v2
-/gsd:add-phase            # Append new work
-/gsd:insert-phase 2       # Slip urgent work between phases
+/gsd:plan-phase 1      # ระบบสร้างแผน task แบบ atomic
+/gsd:execute-plan      # Subagent implement แบบอัตโนมัติ
 ```
 
-Ship your MVP in a day. Add features. Insert hotfixes. The system stays modular — you're never stuck.
+แต่ละเฟสแบ่งเป็น 2-3 atomic tasks แต่ละ task รันใน subagent context ใหม่ — 200k tokens เฉพาะสำหรับ implementation, ไม่มี degradation
+
+### 4. Ship และทำซ้ำ
+
+```
+/gsd:complete-milestone   # Archive v1, เตรียม v2
+/gsd:add-phase            # เพิ่มงานใหม่
+/gsd:insert-phase 2       # แทรกงานเร่งด่วนระหว่างเฟส
+```
+
+Ship MVP ของคุณภายในวัน เพิ่มฟีเจอร์ แทรก hotfixes ระบบยังคง modular — คุณไม่มีวันติดขัด
 
 ---
 
-## Existing Projects (Brownfield)
+## โปรเจกต์ที่มีอยู่แล้ว (Brownfield)
 
-Already have code? Start here instead.
+มีโค้ดอยู่แล้ว? เริ่มที่นี่แทน
 
-### 1. Map the codebase
+### 1. Map codebase
 
 ```
 /gsd:map-codebase
 ```
 
-Spawns parallel agents to analyze your code. Creates `.planning/codebase/` with 7 documents:
+Spawn agents แบบ parallel เพื่อวิเคราะห์โค้ดของคุณ สร้าง `.planning/codebase/` พร้อม 7 เอกสาร:
 
-| Document | Purpose |
+| เอกสาร | วัตถุประสงค์ |
 |----------|---------|
-| `STACK.md` | Languages, frameworks, dependencies |
+| `STACK.md` | ภาษา, frameworks, dependencies |
 | `ARCHITECTURE.md` | Patterns, layers, data flow |
-| `STRUCTURE.md` | Directory layout, where things live |
-| `CONVENTIONS.md` | Code style, naming patterns |
+| `STRUCTURE.md` | Layout ของ directory, ของอยู่ที่ไหน |
+| `CONVENTIONS.md` | Style ของโค้ด, naming patterns |
 | `TESTING.md` | Test framework, patterns |
 | `INTEGRATIONS.md` | External services, APIs |
-| `CONCERNS.md` | Tech debt, known issues, fragile areas |
+| `CONCERNS.md` | Tech debt, ปัญหาที่รู้, พื้นที่เปราะบาง |
 
-### 2. Initialize project
+### 2. เริ่มต้นโปรเจกต์
 
 ```
 /gsd:new-project
 ```
 
-Same as greenfield, but the system knows your codebase. Questions focus on what you're adding/changing, not starting from scratch.
+เหมือนกับ greenfield แต่ระบบรู้จัก codebase ของคุณ คำถามเน้นที่สิ่งที่คุณกำลังเพิ่ม/เปลี่ยน ไม่ใช่เริ่มจากศูนย์
 
-### 3. Continue as normal
+### 3. ดำเนินการต่อตามปกติ
 
-From here, it's the same: `/gsd:create-roadmap` → `/gsd:plan-phase` → `/gsd:execute-plan`
+จากที่นี่เหมือนกัน: `/gsd:create-roadmap` → `/gsd:plan-phase` → `/gsd:execute-plan`
 
-The codebase docs load automatically during planning. Claude knows your patterns, conventions, and where to put things.
+เอกสาร codebase โหลดอัตโนมัติระหว่างการวางแผน Claude รู้ patterns, conventions และจะวางของที่ไหน
 
 ---
 
-## Why It Works
+## ทำไมมันถึงได้ผล
 
 ### Context Engineering
 
-Claude Code is incredibly powerful *if* you give it the context it needs. Most people don't.
+Claude Code ทรงพลังมาก *ถ้า* คุณให้ context ที่มันต้องการ คนส่วนใหญ่ไม่ให้
 
-GSD handles it for you:
+GSD จัดการให้คุณ:
 
-| File | What it does |
+| ไฟล์ | ทำอะไร |
 |------|--------------|
-| `PROJECT.md` | Project vision, always loaded |
-| `ROADMAP.md` | Where you're going, what's done |
-| `STATE.md` | Decisions, blockers, position — memory across sessions |
-| `PLAN.md` | Atomic task with XML structure, verification steps |
-| `SUMMARY.md` | What happened, what changed, committed to history |
-| `ISSUES.md` | Deferred enhancements tracked across sessions |
-| `todos/` | Captured ideas and tasks for later work |
+| `PROJECT.md` | วิสัยทัศน์โปรเจกต์, โหลดเสมอ |
+| `ROADMAP.md` | คุณกำลังไปไหน, อะไรเสร็จแล้ว |
+| `STATE.md` | การตัดสินใจ, blockers, ตำแหน่ง — ความจำข้าม sessions |
+| `PLAN.md` | Atomic task พร้อมโครงสร้าง XML, ขั้นตอนการยืนยัน |
+| `SUMMARY.md` | เกิดอะไรขึ้น, อะไรเปลี่ยน, commit ไปที่ประวัติ |
+| `ISSUES.md` | Enhancements ที่เลื่อนติดตามข้าม sessions |
+| `todos/` | ไอเดียและ tasks ที่จับไว้สำหรับงานในภายหลัง |
 
-Size limits based on where Claude's quality degrades. Stay under, get consistent excellence.
+ขีดจำกัดขนาดตามจุดที่คุณภาพของ Claude ลดลง อยู่ใต้นั้น ได้ความเป็นเลิศที่สม่ำเสมอ
 
 ### XML Prompt Formatting
 
-Every plan is structured XML optimized for Claude:
+ทุกแผนเป็น XML ที่มีโครงสร้างปรับให้เหมาะกับ Claude:
 
 ```xml
 <task type="auto">
-  <name>Create login endpoint</name>
+  <name>สร้าง login endpoint</name>
   <files>src/app/api/auth/login/route.ts</files>
   <action>
-    Use jose for JWT (not jsonwebtoken - CommonJS issues).
-    Validate credentials against users table.
-    Return httpOnly cookie on success.
+    ใช้ jose สำหรับ JWT (ไม่ใช่ jsonwebtoken - มีปัญหา CommonJS)
+    Validate credentials กับตาราง users
+    คืน httpOnly cookie เมื่อสำเร็จ
   </action>
-  <verify>curl -X POST localhost:3000/api/auth/login returns 200 + Set-Cookie</verify>
-  <done>Valid credentials return cookie, invalid return 401</done>
+  <verify>curl -X POST localhost:3000/api/auth/login คืน 200 + Set-Cookie</verify>
+  <done>Credentials ที่ถูกต้องคืน cookie, ไม่ถูกต้องคืน 401</done>
 </task>
 ```
 
-Precise instructions. No guessing. Verification built in.
+คำแนะนำที่แม่นยำ ไม่ต้องเดา การยืนยัน built in
 
 ### Subagent Execution
 
-As Claude fills its context window, quality degrades. You've seen it: *"Due to context limits, I'll be more concise now."* That "concision" is code for cutting corners.
+เมื่อ Claude เติม context window ของมัน คุณภาพลดลง คุณเคยเห็น: *"เนื่องจากข้อจำกัด context ผมจะกระชับขึ้นตอนนี้"* "ความกระชับ" นั้นหมายถึงการตัดมุม
 
-GSD prevents this. Each plan is maximum 3 tasks. Each plan runs in a fresh subagent — 200k tokens purely for implementation, zero accumulated garbage.
+GSD ป้องกันสิ่งนี้ แต่ละแผนมีสูงสุด 3 tasks แต่ละแผนรันใน subagent ใหม่ — 200k tokens เฉพาะสำหรับ implementation, ไม่มีขยะสะสม
 
-| Task | Context | Quality |
+| Task | Context | คุณภาพ |
 |------|---------|---------|
-| Task 1 | Fresh | ✅ Full |
-| Task 2 | Fresh | ✅ Full |
-| Task 3 | Fresh | ✅ Full |
+| Task 1 | ใหม่ | ✅ เต็ม |
+| Task 2 | ใหม่ | ✅ เต็ม |
+| Task 3 | ใหม่ | ✅ เต็ม |
 
-No degradation. Walk away, come back to completed work.
+ไม่มี degradation ออกไป กลับมาพบงานที่เสร็จแล้ว
 
 ### Atomic Git Commits
 
-Each task gets its own commit immediately after completion:
+แต่ละ task ได้ commit ของตัวเองทันทีหลังเสร็จ:
 
 ```bash
 abc123f docs(08-02): complete user registration plan
@@ -293,76 +293,76 @@ lmn012o feat(08-02): create registration endpoint
 ```
 
 > [!NOTE]
-> **Benefits:** Git bisect finds exact failing task. Each task independently revertable. Clear history for Claude in future sessions. Better observability in AI-automated workflow.
+> **ประโยชน์:** Git bisect หา task ที่ล้มเหลวที่แน่นอน แต่ละ task revert ได้อย่างอิสระ ประวัติที่ชัดเจนสำหรับ Claude ใน sessions อนาคต Observability ที่ดีกว่าใน workflow ที่ AI automate
 
-Every commit is surgical, traceable, and meaningful.
+ทุก commit เป็น surgical, traceable และมีความหมาย
 
 ### Modular by Design
 
-- Add phases to current milestone
-- Insert urgent work between phases
-- Complete milestones and start fresh
-- Adjust plans without rebuilding everything
+- เพิ่มเฟสไป milestone ปัจจุบัน
+- แทรกงานเร่งด่วนระหว่างเฟส
+- เสร็จ milestones และเริ่มใหม่
+- ปรับแผนโดยไม่ต้อง rebuild ทุกอย่าง
 
-You're never locked in. The system adapts.
+คุณไม่เคยติดขัด ระบบปรับตัว
 
 ---
 
 ## Commands
 
-| Command | What it does |
+| Command | ทำอะไร |
 |---------|--------------|
-| `/gsd:new-project` | Extract your idea through questions, create PROJECT.md |
-| `/gsd:create-roadmap` | Create roadmap and state tracking |
-| `/gsd:map-codebase` | Map existing codebase for brownfield projects |
-| `/gsd:plan-phase [N]` | Generate task plans for phase |
-| `/gsd:execute-plan` | Run plan via subagent |
-| `/gsd:progress` | Where am I? What's next? |
-| `/gsd:verify-work [N]` | User acceptance test of phase or plan ¹ |
-| `/gsd:plan-fix [plan]` | Plan fixes for UAT issues from verify-work |
-| `/gsd:complete-milestone` | Ship it, prep next version |
-| `/gsd:discuss-milestone` | Gather context for next milestone |
-| `/gsd:new-milestone [name]` | Create new milestone with phases |
-| `/gsd:add-phase` | Append phase to roadmap |
-| `/gsd:insert-phase [N]` | Insert urgent work |
-| `/gsd:remove-phase [N]` | Remove future phase, renumber subsequent |
-| `/gsd:discuss-phase [N]` | Gather context before planning |
-| `/gsd:research-phase [N]` | Deep ecosystem research for niche domains |
-| `/gsd:list-phase-assumptions [N]` | See what Claude thinks before you correct it |
-| `/gsd:pause-work` | Create handoff file when stopping mid-phase |
-| `/gsd:resume-work` | Restore from last session |
-| `/gsd:resume-task [id]` | Resume interrupted subagent execution |
-| `/gsd:consider-issues` | Review deferred issues, close resolved, identify urgent |
-| `/gsd:add-todo [desc]` | Capture idea or task from conversation for later |
-| `/gsd:check-todos [area]` | List pending todos, select one to work on |
-| `/gsd:help` | Show all commands and usage guide |
+| `/gsd:new-project` | ดึงไอเดียของคุณผ่านคำถาม, สร้าง PROJECT.md |
+| `/gsd:create-roadmap` | สร้าง roadmap และการติดตามสถานะ |
+| `/gsd:map-codebase` | Map codebase ที่มีอยู่สำหรับโปรเจกต์ brownfield |
+| `/gsd:plan-phase [N]` | สร้างแผน task สำหรับเฟส |
+| `/gsd:execute-plan` | รันแผนผ่าน subagent |
+| `/gsd:progress` | ผมอยู่ไหน? อะไรถัดไป? |
+| `/gsd:verify-work [N]` | User acceptance test ของเฟสหรือแผน ¹ |
+| `/gsd:plan-fix [plan]` | วางแผนแก้ไขสำหรับ UAT issues จาก verify-work |
+| `/gsd:complete-milestone` | Ship มัน, เตรียมเวอร์ชันถัดไป |
+| `/gsd:discuss-milestone` | รวบรวมบริบทสำหรับ milestone ถัดไป |
+| `/gsd:new-milestone [name]` | สร้าง milestone ใหม่พร้อมเฟส |
+| `/gsd:add-phase` | เพิ่มเฟสไปที่ roadmap |
+| `/gsd:insert-phase [N]` | แทรกงานเร่งด่วน |
+| `/gsd:remove-phase [N]` | ลบเฟสในอนาคต, renumber เฟสถัดไป |
+| `/gsd:discuss-phase [N]` | รวบรวมบริบทก่อนวางแผน |
+| `/gsd:research-phase [N]` | ค้นคว้า ecosystem เชิงลึกสำหรับโดเมนเฉพาะทาง |
+| `/gsd:list-phase-assumptions [N]` | ดูสิ่งที่ Claude คิดก่อนที่คุณจะแก้ไข |
+| `/gsd:pause-work` | สร้าง handoff file เมื่อหยุดกลางเฟส |
+| `/gsd:resume-work` | คืนสถานะจาก session ล่าสุด |
+| `/gsd:resume-task [id]` | ดำเนินการต่อ subagent execution ที่ถูกขัดจังหวะ |
+| `/gsd:consider-issues` | ตรวจสอบ issues ที่เลื่อน, ปิดที่แก้ไขแล้ว, ระบุที่เร่งด่วน |
+| `/gsd:add-todo [desc]` | จับไอเดียหรือ task จากบทสนทนาสำหรับภายหลัง |
+| `/gsd:check-todos [area]` | แสดงรายการ todos ที่รอดำเนินการ, เลือกอันที่จะทำงาน |
+| `/gsd:help` | แสดง commands ทั้งหมดและคู่มือการใช้งาน |
 
-<sup>¹ Contributed by reddit user OracleGreyBeard</sup>
+<sup>¹ Contributed โดย reddit user OracleGreyBeard</sup>
 
 ---
 
-## Troubleshooting
+## การแก้ปัญหา
 
-**Commands not found after install?**
-- Restart Claude Code to reload slash commands
-- Verify files exist in `~/.claude/commands/gsd/` (global) or `./.claude/commands/gsd/` (local)
+**หา Commands ไม่พบหลังติดตั้ง?**
+- Restart Claude Code เพื่อ reload slash commands
+- ตรวจสอบว่าไฟล์มีอยู่ใน `~/.claude/commands/gsd/` (global) หรือ `./.claude/commands/gsd/` (local)
 
-**Commands not working as expected?**
-- Run `/gsd:help` to verify installation
-- Re-run `npx get-shit-done-cc` to reinstall
+**Commands ไม่ทำงานตามที่คาดหวัง?**
+- รัน `/gsd:help` เพื่อตรวจสอบการติดตั้ง
+- รัน `npx get-shit-done-cc` ใหม่เพื่อติดตั้งใหม่
 
-**Updating to the latest version?**
+**อัปเดตเป็นเวอร์ชันล่าสุด?**
 ```bash
 npx get-shit-done-cc@latest
 ```
 
-**Using Docker or containerized environments?**
+**ใช้ Docker หรือ containerized environments?**
 
-If file reads fail with tilde paths (`~/.claude/...`), set `CLAUDE_CONFIG_DIR` before installing:
+ถ้าการอ่านไฟล์ล้มเหลวด้วย tilde paths (`~/.claude/...`) ให้ตั้ง `CLAUDE_CONFIG_DIR` ก่อนติดตั้ง:
 ```bash
 CLAUDE_CONFIG_DIR=/home/youruser/.claude npx get-shit-done-cc --global
 ```
-This ensures absolute paths are used instead of `~` which may not expand correctly in containers.
+สิ่งนี้ทำให้มั่นใจว่าใช้ absolute paths แทน `~` ซึ่งอาจ expand ไม่ถูกต้องใน containers
 
 ---
 
@@ -380,12 +380,12 @@ This ensures absolute paths are used instead of `~` which may not expand correct
 
 ## License
 
-MIT License. See [LICENSE](LICENSE) for details.
+MIT License ดู [LICENSE](LICENSE) สำหรับรายละเอียด
 
 ---
 
 <div align="center">
 
-**Claude Code is powerful. GSD makes it reliable.**
+**Claude Code ทรงพลัง GSD ทำให้มันน่าเชื่อถือ**
 
 </div>

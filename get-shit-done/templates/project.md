@@ -1,33 +1,33 @@
-# PROJECT.md Template
+# เทมเพลต PROJECT.md
 
-Template for `.planning/PROJECT.md` — the living project context document.
+เทมเพลตสำหรับ `.planning/PROJECT.md` — เอกสาร project context ที่ยังมีชีวิต
 
 <template>
 
 ```markdown
-# [Project Name]
+# [ชื่อโปรเจกต์]
 
-## What This Is
+## นี่คืออะไร
 
-[Current accurate description — 2-3 sentences. What does this product do and who is it for?
-Use the user's language and framing. Update whenever reality drifts from this description.]
+[คำอธิบายปัจจุบันที่ถูกต้อง — 2-3 ประโยค ผลิตภัณฑ์นี้ทำอะไรและสำหรับใคร?
+ใช้ภาษาและกรอบของผู้ใช้ อัปเดตเมื่อความเป็นจริงเบี่ยงเบนจากคำอธิบายนี้]
 
-## Core Value
+## คุณค่าหลัก
 
-[The ONE thing that matters most. If everything else fails, this must work.
-One sentence that drives prioritization when tradeoffs arise.]
+[สิ่งหนึ่งที่สำคัญที่สุด ถ้าทุกอย่างล้มเหลว สิ่งนี้ต้องทำงาน
+หนึ่งประโยคที่ขับเคลื่อนการจัดลำดับความสำคัญเมื่อเกิด tradeoffs]
 
 ## Requirements
 
 ### Validated
 
-<!-- Shipped and confirmed valuable. -->
+<!-- Shipped และยืนยันว่ามีคุณค่า -->
 
-(None yet — ship to validate)
+(ยังไม่มี — ship เพื่อ validate)
 
 ### Active
 
-<!-- Current scope. Building toward these. -->
+<!-- Scope ปัจจุบัน กำลังสร้างไปสู่สิ่งเหล่านี้ -->
 
 - [ ] [Requirement 1]
 - [ ] [Requirement 2]
@@ -35,134 +35,134 @@ One sentence that drives prioritization when tradeoffs arise.]
 
 ### Out of Scope
 
-<!-- Explicit boundaries. Includes reasoning to prevent re-adding. -->
+<!-- ขอบเขตที่ชัดเจน รวมเหตุผลเพื่อป้องกันการเพิ่มกลับ -->
 
-- [Exclusion 1] — [why]
-- [Exclusion 2] — [why]
+- [Exclusion 1] — [ทำไม]
+- [Exclusion 2] — [ทำไม]
 
 ## Context
 
-[Background information that informs implementation:
-- Technical environment or ecosystem
-- Relevant prior work or experience
-- User research or feedback themes
-- Known issues to address]
+[ข้อมูลพื้นฐานที่แจ้ง implementation:
+- Technical environment หรือ ecosystem
+- งานก่อนหน้าหรือประสบการณ์ที่เกี่ยวข้อง
+- User research หรือ feedback themes
+- ปัญหาที่รู้จักที่ต้องแก้ไข]
 
-## Constraints
+## ข้อจำกัด
 
-- **[Type]**: [What] — [Why]
-- **[Type]**: [What] — [Why]
+- **[ประเภท]**: [อะไร] — [ทำไม]
+- **[ประเภท]**: [อะไร] — [ทำไม]
 
-Common types: Tech stack, Timeline, Budget, Dependencies, Compatibility, Performance, Security
+ประเภททั่วไป: Tech stack, Timeline, Budget, Dependencies, Compatibility, Performance, Security
 
-## Key Decisions
+## การตัดสินใจสำคัญ
 
-<!-- Decisions that constrain future work. Add throughout project lifecycle. -->
+<!-- การตัดสินใจที่จำกัดงานในอนาคต เพิ่มตลอดวงจรชีวิตโปรเจกต์ -->
 
-| Decision | Rationale | Outcome |
+| การตัดสินใจ | เหตุผล | ผลลัพธ์ |
 |----------|-----------|---------|
-| [Choice] | [Why] | [✓ Good / ⚠️ Revisit / — Pending] |
+| [ตัวเลือก] | [ทำไม] | [✓ ดี / ⚠️ ทบทวน / — รอดำเนินการ] |
 
 ---
-*Last updated: [date] after [trigger]*
+*อัปเดตล่าสุด: [วันที่] หลังจาก [trigger]*
 ```
 
 </template>
 
 <guidelines>
 
-**What This Is:**
-- Current accurate description of the product
-- 2-3 sentences capturing what it does and who it's for
-- Use the user's words and framing
-- Update when the product evolves beyond this description
+**นี่คืออะไร:**
+- คำอธิบายปัจจุบันที่ถูกต้องของผลิตภัณฑ์
+- 2-3 ประโยคที่จับใจความว่าทำอะไรและสำหรับใคร
+- ใช้คำพูดและกรอบของผู้ใช้
+- อัปเดตเมื่อผลิตภัณฑ์พัฒนาเกินกว่าคำอธิบายนี้
 
-**Core Value:**
-- The single most important thing
-- Everything else can fail; this cannot
-- Drives prioritization when tradeoffs arise
-- Rarely changes; if it does, it's a significant pivot
+**คุณค่าหลัก:**
+- สิ่งหนึ่งที่สำคัญที่สุด
+- ทุกอย่างอื่นล้มเหลวได้ แต่สิ่งนี้ไม่ได้
+- ขับเคลื่อนการจัดลำดับความสำคัญเมื่อเกิด tradeoffs
+- ไม่ค่อยเปลี่ยน ถ้าเปลี่ยนแสดงว่า pivot สำคัญ
 
 **Requirements — Validated:**
-- Requirements that shipped and proved valuable
-- Format: `- ✓ [Requirement] — [version/phase]`
-- These are locked — changing them requires explicit discussion
+- Requirements ที่ shipped และพิสูจน์แล้วว่ามีคุณค่า
+- รูปแบบ: `- ✓ [Requirement] — [version/phase]`
+- สิ่งเหล่านี้ถูก lock — การเปลี่ยนต้องมีการสนทนาชัดเจน
 
 **Requirements — Active:**
-- Current scope being built toward
-- These are hypotheses until shipped and validated
-- Move to Validated when shipped, Out of Scope if invalidated
+- Scope ปัจจุบันที่กำลังสร้างไปสู่
+- สิ่งเหล่านี้เป็นสมมติฐานจนกว่าจะ shipped และ validated
+- ย้ายไป Validated เมื่อ shipped, Out of Scope ถ้า invalidated
 
 **Requirements — Out of Scope:**
-- Explicit boundaries on what we're not building
-- Always include reasoning (prevents re-adding later)
-- Includes: considered and rejected, deferred to future, explicitly excluded
+- ขอบเขตชัดเจนของสิ่งที่เราไม่สร้าง
+- รวมเหตุผลเสมอ (ป้องกันการเพิ่มกลับทีหลัง)
+- รวม: พิจารณาและปฏิเสธ เลื่อนไปอนาคต excluded อย่างชัดเจน
 
 **Context:**
-- Background that informs implementation decisions
-- Technical environment, prior work, user feedback
-- Known issues or technical debt to address
-- Update as new context emerges
+- พื้นฐานที่แจ้ง implementation decisions
+- Technical environment งานก่อนหน้า user feedback
+- ปัญหาที่รู้จักหรือ technical debt ที่ต้องแก้ไข
+- อัปเดตเมื่อ context ใหม่เกิดขึ้น
 
-**Constraints:**
-- Hard limits on implementation choices
+**ข้อจำกัด:**
+- ขีดจำกัดที่แข็งแกร่งต่อ implementation choices
 - Tech stack, timeline, budget, compatibility, dependencies
-- Include the "why" — constraints without rationale get questioned
+- รวม "ทำไม" — ข้อจำกัดที่ไม่มีเหตุผลจะถูกตั้งคำถาม
 
-**Key Decisions:**
-- Significant choices that affect future work
-- Add decisions as they're made throughout the project
-- Track outcome when known:
-  - ✓ Good — decision proved correct
-  - ⚠️ Revisit — decision may need reconsideration
-  - — Pending — too early to evaluate
+**การตัดสินใจสำคัญ:**
+- ตัวเลือกสำคัญที่ส่งผลต่องานในอนาคต
+- เพิ่มการตัดสินใจตามที่ทำตลอดโปรเจกต์
+- ติดตามผลลัพธ์เมื่อรู้:
+  - ✓ ดี — การตัดสินใจพิสูจน์ว่าถูกต้อง
+  - ⚠️ ทบทวน — การตัดสินใจอาจต้องพิจารณาใหม่
+  - — รอดำเนินการ — เร็วเกินไปที่จะประเมิน
 
-**Last Updated:**
-- Always note when and why the document was updated
-- Format: `after Phase 2` or `after v1.0 milestone`
-- Triggers review of whether content is still accurate
+**อัปเดตล่าสุด:**
+- บันทึกเสมอว่าเมื่อไหร่และทำไมเอกสารถูกอัปเดต
+- รูปแบบ: `หลังจากเฟส 2` หรือ `หลังจาก v1.0 milestone`
+- Triggers การทบทวนว่าเนื้อหายังถูกต้องหรือไม่
 
 </guidelines>
 
 <evolution>
 
-PROJECT.md evolves throughout the project lifecycle.
+PROJECT.md พัฒนาตลอดวงจรชีวิตโปรเจกต์
 
-**After each phase transition:**
-1. Requirements invalidated? → Move to Out of Scope with reason
-2. Requirements validated? → Move to Validated with phase reference
-3. New requirements emerged? → Add to Active
-4. Decisions to log? → Add to Key Decisions
-5. "What This Is" still accurate? → Update if drifted
+**หลังจากแต่ละ phase transition:**
+1. Requirements invalidated? → ย้ายไป Out of Scope พร้อมเหตุผล
+2. Requirements validated? → ย้ายไป Validated พร้อม phase reference
+3. Requirements ใหม่เกิดขึ้น? → เพิ่มใน Active
+4. การตัดสินใจที่ต้อง log? → เพิ่มใน Key Decisions
+5. "นี่คืออะไร" ยังถูกต้อง? → อัปเดตถ้าเบี่ยงเบน
 
-**After each milestone:**
-1. Full review of all sections
-2. Core Value check — still the right priority?
-3. Audit Out of Scope — reasons still valid?
-4. Update Context with current state (users, feedback, metrics)
+**หลังจากแต่ละ milestone:**
+1. ทบทวนทุก sections อย่างเต็มที่
+2. ตรวจสอบคุณค่าหลัก — ยังเป็น priority ที่ถูกต้อง?
+3. Audit Out of Scope — เหตุผลยังใช้ได้?
+4. อัปเดต Context ด้วยสถานะปัจจุบัน (users, feedback, metrics)
 
 </evolution>
 
 <brownfield>
 
-For existing codebases:
+สำหรับ codebases ที่มีอยู่:
 
-1. **Map codebase first** via `/gsd:map-codebase`
+1. **Map codebase ก่อน** ผ่าน `/gsd:map-codebase`
 
-2. **Infer Validated requirements** from existing code:
-   - What does the codebase actually do?
-   - What patterns are established?
-   - What's clearly working and relied upon?
+2. **Infer Validated requirements** จาก code ที่มีอยู่:
+   - Codebase ทำอะไรจริงๆ?
+   - Patterns อะไร established แล้ว?
+   - อะไรทำงานชัดเจนและถูกพึ่งพา?
 
-3. **Gather Active requirements** from user:
-   - Present inferred current state
-   - Ask what they want to build next
+3. **รวบรวม Active requirements** จากผู้ใช้:
+   - นำเสนอ inferred current state
+   - ถามว่าต้องการสร้างอะไรต่อไป
 
 4. **Initialize:**
-   - Validated = inferred from existing code
-   - Active = user's goals for this work
-   - Out of Scope = boundaries user specifies
-   - Context = includes current codebase state
+   - Validated = inferred จาก code ที่มีอยู่
+   - Active = เป้าหมายของผู้ใช้สำหรับงานนี้
+   - Out of Scope = ขอบเขตที่ผู้ใช้ระบุ
+   - Context = รวมสถานะ codebase ปัจจุบัน
 
 </brownfield>
 
@@ -173,12 +173,12 @@ STATE.md references PROJECT.md:
 ```markdown
 ## Project Reference
 
-See: .planning/PROJECT.md (updated [date])
+ดู: .planning/PROJECT.md (อัปเดต [วันที่])
 
-**Core value:** [One-liner from Core Value section]
-**Current focus:** [Current phase name]
+**คุณค่าหลัก:** [One-liner จาก Core Value section]
+**จุดเน้นปัจจุบัน:** [ชื่อเฟสปัจจุบัน]
 ```
 
-This ensures Claude reads current PROJECT.md context.
+สิ่งนี้รับประกันว่า Claude อ่าน PROJECT.md context ปัจจุบัน
 
 </state_reference>

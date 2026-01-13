@@ -1,33 +1,33 @@
 <purpose>
-Gather phase context through collaborative thinking before planning. Help the user articulate their vision for how this phase should work, look, and feel.
+รวบรวม phase context ผ่านการคิดร่วมกันก่อนวางแผน ช่วยผู้ใช้แสดงวิสัยทัศน์ว่า phase นี้ควรทำงาน ดู และรู้สึกอย่างไร
 
-You are a thinking partner, not an interviewer. The user is the visionary — you are the builder. Your job is to understand their vision, not interrogate them about technical details you can figure out yourself.
+คุณเป็นหุ้นส่วนคิด ไม่ใช่ผู้สัมภาษณ์ ผู้ใช้คือผู้มีวิสัยทัศน์ — คุณคือผู้สร้าง หน้าที่ของคุณคือเข้าใจวิสัยทัศน์ของพวกเขา ไม่ใช่ซักถามเรื่องรายละเอียดทางเทคนิคที่คุณคิดออกได้เอง
 </purpose>
 
 <philosophy>
-**User = founder/visionary. Claude = builder.**
+**User = founder/visionary Claude = builder**
 
-The user doesn't know (and shouldn't need to know):
-- Codebase patterns (you read the code)
-- Technical risks (you identify during research)
-- Implementation constraints (you figure those out)
-- Success metrics (you infer from the work)
+ผู้ใช้ไม่รู้ (และไม่ควรต้องรู้):
+- Codebase patterns (คุณอ่านโค้ด)
+- Technical risks (คุณระบุระหว่าง research)
+- Implementation constraints (คุณคิดออกเอง)
+- Success metrics (คุณอนุมานจากงาน)
 
-The user DOES know:
-- How they imagine it working
-- What it should look/feel like
-- What's essential vs nice-to-have
-- Any specific things they have in mind
+ผู้ใช้รู้:
+- พวกเขาจินตนาการว่ามันทำงานอย่างไร
+- ควรดู/รู้สึกอย่างไร
+- อะไรจำเป็น vs nice-to-have
+- สิ่งเฉพาะใดๆ ที่มีในใจ
 
-Ask about vision. Figure out implementation yourself.
+ถามเกี่ยวกับวิสัยทัศน์ คิด implementation ด้วยตัวเอง
 </philosophy>
 
 <process>
 
 <step name="validate_phase" priority="first">
-Phase number: $ARGUMENTS (required)
+Phase number: $ARGUMENTS (ต้องการ)
 
-Validate phase exists in roadmap:
+ตรวจสอบ phase มีอยู่ใน roadmap:
 
 ```bash
 if [ -f .planning/ROADMAP.md ]; then
@@ -37,7 +37,7 @@ else
 fi
 ```
 
-**If phase not found:**
+**หากไม่พบ phase:**
 
 ```
 Error: Phase ${PHASE} not found in roadmap.
@@ -45,28 +45,28 @@ Error: Phase ${PHASE} not found in roadmap.
 Use /gsd:progress to see available phases.
 ```
 
-Exit workflow.
+ออกจาก workflow
 
-**If phase found:**
-Parse phase details from roadmap:
+**หากพบ phase:**
+Parse รายละเอียด phase จาก roadmap:
 
 - Phase number
 - Phase name
 - Phase description
-- Status (should be "Not started" or "In progress")
+- Status (ควรเป็น "Not started" หรือ "In progress")
 
-Continue to check_existing.
+ดำเนินการไป check_existing
 </step>
 
 <step name="check_existing">
-Check if CONTEXT.md already exists for this phase:
+ตรวจสอบว่า CONTEXT.md มีอยู่แล้วสำหรับ phase นี้หรือไม่:
 
 ```bash
 ls .planning/phases/${PHASE}-*/CONTEXT.md 2>/dev/null
 ls .planning/phases/${PHASE}-*/${PHASE}-CONTEXT.md 2>/dev/null
 ```
 
-**If exists:**
+**หากมี:**
 
 ```
 Phase ${PHASE} already has context: [path to CONTEXT.md]
@@ -77,20 +77,20 @@ What's next?
 3. Skip - Use existing context as-is
 ```
 
-Wait for user response.
+รอการตอบจากผู้ใช้
 
-If "Update context": Load existing CONTEXT.md, continue to questioning
-If "View existing": Read and display CONTEXT.md, then offer update/skip
-If "Skip": Exit workflow
+หาก "Update context": โหลด CONTEXT.md ที่มี ดำเนินการไป questioning
+หาก "View existing": อ่านและแสดง CONTEXT.md แล้วเสนอ update/skip
+หาก "Skip": ออกจาก workflow
 
-**If doesn't exist:**
-Continue to questioning.
+**หากไม่มี:**
+ดำเนินการไป questioning
 </step>
 
 <step name="questioning">
-**CRITICAL: ALL questions use AskUserQuestion. Never ask inline text questions.**
+**สำคัญ: ทุกคำถามใช้ AskUserQuestion อย่าถามคำถาม text แบบ inline**
 
-Present initial context from roadmap, then immediately use AskUserQuestion:
+แสดง initial context จาก roadmap แล้วใช้ AskUserQuestion ทันที:
 
 ```
 Phase ${PHASE}: ${PHASE_NAME}
@@ -100,115 +100,115 @@ From the roadmap: ${PHASE_DESCRIPTION}
 
 **1. Open:**
 
-Use AskUserQuestion:
+ใช้ AskUserQuestion:
 - header: "Vision"
-- question: "How do you imagine this working?"
-- options: 2-3 interpretations based on the phase description + "Let me describe it"
+- question: "จินตนาการว่ามันทำงานอย่างไร?"
+- options: 2-3 interpretations ตาม phase description + "Let me describe it"
 
 **2. Follow the thread:**
 
-Based on their response, use AskUserQuestion:
-- header: "[Topic they mentioned]"
-- question: "You mentioned [X] — what would that look like?"
+ตามการตอบ ใช้ AskUserQuestion:
+- header: "[Topic ที่พวกเขากล่าวถึง]"
+- question: "คุณพูดถึง [X] — มันจะดูเป็นอย่างไร?"
 - options: 2-3 interpretations + "Something else"
 
 **3. Sharpen the core:**
 
-Use AskUserQuestion:
+ใช้ AskUserQuestion:
 - header: "Essential"
-- question: "What's the most important part of this phase?"
-- options: Key aspects they've mentioned + "All equally important" + "Something else"
+- question: "ส่วนสำคัญที่สุดของ phase นี้คืออะไร?"
+- options: Key aspects ที่พวกเขากล่าวถึง + "All equally important" + "Something else"
 
 **4. Find boundaries:**
 
-Use AskUserQuestion:
+ใช้ AskUserQuestion:
 - header: "Scope"
-- question: "What's explicitly out of scope for this phase?"
-- options: Things that might be tempting + "Nothing specific" + "Let me list them"
+- question: "อะไรที่อยู่นอกขอบเขตสำหรับ phase นี้อย่างชัดเจน?"
+- options: สิ่งที่อาจจะน่าทำ + "Nothing specific" + "Let me list them"
 
 **5. Capture specifics (optional):**
 
-If they seem to have specific ideas, use AskUserQuestion:
+หากพวกเขาดูเหมือนมี ideas เฉพาะ ใช้ AskUserQuestion:
 - header: "Specifics"
-- question: "Any particular look/feel/behavior in mind?"
-- options: Contextual options based on what they've said + "No specifics" + "Let me describe"
+- question: "มี look/feel/behavior เฉพาะในใจหรือไม่?"
+- options: Contextual options ตามที่พวกเขาพูด + "No specifics" + "Let me describe"
 
-CRITICAL — What NOT to ask:
-- Technical risks (you figure those out)
-- Codebase patterns (you read the code)
-- Success metrics (too corporate)
-- Constraints they didn't mention (don't interrogate)
+สำคัญ — อะไรที่ไม่ควรถาม:
+- Technical risks (คุณคิดออกเอง)
+- Codebase patterns (คุณอ่านโค้ด)
+- Success metrics (corporate เกินไป)
+- Constraints ที่พวกเขาไม่ได้กล่าวถึง (อย่าซักถาม)
 
 **6. Decision gate:**
 
-Use AskUserQuestion:
+ใช้ AskUserQuestion:
 - header: "Ready?"
-- question: "Ready to capture this context, or explore more?"
-- options (ALL THREE REQUIRED):
-  - "Create CONTEXT.md" - I've shared my vision
-  - "Ask more questions" - Help me think through this more
-  - "Let me add context" - I have more to share
+- question: "พร้อมจับ context นี้ หรือสำรวจเพิ่ม?"
+- options (ต้องมีทั้งสาม):
+  - "Create CONTEXT.md" - ฉันแชร์วิสัยทัศน์แล้ว
+  - "Ask more questions" - ช่วยฉันคิดเพิ่ม
+  - "Let me add context" - ฉันมีอะไรจะแชร์เพิ่ม
 
-If "Ask more questions" → return to step 2 with new probes.
-If "Let me add context" → receive input → return to step 2.
-Loop until "Create CONTEXT.md" selected.
+หาก "Ask more questions" → กลับไปขั้นตอน 2 ด้วย probes ใหม่
+หาก "Let me add context" → รับ input → กลับไปขั้นตอน 2
+วนจนกว่าจะเลือก "Create CONTEXT.md"
 </step>
 
 <step name="write_context">
-Create CONTEXT.md capturing the user's vision.
+สร้าง CONTEXT.md จับวิสัยทัศน์ของผู้ใช้
 
-Use template from ~/.claude/get-shit-done/templates/context.md
+ใช้ template จาก ~/.claude/get-shit-done/templates/context.md
 
 **File location:** `.planning/phases/${PHASE}-${SLUG}/${PHASE}-CONTEXT.md`
 
-**If phase directory doesn't exist yet:**
-Create it: `.planning/phases/${PHASE}-${SLUG}/`
+**หาก phase directory ยังไม่มี:**
+สร้างมัน: `.planning/phases/${PHASE}-${SLUG}/`
 
-Use roadmap phase name for slug (lowercase, hyphens).
+ใช้ชื่อ phase จาก roadmap สำหรับ slug (lowercase, hyphens)
 
-Populate template sections with VISION context (not technical analysis):
+กรอก template sections ด้วย VISION context (ไม่ใช่ technical analysis):
 
-- `<vision>`: How the user imagines this working
-- `<essential>`: What must be nailed in this phase
-- `<boundaries>`: What's explicitly out of scope
-- `<specifics>`: Any particular look/feel/behavior mentioned
-- `<notes>`: Any other context gathered
+- `<vision>`: ผู้ใช้จินตนาการว่ามันทำงานอย่างไร
+- `<essential>`: อะไรที่ต้องทำให้ถูกใน phase นี้
+- `<boundaries>`: อะไรที่อยู่นอกขอบเขตอย่างชัดเจน
+- `<specifics>`: look/feel/behavior เฉพาะใดๆ ที่กล่าวถึง
+- `<notes>`: context อื่นๆ ที่รวบรวมได้
 
-Do NOT populate with your own technical analysis. That comes during research/planning.
+อย่ากรอกด้วย technical analysis ของคุณเอง นั่นมาระหว่าง research/planning
 
-Write file.
+เขียนไฟล์
 </step>
 
 <step name="confirm_creation">
-Present CONTEXT.md summary:
+แสดงสรุป CONTEXT.md:
 
 ```
 Created: .planning/phases/${PHASE}-${SLUG}/${PHASE}-CONTEXT.md
 
 ## Vision
-[How they imagine it working]
+[พวกเขาจินตนาการว่ามันทำงานอย่างไร]
 
 ## Essential
-[What must be nailed]
+[อะไรที่ต้องทำให้ถูก]
 
 ## Boundaries
-[What's out of scope]
+[อะไรที่อยู่นอกขอบเขต]
 
 ---
 
-## ▶ Next Up
+## ▶ ถัดไป
 
-**Phase ${PHASE}: [Name]** — [Goal from ROADMAP.md]
+**Phase ${PHASE}: [Name]** — [Goal จาก ROADMAP.md]
 
 `/gsd:plan-phase ${PHASE}`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → context window ใหม่</sub>
 
 ---
 
-**Also available:**
-- `/gsd:research-phase ${PHASE}` — investigate unknowns
-- Review/edit CONTEXT.md before continuing
+**ยังมีให้เลือก:**
+- `/gsd:research-phase ${PHASE}` — สืบค้นสิ่งที่ไม่รู้
+- Review/edit CONTEXT.md ก่อนดำเนินการ
 
 ---
 ```
@@ -231,17 +231,17 @@ EOF
 )"
 ```
 
-Confirm: "Committed: docs(${PHASE}): capture phase context"
+ยืนยัน: "Committed: docs(${PHASE}): capture phase context"
 </step>
 
 </process>
 
 <success_criteria>
 
-- Phase validated against roadmap
-- Vision gathered through collaborative thinking (not interrogation)
-- User's imagination captured: how it works, what's essential, what's out of scope
-- CONTEXT.md created in phase directory
-- CONTEXT.md committed to git
-- User knows next steps (typically: research or plan the phase)
+- Phase validated กับ roadmap
+- Vision รวบรวมผ่านการคิดร่วมกัน (ไม่ใช่การซักถาม)
+- จินตนาการของผู้ใช้จับ: มันทำงานอย่างไร อะไรจำเป็น อะไรอยู่นอกขอบเขต
+- CONTEXT.md สร้างใน phase directory
+- CONTEXT.md commit ไป git
+- ผู้ใช้รู้ขั้นตอนถัดไป (ปกติ: research หรือ plan the phase)
 </success_criteria>

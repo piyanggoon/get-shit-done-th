@@ -1,6 +1,6 @@
 ---
 name: gsd:resume-task
-description: Resume an interrupted subagent execution
+description: Resume subagent execution ที่ถูกขัดจังหวะ
 argument-hint: "[agent-id]"
 allowed-tools:
   - Read
@@ -12,11 +12,11 @@ allowed-tools:
 ---
 
 <objective>
-Resume an interrupted subagent execution using the Task tool's resume parameter.
+Resume subagent execution ที่ถูกขัดจังหวะโดยใช้ Task tool's resume parameter
 
-When a session ends mid-execution, subagents may be left in an incomplete state. This command allows users to continue that work without starting over.
+เมื่อ session จบกลาง execution subagents อาจถูกทิ้งในสถานะไม่เสร็จ คำสั่งนี้ให้ผู้ใช้ทำงานต่อได้โดยไม่ต้องเริ่มใหม่
 
-Uses the agent ID tracking infrastructure from execute-phase to identify and resume agents.
+ใช้ agent ID tracking infrastructure จาก execute-phase เพื่อระบุและ resume agents
 </objective>
 
 <execution_context>
@@ -26,62 +26,62 @@ Uses the agent ID tracking infrastructure from execute-phase to identify and res
 <context>
 Agent ID: $ARGUMENTS (optional - defaults to most recent)
 
-**Load project state:**
+**โหลด project state:**
 @.planning/STATE.md
 
-**Load agent tracking:**
+**โหลด agent tracking:**
 @.planning/current-agent-id.txt
 @.planning/agent-history.json
 </context>
 
 <process>
-1. Check .planning/ directory exists (error if not)
-2. Parse agent ID from arguments or current-agent-id.txt
-3. Validate agent exists in history and is resumable
-4. Check for file conflicts since spawn
-5. Follow resume-task.md workflow:
-   - Update agent status to "interrupted"
-   - Resume via Task tool resume parameter
-   - Update history on completion
+1. ตรวจสอบว่ามีโฟลเดอร์ .planning/ (error ถ้าไม่มี)
+2. Parse agent ID จาก arguments หรือ current-agent-id.txt
+3. ตรวจสอบว่า agent มีอยู่ใน history และ resumable
+4. ตรวจสอบ file conflicts ตั้งแต่ spawn
+5. ทำตาม resume-task.md workflow:
+   - อัพเดท agent status เป็น "interrupted"
+   - Resume ผ่าน Task tool resume parameter
+   - อัพเดท history เมื่อเสร็จ
    - Clear current-agent-id.txt
 </process>
 
 <usage>
-**Resume most recent interrupted agent:**
+**Resume agent ที่ถูกขัดจังหวะล่าสุด:**
 ```
 /gsd:resume-task
 ```
 
-**Resume specific agent by ID:**
+**Resume agent เฉพาะตาม ID:**
 ```
 /gsd:resume-task agent_01HXYZ123
 ```
 
-**Find available agents to resume:**
-Check `.planning/agent-history.json` for entries with status "spawned" or "interrupted".
+**หา agents ที่ resume ได้:**
+ตรวจสอบ `.planning/agent-history.json` สำหรับ entries ที่มี status "spawned" หรือ "interrupted"
 </usage>
 
 <error_handling>
-**No agent to resume:**
-- current-agent-id.txt empty or missing
-- Solution: Run /gsd:progress to check project status
+**ไม่มี agent ให้ resume:**
+- current-agent-id.txt ว่างหรือไม่มี
+- วิธีแก้: รัน /gsd:progress เพื่อตรวจสอบ project status
 
-**Agent already completed:**
-- Agent finished successfully, nothing to resume
-- Solution: Continue with next plan
+**Agent เสร็จแล้ว:**
+- Agent เสร็จสำเร็จ ไม่มีอะไรให้ resume
+- วิธีแก้: ทำ plan ถัดไปต่อ
 
-**Agent not found:**
-- Provided ID not in history
-- Solution: Check agent-history.json for valid IDs
+**Agent ไม่พบ:**
+- ID ที่ให้ไม่อยู่ใน history
+- วิธีแก้: ตรวจสอบ agent-history.json สำหรับ IDs ที่ถูกต้อง
 
-**Resume failed:**
-- Agent context expired or invalidated
-- Solution: Start fresh with /gsd:execute-plan
+**Resume ล้มเหลว:**
+- Agent context expired หรือ invalidated
+- วิธีแก้: เริ่มใหม่ด้วย /gsd:execute-plan
 </error_handling>
 
 <success_criteria>
-- [ ] Agent resumed via Task tool resume parameter
-- [ ] Agent-history.json updated with completion
-- [ ] current-agent-id.txt cleared
-- [ ] User informed of result
+- [ ] Resume agent ผ่าน Task tool resume parameter
+- [ ] อัพเดท agent-history.json ด้วย completion
+- [ ] Clear current-agent-id.txt
+- [ ] แจ้งผู้ใช้เรื่องผลลัพธ์
 </success_criteria>

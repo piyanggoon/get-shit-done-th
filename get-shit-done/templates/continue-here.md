@@ -1,6 +1,6 @@
 # Continue-Here Template
 
-Copy and fill this structure for `.planning/phases/XX-name/.continue-here.md`:
+Copy และกรอกโครงสร้างนี้สำหรับ `.planning/phases/XX-name/.continue-here.md`:
 
 ```yaml
 ---
@@ -14,65 +14,65 @@ last_updated: 2025-01-15T14:30:00Z
 
 ```markdown
 <current_state>
-[Where exactly are we? What's the immediate context?]
+[อยู่ตรงไหนแน่ๆ? Immediate context คืออะไร?]
 </current_state>
 
 <completed_work>
-[What got done this session - be specific]
+[ทำอะไรเสร็จ session นี้ - ระบุให้ชัด]
 
-- Task 1: [name] - Done
-- Task 2: [name] - Done
-- Task 3: [name] - In progress, [what's done on it]
+- Task 1: [name] - เสร็จ
+- Task 2: [name] - เสร็จ
+- Task 3: [name] - กำลังทำ, [ทำอะไรไปแล้ว]
 </completed_work>
 
 <remaining_work>
-[What's left in this phase]
+[เหลืออะไรใน phase นี้]
 
-- Task 3: [name] - [what's left to do]
-- Task 4: [name] - Not started
-- Task 5: [name] - Not started
+- Task 3: [name] - [เหลือทำอะไร]
+- Task 4: [name] - ยังไม่เริ่ม
+- Task 5: [name] - ยังไม่เริ่ม
 </remaining_work>
 
 <decisions_made>
-[Key decisions and why - so next session doesn't re-debate]
+[Key decisions และทำไม - เพื่อไม่ให้ session ถัดไปต้อง debate ใหม่]
 
-- Decided to use [X] because [reason]
-- Chose [approach] over [alternative] because [reason]
+- ตัดสินใจใช้ [X] เพราะ [reason]
+- เลือก [approach] แทน [alternative] เพราะ [reason]
 </decisions_made>
 
 <blockers>
-[Anything stuck or waiting on external factors]
+[อะไรติดขัดหรือรอ external factors]
 
 - [Blocker 1]: [status/workaround]
 </blockers>
 
 <context>
-[Mental state, "vibe", anything that helps resume smoothly]
+[Mental state, "vibe", อะไรก็ตามที่ช่วยให้ resume ได้ราบรื่น]
 
-[What were you thinking about? What was the plan?
-This is the "pick up exactly where you left off" context.]
+[กำลังคิดอะไรอยู่? แผนคืออะไร?
+นี่คือ context "หยิบมาทำต่อตรงที่หยุดไว้เลย"]
 </context>
 
 <next_action>
-[The very first thing to do when resuming]
+[สิ่งแรกที่ต้องทำเมื่อ resume]
 
-Start with: [specific action]
+เริ่มด้วย: [specific action]
 </next_action>
 ```
 
 <yaml_fields>
-Required YAML frontmatter:
+YAML frontmatter ที่ต้องมี:
 
-- `phase`: Directory name (e.g., `02-authentication`)
-- `task`: Current task number
-- `total_tasks`: How many tasks in phase
+- `phase`: ชื่อโฟลเดอร์ (เช่น `02-authentication`)
+- `task`: หมายเลข task ปัจจุบัน
+- `total_tasks`: จำนวน tasks ใน phase
 - `status`: `in_progress`, `blocked`, `almost_done`
 - `last_updated`: ISO timestamp
 </yaml_fields>
 
 <guidelines>
-- Be specific enough that a fresh Claude instance understands immediately
-- Include WHY decisions were made, not just what
-- The `<next_action>` should be actionable without reading anything else
-- This file gets DELETED after resume - it's not permanent storage
+- ระบุให้ชัดพอที่ Claude instance ใหม่จะเข้าใจได้ทันที
+- รวม WHY ที่ตัดสินใจ ไม่ใช่แค่ what
+- `<next_action>` ควร actionable ได้โดยไม่ต้องอ่านอะไรอื่น
+- ไฟล์นี้จะถูกลบหลัง resume - ไม่ใช่ permanent storage
 </guidelines>

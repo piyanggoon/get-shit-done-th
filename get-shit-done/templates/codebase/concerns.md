@@ -1,310 +1,310 @@
-# Codebase Concerns Template
+# เทมเพลต Codebase Concerns
 
-Template for `.planning/codebase/CONCERNS.md` - captures known issues and areas requiring care.
+เทมเพลตสำหรับ `.planning/codebase/CONCERNS.md` - บันทึกปัญหาที่รู้จักและพื้นที่ที่ต้องระวัง
 
-**Purpose:** Surface actionable warnings about the codebase. Focused on "what to watch out for when making changes."
+**วัตถุประสงค์:** แสดง actionable warnings เกี่ยวกับ codebase เน้นที่ "ต้องระวังอะไรเมื่อทำการเปลี่ยนแปลง"
 
 ---
 
-## File Template
+## เทมเพลตไฟล์
 
 ```markdown
 # Codebase Concerns
 
-**Analysis Date:** [YYYY-MM-DD]
+**วันที่วิเคราะห์:** [YYYY-MM-DD]
 
 ## Tech Debt
 
-**[Area/Component]:**
-- Issue: [What's the shortcut/workaround]
-- Why: [Why it was done this way]
-- Impact: [What breaks or degrades because of it]
-- Fix approach: [How to properly address it]
+**[พื้นที่/Component]:**
+- ปัญหา: [อะไรคือ shortcut/workaround]
+- ทำไม: [ทำไมทำแบบนี้]
+- ผลกระทบ: [อะไรพังหรือแย่ลงเพราะมัน]
+- แนวทางแก้ไข: [วิธี address อย่างถูกต้อง]
 
-**[Area/Component]:**
-- Issue: [What's the shortcut/workaround]
-- Why: [Why it was done this way]
-- Impact: [What breaks or degrades because of it]
-- Fix approach: [How to properly address it]
+**[พื้นที่/Component]:**
+- ปัญหา: [อะไรคือ shortcut/workaround]
+- ทำไม: [ทำไมทำแบบนี้]
+- ผลกระทบ: [อะไรพังหรือแย่ลงเพราะมัน]
+- แนวทางแก้ไข: [วิธี address อย่างถูกต้อง]
 
 ## Known Bugs
 
-**[Bug description]:**
-- Symptoms: [What happens]
-- Trigger: [How to reproduce]
-- Workaround: [Temporary mitigation if any]
-- Root cause: [If known]
-- Blocked by: [If waiting on something]
+**[คำอธิบาย Bug]:**
+- อาการ: [อะไรเกิดขึ้น]
+- Trigger: [วิธีทำซ้ำ]
+- Workaround: [mitigation ชั่วคราวถ้ามี]
+- สาเหตุ: [ถ้ารู้]
+- Blocked by: [ถ้ารออะไรอยู่]
 
-**[Bug description]:**
-- Symptoms: [What happens]
-- Trigger: [How to reproduce]
-- Workaround: [Temporary mitigation if any]
-- Root cause: [If known]
+**[คำอธิบาย Bug]:**
+- อาการ: [อะไรเกิดขึ้น]
+- Trigger: [วิธีทำซ้ำ]
+- Workaround: [mitigation ชั่วคราวถ้ามี]
+- สาเหตุ: [ถ้ารู้]
 
 ## Security Considerations
 
-**[Area requiring security care]:**
-- Risk: [What could go wrong]
-- Current mitigation: [What's in place now]
-- Recommendations: [What should be added]
+**[พื้นที่ที่ต้องระวัง security]:**
+- ความเสี่ยง: [อะไรอาจผิดพลาด]
+- Mitigation ปัจจุบัน: [อะไรมีอยู่ตอนนี้]
+- คำแนะนำ: [อะไรควรเพิ่ม]
 
-**[Area requiring security care]:**
-- Risk: [What could go wrong]
-- Current mitigation: [What's in place now]
-- Recommendations: [What should be added]
+**[พื้นที่ที่ต้องระวัง security]:**
+- ความเสี่ยง: [อะไรอาจผิดพลาด]
+- Mitigation ปัจจุบัน: [อะไรมีอยู่ตอนนี้]
+- คำแนะนำ: [อะไรควรเพิ่ม]
 
 ## Performance Bottlenecks
 
-**[Slow operation/endpoint]:**
-- Problem: [What's slow]
-- Measurement: [Actual numbers: "500ms p95", "2s load time"]
-- Cause: [Why it's slow]
-- Improvement path: [How to speed it up]
+**[Operation/endpoint ที่ช้า]:**
+- ปัญหา: [อะไรช้า]
+- การวัด: [ตัวเลขจริง: "500ms p95", "2s load time"]
+- สาเหตุ: [ทำไมช้า]
+- แนวทางปรับปรุง: [วิธีเร่งความเร็ว]
 
-**[Slow operation/endpoint]:**
-- Problem: [What's slow]
-- Measurement: [Actual numbers]
-- Cause: [Why it's slow]
-- Improvement path: [How to speed it up]
+**[Operation/endpoint ที่ช้า]:**
+- ปัญหา: [อะไรช้า]
+- การวัด: [ตัวเลขจริง]
+- สาเหตุ: [ทำไมช้า]
+- แนวทางปรับปรุง: [วิธีเร่งความเร็ว]
 
 ## Fragile Areas
 
 **[Component/Module]:**
-- Why fragile: [What makes it break easily]
-- Common failures: [What typically goes wrong]
-- Safe modification: [How to change it without breaking]
-- Test coverage: [Is it tested? Gaps?]
+- ทำไมเปราะบาง: [อะไรทำให้พังง่าย]
+- ความล้มเหลวทั่วไป: [อะไรมักผิดพลาด]
+- การแก้ไขอย่างปลอดภัย: [วิธีเปลี่ยนโดยไม่พัง]
+- Test coverage: [มี test ไหม? gaps?]
 
 **[Component/Module]:**
-- Why fragile: [What makes it break easily]
-- Common failures: [What typically goes wrong]
-- Safe modification: [How to change it without breaking]
-- Test coverage: [Is it tested? Gaps?]
+- ทำไมเปราะบาง: [อะไรทำให้พังง่าย]
+- ความล้มเหลวทั่วไป: [อะไรมักผิดพลาด]
+- การแก้ไขอย่างปลอดภัย: [วิธีเปลี่ยนโดยไม่พัง]
+- Test coverage: [มี test ไหม? gaps?]
 
 ## Scaling Limits
 
 **[Resource/System]:**
-- Current capacity: [Numbers: "100 req/sec", "10k users"]
-- Limit: [Where it breaks]
-- Symptoms at limit: [What happens]
-- Scaling path: [How to increase capacity]
+- ความจุปัจจุบัน: [ตัวเลข: "100 req/sec", "10k users"]
+- ขีดจำกัด: [ที่ไหนที่มันพัง]
+- อาการที่ขีดจำกัด: [อะไรเกิดขึ้น]
+- แนวทาง scaling: [วิธีเพิ่ม capacity]
 
 ## Dependencies at Risk
 
 **[Package/Service]:**
-- Risk: [e.g., "deprecated", "unmaintained", "breaking changes coming"]
-- Impact: [What breaks if it fails]
-- Migration plan: [Alternative or upgrade path]
+- ความเสี่ยง: [เช่น "deprecated", "unmaintained", "breaking changes coming"]
+- ผลกระทบ: [อะไรพังถ้ามันล้มเหลว]
+- Migration plan: [ทางเลือกหรือแนวทาง upgrade]
 
 ## Missing Critical Features
 
 **[Feature gap]:**
-- Problem: [What's missing]
-- Current workaround: [How users cope]
-- Blocks: [What can't be done without it]
-- Implementation complexity: [Rough effort estimate]
+- ปัญหา: [อะไรหายไป]
+- Workaround ปัจจุบัน: [ผู้ใช้รับมืออย่างไร]
+- Blocks: [อะไรทำไม่ได้หากไม่มีมัน]
+- Implementation complexity: [ประมาณ effort คร่าวๆ]
 
 ## Test Coverage Gaps
 
-**[Untested area]:**
-- What's not tested: [Specific functionality]
-- Risk: [What could break unnoticed]
+**[พื้นที่ที่ไม่ได้ test]:**
+- อะไรไม่ได้ test: [Functionality เฉพาะ]
+- ความเสี่ยง: [อะไรอาจพังโดยไม่รู้]
 - Priority: [High/Medium/Low]
-- Difficulty to test: [Why it's not tested yet]
+- Difficulty to test: [ทำไมยังไม่ได้ test]
 
 ---
 
-*Concerns audit: [date]*
-*Update as issues are fixed or new ones discovered*
+*Concerns audit: [วันที่]*
+*อัปเดตเมื่อปัญหาถูกแก้ไขหรือค้นพบใหม่*
 ```
 
 <good_examples>
 ```markdown
 # Codebase Concerns
 
-**Analysis Date:** 2025-01-20
+**วันที่วิเคราะห์:** 2025-01-20
 
 ## Tech Debt
 
-**Database queries in React components:**
-- Issue: Direct Supabase queries in 15+ page components instead of server actions
-- Files: `app/dashboard/page.tsx`, `app/profile/page.tsx`, `app/courses/[id]/page.tsx`, `app/settings/page.tsx` (and 11 more in `app/`)
-- Why: Rapid prototyping during MVP phase
-- Impact: Can't implement RLS properly, exposes DB structure to client
-- Fix approach: Move all queries to server actions in `app/actions/`, add proper RLS policies
+**Database queries ใน React components:**
+- ปัญหา: Direct Supabase queries ใน 15+ page components แทนที่จะใช้ server actions
+- ไฟล์: `app/dashboard/page.tsx`, `app/profile/page.tsx`, `app/courses/[id]/page.tsx`, `app/settings/page.tsx` (และอีก 11 ใน `app/`)
+- ทำไม: Rapid prototyping ระหว่าง MVP phase
+- ผลกระทบ: Implement RLS อย่างถูกต้องไม่ได้, expose DB structure ให้ client
+- แนวทางแก้ไข: ย้าย queries ทั้งหมดไปยัง server actions ใน `app/actions/`, เพิ่ม proper RLS policies
 
 **Manual webhook signature validation:**
-- Issue: Copy-pasted Stripe webhook verification code in 3 different endpoints
-- Files: `app/api/webhooks/stripe/route.ts`, `app/api/webhooks/checkout/route.ts`, `app/api/webhooks/subscription/route.ts`
-- Why: Each webhook added ad-hoc without abstraction
-- Impact: Easy to miss verification in new webhooks (security risk)
-- Fix approach: Create shared `lib/stripe/validate-webhook.ts` middleware
+- ปัญหา: Copy-pasted Stripe webhook verification code ใน 3 endpoints ต่างกัน
+- ไฟล์: `app/api/webhooks/stripe/route.ts`, `app/api/webhooks/checkout/route.ts`, `app/api/webhooks/subscription/route.ts`
+- ทำไม: แต่ละ webhook เพิ่ม ad-hoc โดยไม่มี abstraction
+- ผลกระทบ: ง่ายที่จะพลาด verification ใน webhooks ใหม่ (security risk)
+- แนวทางแก้ไข: สร้าง shared `lib/stripe/validate-webhook.ts` middleware
 
 ## Known Bugs
 
-**Race condition in subscription updates:**
-- Symptoms: User shows as "free" tier for 5-10 seconds after successful payment
-- Trigger: Fast navigation after Stripe checkout redirect, before webhook processes
-- Files: `app/checkout/success/page.tsx` (redirect handler), `app/api/webhooks/stripe/route.ts` (webhook)
-- Workaround: Stripe webhook eventually updates status (self-heals)
-- Root cause: Webhook processing slower than user navigation, no optimistic UI update
-- Fix: Add polling in `app/checkout/success/page.tsx` after redirect
+**Race condition ใน subscription updates:**
+- อาการ: ผู้ใช้แสดงเป็น "free" tier เป็นเวลา 5-10 วินาทีหลังจาก payment สำเร็จ
+- Trigger: Fast navigation หลัง Stripe checkout redirect ก่อน webhook processes
+- ไฟล์: `app/checkout/success/page.tsx` (redirect handler), `app/api/webhooks/stripe/route.ts` (webhook)
+- Workaround: Stripe webhook ในที่สุดอัปเดต status (self-heals)
+- สาเหตุ: Webhook processing ช้ากว่า user navigation ไม่มี optimistic UI update
+- แก้ไข: เพิ่ม polling ใน `app/checkout/success/page.tsx` หลัง redirect
 
-**Inconsistent session state after logout:**
-- Symptoms: User redirected to /dashboard after logout instead of /login
-- Trigger: Logout via button in mobile nav (desktop works fine)
-- File: `components/MobileNav.tsx` (line ~45, logout handler)
-- Workaround: Manual URL navigation to /login works
-- Root cause: Mobile nav component not awaiting supabase.auth.signOut()
-- Fix: Add await to logout handler in `components/MobileNav.tsx`
+**Inconsistent session state หลัง logout:**
+- อาการ: ผู้ใช้ถูก redirect ไปยัง /dashboard หลัง logout แทนที่จะเป็น /login
+- Trigger: Logout ผ่านปุ่มใน mobile nav (desktop ทำงานปกติ)
+- ไฟล์: `components/MobileNav.tsx` (บรรทัด ~45, logout handler)
+- Workaround: Manual URL navigation ไปยัง /login ทำงาน
+- สาเหตุ: Mobile nav component ไม่ได้ await supabase.auth.signOut()
+- แก้ไข: เพิ่ม await ให้ logout handler ใน `components/MobileNav.tsx`
 
 ## Security Considerations
 
 **Admin role check client-side only:**
-- Risk: Admin dashboard pages check isAdmin from Supabase client, no server verification
-- Files: `app/admin/page.tsx`, `app/admin/users/page.tsx`, `components/AdminGuard.tsx`
-- Current mitigation: None (relying on UI hiding)
-- Recommendations: Add middleware to admin routes in `middleware.ts`, verify role server-side
+- ความเสี่ยง: Admin dashboard pages ตรวจสอบ isAdmin จาก Supabase client ไม่มี server verification
+- ไฟล์: `app/admin/page.tsx`, `app/admin/users/page.tsx`, `components/AdminGuard.tsx`
+- Mitigation ปัจจุบัน: ไม่มี (พึ่งพา UI hiding)
+- คำแนะนำ: เพิ่ม middleware ให้ admin routes ใน `middleware.ts`, verify role server-side
 
 **Unvalidated file uploads:**
-- Risk: Users can upload any file type to avatar bucket (no size/type validation)
-- File: `components/AvatarUpload.tsx` (upload handler)
-- Current mitigation: Supabase bucket limits to 2MB (configured in dashboard)
-- Recommendations: Add file type validation (image/* only) in `lib/storage/validate.ts`
+- ความเสี่ยง: ผู้ใช้สามารถ upload file type ใดก็ได้ไปยัง avatar bucket (ไม่มี size/type validation)
+- ไฟล์: `components/AvatarUpload.tsx` (upload handler)
+- Mitigation ปัจจุบัน: Supabase bucket จำกัด 2MB (configured ใน dashboard)
+- คำแนะนำ: เพิ่ม file type validation (image/* only) ใน `lib/storage/validate.ts`
 
 ## Performance Bottlenecks
 
 **/api/courses endpoint:**
-- Problem: Fetching all courses with nested lessons and authors
-- File: `app/api/courses/route.ts`
-- Measurement: 1.2s p95 response time with 50+ courses
-- Cause: N+1 query pattern (separate query per course for lessons)
-- Improvement path: Use Prisma include to eager-load lessons in `lib/db/courses.ts`, add Redis caching
+- ปัญหา: Fetching courses ทั้งหมดพร้อม nested lessons และ authors
+- ไฟล์: `app/api/courses/route.ts`
+- การวัด: 1.2s p95 response time กับ 50+ courses
+- สาเหตุ: N+1 query pattern (query แยกต่อ course สำหรับ lessons)
+- แนวทางปรับปรุง: ใช้ Prisma include เพื่อ eager-load lessons ใน `lib/db/courses.ts`, เพิ่ม Redis caching
 
 **Dashboard initial load:**
-- Problem: Waterfall of 5 serial API calls on mount
-- File: `app/dashboard/page.tsx`
-- Measurement: 3.5s until interactive on slow 3G
-- Cause: Each component fetches own data independently
-- Improvement path: Convert to Server Component with single parallel fetch
+- ปัญหา: Waterfall ของ 5 serial API calls เมื่อ mount
+- ไฟล์: `app/dashboard/page.tsx`
+- การวัด: 3.5s จนถึง interactive บน slow 3G
+- สาเหตุ: แต่ละ component fetch data ของตัวเองแยกกัน
+- แนวทางปรับปรุง: แปลงเป็น Server Component พร้อม single parallel fetch
 
 ## Fragile Areas
 
 **Authentication middleware chain:**
-- File: `middleware.ts`
-- Why fragile: 4 different middleware functions run in specific order (auth -> role -> subscription -> logging)
-- Common failures: Middleware order change breaks everything, hard to debug
-- Safe modification: Add tests before changing order, document dependencies in comments
-- Test coverage: No integration tests for middleware chain (only unit tests)
+- ไฟล์: `middleware.ts`
+- ทำไมเปราะบาง: 4 middleware functions ต่างกันรันตามลำดับเฉพาะ (auth -> role -> subscription -> logging)
+- ความล้มเหลวทั่วไป: Middleware order เปลี่ยนแล้วทุกอย่างพัง debug ยาก
+- การแก้ไขอย่างปลอดภัย: เพิ่ม tests ก่อนเปลี่ยน order, document dependencies ใน comments
+- Test coverage: ไม่มี integration tests สำหรับ middleware chain (มีแค่ unit tests)
 
 **Stripe webhook event handling:**
-- File: `app/api/webhooks/stripe/route.ts`
-- Why fragile: Giant switch statement with 12 event types, shared transaction logic
-- Common failures: New event type added without handling, partial DB updates on error
-- Safe modification: Extract each event handler to `lib/stripe/handlers/*.ts`
-- Test coverage: Only 3 of 12 event types have tests
+- ไฟล์: `app/api/webhooks/stripe/route.ts`
+- ทำไมเปราะบาง: Giant switch statement กับ 12 event types, shared transaction logic
+- ความล้มเหลวทั่วไป: Event type ใหม่เพิ่มโดยไม่ handle, partial DB updates เมื่อ error
+- การแก้ไขอย่างปลอดภัย: Extract แต่ละ event handler ไปยัง `lib/stripe/handlers/*.ts`
+- Test coverage: แค่ 3 จาก 12 event types มี tests
 
 ## Scaling Limits
 
 **Supabase Free Tier:**
-- Current capacity: 500MB database, 1GB file storage, 2GB bandwidth/month
-- Limit: ~5000 users estimated before hitting limits
-- Symptoms at limit: 429 rate limit errors, DB writes fail
-- Scaling path: Upgrade to Pro ($25/mo) extends to 8GB DB, 100GB storage
+- ความจุปัจจุบัน: 500MB database, 1GB file storage, 2GB bandwidth/เดือน
+- ขีดจำกัด: ~5000 users ประมาณก่อนถึง limits
+- อาการที่ขีดจำกัด: 429 rate limit errors, DB writes fail
+- แนวทาง scaling: Upgrade เป็น Pro ($25/เดือน) extends ไปยัง 8GB DB, 100GB storage
 
 **Server-side render blocking:**
-- Current capacity: ~50 concurrent users before slowdown
-- Limit: Vercel Hobby plan (10s function timeout, 100GB-hrs/mo)
-- Symptoms at limit: 504 gateway timeouts on course pages
-- Scaling path: Upgrade to Vercel Pro ($20/mo), add edge caching
+- ความจุปัจจุบัน: ~50 concurrent users ก่อน slowdown
+- ขีดจำกัด: Vercel Hobby plan (10s function timeout, 100GB-hrs/เดือน)
+- อาการที่ขีดจำกัด: 504 gateway timeouts บน course pages
+- แนวทาง scaling: Upgrade เป็น Vercel Pro ($20/เดือน), เพิ่ม edge caching
 
 ## Dependencies at Risk
 
 **react-hot-toast:**
-- Risk: Unmaintained (last update 18 months ago), React 19 compatibility unknown
-- Impact: Toast notifications break, no graceful degradation
-- Migration plan: Switch to sonner (actively maintained, similar API)
+- ความเสี่ยง: Unmaintained (last update 18 เดือนที่แล้ว), React 19 compatibility ไม่รู้
+- ผลกระทบ: Toast notifications พัง ไม่มี graceful degradation
+- Migration plan: เปลี่ยนไปใช้ sonner (actively maintained, similar API)
 
 ## Missing Critical Features
 
 **Payment failure handling:**
-- Problem: No retry mechanism or user notification when subscription payment fails
-- Current workaround: Users manually re-enter payment info (if they notice)
-- Blocks: Can't retain users with expired cards, no dunning process
+- ปัญหา: ไม่มี retry mechanism หรือ user notification เมื่อ subscription payment ล้มเหลว
+- Workaround ปัจจุบัน: ผู้ใช้ manual re-enter payment info (ถ้าสังเกตเห็น)
+- Blocks: รักษาผู้ใช้ที่ cards expired ไม่ได้, ไม่มี dunning process
 - Implementation complexity: Medium (Stripe webhooks + email flow + UI)
 
 **Course progress tracking:**
-- Problem: No persistent state for which lessons completed
-- Current workaround: Users manually track progress
-- Blocks: Can't show completion percentage, can't recommend next lesson
-- Implementation complexity: Low (add completed_lessons junction table)
+- ปัญหา: ไม่มี persistent state สำหรับ lessons ที่เสร็จไปแล้ว
+- Workaround ปัจจุบัน: ผู้ใช้ manual track progress
+- Blocks: แสดง completion percentage ไม่ได้, แนะนำ next lesson ไม่ได้
+- Implementation complexity: Low (เพิ่ม completed_lessons junction table)
 
 ## Test Coverage Gaps
 
 **Payment flow end-to-end:**
-- What's not tested: Full Stripe checkout -> webhook -> subscription activation flow
-- Risk: Payment processing could break silently (has happened twice)
+- อะไรไม่ได้ test: Full Stripe checkout -> webhook -> subscription activation flow
+- ความเสี่ยง: Payment processing อาจพังเงียบๆ (เคยเกิดสองครั้ง)
 - Priority: High
-- Difficulty to test: Need Stripe test fixtures and webhook simulation setup
+- Difficulty to test: ต้อง Stripe test fixtures และ webhook simulation setup
 
 **Error boundary behavior:**
-- What's not tested: How app behaves when components throw errors
-- Risk: White screen of death for users, no error reporting
+- อะไรไม่ได้ test: App behaves อย่างไรเมื่อ components throw errors
+- ความเสี่ยง: White screen of death สำหรับผู้ใช้, ไม่มี error reporting
 - Priority: Medium
-- Difficulty to test: Need to intentionally trigger errors in test environment
+- Difficulty to test: ต้อง intentionally trigger errors ใน test environment
 
 ---
 
 *Concerns audit: 2025-01-20*
-*Update as issues are fixed or new ones discovered*
+*อัปเดตเมื่อปัญหาถูกแก้ไขหรือค้นพบใหม่*
 ```
 </good_examples>
 
 <guidelines>
-**What belongs in CONCERNS.md:**
-- Tech debt with clear impact and fix approach
-- Known bugs with reproduction steps
-- Security gaps and mitigation recommendations
-- Performance bottlenecks with measurements
-- Fragile code that breaks easily
-- Scaling limits with numbers
-- Dependencies that need attention
-- Missing features that block workflows
+**อะไรควรอยู่ใน CONCERNS.md:**
+- Tech debt พร้อม clear impact และ fix approach
+- Known bugs พร้อม reproduction steps
+- Security gaps และ mitigation recommendations
+- Performance bottlenecks พร้อม measurements
+- Fragile code ที่พังง่าย
+- Scaling limits พร้อมตัวเลข
+- Dependencies ที่ต้องการความสนใจ
+- Missing features ที่ block workflows
 - Test coverage gaps
 
-**What does NOT belong here:**
-- Opinions without evidence ("code is messy")
-- Complaints without solutions ("auth sucks")
-- Future feature ideas (that's for product planning)
-- Normal TODOs (those live in code comments)
-- Architectural decisions that are working fine
+**อะไรไม่ควรอยู่ที่นี่:**
+- ความคิดเห็นโดยไม่มีหลักฐาน ("code is messy")
+- ข้อร้องเรียนโดยไม่มี solutions ("auth sucks")
+- Future feature ideas (นั่นสำหรับ product planning)
+- TODOs ปกติ (อยู่ใน code comments)
+- Architectural decisions ที่ทำงานดี
 - Minor code style issues
 
-**When filling this template:**
-- **Always include file paths** - Concerns without locations are not actionable. Use backticks: `src/file.ts`
-- Be specific with measurements ("500ms p95" not "slow")
-- Include reproduction steps for bugs
-- Suggest fix approaches, not just problems
-- Focus on actionable items
-- Prioritize by risk/impact
-- Update as issues get resolved
-- Add new concerns as discovered
+**เมื่อกรอกเทมเพลตนี้:**
+- **รวม file paths เสมอ** - Concerns ที่ไม่มีตำแหน่งไม่ actionable ใช้ backticks: `src/file.ts`
+- เจาะจงพร้อม measurements ("500ms p95" ไม่ใช่ "slow")
+- รวม reproduction steps สำหรับ bugs
+- แนะนำ fix approaches ไม่ใช่แค่ปัญหา
+- เน้นที่ actionable items
+- จัดลำดับตาม risk/impact
+- อัปเดตเมื่อ issues ถูกแก้ไข
+- เพิ่ม concerns ใหม่เมื่อค้นพบ
 
-**Tone guidelines:**
-- Professional, not emotional ("N+1 query pattern" not "terrible queries")
-- Solution-oriented ("Fix: add index" not "needs fixing")
-- Risk-focused ("Could expose user data" not "security is bad")
-- Factual ("3.5s load time" not "really slow")
+**แนวทาง Tone:**
+- Professional ไม่ใช่ emotional ("N+1 query pattern" ไม่ใช่ "terrible queries")
+- Solution-oriented ("Fix: add index" ไม่ใช่ "needs fixing")
+- Risk-focused ("Could expose user data" ไม่ใช่ "security is bad")
+- Factual ("3.5s load time" ไม่ใช่ "really slow")
 
-**Useful for phase planning when:**
-- Deciding what to work on next
-- Estimating risk of changes
-- Understanding where to be careful
-- Prioritizing improvements
+**มีประโยชน์สำหรับ phase planning เมื่อ:**
+- ตัดสินใจจะทำอะไรต่อไป
+- ประมาณ risk ของ changes
+- เข้าใจที่ไหนต้องระวัง
+- จัดลำดับ improvements
 - Onboarding new Claude contexts
-- Planning refactoring work
+- วางแผน refactoring work
 
-**How this gets populated:**
-Explore agents detect these during codebase mapping. Manual additions welcome for human-discovered issues. This is living documentation, not a complaint list.
+**สิ่งนี้ถูก populated อย่างไร:**
+Explore agents ตรวจจับสิ่งเหล่านี้ระหว่าง codebase mapping Manual additions ยินดีต้อนรับสำหรับ human-discovered issues นี่คือ living documentation ไม่ใช่ complaint list
 </guidelines>

@@ -1,7 +1,7 @@
 ---
 name: gsd:plan-fix
-description: Plan fixes for UAT issues from verify-work
-argument-hint: "[plan, e.g., '04-02']"
+description: วางแผนแก้ไข UAT issues จาก verify-work
+argument-hint: "[plan, เช่น '04-02']"
 allowed-tools:
   - Read
   - Bash
@@ -12,10 +12,10 @@ allowed-tools:
 ---
 
 <objective>
-Create FIX.md plan from UAT issues found during verify-work.
+สร้าง FIX.md plan จาก UAT issues ที่พบระหว่าง verify-work
 
-Purpose: Plan fixes for issues logged in phase-scoped ISSUES.md files.
-Output: {plan}-FIX.md in the phase directory, ready for execution.
+วัตถุประสงค์: วางแผนแก้ไข issues ที่ log ไว้ในไฟล์ ISSUES.md ที่ scope ตาม phase
+Output: {plan}-FIX.md ในโฟลเดอร์ phase พร้อมสำหรับ execution
 </objective>
 
 <execution_context>
@@ -24,9 +24,9 @@ Output: {plan}-FIX.md in the phase directory, ready for execution.
 </execution_context>
 
 <context>
-Plan number: $ARGUMENTS (required - e.g., "04-02" or "09-01")
+Plan number: $ARGUMENTS (required - เช่น "04-02" หรือ "09-01")
 
-**Load project state:**
+**โหลด project state:**
 @.planning/STATE.md
 @.planning/ROADMAP.md
 </context>
@@ -36,80 +36,80 @@ Plan number: $ARGUMENTS (required - e.g., "04-02" or "09-01")
 <step name="parse">
 **Parse plan argument:**
 
-$ARGUMENTS should be a plan number like "04-02" or "09-01".
-Extract phase number (XX) and plan number (NN).
+$ARGUMENTS ควรเป็น plan number เช่น "04-02" หรือ "09-01"
+ดึง phase number (XX) และ plan number (NN)
 
-If no argument provided:
+ถ้าไม่มี argument:
 ```
-Error: Plan number required.
+Error: ต้องระบุ plan number
 
-Usage: /gsd:plan-fix 04-02
+การใช้งาน: /gsd:plan-fix 04-02
 
-This creates a fix plan from .planning/phases/XX-name/04-02-ISSUES.md
+นี่จะสร้าง fix plan จาก .planning/phases/XX-name/04-02-ISSUES.md
 ```
-Exit.
+ออกจากคำสั่ง
 </step>
 
 <step name="find">
-**Find ISSUES.md file:**
+**หาไฟล์ ISSUES.md:**
 
-Search for matching ISSUES.md:
+ค้นหา ISSUES.md ที่ตรงกัน:
 ```bash
 ls .planning/phases/*/{plan}-ISSUES.md 2>/dev/null
 ```
 
-If not found:
+ถ้าไม่พบ:
 ```
-No ISSUES.md found for plan {plan}.
+ไม่พบ ISSUES.md สำหรับ plan {plan}
 
-ISSUES.md files are created by /gsd:verify-work when UAT finds issues.
-If no issues were found during testing, no fix plan is needed.
+ไฟล์ ISSUES.md ถูกสร้างโดย /gsd:verify-work เมื่อ UAT พบ issues
+ถ้าไม่พบ issues ระหว่างทดสอบ ไม่ต้องมี fix plan
 ```
-Exit.
+ออกจากคำสั่ง
 </step>
 
 <step name="read">
-**Read issues:**
+**อ่าน issues:**
 
-Read the ISSUES.md file.
-Parse each issue:
+อ่านไฟล์ ISSUES.md
+Parse แต่ละ issue:
 - ID (UAT-XXX)
 - Title
 - Severity (critical/major/minor)
 - Description/steps to reproduce
 - Acceptance criteria
 
-Count total issues by severity.
+นับ issues รวมตาม severity
 </step>
 
 <step name="plan">
-**Create fix tasks:**
+**สร้าง fix tasks:**
 
-For each issue (or logical group):
-- Create one task per issue OR
-- Group related minor issues into single task
+สำหรับแต่ละ issue (หรือกลุ่มที่เกี่ยวข้อง):
+- สร้าง task หนึ่งต่อ issue หรือ
+- รวม minor issues ที่เกี่ยวข้องเป็น task เดียว
 
 Task structure:
 ```xml
 <task type="auto">
   <name>Fix UAT-001: [issue title]</name>
-  <files>[affected files from issue]</files>
+  <files>[affected files จาก issue]</files>
   <action>
-[What to fix based on issue description]
-[Reference original acceptance criteria]
+[จะแก้อะไรตาม issue description]
+[อ้างอิง original acceptance criteria]
   </action>
-  <verify>[Test that issue is resolved]</verify>
+  <verify>[ทดสอบว่า issue แก้แล้ว]</verify>
   <done>[Issue acceptance criteria met]</done>
 </task>
 ```
 
-Prioritize: critical → major → minor
+จัดลำดับความสำคัญ: critical → major → minor
 </step>
 
 <step name="write">
-**Write FIX.md:**
+**เขียน FIX.md:**
 
-Create `.planning/phases/XX-name/{plan}-FIX.md`:
+สร้าง `.planning/phases/XX-name/{plan}-FIX.md`:
 
 ```markdown
 ---
@@ -119,7 +119,7 @@ type: fix
 ---
 
 <objective>
-Fix {N} UAT issues from plan {plan}.
+แก้ {N} UAT issues จาก plan {plan}
 
 Source: {plan}-ISSUES.md
 Priority: {critical count} critical, {major count} major, {minor count} minor
@@ -134,10 +134,10 @@ Priority: {critical count} critical, {major count} major, {minor count} minor
 @.planning/STATE.md
 @.planning/ROADMAP.md
 
-**Issues being fixed:**
+**Issues ที่กำลังแก้:**
 @.planning/phases/XX-name/{plan}-ISSUES.md
 
-**Original plan for reference:**
+**Original plan สำหรับอ้างอิง:**
 @.planning/phases/XX-name/{plan}-PLAN.md
 </context>
 
@@ -146,34 +146,34 @@ Priority: {critical count} critical, {major count} major, {minor count} minor
 </tasks>
 
 <verification>
-Before declaring plan complete:
-- [ ] All critical issues fixed
-- [ ] All major issues fixed
-- [ ] Minor issues fixed or documented as deferred
-- [ ] Original acceptance criteria from issues met
+ก่อนประกาศว่า plan เสร็จ:
+- [ ] แก้ critical issues ทั้งหมดแล้ว
+- [ ] แก้ major issues ทั้งหมดแล้ว
+- [ ] แก้ minor issues แล้วหรือ document ว่าเลื่อน
+- [ ] Original acceptance criteria จาก issues ผ่าน
 </verification>
 
 <success_criteria>
-- All UAT issues from {plan}-ISSUES.md addressed
-- Tests pass
-- Ready for re-verification
+- UAT issues ทั้งหมดจาก {plan}-ISSUES.md ถูก address
+- Tests ผ่าน
+- พร้อมสำหรับ re-verification
 </success_criteria>
 
 <output>
-After completion, create `.planning/phases/XX-name/{plan}-FIX-SUMMARY.md`
+หลังเสร็จ สร้าง `.planning/phases/XX-name/{plan}-FIX-SUMMARY.md`
 </output>
 ```
 </step>
 
 <step name="offer">
-**Offer execution:**
+**เสนอให้ execute:**
 
 ```
 ---
 
-## ✓ Fix Plan Created
+## ✓ สร้าง Fix Plan แล้ว
 
-**{plan}-FIX.md** — {N} issues to fix
+**{plan}-FIX.md** — {N} issues ที่ต้องแก้
 
 | Severity | Count |
 |----------|-------|
@@ -183,23 +183,23 @@ After completion, create `.planning/phases/XX-name/{plan}-FIX-SUMMARY.md`
 
 ---
 
-Would you like to:
-1. Execute the fix plan now
-2. Review the plan first
-3. Modify the plan before executing
+ต้องการ:
+1. Execute fix plan ตอนนี้
+2. Review plan ก่อน
+3. แก้ไข plan ก่อน execute
 
 ---
 ```
 
-Use AskUserQuestion to get response.
-If execute: `/gsd:execute-plan .planning/phases/XX-name/{plan}-FIX.md`
+ใช้ AskUserQuestion เพื่อรับคำตอบ
+ถ้า execute: `/gsd:execute-plan .planning/phases/XX-name/{plan}-FIX.md`
 </step>
 
 </process>
 
 <success_criteria>
-- [ ] ISSUES.md found and parsed
-- [ ] Fix tasks created for each issue
-- [ ] FIX.md written with proper structure
-- [ ] User offered to execute or review
+- [ ] พบและ parse ISSUES.md
+- [ ] สร้าง fix tasks สำหรับแต่ละ issue
+- [ ] เขียน FIX.md ด้วย structure ที่ถูกต้อง
+- [ ] เสนอให้ผู้ใช้ execute หรือ review
 </success_criteria>

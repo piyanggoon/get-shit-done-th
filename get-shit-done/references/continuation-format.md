@@ -1,206 +1,206 @@
-# Continuation Format
+# รูปแบบการดำเนินการต่อ
 
-Standard format for presenting next steps after completing a command or workflow.
+รูปแบบมาตรฐานสำหรับนำเสนอขั้นตอนถัดไปหลังจากทำ command หรือ workflow เสร็จ
 
-## Core Structure
-
-```
----
-
-## ▶ Next Up
-
-**{identifier}: {name}** — {one-line description}
-
-`{command to copy-paste}`
-
-<sub>`/clear` first → fresh context window</sub>
-
----
-
-**Also available:**
-- `{alternative option 1}` — description
-- `{alternative option 2}` — description
-
----
-```
-
-## Format Rules
-
-1. **Always show what it is** — name + description, never just a command path
-2. **Pull context from source** — ROADMAP.md for phases, PLAN.md `<objective>` for plans
-3. **Command in inline code** — backticks, easy to copy-paste, renders as clickable link
-4. **`/clear` explanation** — always include, keeps it concise but explains why
-5. **"Also available" not "Other options"** — sounds more app-like
-6. **Visual separators** — `---` above and below to make it stand out
-
-## Variants
-
-### Execute Next Plan
+## โครงสร้างหลัก
 
 ```
 ---
 
-## ▶ Next Up
+## ▶ ถัดไป
 
-**02-03: Refresh Token Rotation** — Add /api/auth/refresh with sliding expiry
+**{identifier}: {ชื่อ}** — {คำอธิบายหนึ่งบรรทัด}
+
+`{command ที่ copy-paste ได้}`
+
+<sub>`/clear` ก่อน → context window ใหม่</sub>
+
+---
+
+**ตัวเลือกอื่น:**
+- `{ตัวเลือกทางเลือก 1}` — คำอธิบาย
+- `{ตัวเลือกทางเลือก 2}` — คำอธิบาย
+
+---
+```
+
+## กฎรูปแบบ
+
+1. **แสดงว่ามันคืออะไรเสมอ** — ชื่อ + คำอธิบาย ไม่ใช่แค่ path ของ command
+2. **ดึงบริบทจากแหล่งที่มา** — ROADMAP.md สำหรับเฟส, PLAN.md `<objective>` สำหรับแผน
+3. **Command ใน inline code** — backticks, copy-paste ง่าย, render เป็น clickable link
+4. **คำอธิบาย `/clear`** — รวมไว้เสมอ, กระชับแต่อธิบายว่าทำไม
+5. **"ตัวเลือกอื่น" ไม่ใช่ "Other options"** — ฟังดูเหมือนแอปมากกว่า
+6. **Visual separators** — `---` ด้านบนและด้านล่างเพื่อให้โดดเด่น
+
+## รูปแบบต่างๆ
+
+### รันแผนถัดไป
+
+```
+---
+
+## ▶ ถัดไป
+
+**02-03: Refresh Token Rotation** — เพิ่ม /api/auth/refresh พร้อม sliding expiry
 
 `/gsd:execute-plan .planning/phases/02-auth/02-03-PLAN.md`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → context window ใหม่</sub>
 
 ---
 
-**Also available:**
-- Review plan before executing
-- `/gsd:list-phase-assumptions 2` — check assumptions
+**ตัวเลือกอื่น:**
+- ตรวจสอบแผนก่อนรัน
+- `/gsd:list-phase-assumptions 2` — ตรวจสอบสมมติฐาน
 
 ---
 ```
 
-### Execute Final Plan in Phase
+### รันแผนสุดท้ายในเฟส
 
-Add note that this is the last plan and what comes after:
+เพิ่มหมายเหตุว่านี่คือแผนสุดท้ายและอะไรมาหลังจากนี้:
 
 ```
 ---
 
-## ▶ Next Up
+## ▶ ถัดไป
 
-**02-03: Refresh Token Rotation** — Add /api/auth/refresh with sliding expiry
-<sub>Final plan in Phase 2</sub>
+**02-03: Refresh Token Rotation** — เพิ่ม /api/auth/refresh พร้อม sliding expiry
+<sub>แผนสุดท้ายในเฟส 2</sub>
 
 `/gsd:execute-plan .planning/phases/02-auth/02-03-PLAN.md`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → context window ใหม่</sub>
 
 ---
 
-**After this completes:**
-- Phase 2 → Phase 3 transition
-- Next: **Phase 3: Core Features** — User dashboard and settings
+**หลังจากนี้เสร็จ:**
+- เปลี่ยนผ่านเฟส 2 → เฟส 3
+- ถัดไป: **เฟส 3: Core Features** — User dashboard และ settings
 
 ---
 ```
 
-### Plan a Phase
+### วางแผนเฟส
 
 ```
 ---
 
-## ▶ Next Up
+## ▶ ถัดไป
 
-**Phase 2: Authentication** — JWT login flow with refresh tokens
+**เฟส 2: Authentication** — JWT login flow พร้อม refresh tokens
 
 `/gsd:plan-phase 2`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → context window ใหม่</sub>
 
 ---
 
-**Also available:**
-- `/gsd:discuss-phase 2` — gather context first
-- `/gsd:research-phase 2` — investigate unknowns
-- Review roadmap
+**ตัวเลือกอื่น:**
+- `/gsd:discuss-phase 2` — รวบรวมบริบทก่อน
+- `/gsd:research-phase 2` — สืบสวนสิ่งที่ไม่ทราบ
+- ตรวจสอบ roadmap
 
 ---
 ```
 
-### Phase Complete, Ready for Next
+### เฟสเสร็จ พร้อมสำหรับเฟสถัดไป
 
-Show completion status before next action:
+แสดงสถานะเสร็จสิ้นก่อนการดำเนินการถัดไป:
 
 ```
 ---
 
-## ✓ Phase 2 Complete
+## ✓ เฟส 2 เสร็จสมบูรณ์
 
-3/3 plans executed
+3/3 แผนรันแล้ว
 
-## ▶ Next Up
+## ▶ ถัดไป
 
-**Phase 3: Core Features** — User dashboard, settings, and data export
+**เฟส 3: Core Features** — User dashboard, settings, และ data export
 
 `/gsd:plan-phase 3`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → context window ใหม่</sub>
 
 ---
 
-**Also available:**
-- `/gsd:discuss-phase 3` — gather context first
-- `/gsd:research-phase 3` — investigate unknowns
-- Review what Phase 2 built
-
----
-```
-
-### Multiple Equal Options
-
-When there's no clear primary action:
-
-```
----
-
-## ▶ Next Up
-
-**Phase 3: Core Features** — User dashboard, settings, and data export
-
-**To plan directly:** `/gsd:plan-phase 3`
-
-**To discuss context first:** `/gsd:discuss-phase 3`
-
-**To research unknowns:** `/gsd:research-phase 3`
-
-<sub>`/clear` first → fresh context window</sub>
+**ตัวเลือกอื่น:**
+- `/gsd:discuss-phase 3` — รวบรวมบริบทก่อน
+- `/gsd:research-phase 3` — สืบสวนสิ่งที่ไม่ทราบ
+- ตรวจสอบสิ่งที่เฟส 2 สร้าง
 
 ---
 ```
 
-### Milestone Complete
+### หลายตัวเลือกเท่าเทียมกัน
+
+เมื่อไม่มีการดำเนินการหลักที่ชัดเจน:
 
 ```
 ---
 
-## 🎉 Milestone v1.0 Complete
+## ▶ ถัดไป
 
-All 4 phases shipped
+**เฟส 3: Core Features** — User dashboard, settings, และ data export
 
-## ▶ Next Up
+**วางแผนโดยตรง:** `/gsd:plan-phase 3`
 
-**Plan v1.1** — Enhanced features and optimizations
+**พูดคุยบริบทก่อน:** `/gsd:discuss-phase 3`
+
+**ค้นคว้าสิ่งที่ไม่ทราบ:** `/gsd:research-phase 3`
+
+<sub>`/clear` ก่อน → context window ใหม่</sub>
+
+---
+```
+
+### Milestone เสร็จ
+
+```
+---
+
+## 🎉 Milestone v1.0 เสร็จสมบูรณ์
+
+ทุกเฟสทั้ง 4 เฟส shipped แล้ว
+
+## ▶ ถัดไป
+
+**วางแผน v1.1** — Enhanced features และ optimizations
 
 `/gsd:discuss-milestone`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → context window ใหม่</sub>
 
 ---
 
-**Also available:**
-- `/gsd:new-milestone` — create directly if scope is clear
-- Review accomplishments before moving on
+**ตัวเลือกอื่น:**
+- `/gsd:new-milestone` — สร้างโดยตรงถ้า scope ชัดเจน
+- ตรวจสอบความสำเร็จก่อนไปต่อ
 
 ---
 ```
 
-## Pulling Context
+## การดึงบริบท
 
-### For phases (from ROADMAP.md):
+### สำหรับเฟส (จาก ROADMAP.md):
 
 ```markdown
 ### Phase 2: Authentication
 **Goal**: JWT login flow with refresh tokens
 ```
 
-Extract: `**Phase 2: Authentication** — JWT login flow with refresh tokens`
+ดึง: `**เฟส 2: Authentication** — JWT login flow พร้อม refresh tokens`
 
-### For plans (from ROADMAP.md):
+### สำหรับแผน (จาก ROADMAP.md):
 
 ```markdown
 Plans:
 - [ ] 02-03: Add refresh token rotation
 ```
 
-Or from PLAN.md `<objective>`:
+หรือจาก PLAN.md `<objective>`:
 
 ```xml
 <objective>
@@ -210,41 +210,41 @@ Purpose: Extend session lifetime without compromising security.
 </objective>
 ```
 
-Extract: `**02-03: Refresh Token Rotation** — Add /api/auth/refresh with sliding expiry`
+ดึง: `**02-03: Refresh Token Rotation** — เพิ่ม /api/auth/refresh พร้อม sliding expiry`
 
 ## Anti-Patterns
 
-### Don't: Command-only (no context)
+### อย่า: Command อย่างเดียว (ไม่มีบริบท)
 
 ```
-## To Continue
+## เพื่อดำเนินการต่อ
 
-Run `/clear`, then paste:
+รัน `/clear`, แล้ว paste:
 /gsd:execute-plan .planning/phases/02-auth/02-03-PLAN.md
 ```
 
-User has no idea what 02-03 is about.
+ผู้ใช้ไม่รู้ว่า 02-03 เกี่ยวกับอะไร
 
-### Don't: Missing /clear explanation
+### อย่า: ไม่มีคำอธิบาย /clear
 
 ```
 `/gsd:plan-phase 3`
 
-Run /clear first.
+รัน /clear ก่อน
 ```
 
-Doesn't explain why. User might skip it.
+ไม่อธิบายว่าทำไม ผู้ใช้อาจข้ามไป
 
-### Don't: "Other options" language
+### อย่า: ภาษา "Other options"
 
 ```
 Other options:
 - Review roadmap
 ```
 
-Sounds like an afterthought. Use "Also available:" instead.
+ฟังดูเหมือนเป็นสิ่งรอง ใช้ "ตัวเลือกอื่น:" แทน
 
-### Don't: Fenced code blocks for commands
+### อย่า: Fenced code blocks สำหรับ commands
 
 ```
 ```
@@ -252,4 +252,4 @@ Sounds like an afterthought. Use "Also available:" instead.
 ```
 ```
 
-Fenced blocks inside templates create nesting ambiguity. Use inline backticks instead.
+Fenced blocks ภายใน templates สร้างความคลุมเครือในการซ้อน ใช้ inline backticks แทน

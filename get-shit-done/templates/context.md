@@ -1,8 +1,8 @@
 # Phase Context Template
 
-Template for `.planning/phases/XX-name/{phase}-CONTEXT.md` - captures the user's vision for a phase.
+Template สำหรับ `.planning/phases/XX-name/{phase}-CONTEXT.md` - บันทึก vision ของผู้ใช้สำหรับ phase
 
-**Purpose:** Document how the user imagines the phase working. This is vision context, not technical analysis. Technical details come from research.
+**วัตถุประสงค์:** Document ว่าผู้ใช้จินตนาการว่า phase ทำงานอย่างไร นี่คือ vision context ไม่ใช่ technical analysis รายละเอียดทางเทคนิคมาจาก research
 
 ---
 
@@ -11,151 +11,151 @@ Template for `.planning/phases/XX-name/{phase}-CONTEXT.md` - captures the user's
 ```markdown
 # Phase [X]: [Name] - Context
 
-**Gathered:** [date]
-**Status:** [Ready for research / Ready for planning]
+**รวบรวม:** [date]
+**Status:** [พร้อมสำหรับ research / พร้อมสำหรับ planning]
 
 <vision>
-## How This Should Work
+## มันควรทำงานอย่างไร
 
-[User's description of how they imagine this phase working. What happens when someone uses it? What does it look/feel like? This is the "pitch" version, not the technical spec.]
+[คำอธิบายของผู้ใช้ว่าจินตนาการว่า phase นี้ทำงานอย่างไร เมื่อคนใช้มันจะเกิดอะไรขึ้น? มันดู/รู้สึกเป็นอย่างไร? นี่คือ "pitch" version ไม่ใช่ technical spec]
 
 </vision>
 
 <essential>
-## What Must Be Nailed
+## สิ่งที่ต้องทำให้ดี
 
-[The core of this phase. If we only get one thing right, what is it? What's the non-negotiable that makes this phase successful?]
+[Core ของ phase นี้ ถ้าทำได้แค่อย่างเดียวให้ถูก จะเป็นอะไร? อะไรคือ non-negotiable ที่ทำให้ phase นี้ประสบความสำเร็จ?]
 
 - [Essential thing 1]
 - [Essential thing 2]
-- [Essential thing 3 if applicable]
+- [Essential thing 3 ถ้ามี]
 
 </essential>
 
 <boundaries>
-## What's Out of Scope
+## สิ่งที่อยู่นอก Scope
 
-[Explicit exclusions for this phase. What are we NOT building? Where does this phase end and the next begin?]
+[Exclusions ที่ชัดเจนสำหรับ phase นี้ เราไม่สร้างอะไร? Phase นี้จบตรงไหนและ phase ถัดไปเริ่มตรงไหน?]
 
-- [Not doing X - that's Phase Y]
-- [Not including Z - deferred]
-- [Explicitly excluding W]
+- [ไม่ทำ X - นั่นคือ Phase Y]
+- [ไม่รวม Z - เลื่อนไว้]
+- [Exclude W อย่างชัดเจน]
 
 </boundaries>
 
 <specifics>
-## Specific Ideas
+## ไอเดียเฉพาะ
 
-[Any particular things the user has in mind. References to existing products/features they like. Specific behaviors or interactions. "I want it to work like X" or "When you click Y, it should Z."]
+[สิ่งที่ผู้ใช้มีในใจ อ้างอิงถึง products/features ที่มีอยู่ที่ชอบ Behaviors หรือ interactions เฉพาะ "ผมอยากให้มันทำงานเหมือน X" หรือ "เมื่อคลิก Y มันควรทำ Z"]
 
-[If none: "No specific requirements - open to standard approaches"]
+[ถ้าไม่มี: "ไม่มี requirements เฉพาะ - เปิดรับ standard approaches"]
 
 </specifics>
 
 <notes>
-## Additional Context
+## Context เพิ่มเติม
 
-[Anything else captured during the discussion that doesn't fit above. User's priorities, concerns mentioned, relevant background.]
+[อะไรก็ตามที่บันทึกระหว่างการพูดคุยที่ไม่เข้าหมวดข้างบน Priorities ของผู้ใช้, concerns ที่พูดถึง, background ที่เกี่ยวข้อง]
 
-[If none: "No additional notes"]
+[ถ้าไม่มี: "ไม่มี notes เพิ่มเติม"]
 
 </notes>
 
 ---
 
 *Phase: XX-name*
-*Context gathered: [date]*
+*รวบรวม context: [date]*
 ```
 
 <good_examples>
 ```markdown
 # Phase 3: User Dashboard - Context
 
-**Gathered:** 2025-01-20
-**Status:** Ready for research
+**รวบรวม:** 2025-01-20
+**Status:** พร้อมสำหรับ research
 
 <vision>
-## How This Should Work
+## มันควรทำงานอย่างไร
 
-When users log in, they land on a dashboard that shows them everything important at a glance. I imagine it feeling calm and organized - not overwhelming like Jira or cluttered like Notion.
+เมื่อผู้ใช้ login พวกเขาจะมาถึง dashboard ที่แสดงทุกอย่างสำคัญในมุมมองเดียว ผมจินตนาการว่ามันให้ความรู้สึกสงบและเป็นระเบียบ - ไม่ overwhelming เหมือน Jira หรือรกเหมือน Notion
 
-The main thing is seeing their active projects and what needs attention. Think of it like a "what should I work on today" view. It should feel personal, not like enterprise software.
+สิ่งสำคัญคือเห็น active projects และอะไรที่ต้องการความสนใจ คิดว่าเหมือนมุมมอง "วันนี้ควรทำอะไร" มันควรรู้สึกเป็นส่วนตัว ไม่ใช่เหมือน enterprise software
 
 </vision>
 
 <essential>
-## What Must Be Nailed
+## สิ่งที่ต้องทำให้ดี
 
-- **At-a-glance clarity** - Within 2 seconds of landing, user knows what needs their attention
-- **Personal feel** - This is YOUR dashboard, not a team dashboard. It should feel like opening your personal notebook.
+- **ความชัดเจนในมุมมองเดียว** - ภายใน 2 วินาทีหลังมาถึง ผู้ใช้รู้ว่าอะไรต้องการความสนใจ
+- **ความรู้สึกเป็นส่วนตัว** - นี่คือ dashboard ของคุณ ไม่ใช่ team dashboard มันควรรู้สึกเหมือนเปิดสมุดบันทึกส่วนตัว
 
 </essential>
 
 <boundaries>
-## What's Out of Scope
+## สิ่งที่อยู่นอก Scope
 
-- Team features (shared dashboards, permissions) - that's a future milestone
-- Analytics/reporting - just show what needs attention, not graphs
-- Customizable layouts - keep it simple, one good layout
-- Mobile optimization - desktop first for now
+- Team features (shared dashboards, permissions) - นั่นคือ milestone ในอนาคต
+- Analytics/reporting - แค่แสดงอะไรที่ต้องการความสนใจ ไม่ใช่ graphs
+- Customizable layouts - ทำให้ simple, layout ดีๆ อันเดียว
+- Mobile optimization - desktop ก่อนสำหรับตอนนี้
 
 </boundaries>
 
 <specifics>
-## Specific Ideas
+## ไอเดียเฉพาะ
 
-- I like how Linear's home screen highlights what's assigned to you without noise
-- Should show projects in a card format, not a list
-- Maybe a "Today" section at the top with urgent stuff
-- Dark mode is essential (already have this from Phase 2)
+- ผมชอบวิธีที่ Linear's home screen highlight สิ่งที่ assign ให้คุณโดยไม่มี noise
+- ควรแสดง projects ในรูปแบบ card ไม่ใช่ list
+- อาจจะมี section "Today" ที่ด้านบนพร้อมของเร่งด่วน
+- Dark mode จำเป็น (มีอยู่แล้วจาก Phase 2)
 
 </specifics>
 
 <notes>
-## Additional Context
+## Context เพิ่มเติม
 
-User mentioned they've abandoned several dashboards before because they felt too "corporate." The key differentiator is making it feel personal and calm.
+ผู้ใช้บอกว่าเคยเลิกใช้ dashboards หลายอันมาแล้วเพราะรู้สึก "corporate" เกินไป ตัวแยกคือทำให้รู้สึกเป็นส่วนตัวและสงบ
 
-Priority is clarity over features. Better to show less and make it obvious than show everything.
+Priority คือความชัดเจนมากกว่า features แสดงน้อยกว่าและทำให้ชัดเจนดีกว่าแสดงทุกอย่าง
 
 </notes>
 
 ---
 
 *Phase: 03-user-dashboard*
-*Context gathered: 2025-01-20*
+*รวบรวม context: 2025-01-20*
 ```
 </good_examples>
 
 <guidelines>
-**This template captures VISION, not technical specs.**
+**Template นี้บันทึก VISION ไม่ใช่ technical specs**
 
-The user is the visionary. They know:
-- How they imagine it working
-- What it should feel like
-- What's essential vs nice-to-have
-- References to things they like
+ผู้ใช้คือ visionary พวกเขารู้:
+- จินตนาการว่ามันทำงานอย่างไร
+- มันควรให้ความรู้สึกอย่างไร
+- อะไรจำเป็น vs nice-to-have
+- อ้างอิงถึงสิ่งที่พวกเขาชอบ
 
-The user does NOT know (and shouldn't be asked):
-- Codebase patterns (Claude reads the code)
-- Technical risks (Claude identifies during research)
-- Implementation constraints (Claude figures out)
-- Success metrics (Claude infers from the work)
+ผู้ใช้ไม่รู้ (และไม่ควรถูกถาม):
+- Codebase patterns (Claude อ่าน code เอง)
+- Technical risks (Claude ระบุระหว่าง research)
+- Implementation constraints (Claude หาเอง)
+- Success metrics (Claude อนุมานจากงาน)
 
-**Content should read like:**
-- A founder describing their product vision
-- "When you use this, it should feel like..."
-- "The most important thing is..."
-- "I don't want it to be like X, I want it to feel like Y"
+**เนื้อหาควรอ่านเหมือน:**
+- Founder อธิบาย product vision ของพวกเขา
+- "เมื่อคุณใช้สิ่งนี้ มันควรรู้สึก..."
+- "สิ่งสำคัญที่สุดคือ..."
+- "ผมไม่อยากให้มันเป็นเหมือน X ผมอยากให้รู้สึกเหมือน Y"
 
-**Content should NOT read like:**
-- A technical specification
+**เนื้อหาไม่ควรอ่านเหมือน:**
+- Technical specification
 - Risk assessment matrix
 - Success criteria checklist
 - Codebase analysis
 
-**After creation:**
-- File lives in phase directory: `.planning/phases/XX-name/{phase}-CONTEXT.md`
-- Research phase adds technical context (patterns, risks, constraints)
-- Planning phase creates executable tasks informed by both vision AND research
+**หลังสร้าง:**
+- ไฟล์อยู่ในโฟลเดอร์ phase: `.planning/phases/XX-name/{phase}-CONTEXT.md`
+- Research phase เพิ่ม technical context (patterns, risks, constraints)
+- Planning phase สร้าง executable tasks โดยได้รับ inform จากทั้ง vision และ research
 </guidelines>

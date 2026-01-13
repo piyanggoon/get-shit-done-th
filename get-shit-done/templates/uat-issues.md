@@ -1,143 +1,143 @@
-# UAT Issues Template
+# เทมเพลต UAT Issues
 
-Template for `.planning/phases/XX-name/{phase}-{plan}-ISSUES.md` - phase-scoped issues discovered during user acceptance testing.
+เทมเพลตสำหรับ `.planning/phases/XX-name/{phase}-{plan}-ISSUES.md` - ปัญหาที่กำหนดขอบเขตตามเฟสที่ค้นพบระหว่าง user acceptance testing
 
-**Purpose:** Capture issues found during /gsd:verify-work. Unlike global ISSUES.md (for deferred enhancements), this file tracks bugs and problems in specific delivered work.
+**วัตถุประสงค์:** บันทึกปัญหาที่พบระหว่าง /gsd:verify-work ต่างจาก ISSUES.md ทั่วไป (สำหรับ enhancements ที่เลื่อนออกไป) ไฟล์นี้ติดตาม bugs และปัญหาในงานที่ส่งมอบเฉพาะ
 
-**Location:** Same directory as the SUMMARY.md being tested.
+**ตำแหน่ง:** directory เดียวกับ SUMMARY.md ที่กำลังทดสอบ
 
 ---
 
-## File Template
+## เทมเพลตไฟล์
 
 ```markdown
-# UAT Issues: Phase [X] Plan [Y]
+# UAT Issues: เฟส [X] แผน [Y]
 
-**Tested:** [date]
-**Source:** [path to SUMMARY.md that was tested]
-**Tester:** User via /gsd:verify-work
+**ทดสอบเมื่อ:** [วันที่]
+**แหล่ง:** [path ไปยัง SUMMARY.md ที่ทดสอบ]
+**ผู้ทดสอบ:** ผู้ใช้ผ่าน /gsd:verify-work
 
-## Open Issues
+## ปัญหาที่เปิดอยู่
 
-### UAT-001: [Brief description]
+### UAT-001: [คำอธิบายสั้นๆ]
 
-**Discovered:** [date]
-**Phase/Plan:** [XX]-[YY]
-**Severity:** [Blocker/Major/Minor/Cosmetic]
-**Feature:** [Which feature from the test checklist]
-**Description:** [User's description of the problem]
-**Expected:** [What should have happened]
-**Actual:** [What actually happened]
-**Repro:** [Steps to reproduce, if captured]
+**ค้นพบเมื่อ:** [วันที่]
+**เฟส/แผน:** [XX]-[YY]
+**ความรุนแรง:** [Blocker/Major/Minor/Cosmetic]
+**ฟีเจอร์:** [ฟีเจอร์ไหนจาก test checklist]
+**คำอธิบาย:** [คำอธิบายปัญหาจากผู้ใช้]
+**ที่คาดหวัง:** [สิ่งที่ควรเกิดขึ้น]
+**ที่เกิดจริง:** [สิ่งที่เกิดขึ้นจริง]
+**ขั้นตอนทำซ้ำ:** [ขั้นตอนการทำซ้ำ ถ้าบันทึกได้]
 
-### UAT-002: [Brief description]
+### UAT-002: [คำอธิบายสั้นๆ]
 
 ...
 
-## Resolved Issues
+## ปัญหาที่แก้ไขแล้ว
 
-[Moved here after /gsd:plan-fix executes and fixes are verified]
+[ย้ายมาที่นี่หลัง /gsd:plan-fix execute และ fixes ถูก verified]
 
-### UAT-001: [Brief description]
-**Resolved:** [date] - Fixed in [phase]-[plan]-FIX.md
+### UAT-001: [คำอธิบายสั้นๆ]
+**แก้ไขแล้ว:** [วันที่] - แก้ไขใน [phase]-[plan]-FIX.md
 **Commit:** [hash]
 
 ---
 
-*Phase: XX-name*
-*Plan: YY*
-*Tested: [date]*
+*เฟส: XX-name*
+*แผน: YY*
+*ทดสอบเมื่อ: [วันที่]*
 ```
 
 ---
 
-## Severity Guide
+## คู่มือความรุนแรง
 
-| Severity | Definition | Example |
+| ความรุนแรง | คำจำกัดความ | ตัวอย่าง |
 |----------|------------|---------|
-| **Blocker** | Feature completely unusable | App crashes on button click |
-| **Major** | Feature works but significant problem | Form submits but data not saved |
-| **Minor** | Feature usable but has issues | Button text slightly cut off |
-| **Cosmetic** | Visual only, no functional impact | Wrong shade of color |
+| **Blocker** | ฟีเจอร์ใช้งานไม่ได้เลย | App crash เมื่อคลิกปุ่ม |
+| **Major** | ฟีเจอร์ทำงานแต่มีปัญหาสำคัญ | Form submit แต่ข้อมูลไม่ถูกบันทึก |
+| **Minor** | ฟีเจอร์ใช้งานได้แต่มีปัญหา | ข้อความปุ่มถูกตัดเล็กน้อย |
+| **Cosmetic** | ภาพเท่านั้น ไม่มีผลกระทบฟังก์ชัน | สีผิด shade |
 
 ---
 
-## UAT Numbering
+## การนับเลข UAT
 
-- **Prefix:** `UAT-` (distinguishes from ISS- enhancement issues)
-- **Scope:** Per-file numbering (UAT-001, UAT-002, etc. within each file)
-- **No global numbering:** Each {phase}-{plan}-ISSUES.md has its own sequence
+- **Prefix:** `UAT-` (แยกจาก ISS- enhancement issues)
+- **ขอบเขต:** นับเลขต่อไฟล์ (UAT-001, UAT-002, เป็นต้นในแต่ละไฟล์)
+- **ไม่มีการนับทั่วไป:** แต่ละ {phase}-{plan}-ISSUES.md มี sequence ของตัวเอง
 
 ---
 
 <good_examples>
 ```markdown
-# UAT Issues: Phase 5 Plan 2
+# UAT Issues: เฟส 5 แผน 2
 
-**Tested:** 2025-01-15
-**Source:** .planning/phases/05-auth/05-02-SUMMARY.md
-**Tester:** User via /gsd:verify-work
+**ทดสอบเมื่อ:** 2025-01-15
+**แหล่ง:** .planning/phases/05-auth/05-02-SUMMARY.md
+**ผู้ทดสอบ:** ผู้ใช้ผ่าน /gsd:verify-work
 
-## Open Issues
+## ปัญหาที่เปิดอยู่
 
-### UAT-001: Login form doesn't show validation errors
+### UAT-001: Login form ไม่แสดง validation errors
 
-**Discovered:** 2025-01-15
-**Phase/Plan:** 05-02
-**Severity:** Major
-**Feature:** User login form
-**Description:** When I enter an invalid email, nothing happens. No error message appears.
-**Expected:** Red error message below email field saying "Invalid email format"
-**Actual:** Field border turns red but no text explanation
-**Repro:**
-1. Go to /login
-2. Enter "notanemail" in email field
-3. Click Login button
+**ค้นพบเมื่อ:** 2025-01-15
+**เฟส/แผน:** 05-02
+**ความรุนแรง:** Major
+**ฟีเจอร์:** User login form
+**คำอธิบาย:** เมื่อฉันใส่ email ไม่ถูกต้อง ไม่มีอะไรเกิดขึ้น ไม่มี error message ปรากฏ
+**ที่คาดหวัง:** Error message สีแดงใต้ช่อง email บอกว่า "Invalid email format"
+**ที่เกิดจริง:** ขอบช่องเปลี่ยนเป็นสีแดงแต่ไม่มีข้อความอธิบาย
+**ขั้นตอนทำซ้ำ:**
+1. ไปที่ /login
+2. ใส่ "notanemail" ในช่อง email
+3. คลิกปุ่ม Login
 
-### UAT-002: Password field allows paste
+### UAT-002: ช่อง Password อนุญาตให้ paste
 
-**Discovered:** 2025-01-15
-**Phase/Plan:** 05-02
-**Severity:** Cosmetic
-**Feature:** User login form
-**Description:** Can paste into password field. Minor UX inconsistency.
-**Expected:** Paste disabled (matches signup form)
-**Actual:** Paste works in login but not signup
-**Repro:** Ctrl+V in password field
+**ค้นพบเมื่อ:** 2025-01-15
+**เฟส/แผน:** 05-02
+**ความรุนแรง:** Cosmetic
+**ฟีเจอร์:** User login form
+**คำอธิบาย:** สามารถ paste เข้าช่อง password ได้ UX ไม่สอดคล้องกันเล็กน้อย
+**ที่คาดหวัง:** Paste ถูกปิด (ตรงกับ signup form)
+**ที่เกิดจริง:** Paste ทำงานใน login แต่ไม่ทำงานใน signup
+**ขั้นตอนทำซ้ำ:** Ctrl+V ในช่อง password
 
-## Resolved Issues
+## ปัญหาที่แก้ไขแล้ว
 
-[None yet]
+[ยังไม่มี]
 
 ---
 
-*Phase: 05-auth*
-*Plan: 02*
-*Tested: 2025-01-15*
+*เฟส: 05-auth*
+*แผน: 02*
+*ทดสอบเมื่อ: 2025-01-15*
 ```
 </good_examples>
 
 <guidelines>
-**When to create:**
-- First time /gsd:verify-work finds an issue for a plan
-- One file per plan tested
+**เมื่อไหร่ควรสร้าง:**
+- ครั้งแรกที่ /gsd:verify-work พบปัญหาสำหรับแผน
+- หนึ่งไฟล์ต่อแผนที่ทดสอบ
 
-**Location:**
+**ตำแหน่ง:**
 - `.planning/phases/XX-name/{phase}-{plan}-ISSUES.md`
-- Lives alongside SUMMARY.md being tested
+- อยู่ข้างๆ SUMMARY.md ที่กำลังทดสอบ
 
-**Difference from global ISSUES.md:**
-- Global ISSUES.md: Deferred enhancements (Rule 5 - nice-to-haves)
-- UAT ISSUES.md: Actual problems found during testing
+**ความแตกต่างจาก ISSUES.md ทั่วไป:**
+- ISSUES.md ทั่วไป: Deferred enhancements (Rule 5 - nice-to-haves)
+- UAT ISSUES.md: ปัญหาจริงที่พบระหว่างการทดสอบ
 
 **Workflow:**
-1. /gsd:verify-work creates this file with issues
-2. /gsd:plan-fix reads this file and creates FIX.md plan
-3. After FIX.md executes, issues move to "Resolved" section
-4. File becomes historical record of what was found and fixed
+1. /gsd:verify-work สร้างไฟล์นี้พร้อมปัญหา
+2. /gsd:plan-fix อ่านไฟล์นี้และสร้าง FIX.md plan
+3. หลัง FIX.md execute ปัญหาย้ายไปส่วน "ปัญหาที่แก้ไขแล้ว"
+4. ไฟล์กลายเป็น historical record ของสิ่งที่พบและแก้ไข
 
-**Resolution:**
-- Don't delete resolved issues - move to "Resolved Issues" section
-- Include fix reference (commit hash, plan that fixed it)
-- File serves as audit trail
+**การแก้ไข:**
+- อย่าลบปัญหาที่แก้ไขแล้ว - ย้ายไปส่วน "ปัญหาที่แก้ไขแล้ว"
+- รวม fix reference (commit hash, plan ที่แก้ไข)
+- ไฟล์ทำหน้าที่เป็น audit trail
 </guidelines>

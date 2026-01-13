@@ -1,6 +1,6 @@
 ---
 name: gsd:execute-plan
-description: Execute a PLAN.md file
+description: Execute ไฟล์ PLAN.md
 argument-hint: "[path-to-PLAN.md]"
 allowed-tools:
   - Read
@@ -15,16 +15,16 @@ allowed-tools:
 ---
 
 <objective>
-Execute a PLAN.md file with per-task atomic commits, create SUMMARY.md, update project state.
+Execute ไฟล์ PLAN.md พร้อม atomic commits ต่อ task สร้าง SUMMARY.md อัพเดท project state
 
 Commit strategy:
-- Each task → 1 commit immediately after completion (feat/fix/test/refactor)
+- แต่ละ task → 1 commit ทันทีหลังเสร็จ (feat/fix/test/refactor)
 - Plan completion → 1 metadata commit (docs: SUMMARY + STATE + ROADMAP)
 
-Uses intelligent segmentation:
-- Plans without checkpoints → spawn subagent for full autonomous execution
-- Plans with verify checkpoints → segment execution, pause at checkpoints
-- Plans with decision checkpoints → execute in main context
+ใช้ intelligent segmentation:
+- Plans ไม่มี checkpoints → spawn subagent สำหรับ full autonomous execution
+- Plans มี verify checkpoints → segment execution, หยุดที่ checkpoints
+- Plans มี decision checkpoints → execute ใน main context
   </objective>
 
 <execution_context>
@@ -37,93 +37,93 @@ Uses intelligent segmentation:
 <context>
 Plan path: $ARGUMENTS
 
-**Load project state first:**
+**โหลด project state ก่อน:**
 @.planning/STATE.md
 
-**Load workflow config:**
+**โหลด workflow config:**
 @.planning/config.json
 </context>
 
 <process>
-1. Check .planning/ directory exists (error if not - user should run /gsd:new-project)
-2. Verify plan at $ARGUMENTS exists
-3. Check if SUMMARY.md already exists (plan already executed?)
-4. Load workflow config for mode (interactive/yolo)
-5. Follow execute-phase.md workflow:
-   - Parse plan and determine execution strategy (A/B/C)
-   - Execute tasks (via subagent or main context as appropriate)
-   - Handle checkpoints and deviations
-   - Create SUMMARY.md
-   - Update STATE.md
+1. ตรวจสอบว่ามีโฟลเดอร์ .planning/ (error ถ้าไม่มี - ผู้ใช้ควรรัน /gsd:new-project)
+2. ตรวจสอบว่า plan ที่ $ARGUMENTS มีอยู่
+3. ตรวจสอบว่า SUMMARY.md มีอยู่แล้วหรือไม่ (plan executed แล้ว?)
+4. โหลด workflow config สำหรับ mode (interactive/yolo)
+5. ทำตาม execute-phase.md workflow:
+   - Parse plan และกำหนด execution strategy (A/B/C)
+   - Execute tasks (ผ่าน subagent หรือ main context ตามความเหมาะสม)
+   - จัดการ checkpoints และ deviations
+   - สร้าง SUMMARY.md
+   - อัพเดท STATE.md
    - Commit changes
 </process>
 
 <execution_strategies>
-**Strategy A: Fully Autonomous** (no checkpoints)
+**Strategy A: Fully Autonomous** (ไม่มี checkpoints)
 
-- Spawn subagent to execute entire plan
-- Subagent creates SUMMARY.md and commits
-- Main context: orchestration only (~5% usage)
+- Spawn subagent เพื่อ execute plan ทั้งหมด
+- Subagent สร้าง SUMMARY.md และ commits
+- Main context: orchestration เท่านั้น (~5% usage)
 
-**Strategy B: Segmented** (has verify-only checkpoints)
+**Strategy B: Segmented** (มีแค่ verify checkpoints)
 
-- Execute in segments between checkpoints
-- Subagent for autonomous segments
-- Main context for checkpoints
-- Aggregate results → SUMMARY → commit
+- Execute เป็น segments ระหว่าง checkpoints
+- Subagent สำหรับ autonomous segments
+- Main context สำหรับ checkpoints
+- รวมผลลัพธ์ → SUMMARY → commit
 
-**Strategy C: Decision-Dependent** (has decision checkpoints)
+**Strategy C: Decision-Dependent** (มี decision checkpoints)
 
-- Execute in main context
-- Decision outcomes affect subsequent tasks
-- Quality maintained through small scope (2-3 tasks per plan)
+- Execute ใน main context
+- Decision outcomes ส่งผลต่อ tasks ถัดไป
+- คุณภาพรักษาไว้ด้วย scope เล็ก (2-3 tasks ต่อ plan)
   </execution_strategies>
 
 <deviation_rules>
-During execution, handle discoveries automatically:
+ระหว่าง execution จัดการ discoveries โดยอัตโนมัติ:
 
-1. **Auto-fix bugs** - Fix immediately, document in Summary
-2. **Auto-add critical** - Security/correctness gaps, add and document
-3. **Auto-fix blockers** - Can't proceed without fix, do it and document
-4. **Ask about architectural** - Major structural changes, stop and ask user
-5. **Log enhancements** - Nice-to-haves, log to ISSUES.md, continue
+1. **Auto-fix bugs** - แก้ทันที บันทึกใน Summary
+2. **Auto-add critical** - Security/correctness gaps เพิ่มและบันทึก
+3. **Auto-fix blockers** - ดำเนินการต่อไม่ได้โดยไม่แก้ ทำแล้วบันทึก
+4. **Ask about architectural** - Major structural changes หยุดและถามผู้ใช้
+5. **Log enhancements** - Nice-to-haves log ไปยัง ISSUES.md ทำต่อ
 
-Only rule 4 requires user intervention.
+เฉพาะ rule 4 ต้องการ user intervention
 </deviation_rules>
 
 <commit_rules>
 **Per-Task Commits:**
 
-After each task completes:
-1. Stage only files modified by that task
-2. Commit with format: `{type}({phase}-{plan}): {task-name}`
+หลังจากแต่ละ task เสร็จ:
+1. Stage เฉพาะไฟล์ที่แก้ไขโดย task นั้น
+2. Commit ด้วย format: `{type}({phase}-{plan}): {task-name}`
 3. Types: feat, fix, test, refactor, perf, chore
-4. Record commit hash for SUMMARY.md
+4. บันทึก commit hash สำหรับ SUMMARY.md
 
 **Plan Metadata Commit:**
 
-After all tasks complete:
-1. Stage planning artifacts only: PLAN.md, SUMMARY.md, STATE.md, ROADMAP.md
-2. Commit with format: `docs({phase}-{plan}): complete [plan-name] plan`
-3. NO code files (already committed per-task)
+หลังจากทุก tasks เสร็จ:
+1. Stage planning artifacts เท่านั้น: PLAN.md, SUMMARY.md, STATE.md, ROADMAP.md
+2. Commit ด้วย format: `docs({phase}-{plan}): complete [plan-name] plan`
+3. ไม่มี code files (committed per-task แล้ว)
 
-**NEVER use:**
+**ห้ามใช้:**
 - `git add .`
 - `git add -A`
-- `git add src/` or any broad directory
+- `git add src/` หรือ directory กว้างๆ
 
-**Always stage files individually.**
+**Stage files ทีละไฟล์เสมอ**
 
-See ~/.claude/get-shit-done/references/git-integration.md for full commit strategy.
+ดู ~/.claude/get-shit-done/references/git-integration.md สำหรับ commit strategy ทั้งหมด
 </commit_rules>
 
 <success_criteria>
 
-- [ ] All tasks executed
-- [ ] Each task committed individually (feat/fix/test/refactor)
-- [ ] SUMMARY.md created with substantive content and commit hashes
-- [ ] STATE.md updated (position, decisions, issues, session)
-- [ ] ROADMAP updated (plan count, phase status)
-- [ ] Metadata committed with docs({phase}-{plan}): complete [plan-name] plan
-- [ ] User informed of next steps
+- [ ] Execute tasks ทั้งหมดแล้ว
+- [ ] Commit แต่ละ task แยกกัน (feat/fix/test/refactor)
+- [ ] สร้าง SUMMARY.md ด้วยเนื้อหาสาระสำคัญและ commit hashes
+- [ ] อัพเดท STATE.md (position, decisions, issues, session)
+- [ ] อัพเดท ROADMAP (plan count, phase status)
+- [ ] Commit metadata ด้วย docs({phase}-{plan}): complete [plan-name] plan
+- [ ] แจ้งผู้ใช้เรื่องขั้นตอนถัดไป
       </success_criteria>

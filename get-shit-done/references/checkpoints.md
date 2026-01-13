@@ -1,107 +1,107 @@
 <overview>
-Plans execute autonomously. Checkpoints formalize interaction points where human verification or decisions are needed.
+แผนทำงานแบบอัตโนมัติ Checkpoints ทำให้จุดโต้ตอบที่ต้องการการยืนยันหรือการตัดสินใจจากมนุษย์เป็นทางการ
 
-**Core principle:** Claude automates everything with CLI/API. Checkpoints are for verification and decisions, not manual work.
+**หลักการหลัก:** Claude ทำทุกอย่างอัตโนมัติด้วย CLI/API Checkpoints มีไว้สำหรับการยืนยันและการตัดสินใจ ไม่ใช่งาน manual
 </overview>
 
 <checkpoint_types>
 
-## checkpoint:human-verify (90% of checkpoints)
+## checkpoint:human-verify (90% ของ checkpoints)
 
-**When:** Claude completed automated work, human confirms it works correctly.
+**เมื่อไหร่:** Claude ทำงานอัตโนมัติเสร็จแล้ว มนุษย์ยืนยันว่าทำงานถูกต้อง
 
-**Use for:** Visual UI checks, interactive flows, functional verification, audio/video quality, animation smoothness, accessibility testing.
+**ใช้สำหรับ:** ตรวจสอบ UI แบบ visual, interactive flows, การยืนยันฟังก์ชัน, คุณภาพ audio/video, ความลื่นไหลของ animation, การทดสอบ accessibility
 
-**Structure:**
+**โครงสร้าง:**
 ```xml
 <task type="checkpoint:human-verify" gate="blocking">
-  <what-built>[What Claude automated]</what-built>
-  <how-to-verify>[Numbered steps - URLs, commands, expected behavior]</how-to-verify>
-  <resume-signal>[How to continue - "approved" or describe issues]</resume-signal>
+  <what-built>[สิ่งที่ Claude ทำอัตโนมัติ]</what-built>
+  <how-to-verify>[ขั้นตอนมีเลข - URLs, คำสั่ง, พฤติกรรมที่คาดหวัง]</how-to-verify>
+  <resume-signal>[วิธีดำเนินการต่อ - "approved" หรืออธิบายปัญหา]</resume-signal>
 </task>
 ```
 
-**Example:**
+**ตัวอย่าง:**
 ```xml
 <task type="auto">
-  <name>Deploy to Vercel</name>
-  <action>Run `vercel --yes` to deploy. Capture URL.</action>
-  <verify>vercel ls shows deployment, curl {url} returns 200</verify>
+  <name>Deploy ไป Vercel</name>
+  <action>รัน `vercel --yes` เพื่อ deploy จับ URL</action>
+  <verify>vercel ls แสดง deployment, curl {url} คืน 200</verify>
 </task>
 
 <task type="checkpoint:human-verify" gate="blocking">
-  <what-built>Deployed to https://myapp.vercel.app</what-built>
+  <what-built>Deploy แล้วที่ https://myapp.vercel.app</what-built>
   <how-to-verify>
-    Visit URL and confirm:
-    1. Homepage loads without errors
-    2. All images/assets load
-    3. No console errors
+    เยี่ยมชม URL และยืนยัน:
+    1. Homepage โหลดโดยไม่มี errors
+    2. รูปภาพ/assets ทั้งหมดโหลด
+    3. ไม่มี console errors
   </how-to-verify>
-  <resume-signal>Type "approved" or describe issues</resume-signal>
+  <resume-signal>พิมพ์ "approved" หรืออธิบายปัญหา</resume-signal>
 </task>
 ```
 
-## checkpoint:decision (9% of checkpoints)
+## checkpoint:decision (9% ของ checkpoints)
 
-**When:** Human must make choice that affects implementation direction.
+**เมื่อไหร่:** มนุษย์ต้องเลือกทางเลือกที่ส่งผลต่อทิศทางการ implementation
 
-**Use for:** Technology selection, architecture decisions, design choices, feature prioritization.
+**ใช้สำหรับ:** การเลือกเทคโนโลยี, การตัดสินใจด้าน architecture, การเลือก design, การจัดลำดับความสำคัญของฟีเจอร์
 
-**Structure:**
+**โครงสร้าง:**
 ```xml
 <task type="checkpoint:decision" gate="blocking">
-  <decision>[What's being decided]</decision>
-  <context>[Why this matters]</context>
+  <decision>[สิ่งที่กำลังตัดสินใจ]</decision>
+  <context>[ทำไมเรื่องนี้สำคัญ]</context>
   <options>
-    <option id="option-a"><name>[Name]</name><pros>[Benefits]</pros><cons>[Tradeoffs]</cons></option>
-    <option id="option-b"><name>[Name]</name><pros>[Benefits]</pros><cons>[Tradeoffs]</cons></option>
+    <option id="option-a"><name>[ชื่อ]</name><pros>[ข้อดี]</pros><cons>[ข้อเสีย]</cons></option>
+    <option id="option-b"><name>[ชื่อ]</name><pros>[ข้อดี]</pros><cons>[ข้อเสีย]</cons></option>
   </options>
-  <resume-signal>[How to indicate choice]</resume-signal>
+  <resume-signal>[วิธีระบุทางเลือก]</resume-signal>
 </task>
 ```
 
-**Example:**
+**ตัวอย่าง:**
 ```xml
 <task type="checkpoint:decision" gate="blocking">
-  <decision>Select authentication provider</decision>
-  <context>Need user auth. Three options with different tradeoffs.</context>
+  <decision>เลือก authentication provider</decision>
+  <context>ต้องการ user auth มีสามตัวเลือกที่มี tradeoffs ต่างกัน</context>
   <options>
-    <option id="supabase"><name>Supabase Auth</name><pros>Built-in with DB, free tier, RLS integration</pros><cons>Less customizable, ecosystem lock-in</cons></option>
-    <option id="clerk"><name>Clerk</name><pros>Beautiful UI, best DX</pros><cons>Paid after 10k MAU</cons></option>
-    <option id="nextauth"><name>NextAuth.js</name><pros>Free, self-hosted, max control</pros><cons>More setup, DIY security</cons></option>
+    <option id="supabase"><name>Supabase Auth</name><pros>Built-in กับ DB, free tier, RLS integration</pros><cons>ปรับแต่งได้น้อย, ผูกกับ ecosystem</cons></option>
+    <option id="clerk"><name>Clerk</name><pros>UI สวย, DX ดีที่สุด</pros><cons>เสียเงินหลัง 10k MAU</cons></option>
+    <option id="nextauth"><name>NextAuth.js</name><pros>ฟรี, self-hosted, ควบคุมได้สูงสุด</pros><cons>ตั้งค่ามากกว่า, ต้องจัดการ security เอง</cons></option>
   </options>
-  <resume-signal>Select: supabase, clerk, or nextauth</resume-signal>
+  <resume-signal>เลือก: supabase, clerk, หรือ nextauth</resume-signal>
 </task>
 ```
 
-## checkpoint:human-action (1% - rare)
+## checkpoint:human-action (1% - หายาก)
 
-**When:** Action has NO CLI/API and requires human-only interaction.
+**เมื่อไหร่:** การกระทำที่ไม่มี CLI/API และต้องการการโต้ตอบจากมนุษย์เท่านั้น
 
-**Use ONLY for:** Email verification links, SMS 2FA codes, manual account approvals, 3D Secure payment flows, OAuth app approvals.
+**ใช้เฉพาะสำหรับ:** ลิงก์ยืนยันอีเมล, รหัส SMS 2FA, การอนุมัติบัญชีแบบ manual, 3D Secure payment flows, การอนุมัติ OAuth app
 
-**Do NOT use for:** Deployments (use CLI), creating resources (use CLI/API), builds/tests (use Bash), file operations (use Write/Edit).
+**อย่าใช้สำหรับ:** Deployments (ใช้ CLI), การสร้าง resources (ใช้ CLI/API), builds/tests (ใช้ Bash), file operations (ใช้ Write/Edit)
 
-**Structure:**
+**โครงสร้าง:**
 ```xml
 <task type="checkpoint:human-action" gate="blocking">
-  <action>[Unavoidable manual step]</action>
-  <instructions>[What Claude automated] [ONE thing requiring human action]</instructions>
-  <verification>[What Claude checks afterward]</verification>
-  <resume-signal>[How to continue]</resume-signal>
+  <action>[ขั้นตอน manual ที่หลีกเลี่ยงไม่ได้]</action>
+  <instructions>[สิ่งที่ Claude ทำอัตโนมัติแล้ว] [สิ่งเดียวที่ต้องการการกระทำจากมนุษย์]</instructions>
+  <verification>[สิ่งที่ Claude ตรวจสอบภายหลัง]</verification>
+  <resume-signal>[วิธีดำเนินการต่อ]</resume-signal>
 </task>
 ```
 
-**Example (email verification):**
+**ตัวอย่าง (การยืนยันอีเมล):**
 ```xml
 <task type="checkpoint:human-action" gate="blocking">
-  <action>Complete email verification for SendGrid account</action>
+  <action>ยืนยันอีเมลสำหรับบัญชี SendGrid</action>
   <instructions>
-    I created the account and requested verification email.
-    Check your inbox for verification link and click it.
+    ฉันสร้างบัญชีแล้วและขอส่งอีเมลยืนยัน
+    ตรวจสอบ inbox สำหรับลิงก์ยืนยันและคลิก
   </instructions>
-  <verification>SendGrid API key works: curl test succeeds</verification>
-  <resume-signal>Type "done" when verified</resume-signal>
+  <verification>SendGrid API key ใช้งานได้: curl test สำเร็จ</verification>
+  <resume-signal>พิมพ์ "done" เมื่อยืนยันแล้ว</resume-signal>
 </task>
 ```
 
@@ -109,87 +109,87 @@ Plans execute autonomously. Checkpoints formalize interaction points where human
 
 <execution_protocol>
 
-When Claude encounters `type="checkpoint:*"`:
+เมื่อ Claude พบ `type="checkpoint:*"`:
 
-1. **Stop immediately** - do not proceed to next task
-2. **Display checkpoint clearly:**
+1. **หยุดทันที** - ไม่ดำเนินการไป task ถัดไป
+2. **แสดง checkpoint อย่างชัดเจน:**
 
 ```
 ════════════════════════════════════════
-CHECKPOINT: [Type]
+CHECKPOINT: [ประเภท]
 ════════════════════════════════════════
 
-Task [X] of [Y]: [Name]
+Task [X] of [Y]: [ชื่อ]
 
-[Checkpoint-specific content]
+[เนื้อหาเฉพาะ checkpoint]
 
-[Resume signal instruction]
+[คำแนะนำ resume signal]
 ════════════════════════════════════════
 ```
 
-3. **Wait for user response** - do not hallucinate completion
-4. **Verify if possible** - check files, run tests
-5. **Resume execution** - continue only after confirmation
+3. **รอการตอบสนองจากผู้ใช้** - ไม่หลอกว่าเสร็จ
+4. **ตรวจสอบถ้าเป็นไปได้** - ตรวจสอบไฟล์, รันการทดสอบ
+5. **ดำเนินการต่อ** - ทำต่อหลังจากได้รับการยืนยันเท่านั้น
 
 </execution_protocol>
 
 <authentication_gates>
 
-**Critical:** When Claude tries CLI/API and gets auth error, this is NOT a failure - it's a gate requiring human input to unblock automation.
+**สำคัญ:** เมื่อ Claude ลอง CLI/API และได้ auth error นี่ไม่ใช่ความล้มเหลว — มันเป็น gate ที่ต้องการ input จากมนุษย์เพื่อปลดล็อค automation
 
-**Pattern:** Claude tries automation → auth error → creates checkpoint → you authenticate → Claude retries → continues
+**Pattern:** Claude ลอง automation → auth error → สร้าง checkpoint → คุณ authenticate → Claude ลองใหม่ → ดำเนินการต่อ
 
 **Gate protocol:**
-1. Recognize it's not a failure - missing auth is expected
-2. Stop current task - don't retry repeatedly
-3. Create checkpoint:human-action dynamically
-4. Provide exact authentication steps
-5. Verify authentication works
-6. Retry the original task
-7. Continue normally
+1. รับรู้ว่าไม่ใช่ความล้มเหลว - missing auth คาดหวังได้
+2. หยุด task ปัจจุบัน - ไม่ลองซ้ำหลายครั้ง
+3. สร้าง checkpoint:human-action แบบ dynamic
+4. ให้ขั้นตอน authentication ที่แน่นอน
+5. ตรวจสอบว่า authentication ใช้งานได้
+6. ลอง task เดิมอีกครั้ง
+7. ดำเนินการต่อตามปกติ
 
-**Example (Vercel auth gate):**
+**ตัวอย่าง (Vercel auth gate):**
 ```xml
-<!-- Claude tries to deploy -->
+<!-- Claude ลอง deploy -->
 <task type="auto">
-  <name>Deploy to Vercel</name>
-  <action>Run `vercel --yes` to deploy</action>
+  <name>Deploy ไป Vercel</name>
+  <action>รัน `vercel --yes` เพื่อ deploy</action>
 </task>
 
-<!-- If vercel returns "Error: Not authenticated" -->
+<!-- ถ้า vercel คืน "Error: Not authenticated" -->
 <task type="checkpoint:human-action" gate="blocking">
-  <action>Authenticate Vercel CLI so I can continue</action>
+  <action>Authenticate Vercel CLI เพื่อให้ฉันดำเนินการต่อ</action>
   <instructions>
-    I tried to deploy but got authentication error.
-    Run: vercel login (opens browser)
+    ฉันลอง deploy แต่ได้ authentication error
+    รัน: vercel login (เปิด browser)
   </instructions>
-  <verification>vercel whoami returns your account</verification>
-  <resume-signal>Type "done" when authenticated</resume-signal>
+  <verification>vercel whoami คืนบัญชีของคุณ</verification>
+  <resume-signal>พิมพ์ "done" เมื่อ authenticated แล้ว</resume-signal>
 </task>
 
-<!-- After auth, Claude retries automatically -->
+<!-- หลัง auth, Claude ลองใหม่อัตโนมัติ -->
 <task type="auto">
-  <name>Retry deployment</name>
-  <action>Run `vercel --yes` (now authenticated)</action>
+  <name>ลอง deployment ใหม่</name>
+  <action>รัน `vercel --yes` (ตอนนี้ authenticated แล้ว)</action>
 </task>
 ```
 
-**Key distinction:**
-- Pre-planned checkpoint: "I need you to do X" (wrong - Claude should automate)
-- Auth gate: "I tried to automate X but need credentials" (correct - unblocks automation)
+**ความแตกต่างสำคัญ:**
+- Checkpoint ที่วางแผนล่วงหน้า: "ฉันต้องการให้คุณทำ X" (ผิด - Claude ควรทำอัตโนมัติ)
+- Auth gate: "ฉันพยายามทำ X อัตโนมัติแต่ต้องการ credentials" (ถูก - ปลดล็อค automation)
 
 </authentication_gates>
 
 <automation_reference>
 
-**The rule:** If it has CLI/API, Claude does it. Never ask human to perform automatable work.
+**กฎ:** ถ้ามี CLI/API Claude ต้องทำมันเอง ไม่ขอให้มนุษย์ทำงานที่ทำอัตโนมัติได้
 
-| Service | CLI/API | Key Commands | Auth Gate |
+| Service | CLI/API | คำสั่งสำคัญ | Auth Gate |
 |---------|---------|--------------|-----------|
 | Vercel | `vercel` | `--yes`, `env add`, `--prod`, `ls` | `vercel login` |
 | Railway | `railway` | `init`, `up`, `variables set` | `railway login` |
 | Fly | `fly` | `launch`, `deploy`, `secrets set` | `fly auth login` |
-| Stripe | `stripe` + API | `listen`, `trigger`, API calls | API key in .env |
+| Stripe | `stripe` + API | `listen`, `trigger`, API calls | API key ใน .env |
 | Supabase | `supabase` | `init`, `link`, `db push`, `gen types` | `supabase login` |
 | Upstash | `upstash` | `redis create`, `redis get` | `upstash auth login` |
 | PlanetScale | `pscale` | `database create`, `branch create` | `pscale auth login` |
@@ -197,74 +197,74 @@ Task [X] of [Y]: [Name]
 | Node | `npm`/`pnpm` | `install`, `run build`, `test` | N/A |
 | Xcode | `xcodebuild` | `-project`, `-scheme`, `build`, `test` | N/A |
 
-**Env files:** Use Write/Edit tools. Never ask human to create .env manually.
+**Env files:** ใช้ Write/Edit tools ไม่ขอให้มนุษย์สร้าง .env แบบ manual
 
-**Quick reference:**
+**อ้างอิงด่วน:**
 
-| Action | Automatable? | Claude does it? |
+| การกระทำ | ทำอัตโนมัติได้? | Claude ทำมัน? |
 |--------|--------------|-----------------|
-| Deploy to Vercel | Yes (`vercel`) | YES |
-| Create Stripe webhook | Yes (API) | YES |
-| Write .env file | Yes (Write tool) | YES |
-| Create Upstash DB | Yes (`upstash`) | YES |
-| Run tests | Yes (`npm test`) | YES |
-| Click email verification link | No | NO |
-| Enter credit card with 3DS | No | NO |
+| Deploy ไป Vercel | ใช่ (`vercel`) | ใช่ |
+| สร้าง Stripe webhook | ใช่ (API) | ใช่ |
+| เขียน .env file | ใช่ (Write tool) | ใช่ |
+| สร้าง Upstash DB | ใช่ (`upstash`) | ใช่ |
+| รัน tests | ใช่ (`npm test`) | ใช่ |
+| คลิกลิงก์ยืนยันอีเมล | ไม่ | ไม่ |
+| ใส่บัตรเครดิตกับ 3DS | ไม่ | ไม่ |
 
 </automation_reference>
 
 <guidelines>
 
-**DO:**
-- Automate everything with CLI/API before checkpoint
-- Be specific: "Visit https://myapp.vercel.app" not "check deployment"
-- Number verification steps
-- State expected outcomes
-- Make verification executable
+**ทำ:**
+- ทำทุกอย่างอัตโนมัติด้วย CLI/API ก่อน checkpoint
+- ระบุเจาะจง: "เยี่ยมชม https://myapp.vercel.app" ไม่ใช่ "ตรวจสอบ deployment"
+- ใส่หมายเลขขั้นตอนการยืนยัน
+- ระบุผลลัพธ์ที่คาดหวัง
+- ทำให้การยืนยัน executable ได้
 
-**DON'T:**
-- Ask human to do work Claude can automate
-- Assume knowledge: "Configure the usual settings"
-- Mix multiple verifications in one checkpoint
-- Use checkpoints too frequently (verification fatigue)
+**อย่า:**
+- ขอให้มนุษย์ทำงานที่ Claude ทำอัตโนมัติได้
+- สมมติว่ารู้: "ตั้งค่าการตั้งค่าปกติ"
+- รวม verifications หลายอย่างใน checkpoint เดียว
+- ใช้ checkpoints บ่อยเกินไป (verification fatigue)
 
-**Placement:**
-- After automation completes (not before)
-- After UI buildout
-- Before dependent work (decisions)
-- At integration points
+**ตำแหน่ง:**
+- หลังจาก automation เสร็จ (ไม่ใช่ก่อน)
+- หลังจากสร้าง UI
+- ก่อนงานที่ขึ้นกัน (การตัดสินใจ)
+- ที่จุด integration
 
 </guidelines>
 
 <anti_patterns>
 
-**BAD: Asking human to automate**
+**ไม่ดี: ขอให้มนุษย์ทำ automation**
 ```xml
 <task type="checkpoint:human-action">
-  <action>Deploy to Vercel</action>
-  <instructions>Visit vercel.com/new, import repo, click Deploy</instructions>
+  <action>Deploy ไป Vercel</action>
+  <instructions>เยี่ยมชม vercel.com/new, import repo, คลิก Deploy</instructions>
 </task>
 ```
-Why bad: Vercel has CLI. Use `vercel --yes`.
+ทำไมไม่ดี: Vercel มี CLI ใช้ `vercel --yes`
 
-**BAD: Too many checkpoints**
+**ไม่ดี: Checkpoints มากเกินไป**
 ```xml
-<task type="auto">Create schema</task>
-<task type="checkpoint:human-verify">Check schema</task>
-<task type="auto">Create API</task>
-<task type="checkpoint:human-verify">Check API</task>
+<task type="auto">สร้าง schema</task>
+<task type="checkpoint:human-verify">ตรวจสอบ schema</task>
+<task type="auto">สร้าง API</task>
+<task type="checkpoint:human-verify">ตรวจสอบ API</task>
 ```
-Why bad: Verification fatigue. Combine into one checkpoint at end.
+ทำไมไม่ดี: Verification fatigue รวมเป็น checkpoint เดียวตอนท้าย
 
-**GOOD: Claude automates, human verifies once**
+**ดี: Claude ทำอัตโนมัติ, มนุษย์ยืนยันครั้งเดียว**
 ```xml
-<task type="auto">Create schema</task>
-<task type="auto">Create API</task>
-<task type="auto">Create UI</task>
+<task type="auto">สร้าง schema</task>
+<task type="auto">สร้าง API</task>
+<task type="auto">สร้าง UI</task>
 
 <task type="checkpoint:human-verify">
   <what-built>Complete auth flow</what-built>
-  <how-to-verify>Test full flow: register, login, access protected page</how-to-verify>
+  <how-to-verify>ทดสอบ flow ทั้งหมด: register, login, เข้าถึง protected page</how-to-verify>
 </task>
 ```
 
@@ -272,16 +272,16 @@ Why bad: Verification fatigue. Combine into one checkpoint at end.
 
 <summary>
 
-**The golden rule:** If Claude CAN automate it, Claude MUST automate it.
+**กฎทอง:** ถ้า Claude สามารถทำอัตโนมัติได้ Claude ต้องทำอัตโนมัติ
 
-**Checkpoint priority:**
-1. **checkpoint:human-verify** (90%) - Claude automated, human confirms visual/functional correctness
-2. **checkpoint:decision** (9%) - Human makes architectural/technology choices
-3. **checkpoint:human-action** (1%) - Truly unavoidable manual steps with no API/CLI
+**ลำดับความสำคัญ Checkpoint:**
+1. **checkpoint:human-verify** (90%) - Claude ทำอัตโนมัติ, มนุษย์ยืนยันความถูกต้อง visual/functional
+2. **checkpoint:decision** (9%) - มนุษย์เลือก architectural/technology
+3. **checkpoint:human-action** (1%) - ขั้นตอน manual ที่หลีกเลี่ยงไม่ได้จริงๆ ที่ไม่มี API/CLI
 
-**When NOT to use checkpoints:**
-- Things Claude can verify programmatically (tests, builds)
-- File operations (Claude can read/write)
-- Anything with CLI/API available
+**เมื่อไม่ใช้ checkpoints:**
+- สิ่งที่ Claude ตรวจสอบได้ทาง programmatic (tests, builds)
+- File operations (Claude อ่าน/เขียนได้)
+- อะไรก็ตามที่มี CLI/API
 
 </summary>

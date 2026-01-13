@@ -1,17 +1,17 @@
 <overview>
-Claude-executable plans have a specific format that enables Claude to implement without interpretation. This reference defines what makes a plan executable vs. vague.
+แผนที่ Claude รันได้มีรูปแบบเฉพาะที่ทำให้ Claude สามารถ implement ได้โดยไม่ต้องตีความ Reference นี้กำหนดสิ่งที่ทำให้แผน executable vs. คลุมเครือ
 
-**Key insight:** PLAN.md IS the executable prompt. It contains everything Claude needs to execute the phase, including objective, context references, tasks, verification, success criteria, and output specification.
+**ข้อมูลเชิงลึกหลัก:** PLAN.md คือ executable prompt ประกอบด้วยทุกสิ่งที่ Claude ต้องการเพื่อรันเฟส รวมถึง objective, context references, tasks, verification, success criteria, และ output specification
 </overview>
 
 <core_principle>
-A plan is Claude-executable when Claude can read the PLAN.md and immediately start implementing without asking clarifying questions.
+แผน Claude-executable คือเมื่อ Claude อ่าน PLAN.md แล้วสามารถเริ่ม implement ได้ทันทีโดยไม่ต้องถามคำถามชี้แจง
 
-If Claude has to guess, interpret, or make assumptions - the task is too vague.
+ถ้า Claude ต้องเดา, ตีความ, หรือสมมติ - task นั้นคลุมเครือเกินไป
 </core_principle>
 
 <prompt_structure>
-Every PLAN.md follows this XML structure:
+ทุก PLAN.md ตามโครงสร้าง XML นี้:
 
 ```markdown
 ---
@@ -21,7 +21,7 @@ domain: [optional]
 ---
 
 <objective>
-[What and why]
+[อะไรและทำไม]
 Purpose: [...]
 Output: [...]
 </objective>
@@ -34,36 +34,36 @@ Output: [...]
 
 <tasks>
 <task type="auto">
-  <name>Task N: [Name]</name>
+  <name>Task N: [ชื่อ]</name>
   <files>[paths]</files>
-  <action>[what to do, what to avoid and WHY]</action>
+  <action>[สิ่งที่ต้องทำ, สิ่งที่ต้องหลีกเลี่ยงและทำไม]</action>
   <verify>[command/check]</verify>
   <done>[criteria]</done>
 </task>
 
 <task type="checkpoint:human-verify" gate="blocking">
-  <what-built>[what Claude automated]</what-built>
-  <how-to-verify>[numbered verification steps]</how-to-verify>
-  <resume-signal>[how to continue - "approved" or describe issues]</resume-signal>
+  <what-built>[สิ่งที่ Claude ทำอัตโนมัติ]</what-built>
+  <how-to-verify>[ขั้นตอนการยืนยันแบบมีหมายเลข]</how-to-verify>
+  <resume-signal>[วิธีดำเนินการต่อ - "approved" หรืออธิบายปัญหา]</resume-signal>
 </task>
 
 <task type="checkpoint:decision" gate="blocking">
-  <decision>[what needs deciding]</decision>
-  <context>[why this matters]</context>
+  <decision>[สิ่งที่ต้องตัดสินใจ]</decision>
+  <context>[ทำไมเรื่องนี้สำคัญ]</context>
   <options>
-    <option id="option-a"><name>[Name]</name><pros>[pros]</pros><cons>[cons]</cons></option>
-    <option id="option-b"><name>[Name]</name><pros>[pros]</pros><cons>[cons]</cons></option>
+    <option id="option-a"><name>[ชื่อ]</name><pros>[ข้อดี]</pros><cons>[ข้อเสีย]</cons></option>
+    <option id="option-b"><name>[ชื่อ]</name><pros>[ข้อดี]</pros><cons>[ข้อเสีย]</cons></option>
   </options>
-  <resume-signal>[how to indicate choice]</resume-signal>
+  <resume-signal>[วิธีระบุทางเลือก]</resume-signal>
 </task>
 </tasks>
 
 <verification>
-[Overall phase checks]
+[การตรวจสอบเฟสโดยรวม]
 </verification>
 
 <success_criteria>
-[Measurable completion]
+[การเสร็จสิ้นที่วัดได้]
 </success_criteria>
 
 <output>
@@ -74,257 +74,257 @@ Output: [...]
 </prompt_structure>
 
 <task_anatomy>
-Every task has four required fields:
+ทุก task มีสี่ฟิลด์ที่จำเป็น:
 
 <field name="files">
-**What it is**: Exact file paths that will be created or modified.
+**คืออะไร**: Paths ไฟล์ที่แน่นอนที่จะสร้างหรือแก้ไข
 
-**Good**: `src/app/api/auth/login/route.ts`, `prisma/schema.prisma`
-**Bad**: "the auth files", "relevant components"
+**ดี**: `src/app/api/auth/login/route.ts`, `prisma/schema.prisma`
+**ไม่ดี**: "the auth files", "relevant components"
 
-Be specific. If you don't know the file path, figure it out first.
+ระบุเจาะจง ถ้าไม่รู้ file path ให้หาก่อน
 </field>
 
 <field name="action">
-**What it is**: Specific implementation instructions, including what to avoid and WHY.
+**คืออะไร**: คำแนะนำ implementation เฉพาะ รวมถึงสิ่งที่ต้องหลีกเลี่ยงและทำไม
 
-**Good**: "Create POST endpoint that accepts {email, password}, validates using bcrypt against User table, returns JWT in httpOnly cookie with 15-min expiry. Use jose library (not jsonwebtoken - CommonJS issues with Next.js Edge runtime)."
+**ดี**: "สร้าง POST endpoint ที่รับ {email, password}, validate โดยใช้ bcrypt กับตาราง User, คืน JWT ใน httpOnly cookie ที่มี expiry 15 นาที ใช้ jose library (ไม่ใช่ jsonwebtoken - มีปัญหา CommonJS กับ Next.js Edge runtime)"
 
-**Bad**: "Add authentication", "Make login work"
+**ไม่ดี**: "Add authentication", "Make login work"
 
-Include: technology choices, data structures, behavior details, pitfalls to avoid.
+รวม: การเลือกเทคโนโลยี, data structures, รายละเอียดพฤติกรรม, pitfalls ที่ต้องหลีกเลี่ยง
 </field>
 
 <field name="verify">
-**What it is**: How to prove the task is complete.
+**คืออะไร**: วิธีพิสูจน์ว่า task เสร็จ
 
-**Good**:
+**ดี**:
 
-- `npm test` passes
-- `curl -X POST /api/auth/login` returns 200 with Set-Cookie header
-- Build completes without errors
+- `npm test` ผ่าน
+- `curl -X POST /api/auth/login` คืน 200 พร้อม Set-Cookie header
+- Build สำเร็จโดยไม่มี errors
 
-**Bad**: "It works", "Looks good", "User can log in"
+**ไม่ดี**: "It works", "Looks good", "User can log in"
 
-Must be executable - a command, a test, an observable behavior.
+ต้อง executable ได้ - command, test, พฤติกรรมที่สังเกตได้
 </field>
 
 <field name="done">
-**What it is**: Acceptance criteria - the measurable state of completion.
+**คืออะไร**: Acceptance criteria - สถานะการเสร็จสมบูรณ์ที่วัดได้
 
-**Good**: "Valid credentials return 200 + JWT cookie, invalid credentials return 401"
+**ดี**: "Credentials ที่ถูกต้องคืน 200 + JWT cookie, credentials ที่ไม่ถูกต้องคืน 401"
 
-**Bad**: "Authentication is complete"
+**ไม่ดี**: "Authentication is complete"
 
-Should be testable without subjective judgment.
+ต้องทดสอบได้โดยไม่ต้องใช้การตัดสินแบบ subjective
 </field>
 </task_anatomy>
 
 <task_types>
-Tasks have a `type` attribute that determines how they execute:
+Tasks มี attribute `type` ที่กำหนดวิธีการทำงาน:
 
 <type name="auto">
-**Default task type** - Claude executes autonomously.
+**ประเภท task ดีฟอลต์** - Claude รันแบบอัตโนมัติ
 
-**Structure:**
+**โครงสร้าง:**
 
 ```xml
 <task type="auto">
-  <name>Task 3: Create login endpoint with JWT</name>
+  <name>Task 3: สร้าง login endpoint พร้อม JWT</name>
   <files>src/app/api/auth/login/route.ts</files>
-  <action>POST endpoint accepting {email, password}. Query User by email, compare password with bcrypt. On match, create JWT with jose library, set as httpOnly cookie (15-min expiry). Return 200. On mismatch, return 401.</action>
-  <verify>curl -X POST localhost:3000/api/auth/login returns 200 with Set-Cookie header</verify>
-  <done>Valid credentials → 200 + cookie. Invalid → 401.</done>
+  <action>POST endpoint รับ {email, password} Query User ด้วย email, เทียบ password ด้วย bcrypt ถ้าตรง สร้าง JWT ด้วย jose library, set เป็น httpOnly cookie (expiry 15 นาที) คืน 200 ถ้าไม่ตรง คืน 401</action>
+  <verify>curl -X POST localhost:3000/api/auth/login คืน 200 พร้อม Set-Cookie header</verify>
+  <done>Credentials ถูกต้อง → 200 + cookie Credentials ไม่ถูกต้อง → 401</done>
 </task>
 ```
 
-Use for: Everything Claude can do independently (code, tests, builds, file operations).
+ใช้สำหรับ: ทุกสิ่งที่ Claude ทำได้อย่างอิสระ (code, tests, builds, file operations)
 </type>
 
 <type name="checkpoint:human-action">
-**RARELY USED** - Only for actions with NO CLI/API. Claude automates everything possible first.
+**ใช้ไม่บ่อย** - เฉพาะการกระทำที่ไม่มี CLI/API Claude ทำทุกอย่างที่เป็นไปได้อัตโนมัติก่อน
 
-**Structure:**
+**โครงสร้าง:**
 
 ```xml
 <task type="checkpoint:human-action" gate="blocking">
-  <action>[Unavoidable manual step - email link, 2FA code]</action>
+  <action>[ขั้นตอน manual ที่หลีกเลี่ยงไม่ได้ - email link, 2FA code]</action>
   <instructions>
-    [What Claude already automated]
-    [The ONE thing requiring human action]
+    [สิ่งที่ Claude ทำอัตโนมัติแล้ว]
+    [สิ่งเดียวที่ต้องการการกระทำจากมนุษย์]
   </instructions>
-  <verification>[What Claude can check afterward]</verification>
-  <resume-signal>[How to continue]</resume-signal>
+  <verification>[สิ่งที่ Claude ตรวจสอบได้ภายหลัง]</verification>
+  <resume-signal>[วิธีดำเนินการต่อ]</resume-signal>
 </task>
 ```
 
-Use ONLY for: Email verification links, SMS 2FA codes, manual approvals with no API, 3D Secure payment flows.
+ใช้เฉพาะสำหรับ: ลิงก์ยืนยันอีเมล, รหัส SMS 2FA, การอนุมัติ manual ที่ไม่มี API, 3D Secure payment flows
 
-Do NOT use for: Anything with a CLI (Vercel, Stripe, Upstash, Railway, GitHub), builds, tests, file creation, deployments.
+อย่าใช้สำหรับ: อะไรก็ตามที่มี CLI (Vercel, Stripe, Upstash, Railway, GitHub), builds, tests, การสร้างไฟล์, deployments
 
-**Execution:** Claude automates everything with CLI/API, stops only for truly unavoidable manual steps.
+**การรัน:** Claude ทำทุกอย่างอัตโนมัติด้วย CLI/API, หยุดเฉพาะขั้นตอน manual ที่หลีกเลี่ยงไม่ได้จริงๆ
 </type>
 
 <type name="checkpoint:human-verify">
-**Human must verify Claude's work** - Visual checks, UX testing.
+**มนุษย์ต้องยืนยันงานของ Claude** - การตรวจสอบ visual, การทดสอบ UX
 
-**Structure:**
+**โครงสร้าง:**
 
 ```xml
 <task type="checkpoint:human-verify" gate="blocking">
   <what-built>Responsive dashboard layout</what-built>
   <how-to-verify>
-    1. Run: npm run dev
-    2. Visit: http://localhost:3000/dashboard
-    3. Desktop (>1024px): Verify sidebar left, content right
-    4. Tablet (768px): Verify sidebar collapses to hamburger
-    5. Mobile (375px): Verify single column, bottom nav
-    6. Check: No layout shift, no horizontal scroll
+    1. รัน: npm run dev
+    2. เยี่ยมชม: http://localhost:3000/dashboard
+    3. Desktop (>1024px): ยืนยัน sidebar ซ้าย, content ขวา
+    4. Tablet (768px): ยืนยัน sidebar ยุบเป็น hamburger
+    5. Mobile (375px): ยืนยัน single column, bottom nav
+    6. ตรวจสอบ: ไม่มี layout shift, ไม่มี horizontal scroll
   </how-to-verify>
-  <resume-signal>Type "approved" or describe issues</resume-signal>
+  <resume-signal>พิมพ์ "approved" หรืออธิบายปัญหา</resume-signal>
 </task>
 ```
 
-Use for: UI/UX verification, visual design checks, animation smoothness, accessibility testing.
+ใช้สำหรับ: การยืนยัน UI/UX, การตรวจสอบ visual design, ความลื่นไหลของ animation, การทดสอบ accessibility
 
-**Execution:** Claude builds the feature, stops, provides testing instructions, waits for approval/feedback.
+**การรัน:** Claude สร้างฟีเจอร์, หยุด, ให้คำแนะนำการทดสอบ, รอการอนุมัติ/feedback
 </type>
 
 <type name="checkpoint:decision">
-**Human must make implementation choice** - Direction-setting decisions.
+**มนุษย์ต้องเลือก implementation** - การตัดสินใจกำหนดทิศทาง
 
-**Structure:**
+**โครงสร้าง:**
 
 ```xml
 <task type="checkpoint:decision" gate="blocking">
-  <decision>Select authentication provider</decision>
-  <context>We need user authentication. Three approaches with different tradeoffs:</context>
+  <decision>เลือก authentication provider</decision>
+  <context>เราต้องการ user authentication สามแนวทางที่มี tradeoffs ต่างกัน:</context>
   <options>
     <option id="supabase">
       <name>Supabase Auth</name>
-      <pros>Built-in with Supabase, generous free tier</pros>
-      <cons>Less customizable UI, tied to ecosystem</cons>
+      <pros>Built-in กับ Supabase, free tier ใจดี</pros>
+      <cons>ปรับแต่ง UI ได้น้อย, ผูกกับ ecosystem</cons>
     </option>
     <option id="clerk">
       <name>Clerk</name>
-      <pros>Beautiful pre-built UI, best DX</pros>
-      <cons>Paid after 10k MAU</cons>
+      <pros>UI pre-built สวย, DX ดีที่สุด</pros>
+      <cons>เสียเงินหลัง 10k MAU</cons>
     </option>
     <option id="nextauth">
       <name>NextAuth.js</name>
-      <pros>Free, self-hosted, maximum control</pros>
-      <cons>More setup, you manage security</cons>
+      <pros>ฟรี, self-hosted, ควบคุมได้สูงสุด</pros>
+      <cons>ตั้งค่ามากกว่า, จัดการ security เอง</cons>
     </option>
   </options>
-  <resume-signal>Select: supabase, clerk, or nextauth</resume-signal>
+  <resume-signal>เลือก: supabase, clerk, หรือ nextauth</resume-signal>
 </task>
 ```
 
-Use for: Technology selection, architecture decisions, design choices, feature prioritization.
+ใช้สำหรับ: การเลือกเทคโนโลยี, การตัดสินใจ architecture, การเลือก design, การจัดลำดับความสำคัญของฟีเจอร์
 
-**Execution:** Claude presents options with balanced pros/cons, waits for decision, proceeds with chosen direction.
+**การรัน:** Claude นำเสนอตัวเลือกพร้อม pros/cons ที่สมดุล, รอการตัดสินใจ, ดำเนินการตามทิศทางที่เลือก
 </type>
 
-**When to use checkpoints:**
+**เมื่อใช้ checkpoints:**
 
-- Visual/UX verification (after Claude builds) → `checkpoint:human-verify`
-- Implementation direction choice → `checkpoint:decision`
-- Truly unavoidable manual actions (email links, 2FA) → `checkpoint:human-action` (rare)
+- การยืนยัน Visual/UX (หลัง Claude สร้าง) → `checkpoint:human-verify`
+- การเลือกทิศทาง implementation → `checkpoint:decision`
+- การกระทำ manual ที่หลีกเลี่ยงไม่ได้จริงๆ (email links, 2FA) → `checkpoint:human-action` (หายาก)
 
-**When NOT to use checkpoints:**
+**เมื่อไม่ใช้ checkpoints:**
 
-- Anything with CLI/API (Claude automates it) → `type="auto"`
-- Deployments (Vercel, Railway, Fly) → `type="auto"` with CLI
-- Creating resources (Upstash, Stripe, GitHub) → `type="auto"` with CLI/API
+- อะไรก็ตามที่มี CLI/API (Claude ทำอัตโนมัติ) → `type="auto"`
+- Deployments (Vercel, Railway, Fly) → `type="auto"` พร้อม CLI
+- การสร้าง resources (Upstash, Stripe, GitHub) → `type="auto"` พร้อม CLI/API
 - File operations, tests, builds → `type="auto"`
 
-**Golden rule:** If Claude CAN automate it, Claude MUST automate it.
+**กฎทอง:** ถ้า Claude สามารถทำอัตโนมัติได้ Claude ต้องทำอัตโนมัติ
 
-See `./checkpoints.md` for comprehensive checkpoint guidance.
+ดู `./checkpoints.md` สำหรับคำแนะนำ checkpoint ที่ครอบคลุม
 </task_types>
 
 <tdd_plans>
-**TDD work uses dedicated plans.**
+**งาน TDD ใช้แผนเฉพาะ**
 
-TDD features require 2-3 execution cycles (RED → GREEN → REFACTOR), each with file reads, test runs, and potential debugging. This is fundamentally heavier than standard tasks and would consume 50-60% of context if embedded in a multi-task plan.
+TDD features ต้องการ 2-3 execution cycles (RED → GREEN → REFACTOR) แต่ละรอบมีการอ่านไฟล์, การรัน test, และการ debugging ที่อาจเกิดขึ้น นี่หนักกว่า tasks มาตรฐานโดยพื้นฐานและจะใช้ 50-60% ของ context ถ้าฝังในแผน multi-task
 
-**When to create a TDD plan:**
-- Business logic with defined inputs/outputs
-- API endpoints with request/response contracts
-- Data transformations and parsing
-- Validation rules
-- Algorithms with testable behavior
+**เมื่อสร้างแผน TDD:**
+- Business logic ที่มี inputs/outputs ที่กำหนดไว้
+- API endpoints ที่มี request/response contracts
+- Data transformations และ parsing
+- กฎ Validation
+- Algorithms ที่มีพฤติกรรมทดสอบได้
 
-**When to use standard plans (skip TDD):**
-- UI layout and styling
-- Configuration changes
-- Glue code connecting existing components
-- One-off scripts
+**เมื่อใช้แผนมาตรฐาน (ข้าม TDD):**
+- UI layout และ styling
+- การเปลี่ยนแปลง configuration
+- Glue code ที่เชื่อมต่อ components ที่มีอยู่
+- Scripts ครั้งเดียว
 
-**Heuristic:** Can you write `expect(fn(input)).toBe(output)` before writing `fn`?
-→ Yes: Create a TDD plan (one feature per plan)
-→ No: Use standard plan, add tests after if needed
+**Heuristic:** คุณสามารถเขียน `expect(fn(input)).toBe(output)` ก่อนเขียน `fn` ได้หรือไม่?
+→ ใช่: สร้างแผน TDD (หนึ่งฟีเจอร์ต่อแผน)
+→ ไม่: ใช้แผนมาตรฐาน, เพิ่ม tests หลังจากถ้าจำเป็น
 
-See `./tdd.md` for TDD plan structure and execution guidance.
+ดู `./tdd.md` สำหรับโครงสร้างและคำแนะนำการรันแผน TDD
 </tdd_plans>
 
 <context_references>
-Use @file references to load context for the prompt:
+ใช้ @file references เพื่อโหลด context สำหรับ prompt:
 
 ```markdown
 <context>
-@.planning/PROJECT.md           # Project vision
-@.planning/ROADMAP.md         # Phase structure
-@.planning/phases/02-auth/DISCOVERY.md  # Discovery results
-@src/lib/db.ts                # Existing database setup
-@src/types/user.ts            # Existing type definitions
+@.planning/PROJECT.md           # วิสัยทัศน์โปรเจกต์
+@.planning/ROADMAP.md         # โครงสร้างเฟส
+@.planning/phases/02-auth/DISCOVERY.md  # ผลการค้นพบ
+@src/lib/db.ts                # การตั้งค่า database ที่มีอยู่
+@src/types/user.ts            # Type definitions ที่มีอยู่
 </context>
 ```
 
-Reference files that Claude needs to understand before implementing.
+อ้างอิงไฟล์ที่ Claude ต้องเข้าใจก่อน implement
 </context_references>
 
 <verification_section>
-Overall phase verification (beyond individual task verification):
+การยืนยันเฟสโดยรวม (นอกเหนือจากการยืนยัน task แต่ละรายการ):
 
 ```markdown
 <verification>
-Before declaring phase complete:
-- [ ] `npm run build` succeeds without errors
-- [ ] `npm test` passes all tests
-- [ ] No TypeScript errors
-- [ ] Feature works end-to-end manually
+ก่อนประกาศว่าเฟสเสร็จ:
+- [ ] `npm run build` สำเร็จโดยไม่มี errors
+- [ ] `npm test` ผ่านทุก tests
+- [ ] ไม่มี TypeScript errors
+- [ ] ฟีเจอร์ทำงาน end-to-end แบบ manual
 </verification>
 ```
 
 </verification_section>
 
 <success_criteria_section>
-Measurable criteria for phase completion:
+เกณฑ์ที่วัดได้สำหรับการเสร็จสิ้นเฟส:
 
 ```markdown
 <success_criteria>
 
-- All tasks completed
-- All verification checks pass
-- No errors or warnings introduced
-- JWT auth flow works end-to-end
-- Protected routes redirect unauthenticated users
+- Tasks ทั้งหมดเสร็จ
+- การตรวจสอบทั้งหมดผ่าน
+- ไม่มี errors หรือ warnings ที่เพิ่มเข้ามา
+- JWT auth flow ทำงาน end-to-end
+- Protected routes redirect ผู้ใช้ที่ไม่ได้ authenticate
   </success_criteria>
 ```
 
 </success_criteria_section>
 
 <output_section>
-Specify the SUMMARY.md structure:
+ระบุโครงสร้าง SUMMARY.md:
 
 ```markdown
 <output>
-After completion, create `.planning/phases/XX-name/SUMMARY.md`:
+หลังเสร็จสิ้น, สร้าง `.planning/phases/XX-name/SUMMARY.md`:
 
-# Phase X: Name Summary
+# เฟส X: ชื่อ Summary
 
-**[Substantive one-liner]**
+**[คำอธิบายสาระสำคัญหนึ่งบรรทัด]**
 
 ## Accomplishments
 
@@ -354,32 +354,32 @@ After completion, create `.planning/phases/XX-name/SUMMARY.md`:
 </task>
 ```
 
-Claude: "How? What type? What library? Where?"
+Claude: "อย่างไร? ประเภทไหน? Library ไหน? อยู่ที่ไหน?"
 </too_vague>
 
 <just_right>
 
 ```xml
 <task type="auto">
-  <name>Task 1: Create login endpoint with JWT</name>
+  <name>Task 1: สร้าง login endpoint พร้อม JWT</name>
   <files>src/app/api/auth/login/route.ts</files>
-  <action>POST endpoint accepting {email, password}. Query User by email, compare password with bcrypt. On match, create JWT with jose library, set as httpOnly cookie (15-min expiry). Return 200. On mismatch, return 401. Use jose instead of jsonwebtoken (CommonJS issues with Edge).</action>
-  <verify>curl -X POST localhost:3000/api/auth/login -H "Content-Type: application/json" -d '{"email":"test@test.com","password":"test123"}' returns 200 with Set-Cookie header containing JWT</verify>
-  <done>Valid credentials → 200 + cookie. Invalid → 401. Missing fields → 400.</done>
+  <action>POST endpoint รับ {email, password} Query User ด้วย email, เทียบ password ด้วย bcrypt ถ้าตรง สร้าง JWT ด้วย jose library, set เป็น httpOnly cookie (expiry 15 นาที) คืน 200 ถ้าไม่ตรง คืน 401 ใช้ jose แทน jsonwebtoken (มีปัญหา CommonJS กับ Edge)</action>
+  <verify>curl -X POST localhost:3000/api/auth/login -H "Content-Type: application/json" -d '{"email":"test@test.com","password":"test123"}' คืน 200 พร้อม Set-Cookie header ที่มี JWT</verify>
+  <done>Credentials ถูกต้อง → 200 + cookie Credentials ไม่ถูกต้อง → 401 Missing fields → 400</done>
 </task>
 ```
 
-Claude can implement this immediately.
+Claude สามารถ implement นี้ได้ทันที
 </just_right>
 
 <note_on_tdd>
-**TDD candidates get dedicated plans.**
+**TDD candidates ได้แผนเฉพาะ**
 
-If email validation warrants TDD, create a TDD plan for it. See `./tdd.md` for TDD plan structure.
+ถ้า email validation ควรได้ TDD ให้สร้างแผน TDD สำหรับมัน ดู `./tdd.md` สำหรับโครงสร้างแผน TDD
 </note_on_tdd>
 
 <too_detailed>
-Writing the actual code in the plan. Trust Claude to implement from clear instructions.
+การเขียน code จริงในแผน ไว้ใจ Claude ที่จะ implement จากคำแนะนำที่ชัดเจน
 </too_detailed>
 </specificity_levels>
 
@@ -391,7 +391,7 @@ Writing the actual code in the plan. Trust Claude to implement from clear instru
 - "Make it production-ready"
 - "Add proper error handling"
 
-These require Claude to decide WHAT to do. Specify it.
+เหล่านี้ต้องการให้ Claude ตัดสินใจว่าต้องทำอะไร ระบุให้ชัด
 </vague_actions>
 
 <unverifiable_completion>
@@ -399,9 +399,9 @@ These require Claude to decide WHAT to do. Specify it.
 - "It works correctly"
 - "User experience is good"
 - "Code is clean"
-- "Tests pass" (which tests? do they exist?)
+- "Tests pass" (tests ไหน? มีอยู่หรือไม่?)
 
-These require subjective judgment. Make it objective.
+เหล่านี้ต้องใช้การตัดสินแบบ subjective ทำให้ objective
 </unverifiable_completion>
 
 <missing_context>
@@ -410,19 +410,19 @@ These require subjective judgment. Make it objective.
 - "Follow best practices"
 - "Like the other endpoints"
 
-Claude doesn't know your standards. Be explicit.
+Claude ไม่รู้มาตรฐานของคุณ ระบุให้ชัดเจน
 </missing_context>
 </anti_patterns>
 
 <sizing_tasks>
-Good task size: 15-60 minutes of Claude work.
+ขนาด task ที่ดี: 15-60 นาทีของงาน Claude
 
-**Too small**: "Add import statement for bcrypt" (combine with related task)
-**Just right**: "Create login endpoint with JWT validation" (focused, specific)
-**Too big**: "Implement full authentication system" (split into multiple plans)
+**เล็กเกินไป**: "Add import statement for bcrypt" (รวมกับ task ที่เกี่ยวข้อง)
+**พอดี**: "สร้าง login endpoint พร้อม JWT validation" (เน้น, เจาะจง)
+**ใหญ่เกินไป**: "Implement full authentication system" (แยกเป็นหลายแผน)
 
-If a task takes multiple sessions, break it down.
-If a task is trivial, combine with related tasks.
+ถ้า task ใช้หลาย sessions ให้แบ่งย่อย
+ถ้า task เล็กน้อยเกินไป ให้รวมกับ tasks ที่เกี่ยวข้อง
 
-**Note on scope:** If a phase has >3 tasks or spans multiple subsystems, split into multiple plans using the naming convention `{phase}-{plan}-PLAN.md`. See `./scope-estimation.md` for guidance.
+**หมายเหตุเรื่อง scope:** ถ้าเฟสมี >3 tasks หรือครอบคลุมหลาย subsystems ให้แยกเป็นหลายแผนโดยใช้ naming convention `{phase}-{plan}-PLAN.md` ดู `./scope-estimation.md` สำหรับคำแนะนำ
 </sizing_tasks>

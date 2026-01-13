@@ -1,14 +1,14 @@
 <purpose>
-Define the phases of implementation. Each phase is a coherent chunk of work
-that delivers value. The roadmap provides structure, not detailed tasks.
+กำหนด phases ของการ implementation แต่ละ phase คือชุดงานที่สอดคล้องกัน
+ที่ส่งมอบคุณค่า Roadmap ให้โครงสร้าง ไม่ใช่ tasks ละเอียด
 </purpose>
 
 <required_reading>
-**Read these files NOW:**
+**อ่านไฟล์เหล่านี้ตอนนี้:**
 
 1. ~/.claude/get-shit-done/templates/roadmap.md
 2. ~/.claude/get-shit-done/templates/state.md
-3. Read `.planning/PROJECT.md` if it exists
+3. อ่าน `.planning/PROJECT.md` หากมี
    </required_reading>
 
 <process>
@@ -18,24 +18,24 @@ that delivers value. The roadmap provides structure, not detailed tasks.
 cat .planning/PROJECT.md 2>/dev/null || echo "No brief found"
 ```
 
-**If no brief exists:**
-Ask: "No brief found. Want to create one first, or proceed with roadmap?"
+**หากไม่มี brief:**
+ถาม: "ไม่พบ brief ต้องการสร้างก่อนหรือดำเนินการ roadmap?"
 
-If proceeding without brief, gather quick context:
+หากดำเนินการโดยไม่มี brief รวบรวม context เร็ว:
 
-- What are we building?
-- What's the rough scope?
+- เรากำลังสร้างอะไร?
+- ขอบเขตคร่าวๆ คืออะไร?
 </step>
 
 
 <step name="detect_domain">
-Scan for available domain expertise:
+สแกนหา domain expertise ที่มี:
 
 ```bash
 ls ~/.claude/skills/expertise/ 2>/dev/null
 ```
 
-**Inference:** Based on the brief/user request, infer applicable domains:
+**การอนุมาน:** ตาม brief/คำขอผู้ใช้ อนุมาน domains ที่ใช้ได้:
 
 | Keywords                                 | Domain                   |
 | ---------------------------------------- | ------------------------ |
@@ -47,49 +47,49 @@ ls ~/.claude/skills/expertise/ 2>/dev/null
 | "UI", "design", "frontend", "Tailwind"   | expertise/ui-design      |
 | "Agent SDK", "Claude SDK", "agentic"     | expertise/with-agent-sdk |
 
-**If domain inferred:**
+**หากอนุมาน domain ได้:**
 
 ```
 Detected: [domain] project → expertise/[name]
-Include this domain expertise? (Y / see options / none)
+Include domain expertise นี้หรือไม่? (Y / see options / none)
 ```
 
-**If multiple domains apply** (e.g., ISF shaders for a macOS app):
+**หากใช้ได้หลาย domains** (เช่น ISF shaders สำหรับ macOS app):
 
 ```
 Detected multiple domains:
 - expertise/isf-shaders (shader development)
 - expertise/macos-apps (native app)
 
-Include both? (Y / select one / none)
+Include ทั้งสองหรือไม่? (Y / select one / none)
 ```
 
-**If no domain obvious:**
+**หากไม่ชัดว่า domain ใด:**
 
 ```
 Available domain expertise:
 1. macos-apps
 2. iphone-apps
-[... others found ...]
+[... อื่นๆ ที่พบ ...]
 
-N. None - proceed without domain expertise
+N. None - ดำเนินการโดยไม่มี domain expertise
 
-Select (comma-separate for multiple):
+เลือก (คั่นด้วยเครื่องหมายจุลภาคสำหรับหลายรายการ):
 ```
 
-**Store selected paths** for inclusion in ROADMAP.md.
+**เก็บ paths ที่เลือก** สำหรับ inclusion ใน ROADMAP.md
 </step>
 
 <step name="identify_phases">
-Derive phases from the actual work needed.
+ได้ phases จากงานจริงที่ต้องทำ
 
-**Check depth setting:**
+**ตรวจสอบการตั้งค่า depth:**
 ```bash
 cat .planning/config.json 2>/dev/null | grep depth
 ```
 
 <depth_guidance>
-**Depth controls compression tolerance, not artificial inflation.**
+**Depth ควบคุมความยืดหยุ่นในการบีบอัด ไม่ใช่การขยายเทียม**
 
 | Depth | Typical Phases | Typical Plans/Phase | Tasks/Plan |
 |-------|----------------|---------------------|------------|
@@ -97,60 +97,60 @@ cat .planning/config.json 2>/dev/null | grep depth
 | Standard | 5-8 | 3-5 | 2-3 |
 | Comprehensive | 8-12 | 5-10 | 2-3 |
 
-**Key principle:** Derive phases from actual work. Depth determines how aggressively you combine things, not a target to hit.
+**หลักการสำคัญ:** ได้ phases จากงานจริง Depth กำหนดว่ารวมสิ่งต่างๆ อย่างเข้มข้นแค่ไหน ไม่ใช่เป้าหมายที่ต้องถึง
 
-- Comprehensive auth system = 8 phases (because auth genuinely has 8 concerns)
-- Comprehensive "add favicon" = 1 phase (because that's all it is)
+- Comprehensive auth system = 8 phases (เพราะ auth มี 8 concerns จริงๆ)
+- Comprehensive "add favicon" = 1 phase (เพราะมีแค่นั้น)
 
-For comprehensive depth:
-- Don't compress multiple features into single phases
-- Each major capability gets its own phase
-- Let small things stay small—don't pad to hit a number
-- If you're tempted to combine two things, make them separate phases instead
+สำหรับ comprehensive depth:
+- อย่าบีบอัดหลาย features เป็น phases เดียว
+- แต่ละ capability หลักได้ phase ของตัวเอง
+- ให้สิ่งเล็กๆ ยังคงเล็ก—อย่าเพิ่มเพื่อให้ถึงจำนวน
+- หากคิดจะรวมสองสิ่ง ให้แยกเป็น phases แทน
 
-For quick depth:
-- Combine related work aggressively
-- Focus on critical path only
-- Defer nice-to-haves to future milestones
+สำหรับ quick depth:
+- รวมงานที่เกี่ยวข้องอย่างเข้มข้น
+- โฟกัสที่ critical path เท่านั้น
+- เลื่อน nice-to-haves ไป milestones ในอนาคต
 </depth_guidance>
 
-**Phase Numbering System:**
+**ระบบหมายเลข Phase:**
 
-Use integer phases (1, 2, 3) for planned milestone work.
+ใช้ integer phases (1, 2, 3) สำหรับงาน milestone ที่วางแผน
 
-Use decimal phases (2.1, 2.2) for urgent insertions:
+ใช้ decimal phases (2.1, 2.2) สำหรับการแทรกเร่งด่วน:
 
-- Decimal phases inserted between integers (2.1 between 2 and 3)
-- Mark with "(INSERTED)" in phase title
-- Created when urgent work discovered after planning
-- Examples: bugfixes, hotfixes, critical patches
+- Decimal phases แทรกระหว่าง integers (2.1 ระหว่าง 2 และ 3)
+- ทำเครื่องหมาย "(INSERTED)" ในชื่อ phase
+- สร้างเมื่อค้นพบงานเร่งด่วนหลังวางแผน
+- ตัวอย่าง: bugfixes, hotfixes, critical patches
 
-**When to use decimals:**
+**เมื่อใช้ decimals:**
 
-- Urgent work that can't wait for next milestone
-- Critical bugs blocking progress
-- Security patches needing immediate attention
-- NOT for scope creep or "nice to haves" (those go in ISSUES.md)
+- งานเร่งด่วนที่รอ milestone ถัดไปไม่ได้
+- Bugs วิกฤตที่บล็อก progress
+- Security patches ที่ต้องการความสนใจทันที
+- ไม่ใช่สำหรับ scope creep หรือ "nice to haves" (ไปที่ ISSUES.md)
 
-**Phase execution order:**
-Numeric sort: 1 → 1.1 → 1.2 → 2 → 2.1 → 3
+**ลำดับ execution ของ Phase:**
+เรียงตัวเลข: 1 → 1.1 → 1.2 → 2 → 2.1 → 3
 
-**Deriving phases:**
+**การได้ phases:**
 
-1. List all distinct systems/features/capabilities required
-2. Group related work into coherent deliverables
-3. Each phase should deliver ONE complete, verifiable thing
-4. If a phase delivers multiple unrelated capabilities: split it
-5. If a phase can't stand alone as a complete deliverable: merge it
-6. Order by dependencies
+1. ลิสต์ systems/features/capabilities ทั้งหมดที่ต้องการ
+2. จัดกลุ่มงานที่เกี่ยวข้องเป็น deliverables ที่สอดคล้อง
+3. แต่ละ phase ควรส่งมอบสิ่งหนึ่งที่สมบูรณ์และตรวจสอบได้
+4. หาก phase ส่งมอบหลาย capabilities ที่ไม่เกี่ยวข้อง: แยกมัน
+5. หาก phase ยืนอยู่คนเดียวไม่ได้ว่าเป็น deliverable ที่สมบูรณ์: รวมมัน
+6. เรียงตาม dependencies
 
-Good phases are:
+Phases ที่ดี:
 
-- **Coherent**: Each delivers one complete, verifiable capability
-- **Sequential**: Later phases build on earlier
-- **Independent**: Can be verified and committed on its own
+- **Coherent**: แต่ละอันส่งมอบ capability หนึ่งที่สมบูรณ์และตรวจสอบได้
+- **Sequential**: Phases หลังสร้างบน phases ก่อน
+- **Independent**: สามารถตรวจสอบและ commit ได้เองโดยลำพัง
 
-Common phase patterns:
+รูปแบบ phase ทั่วไป:
 
 - Foundation → Core Feature → Enhancement → Polish
 - Setup → MVP → Iteration → Launch
@@ -158,66 +158,66 @@ Common phase patterns:
   </step>
 
 <step name="detect_research_needs">
-**For each phase, determine if research is likely needed.**
+**สำหรับแต่ละ phase กำหนดว่าต้องการ research หรือไม่**
 
-Scan the brief and phase descriptions for research triggers:
+สแกน brief และคำอธิบาย phase สำหรับ research triggers:
 
 <research_triggers>
-**Likely (flag the phase):**
+**Likely (flag phase):**
 
-| Trigger Pattern                                       | Why Research Needed                     |
+| รูปแบบ Trigger                                        | ทำไมต้อง Research                       |
 | ----------------------------------------------------- | --------------------------------------- |
-| "integrate [service]", "connect to [API]"             | External API - need current docs        |
-| "authentication", "auth", "login", "JWT"              | Architectural decision + library choice |
+| "integrate [service]", "connect to [API]"             | External API - ต้องการ docs ปัจจุบัน    |
+| "authentication", "auth", "login", "JWT"              | การตัดสินใจ Architectural + เลือก library |
 | "payment", "billing", "Stripe", "subscription"        | External API + compliance patterns      |
 | "email", "SMS", "notifications", "SendGrid", "Twilio" | External service integration            |
-| "database", "Postgres", "MongoDB", "Supabase"         | If new to project - setup patterns      |
-| "real-time", "websocket", "sync", "live updates"      | Architectural decision                  |
-| "deploy", "Vercel", "Railway", "hosting"              | If first deployment - config patterns   |
-| "choose between", "select", "evaluate", "which"       | Explicit decision needed                |
-| "AI", "OpenAI", "Claude", "LLM", "embeddings"         | Fast-moving APIs - need current docs    |
-| Any technology not already in codebase                | New integration                         |
-| Explicit questions in brief                           | Unknowns flagged by user                |
+| "database", "Postgres", "MongoDB", "Supabase"         | หากใหม่สำหรับโปรเจกต์ - setup patterns  |
+| "real-time", "websocket", "sync", "live updates"      | การตัดสินใจ Architectural              |
+| "deploy", "Vercel", "Railway", "hosting"              | หาก deployment ครั้งแรก - config patterns |
+| "choose between", "select", "evaluate", "which"       | ต้องการการตัดสินใจชัดเจน               |
+| "AI", "OpenAI", "Claude", "LLM", "embeddings"         | APIs เปลี่ยนเร็ว - ต้องการ docs ปัจจุบัน |
+| Technology ใดๆ ที่ยังไม่มีใน codebase                 | Integration ใหม่                        |
+| คำถามชัดเจนใน brief                                  | Unknowns ที่ผู้ใช้ flag ไว้             |
 
-**Unlikely (no flag needed):**
+**Unlikely (ไม่ต้อง flag):**
 
-| Pattern                                     | Why No Research         |
+| รูปแบบ                                      | ทำไมไม่ต้อง Research    |
 | ------------------------------------------- | ----------------------- |
 | "add button", "create form", "update UI"    | Internal patterns       |
 | "CRUD operations", "list/detail views"      | Standard patterns       |
-| "refactor", "reorganize", "clean up"        | Internal work           |
-| "following existing patterns"               | Conventions established |
-| Technology already in package.json/codebase | Patterns exist          |
+| "refactor", "reorganize", "clean up"        | งานภายใน               |
+| "following existing patterns"               | Conventions ที่ตั้งไว้แล้ว |
+| Technology ที่มีใน package.json/codebase แล้ว | มี Patterns อยู่แล้ว     |
 
 </research_triggers>
 
-**For each phase, assign:**
+**สำหรับแต่ละ phase กำหนด:**
 
-- `Research: Likely ([reason])` + `Research topics: [what to investigate]`
-- `Research: Unlikely ([reason])`
+- `Research: Likely ([เหตุผล])` + `Research topics: [สิ่งที่ต้องสืบค้น]`
+- `Research: Unlikely ([เหตุผล])`
 
-**Important:** These are hints, not mandates. The mandatory_discovery step during phase planning will validate.
+**สำคัญ:** เหล่านี้คือ hints ไม่ใช่ mandates ขั้นตอน mandatory_discovery ระหว่าง phase planning จะตรวจสอบ
 
-Present research assessment:
+แสดงการประเมิน research:
 
 ```
-Research needs detected:
+Research needs ที่ตรวจพบ:
 
 Phase 1: Foundation
   Research: Unlikely (project setup, established patterns)
 
 Phase 2: Authentication
   Research: Likely (new system, technology choice)
-  Topics: JWT library for [stack], session strategy, auth provider options
+  Topics: JWT library สำหรับ [stack], session strategy, auth provider options
 
 Phase 3: Stripe Integration
   Research: Likely (external API)
   Topics: Current Stripe API, webhook patterns, checkout flow
 
 Phase 4: Dashboard
-  Research: Unlikely (internal UI using patterns from earlier phases)
+  Research: Unlikely (internal UI ใช้ patterns จาก phases ก่อน)
 
-Does this look right? (yes / adjust)
+ดูถูกต้องไหม? (yes / adjust)
 ```
 
 </step>
@@ -227,60 +227,60 @@ Does this look right? (yes / adjust)
 ```bash
 cat .planning/config.json 2>/dev/null
 ```
-Note: Config may not exist yet (project initialization). If missing, default to interactive mode.
+Note: Config อาจยังไม่มี (project initialization) หากไม่มี ใช้ interactive mode เป็นค่าเริ่มต้น
 </config-check>
 
 <if mode="yolo">
 ```
-⚡ Auto-approved: Phase breakdown ([N] phases)
+⚡ อนุมัติอัตโนมัติ: การแบ่ง Phase ([N] phases)
 
 1. [Phase name] - [goal]
 2. [Phase name] - [goal]
 3. [Phase name] - [goal]
 
-Proceeding to research detection...
+ดำเนินการตรวจจับ research...
 ```
 
-Proceed directly to detect_research_needs step.
+ดำเนินการไปยังขั้นตอน detect_research_needs โดยตรง
 </if>
 
 <if mode="interactive" OR="missing OR custom with gates.confirm_phases true">
-Present the phase breakdown inline:
+แสดงการแบ่ง phase แบบ inline:
 
-"Here's how I'd break this down:
+"นี่คือวิธีที่ฉันจะแบ่ง:
 
 1. [Phase name] - [goal]
 2. [Phase name] - [goal]
 3. [Phase name] - [goal]
    ...
 
-Does this feel right? (yes / adjust)"
+รู้สึกถูกต้องไหม? (yes / adjust)"
 
-If "adjust": Ask what to change, revise, present again.
+หาก "adjust": ถามว่าต้องเปลี่ยนอะไร แก้ไข แสดงอีกครั้ง
 </step>
 
 <step name="decision_gate">
 <if mode="yolo">
 ```
-⚡ Auto-approved: Create roadmap with [N] phases
+⚡ อนุมัติอัตโนมัติ: สร้าง roadmap ด้วย [N] phases
 
-Proceeding to create .planning/ROADMAP.md...
+ดำเนินการสร้าง .planning/ROADMAP.md...
 ```
 
-Proceed directly to create_structure step.
+ดำเนินการไปยังขั้นตอน create_structure โดยตรง
 </if>
 
 <if mode="interactive" OR="missing OR custom with gates.confirm_roadmap true">
-Use AskUserQuestion:
+ใช้ AskUserQuestion:
 
 - header: "Ready"
-- question: "Ready to create the roadmap, or would you like me to ask more questions?"
+- question: "พร้อมสร้าง roadmap หรือต้องการให้ฉันถามคำถามเพิ่มเติม?"
 - options:
-  - "Create roadmap" - I have enough context
-  - "Ask more questions" - There are details to clarify
-  - "Let me add context" - I want to provide more information
+  - "Create roadmap" - ฉันมี context เพียงพอแล้ว
+  - "Ask more questions" - มีรายละเอียดที่ต้องชี้แจง
+  - "Let me add context" - ฉันต้องการให้ข้อมูลเพิ่มเติม
 
-Loop until "Create roadmap" selected.
+วนจนกว่าจะเลือก "Create roadmap"
 </step>
 
 <step name="create_structure">
@@ -290,55 +290,55 @@ mkdir -p .planning/phases
 </step>
 
 <step name="write_roadmap">
-Use template from `~/.claude/get-shit-done/templates/roadmap.md`.
+ใช้ template จาก `~/.claude/get-shit-done/templates/roadmap.md`
 
-Initial roadmaps use integer phases (1, 2, 3...).
-Decimal phases added later via /gsd:insert-phase command (if it exists).
+Roadmaps เริ่มต้นใช้ integer phases (1, 2, 3...)
+Decimal phases เพิ่มภายหลังผ่าน /gsd:insert-phase command (หากมี)
 
-Write to `.planning/ROADMAP.md` with:
+เขียนลง `.planning/ROADMAP.md` ด้วย:
 
-- Domain Expertise section (paths from detect_domain step, or "None" if skipped)
-- Phase list with names and one-line descriptions
-- Dependencies (what must complete before what)
-- **Research flags** (from detect_research_needs step):
-  - `Research: Likely ([reason])` with `Research topics:` for flagged phases
-  - `Research: Unlikely ([reason])` for unflagged phases
-- Status tracking (all start as "not started")
+- ส่วน Domain Expertise (paths จากขั้นตอน detect_domain หรือ "None" หากข้าม)
+- รายการ Phase พร้อมชื่อและคำอธิบายหนึ่งบรรทัด
+- Dependencies (อะไรต้องเสร็จก่อนอะไร)
+- **Research flags** (จากขั้นตอน detect_research_needs):
+  - `Research: Likely ([เหตุผล])` พร้อม `Research topics:` สำหรับ phases ที่ flag
+  - `Research: Unlikely ([เหตุผล])` สำหรับ phases ที่ไม่ flag
+- การติดตาม Status (ทั้งหมดเริ่มเป็น "not started")
 
-Create phase directories:
+สร้าง phase directories:
 
 ```bash
 mkdir -p .planning/phases/01-{phase-name}
 mkdir -p .planning/phases/02-{phase-name}
-# etc.
+# เป็นต้น
 ```
 
 </step>
 
 <step name="initialize_project_state">
 
-Create STATE.md — the project's living memory.
+สร้าง STATE.md — หน่วยความจำที่มีชีวิตของโปรเจกต์
 
-Use template from `~/.claude/get-shit-done/templates/state.md`.
+ใช้ template จาก `~/.claude/get-shit-done/templates/state.md`
 
-Write to `.planning/STATE.md`:
+เขียนลง `.planning/STATE.md`:
 
 ```markdown
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated [today's date])
+See: .planning/PROJECT.md (updated [วันที่วันนี้])
 
-**Core value:** [Copy Core Value from PROJECT.md]
-**Current focus:** Phase 1 — [First phase name]
+**Core value:** [Copy Core Value จาก PROJECT.md]
+**Current focus:** Phase 1 — [ชื่อ Phase แรก]
 
 ## Current Position
 
-Phase: 1 of [N] ([First phase name])
+Phase: 1 of [N] ([ชื่อ Phase แรก])
 Plan: Not started
 Status: Ready to plan
-Last activity: [today's date] — Project initialized
+Last activity: [วันที่วันนี้] — Project initialized
 
 Progress: ░░░░░░░░░░ 0%
 
@@ -363,47 +363,47 @@ Progress: ░░░░░░░░░░ 0%
 
 ### Decisions
 
-Decisions are logged in PROJECT.md Key Decisions table.
-Recent decisions affecting current work:
+Decisions บันทึกในตาราง Key Decisions ของ PROJECT.md
+การตัดสินใจล่าสุดที่ส่งผลต่องานปัจจุบัน:
 
-(None yet)
+(ยังไม่มี)
 
 ### Deferred Issues
 
-None yet.
+ยังไม่มี
 
 ### Blockers/Concerns
 
-None yet.
+ยังไม่มี
 
 ## Session Continuity
 
-Last session: [today's date and time]
+Last session: [วันและเวลาวันนี้]
 Stopped at: Project initialization complete
 Resume file: None
 ```
 
-**Key points:**
+**จุดสำคัญ:**
 
-- Project Reference points to PROJECT.md for full context
-- Claude reads PROJECT.md directly for requirements, constraints, decisions
-- This file will be read first in every future operation
-- This file will be updated after every execution
+- Project Reference ชี้ไป PROJECT.md สำหรับ context ทั้งหมด
+- Claude อ่าน PROJECT.md โดยตรงสำหรับ requirements, constraints, decisions
+- ไฟล์นี้จะถูกอ่านก่อนในทุก operation ในอนาคต
+- ไฟล์นี้จะถูกอัปเดตหลังทุก execution
 
 </step>
 
 <step name="git_commit_initialization">
-Commit project initialization (brief + roadmap + state together):
+Commit project initialization (brief + roadmap + state รวมกัน):
 
 ```bash
 git add .planning/PROJECT.md .planning/ROADMAP.md .planning/STATE.md
 git add .planning/phases/
-# config.json if exists
+# config.json หากมี
 git add .planning/config.json 2>/dev/null
 git commit -m "$(cat <<'EOF'
 docs: initialize [project-name] ([N] phases)
 
-[One-liner from PROJECT.md]
+[One-liner จาก PROJECT.md]
 
 Phases:
 1. [phase-name]: [goal]
@@ -413,7 +413,7 @@ EOF
 )"
 ```
 
-Confirm: "Committed: docs: initialize [project] ([N] phases)"
+ยืนยัน: "Committed: docs: initialize [project] ([N] phases)"
 </step>
 
 <step name="offer_next">
@@ -426,19 +426,19 @@ Project initialized:
 
 ---
 
-## ▶ Next Up
+## ▶ ถัดไป
 
-**Phase 1: [Name]** — [Goal from ROADMAP.md]
+**Phase 1: [Name]** — [Goal จาก ROADMAP.md]
 
 `/gsd:plan-phase 1`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → context window ใหม่</sub>
 
 ---
 
-**Also available:**
-- `/gsd:discuss-phase 1` — gather context first
-- `/gsd:research-phase 1` — investigate unknowns
+**ยังมีให้เลือก:**
+- `/gsd:discuss-phase 1` — รวบรวม context ก่อน
+- `/gsd:research-phase 1` — สืบค้นสิ่งที่ไม่รู้
 - Review roadmap
 
 ---
@@ -448,34 +448,34 @@ Project initialized:
 </process>
 
 <phase_naming>
-Use `XX-kebab-case-name` format:
+ใช้รูปแบบ `XX-kebab-case-name`:
 - `01-foundation`
 - `02-authentication`
 - `03-core-features`
 - `04-polish`
 
-Numbers ensure ordering. Names describe content.
+ตัวเลขรับประกันลำดับ ชื่ออธิบายเนื้อหา
 </phase_naming>
 
 <anti_patterns>
-- Don't add time estimates
-- Don't create Gantt charts
-- Don't add resource allocation
-- Don't include risk matrices
-- Don't impose arbitrary phase counts (let the work determine the count)
+- อย่าเพิ่มการประมาณเวลา
+- อย่าสร้าง Gantt charts
+- อย่าเพิ่มการจัดสรรทรัพยากร
+- อย่า include risk matrices
+- อย่ากำหนดจำนวน phase โดยพลการ (ให้งานกำหนดจำนวน)
 
-Phases are buckets of work, not project management artifacts.
+Phases เป็นถังงาน ไม่ใช่ artifacts การจัดการโปรเจกต์
 </anti_patterns>
 
 <success_criteria>
-Roadmap is complete when:
-- [ ] `.planning/ROADMAP.md` exists
-- [ ] `.planning/STATE.md` exists (project memory initialized)
-- [ ] Phases defined with clear names (count derived from work, not imposed)
-- [ ] **Research flags assigned** (Likely/Unlikely for each phase)
-- [ ] **Research topics listed** for Likely phases
-- [ ] Phase directories created
-- [ ] Dependencies noted if any
-- [ ] Status tracking in place
+Roadmap สมบูรณ์เมื่อ:
+- [ ] `.planning/ROADMAP.md` มีอยู่
+- [ ] `.planning/STATE.md` มีอยู่ (project memory initialized)
+- [ ] Phases กำหนดด้วยชื่อที่ชัดเจน (จำนวนได้จากงาน ไม่ใช่กำหนดเอง)
+- [ ] **Research flags กำหนด** (Likely/Unlikely สำหรับแต่ละ phase)
+- [ ] **Research topics ลิสต์** สำหรับ Likely phases
+- [ ] Phase directories สร้างแล้ว
+- [ ] Dependencies บันทึกหากมี
+- [ ] การติดตาม Status พร้อม
 </success_criteria>
 ```

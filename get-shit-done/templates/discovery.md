@@ -1,14 +1,14 @@
-# Discovery Template
+# เทมเพลต Discovery
 
-Template for `.planning/phases/XX-name/DISCOVERY.md` - shallow research for library/option decisions.
+เทมเพลตสำหรับ `.planning/phases/XX-name/DISCOVERY.md` - การวิจัยระดับตื้นสำหรับการตัดสินใจ library/option
 
-**Purpose:** Answer "which library/option should we use" questions during mandatory discovery in plan-phase.
+**วัตถุประสงค์:** ตอบคำถาม "library/option ไหนที่เราควรใช้" ระหว่าง mandatory discovery ใน plan-phase
 
-For deep ecosystem research ("how do experts build this"), use `/gsd:research-phase` which produces RESEARCH.md.
+สำหรับการวิจัย ecosystem ระดับลึก ("ผู้เชี่ยวชาญสร้างสิ่งนี้อย่างไร") ใช้ `/gsd:research-phase` ซึ่งสร้าง RESEARCH.md
 
 ---
 
-## File Template
+## เทมเพลตไฟล์
 
 ```markdown
 ---
@@ -18,129 +18,129 @@ topic: [discovery-topic]
 ---
 
 <session_initialization>
-Before beginning discovery, verify today's date:
+ก่อนเริ่ม discovery ตรวจสอบวันที่วันนี้:
 !`date +%Y-%m-%d`
 
-Use this date when searching for "current" or "latest" information.
-Example: If today is 2025-11-22, search for "2025" not "2024".
+ใช้วันที่นี้เมื่อค้นหาข้อมูล "ปัจจุบัน" หรือ "ล่าสุด"
+ตัวอย่าง: ถ้าวันนี้คือ 2025-11-22 ค้นหา "2025" ไม่ใช่ "2024"
 </session_initialization>
 
 <discovery_objective>
-Discover [topic] to inform [phase name] implementation.
+ค้นหา [หัวข้อ] เพื่อแจ้ง implementation ของ [ชื่อเฟส]
 
-Purpose: [What decision/implementation this enables]
-Scope: [Boundaries]
-Output: DISCOVERY.md with recommendation
+วัตถุประสงค์: [การตัดสินใจ/implementation ที่สิ่งนี้เปิดใช้]
+ขอบเขต: [ขอบเขต]
+Output: DISCOVERY.md พร้อมคำแนะนำ
 </discovery_objective>
 
 <discovery_scope>
 <include>
-- [Question to answer]
-- [Area to investigate]
-- [Specific comparison if needed]
+- [คำถามที่ต้องตอบ]
+- [พื้นที่ที่ต้องสำรวจ]
+- [การเปรียบเทียบเฉพาะถ้าต้องการ]
 </include>
 
 <exclude>
-- [Out of scope for this discovery]
-- [Defer to implementation phase]
+- [นอกขอบเขตสำหรับ discovery นี้]
+- [เลื่อนไปเฟส implementation]
 </exclude>
 </discovery_scope>
 
 <discovery_protocol>
 
-**Source Priority:**
-1. **Context7 MCP** - For library/framework documentation (current, authoritative)
-2. **Official Docs** - For platform-specific or non-indexed libraries
-3. **WebSearch** - For comparisons, trends, community patterns (verify all findings)
+**ลำดับความสำคัญแหล่งข้อมูล:**
+1. **Context7 MCP** - สำหรับ library/framework documentation (ปัจจุบัน น่าเชื่อถือ)
+2. **Official Docs** - สำหรับ libraries เฉพาะ platform หรือที่ไม่ถูก index
+3. **WebSearch** - สำหรับการเปรียบเทียบ trends community patterns (verify findings ทั้งหมด)
 
 **Quality Checklist:**
-Before completing discovery, verify:
-- [ ] All claims have authoritative sources (Context7 or official docs)
-- [ ] Negative claims ("X is not possible") verified with official documentation
-- [ ] API syntax/configuration from Context7 or official docs (never WebSearch alone)
-- [ ] WebSearch findings cross-checked with authoritative sources
-- [ ] Recent updates/changelogs checked for breaking changes
-- [ ] Alternative approaches considered (not just first solution found)
+ก่อนเสร็จสิ้น discovery ตรวจสอบ:
+- [ ] Claims ทั้งหมดมี authoritative sources (Context7 หรือ official docs)
+- [ ] Negative claims ("X เป็นไปไม่ได้") verified ด้วย official documentation
+- [ ] API syntax/configuration จาก Context7 หรือ official docs (ไม่ใช่ WebSearch เท่านั้น)
+- [ ] WebSearch findings cross-checked กับ authoritative sources
+- [ ] Recent updates/changelogs ถูกตรวจสอบสำหรับ breaking changes
+- [ ] Alternative approaches ถูกพิจารณา (ไม่ใช่แค่ solution แรกที่เจอ)
 
 **Confidence Levels:**
-- HIGH: Context7 or official docs confirm
-- MEDIUM: WebSearch + Context7/official docs confirm
-- LOW: WebSearch only or training knowledge only (mark for validation)
+- HIGH: Context7 หรือ official docs ยืนยัน
+- MEDIUM: WebSearch + Context7/official docs ยืนยัน
+- LOW: WebSearch เท่านั้นหรือ training knowledge เท่านั้น (mark สำหรับ validation)
 
 </discovery_protocol>
 
 
 <output_structure>
-Create `.planning/phases/XX-name/DISCOVERY.md`:
+สร้าง `.planning/phases/XX-name/DISCOVERY.md`:
 
 ```markdown
-# [Topic] Discovery
+# [หัวข้อ] Discovery
 
-## Summary
-[2-3 paragraph executive summary - what was researched, what was found, what's recommended]
+## สรุป
+[สรุปผู้บริหาร 2-3 ย่อหน้า - สิ่งที่วิจัย สิ่งที่พบ สิ่งที่แนะนำ]
 
-## Primary Recommendation
-[What to do and why - be specific and actionable]
+## คำแนะนำหลัก
+[ควรทำอะไรและทำไม - เจาะจงและ actionable]
 
-## Alternatives Considered
-[What else was evaluated and why not chosen]
+## Alternatives ที่พิจารณา
+[อะไรอื่นถูกประเมินและทำไมไม่เลือก]
 
 ## Key Findings
 
-### [Category 1]
-- [Finding with source URL and relevance to our case]
+### [หมวด 1]
+- [Finding พร้อม source URL และความเกี่ยวข้องกับ case ของเรา]
 
-### [Category 2]
-- [Finding with source URL and relevance]
+### [หมวด 2]
+- [Finding พร้อม source URL และความเกี่ยวข้อง]
 
-## Code Examples
-[Relevant implementation patterns, if applicable]
+## ตัวอย่างโค้ด
+[Relevant implementation patterns ถ้าใช้ได้]
 
 ## Metadata
 
 <metadata>
 <confidence level="high|medium|low">
-[Why this confidence level - based on source quality and verification]
+[ทำไม confidence level นี้ - based on source quality และ verification]
 </confidence>
 
 <sources>
-- [Primary authoritative sources used]
+- [Primary authoritative sources ที่ใช้]
 </sources>
 
 <open_questions>
-[What couldn't be determined or needs validation during implementation]
+[สิ่งที่ไม่สามารถตัดสินได้หรือต้อง validation ระหว่าง implementation]
 </open_questions>
 
 <validation_checkpoints>
-[If confidence is LOW or MEDIUM, list specific things to verify during implementation]
+[ถ้า confidence เป็น LOW หรือ MEDIUM ลิสต์สิ่งเฉพาะที่ต้อง verify ระหว่าง implementation]
 </validation_checkpoints>
 </metadata>
 ```
 </output_structure>
 
 <success_criteria>
-- All scope questions answered with authoritative sources
-- Quality checklist items completed
-- Clear primary recommendation
-- Low-confidence findings marked with validation checkpoints
-- Ready to inform PLAN.md creation
+- คำถาม scope ทั้งหมดตอบด้วย authoritative sources
+- Quality checklist items เสร็จสมบูรณ์
+- คำแนะนำหลักชัดเจน
+- Low-confidence findings marked ด้วย validation checkpoints
+- พร้อมที่จะแจ้งการสร้าง PLAN.md
 </success_criteria>
 
 <guidelines>
-**When to use discovery:**
-- Technology choice unclear (library A vs B)
-- Best practices needed for unfamiliar integration
-- API/library investigation required
+**เมื่อไหร่ใช้ discovery:**
+- Technology choice ไม่ชัด (library A vs B)
+- Best practices ต้องการสำหรับ integration ที่ไม่คุ้นเคย
+- ต้องการ API/library investigation
 - Single decision pending
 
-**When NOT to use:**
-- Established patterns (CRUD, auth with known library)
-- Implementation details (defer to execution)
-- Questions answerable from existing project context
+**เมื่อไหร่ไม่ควรใช้:**
+- Established patterns (CRUD, auth กับ library ที่รู้จัก)
+- Implementation details (เลื่อนไป execution)
+- คำถามที่ตอบได้จาก existing project context
 
-**When to use RESEARCH.md instead:**
+**เมื่อไหร่ใช้ RESEARCH.md แทน:**
 - Niche/complex domains (3D, games, audio, shaders)
-- Need ecosystem knowledge, not just library choice
-- "How do experts build this" questions
-- Use `/gsd:research-phase` for these
+- ต้องการ ecosystem knowledge ไม่ใช่แค่ library choice
+- คำถาม "ผู้เชี่ยวชาญสร้างสิ่งนี้อย่างไร"
+- ใช้ `/gsd:research-phase` สำหรับสิ่งเหล่านี้
 </guidelines>

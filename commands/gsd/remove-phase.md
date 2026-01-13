@@ -1,6 +1,6 @@
 ---
 name: gsd:remove-phase
-description: Remove a future phase from roadmap and renumber subsequent phases
+description: ลบ future phase จาก roadmap และ renumber phases ถัดไป
 argument-hint: <phase-number>
 allowed-tools:
   - Read
@@ -10,10 +10,10 @@ allowed-tools:
 ---
 
 <objective>
-Remove an unstarted future phase from the roadmap and renumber all subsequent phases to maintain a clean, linear sequence.
+ลบ unstarted future phase จาก roadmap และ renumber phases ถัดไปทั้งหมดเพื่อรักษาลำดับ linear ที่สะอาด
 
-Purpose: Clean removal of work you've decided not to do, without polluting context with cancelled/deferred markers.
-Output: Phase deleted, all subsequent phases renumbered, git commit as historical record.
+วัตถุประสงค์: ลบงานที่ตัดสินใจไม่ทำอย่างสะอาด โดยไม่ทำให้ context เต็มไปด้วย cancelled/deferred markers
+Output: Phase ถูกลบ, phases ถัดไปทั้งหมดถูก renumber, git commit เป็น historical record
 </objective>
 
 <execution_context>
@@ -24,264 +24,264 @@ Output: Phase deleted, all subsequent phases renumbered, git commit as historica
 <process>
 
 <step name="parse_arguments">
-Parse the command arguments:
-- Argument is the phase number to remove (integer or decimal)
-- Example: `/gsd:remove-phase 17` → phase = 17
-- Example: `/gsd:remove-phase 16.1` → phase = 16.1
+Parse arguments ของคำสั่ง:
+- Argument คือ phase number ที่จะลบ (integer หรือ decimal)
+- ตัวอย่าง: `/gsd:remove-phase 17` → phase = 17
+- ตัวอย่าง: `/gsd:remove-phase 16.1` → phase = 16.1
 
-If no argument provided:
+ถ้าไม่มี argument:
 
 ```
-ERROR: Phase number required
-Usage: /gsd:remove-phase <phase-number>
-Example: /gsd:remove-phase 17
+ERROR: ต้องระบุ phase number
+การใช้งาน: /gsd:remove-phase <phase-number>
+ตัวอย่าง: /gsd:remove-phase 17
 ```
 
-Exit.
+ออกจากคำสั่ง
 </step>
 
 <step name="load_state">
-Load project state:
+โหลด project state:
 
 ```bash
 cat .planning/STATE.md 2>/dev/null
 cat .planning/ROADMAP.md 2>/dev/null
 ```
 
-Parse current phase number from STATE.md "Current Position" section.
+Parse current phase number จาก STATE.md "Current Position" section
 </step>
 
 <step name="validate_phase_exists">
-Verify the target phase exists in ROADMAP.md:
+ตรวจสอบว่า target phase มีอยู่ใน ROADMAP.md:
 
-1. Search for `### Phase {target}:` heading
-2. If not found:
+1. ค้นหา `### Phase {target}:` heading
+2. ถ้าไม่พบ:
 
    ```
-   ERROR: Phase {target} not found in roadmap
-   Available phases: [list phase numbers]
+   ERROR: ไม่พบ Phase {target} ใน roadmap
+   Phases ที่มี: [list phase numbers]
    ```
 
-   Exit.
+   ออกจากคำสั่ง
 </step>
 
 <step name="validate_future_phase">
-Verify the phase is a future phase (not started):
+ตรวจสอบว่า phase เป็น future phase (ยังไม่เริ่ม):
 
-1. Compare target phase to current phase from STATE.md
-2. Target must be > current phase number
+1. เปรียบเทียบ target phase กับ current phase จาก STATE.md
+2. Target ต้อง > current phase number
 
-If target <= current phase:
+ถ้า target <= current phase:
 
 ```
-ERROR: Cannot remove Phase {target}
+ERROR: ไม่สามารถลบ Phase {target}
 
-Only future phases can be removed:
+ลบได้เฉพาะ future phases:
 - Current phase: {current}
-- Phase {target} is current or completed
+- Phase {target} เป็น current หรือ completed
 
-To abandon current work, use /gsd:pause-work instead.
+เพื่อยกเลิกงานปัจจุบัน ใช้ /gsd:pause-work แทน
 ```
 
-Exit.
+ออกจากคำสั่ง
 
-3. Check for SUMMARY.md files in phase directory:
+3. ตรวจสอบไฟล์ SUMMARY.md ในโฟลเดอร์ phase:
 
 ```bash
 ls .planning/phases/{target}-*/*-SUMMARY.md 2>/dev/null
 ```
 
-If any SUMMARY.md files exist:
+ถ้ามีไฟล์ SUMMARY.md:
 
 ```
-ERROR: Phase {target} has completed work
+ERROR: Phase {target} มีงานที่เสร็จแล้ว
 
-Found executed plans:
+พบ executed plans:
 - {list of SUMMARY.md files}
 
-Cannot remove phases with completed work.
+ไม่สามารถลบ phases ที่มีงานเสร็จแล้ว
 ```
 
-Exit.
+ออกจากคำสั่ง
 </step>
 
 <step name="gather_phase_info">
-Collect information about the phase being removed:
+รวบรวมข้อมูลเกี่ยวกับ phase ที่จะลบ:
 
-1. Extract phase name from ROADMAP.md heading: `### Phase {target}: {Name}`
-2. Find phase directory: `.planning/phases/{target}-{slug}/`
-3. Find all subsequent phases (integer and decimal) that need renumbering
+1. ดึงชื่อ phase จาก ROADMAP.md heading: `### Phase {target}: {Name}`
+2. หาโฟลเดอร์ phase: `.planning/phases/{target}-{slug}/`
+3. หา phases ถัดไปทั้งหมด (integer และ decimal) ที่ต้อง renumber
 
-**Subsequent phase detection:**
+**การตรวจจับ subsequent phases:**
 
-For integer phase removal (e.g., 17):
-- Find all phases > 17 (integers: 18, 19, 20...)
-- Find all decimal phases >= 17.0 and < 18.0 (17.1, 17.2...) → these become 16.x
-- Find all decimal phases for subsequent integers (18.1, 19.1...) → renumber with their parent
+สำหรับการลบ integer phase (เช่น 17):
+- หา phases ทั้งหมด > 17 (integers: 18, 19, 20...)
+- หา decimal phases ทั้งหมด >= 17.0 และ < 18.0 (17.1, 17.2...) → กลายเป็น 16.x
+- หา decimal phases สำหรับ subsequent integers (18.1, 19.1...) → renumber ไปกับ parent
 
-For decimal phase removal (e.g., 17.1):
-- Find all decimal phases > 17.1 and < 18 (17.2, 17.3...) → renumber down
-- Integer phases unchanged
+สำหรับการลบ decimal phase (เช่น 17.1):
+- หา decimal phases ทั้งหมด > 17.1 และ < 18 (17.2, 17.3...) → renumber ลง
+- Integer phases ไม่เปลี่ยน
 
-List all phases that will be renumbered.
+แสดงรายการ phases ทั้งหมดที่จะถูก renumber
 </step>
 
 <step name="confirm_removal">
-Present removal summary and confirm:
+แสดงสรุปการลบและขอยืนยัน:
 
 ```
-Removing Phase {target}: {Name}
+กำลังจะลบ Phase {target}: {Name}
 
-This will:
-- Delete: .planning/phases/{target}-{slug}/
+จะทำสิ่งนี้:
+- ลบ: .planning/phases/{target}-{slug}/
 - Renumber {N} subsequent phases:
   - Phase 18 → Phase 17
   - Phase 18.1 → Phase 17.1
   - Phase 19 → Phase 18
   [etc.]
 
-Proceed? (y/n)
+ดำเนินการ? (y/n)
 ```
 
-Wait for confirmation.
+รอการยืนยัน
 </step>
 
 <step name="delete_phase_directory">
-Delete the target phase directory if it exists:
+ลบโฟลเดอร์ target phase ถ้ามี:
 
 ```bash
 if [ -d ".planning/phases/{target}-{slug}" ]; then
   rm -rf ".planning/phases/{target}-{slug}"
-  echo "Deleted: .planning/phases/{target}-{slug}/"
+  echo "ลบแล้ว: .planning/phases/{target}-{slug}/"
 fi
 ```
 
-If directory doesn't exist, note: "No directory to delete (phase not yet created)"
+ถ้าไม่มีโฟลเดอร์ จด: "ไม่มีโฟลเดอร์ให้ลบ (phase ยังไม่ได้สร้าง)"
 </step>
 
 <step name="renumber_directories">
-Rename all subsequent phase directories:
+เปลี่ยนชื่อโฟลเดอร์ subsequent phases ทั้งหมด:
 
-For each phase directory that needs renumbering (in reverse order to avoid conflicts):
+สำหรับแต่ละโฟลเดอร์ phase ที่ต้อง renumber (เรียงจากมากไปน้อยเพื่อหลีกเลี่ยง conflicts):
 
 ```bash
-# Example: renaming 18-dashboard to 17-dashboard
+# ตัวอย่าง: เปลี่ยนชื่อ 18-dashboard เป็น 17-dashboard
 mv ".planning/phases/18-dashboard" ".planning/phases/17-dashboard"
 ```
 
-Process in descending order (20→19, then 19→18, then 18→17) to avoid overwriting.
+ดำเนินการจากมากไปน้อย (20→19, แล้ว 19→18, แล้ว 18→17) เพื่อหลีกเลี่ยงการเขียนทับ
 
-Also rename decimal phase directories:
-- `17.1-fix-bug` → `16.1-fix-bug` (if removing integer 17)
-- `17.2-hotfix` → `17.1-hotfix` (if removing decimal 17.1)
+เปลี่ยนชื่อโฟลเดอร์ decimal phase ด้วย:
+- `17.1-fix-bug` → `16.1-fix-bug` (ถ้าลบ integer 17)
+- `17.2-hotfix` → `17.1-hotfix` (ถ้าลบ decimal 17.1)
 </step>
 
 <step name="rename_files_in_directories">
-Rename plan files inside renumbered directories:
+เปลี่ยนชื่อไฟล์ plan ในโฟลเดอร์ที่ renumber แล้ว:
 
-For each renumbered directory, rename files that contain the phase number:
+สำหรับแต่ละโฟลเดอร์ที่ renumber เปลี่ยนชื่อไฟล์ที่มี phase number:
 
 ```bash
-# Inside 17-dashboard (was 18-dashboard):
+# ใน 17-dashboard (เดิมเป็น 18-dashboard):
 mv "18-01-PLAN.md" "17-01-PLAN.md"
 mv "18-02-PLAN.md" "17-02-PLAN.md"
-mv "18-01-SUMMARY.md" "17-01-SUMMARY.md"  # if exists
+mv "18-01-SUMMARY.md" "17-01-SUMMARY.md"  # ถ้ามี
 # etc.
 ```
 
-Also handle CONTEXT.md and DISCOVERY.md (these don't have phase prefixes, so no rename needed).
+จัดการ CONTEXT.md และ DISCOVERY.md ด้วย (เหล่านี้ไม่มี phase prefixes จึงไม่ต้องเปลี่ยนชื่อ)
 </step>
 
 <step name="update_roadmap">
-Update ROADMAP.md:
+อัพเดท ROADMAP.md:
 
-1. **Remove the phase section entirely:**
-   - Delete from `### Phase {target}:` to the next phase heading (or section end)
+1. **ลบ phase section ทั้งหมด:**
+   - ลบจาก `### Phase {target}:` ถึง phase heading ถัดไป (หรือ section end)
 
-2. **Remove from phase list:**
-   - Delete line `- [ ] **Phase {target}: {Name}**` or similar
+2. **ลบจาก phase list:**
+   - ลบบรรทัด `- [ ] **Phase {target}: {Name}**` หรือคล้ายกัน
 
-3. **Remove from Progress table:**
-   - Delete the row for Phase {target}
+3. **ลบจาก Progress table:**
+   - ลบ row สำหรับ Phase {target}
 
-4. **Renumber all subsequent phases:**
+4. **Renumber phases ถัดไปทั้งหมด:**
    - `### Phase 18:` → `### Phase 17:`
    - `- [ ] **Phase 18:` → `- [ ] **Phase 17:`
    - Table rows: `| 18. Dashboard |` → `| 17. Dashboard |`
    - Plan references: `18-01:` → `17-01:`
 
-5. **Update dependency references:**
+5. **อัพเดท dependency references:**
    - `**Depends on:** Phase 18` → `**Depends on:** Phase 17`
-   - For the phase that depended on the removed phase:
-     - `**Depends on:** Phase 17` (removed) → `**Depends on:** Phase 16`
+   - สำหรับ phase ที่ depend on phase ที่ลบ:
+     - `**Depends on:** Phase 17` (ลบแล้ว) → `**Depends on:** Phase 16`
 
 6. **Renumber decimal phases:**
-   - `### Phase 17.1:` → `### Phase 16.1:` (if integer 17 removed)
-   - Update all references consistently
+   - `### Phase 17.1:` → `### Phase 16.1:` (ถ้าลบ integer 17)
+   - อัพเดท references ทั้งหมดให้สอดคล้องกัน
 
-Write updated ROADMAP.md.
+เขียน ROADMAP.md ที่อัพเดท
 </step>
 
 <step name="update_state">
-Update STATE.md:
+อัพเดท STATE.md:
 
-1. **Update total phase count:**
+1. **อัพเดท total phase count:**
    - `Phase: 16 of 20` → `Phase: 16 of 19`
 
-2. **Recalculate progress percentage:**
-   - New percentage based on completed plans / new total plans
+2. **คำนวณ progress percentage ใหม่:**
+   - Percentage ใหม่ตาม completed plans / new total plans
 
-Do NOT add a "Roadmap Evolution" note - the git commit is the record.
+อย่าเพิ่ม "Roadmap Evolution" note - git commit คือ record
 
-Write updated STATE.md.
+เขียน STATE.md ที่อัพเดท
 </step>
 
 <step name="update_file_contents">
-Search for and update phase references inside plan files:
+ค้นหาและอัพเดท phase references ในไฟล์ plan:
 
 ```bash
-# Find files that reference the old phase numbers
+# หาไฟล์ที่อ้างอิง phase numbers เดิม
 grep -r "Phase 18" .planning/phases/17-*/ 2>/dev/null
 grep -r "Phase 19" .planning/phases/18-*/ 2>/dev/null
 # etc.
 ```
 
-Update any internal references to reflect new numbering.
+อัพเดท internal references เพื่อสะท้อน numbering ใหม่
 </step>
 
 <step name="commit">
-Stage and commit the removal:
+Stage และ commit การลบ:
 
 ```bash
 git add .planning/
 git commit -m "chore: remove phase {target} ({original-phase-name})"
 ```
 
-The commit message preserves the historical record of what was removed.
+Commit message เก็บ historical record ของสิ่งที่ถูกลบ
 </step>
 
 <step name="completion">
-Present completion summary:
+แสดงสรุปการเสร็จสิ้น:
 
 ```
-Phase {target} ({original-name}) removed.
+Phase {target} ({original-name}) ลบแล้ว
 
-Changes:
-- Deleted: .planning/phases/{target}-{slug}/
-- Renumbered: Phases {first-renumbered}-{last-old} → {first-renumbered-1}-{last-new}
-- Updated: ROADMAP.md, STATE.md
+การเปลี่ยนแปลง:
+- ลบ: .planning/phases/{target}-{slug}/
+- Renumber: Phases {first-renumbered}-{last-old} → {first-renumbered-1}-{last-new}
+- อัพเดท: ROADMAP.md, STATE.md
 - Committed: chore: remove phase {target} ({original-name})
 
-Current roadmap: {total-remaining} phases
-Current position: Phase {current} of {new-total}
+Roadmap ปัจจุบัน: {total-remaining} phases
+ตำแหน่งปัจจุบัน: Phase {current} จาก {new-total}
 
 ---
 
-## What's Next
+## ถัดไป
 
-Would you like to:
-- `/gsd:progress` — see updated roadmap status
-- Continue with current phase
+ต้องการ:
+- `/gsd:progress` — ดู roadmap status ที่อัพเดท
+- ทำ current phase ต่อ
 - Review roadmap
 
 ---
@@ -292,47 +292,47 @@ Would you like to:
 
 <anti_patterns>
 
-- Don't remove completed phases (have SUMMARY.md files)
-- Don't remove current or past phases
-- Don't leave gaps in numbering - always renumber
-- Don't add "removed phase" notes to STATE.md - git commit is the record
-- Don't ask about each decimal phase - just renumber them
-- Don't modify completed phase directories
+- อย่าลบ completed phases (มีไฟล์ SUMMARY.md)
+- อย่าลบ current หรือ past phases
+- อย่าทิ้ง gaps ใน numbering - renumber เสมอ
+- อย่าเพิ่ม "removed phase" notes ใน STATE.md - git commit คือ record
+- อย่าถามเรื่องแต่ละ decimal phase - renumber เลย
+- อย่าแก้ไขโฟลเดอร์ completed phases
 </anti_patterns>
 
 <edge_cases>
 
-**Removing a decimal phase (e.g., 17.1):**
-- Only affects other decimals in same series (17.2 → 17.1, 17.3 → 17.2)
-- Integer phases unchanged
-- Simpler operation
+**ลบ decimal phase (เช่น 17.1):**
+- ส่งผลเฉพาะ decimals อื่นใน series เดียวกัน (17.2 → 17.1, 17.3 → 17.2)
+- Integer phases ไม่เปลี่ยน
+- Operation ง่ายกว่า
 
-**No subsequent phases to renumber:**
-- Removing the last phase (e.g., Phase 20 when that's the end)
-- Just delete and update ROADMAP.md, no renumbering needed
+**ไม่มี subsequent phases ให้ renumber:**
+- ลบ phase สุดท้าย (เช่น Phase 20 เมื่อนั่นคือท้ายสุด)
+- แค่ลบและอัพเดท ROADMAP.md ไม่ต้อง renumber
 
-**Phase directory doesn't exist:**
-- Phase may be in ROADMAP.md but directory not created yet
-- Skip directory deletion, proceed with ROADMAP.md updates
+**โฟลเดอร์ phase ไม่มี:**
+- Phase อาจอยู่ใน ROADMAP.md แต่โฟลเดอร์ยังไม่ได้สร้าง
+- ข้ามการลบโฟลเดอร์ ดำเนินการอัพเดท ROADMAP.md
 
-**Decimal phases under removed integer:**
-- Removing Phase 17 when 17.1, 17.2 exist
+**Decimal phases ใต้ integer ที่ลบ:**
+- ลบ Phase 17 เมื่อมี 17.1, 17.2 อยู่
 - 17.1 → 16.1, 17.2 → 16.2
-- They maintain their position in execution order (after current last integer)
+- คงตำแหน่งใน execution order (หลัง current last integer)
 
 </edge_cases>
 
 <success_criteria>
-Phase removal is complete when:
+การลบ phase เสร็จสมบูรณ์เมื่อ:
 
-- [ ] Target phase validated as future/unstarted
-- [ ] Phase directory deleted (if existed)
-- [ ] All subsequent phase directories renumbered
-- [ ] Files inside directories renamed ({old}-01-PLAN.md → {new}-01-PLAN.md)
-- [ ] ROADMAP.md updated (section removed, all references renumbered)
-- [ ] STATE.md updated (phase count, progress percentage)
-- [ ] Dependency references updated in subsequent phases
-- [ ] Changes committed with descriptive message
-- [ ] No gaps in phase numbering
-- [ ] User informed of changes
+- [ ] ตรวจสอบ target phase ว่าเป็น future/unstarted
+- [ ] ลบโฟลเดอร์ phase แล้ว (ถ้ามี)
+- [ ] Renumber โฟลเดอร์ subsequent phases ทั้งหมดแล้ว
+- [ ] เปลี่ยนชื่อไฟล์ในโฟลเดอร์แล้ว ({old}-01-PLAN.md → {new}-01-PLAN.md)
+- [ ] อัพเดท ROADMAP.md (ลบ section, renumber references ทั้งหมด)
+- [ ] อัพเดท STATE.md (phase count, progress percentage)
+- [ ] อัพเดท dependency references ใน subsequent phases
+- [ ] Commit changes ด้วย descriptive message
+- [ ] ไม่มี gaps ใน phase numbering
+- [ ] แจ้งผู้ใช้เรื่องการเปลี่ยนแปลง
 </success_criteria>

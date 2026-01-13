@@ -1,6 +1,6 @@
 ---
 name: gsd:pause-work
-description: Create context handoff when pausing work mid-phase
+description: สร้าง context handoff เมื่อหยุดงานกลาง phase
 allowed-tools:
   - Read
   - Write
@@ -8,9 +8,9 @@ allowed-tools:
 ---
 
 <objective>
-Create `.continue-here.md` handoff file to preserve complete work state across sessions.
+สร้างไฟล์ handoff `.continue-here.md` เพื่อเก็บสถานะงานทั้งหมดข้าม sessions
 
-Enables seamless resumption in fresh session with full context restoration.
+เปิดใช้การ resume ได้อย่างราบรื่นใน session ใหม่ด้วย full context restoration
 </objective>
 
 <context>
@@ -20,25 +20,25 @@ Enables seamless resumption in fresh session with full context restoration.
 <process>
 
 <step name="detect">
-Find current phase directory from most recently modified files.
+หาโฟลเดอร์ phase ปัจจุบันจากไฟล์ที่แก้ไขล่าสุด
 </step>
 
 <step name="gather">
-**Collect complete state for handoff:**
+**รวบรวมสถานะทั้งหมดสำหรับ handoff:**
 
-1. **Current position**: Which phase, which plan, which task
-2. **Work completed**: What got done this session
-3. **Work remaining**: What's left in current plan/phase
-4. **Decisions made**: Key decisions and rationale
-5. **Blockers/issues**: Anything stuck
-6. **Mental context**: The approach, next steps, "vibe"
-7. **Files modified**: What's changed but not committed
+1. **Current position**: อยู่ phase ไหน, plan ไหน, task ไหน
+2. **Work completed**: ทำอะไรเสร็จ session นี้
+3. **Work remaining**: เหลืออะไรใน plan/phase ปัจจุบัน
+4. **Decisions made**: Key decisions และเหตุผล
+5. **Blockers/issues**: อะไรติดขัด
+6. **Mental context**: Approach, next steps, "vibe"
+7. **Files modified**: อะไรเปลี่ยนแต่ยังไม่ commit
 
-Ask user for clarifications if needed.
+ถามผู้ใช้เพื่อ clarify ถ้าต้องการ
 </step>
 
 <step name="write">
-**Write handoff to `.planning/phases/XX-name/.continue-here.md`:**
+**เขียน handoff ไปยัง `.planning/phases/XX-name/.continue-here.md`:**
 
 ```markdown
 ---
@@ -50,27 +50,27 @@ last_updated: [timestamp]
 ---
 
 <current_state>
-[Where exactly are we? Immediate context]
+[อยู่ตรงไหนแน่ๆ? Immediate context]
 </current_state>
 
 <completed_work>
 
-- Task 1: [name] - Done
-- Task 2: [name] - Done
-- Task 3: [name] - In progress, [what's done]
+- Task 1: [name] - เสร็จ
+- Task 2: [name] - เสร็จ
+- Task 3: [name] - กำลังทำ, [ทำอะไรไปแล้ว]
   </completed_work>
 
 <remaining_work>
 
-- Task 3: [what's left]
-- Task 4: Not started
-- Task 5: Not started
+- Task 3: [เหลืออะไร]
+- Task 4: ยังไม่เริ่ม
+- Task 5: ยังไม่เริ่ม
   </remaining_work>
 
 <decisions_made>
 
-- Decided to use [X] because [reason]
-- Chose [approach] over [alternative] because [reason]
+- ตัดสินใจใช้ [X] เพราะ [reason]
+- เลือก [approach] แทน [alternative] เพราะ [reason]
   </decisions_made>
 
 <blockers>
@@ -78,15 +78,15 @@ last_updated: [timestamp]
 </blockers>
 
 <context>
-[Mental state, what were you thinking, the plan]
+[Mental state, คิดอะไรอยู่, แผนคืออะไร]
 </context>
 
 <next_action>
-Start with: [specific first action when resuming]
+เริ่มด้วย: [specific first action เมื่อ resume]
 </next_action>
 ```
 
-Be specific enough for a fresh Claude to understand immediately.
+เขียนให้ specific พอที่ Claude ใหม่จะเข้าใจได้ทันที
 </step>
 
 <step name="commit">
@@ -98,16 +98,16 @@ git commit -m "wip: [phase-name] paused at task [X]/[Y]"
 
 <step name="confirm">
 ```
-✓ Handoff created: .planning/phases/[XX-name]/.continue-here.md
+✓ Handoff สร้างแล้ว: .planning/phases/[XX-name]/.continue-here.md
 
-Current state:
+สถานะปัจจุบัน:
 
 - Phase: [XX-name]
-- Task: [X] of [Y]
+- Task: [X] จาก [Y]
 - Status: [in_progress/blocked]
-- Committed as WIP
+- Committed เป็น WIP
 
-To resume: /gsd:resume-work
+เพื่อ resume: /gsd:resume-work
 
 ```
 </step>
@@ -115,9 +115,8 @@ To resume: /gsd:resume-work
 </process>
 
 <success_criteria>
-- [ ] .continue-here.md created in correct phase directory
-- [ ] All sections filled with specific content
-- [ ] Committed as WIP
-- [ ] User knows location and how to resume
+- [ ] สร้าง .continue-here.md ในโฟลเดอร์ phase ที่ถูกต้อง
+- [ ] กรอกทุก sections ด้วยเนื้อหาเฉพาะ
+- [ ] Committed เป็น WIP
+- [ ] ผู้ใช้รู้ตำแหน่งและวิธี resume
 </success_criteria>
-```

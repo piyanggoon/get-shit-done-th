@@ -1,40 +1,40 @@
 <overview>
-TDD is about design quality, not coverage metrics. The red-green-refactor cycle forces you to think about behavior before implementation, producing cleaner interfaces and more testable code.
+TDD เกี่ยวกับคุณภาพ design ไม่ใช่ coverage metrics รอบ red-green-refactor บังคับให้คุณคิดเกี่ยวกับพฤติกรรมก่อน implementation สร้าง interfaces ที่สะอาดกว่าและ code ที่ทดสอบได้มากกว่า
 
-**Principle:** If you can describe the behavior as `expect(fn(input)).toBe(output)` before writing `fn`, TDD improves the result.
+**หลักการ:** ถ้าคุณสามารถอธิบายพฤติกรรมเป็น `expect(fn(input)).toBe(output)` ก่อนเขียน `fn` ได้ TDD จะปรับปรุงผลลัพธ์
 
-**Key insight:** TDD work is fundamentally heavier than standard tasks—it requires 2-3 execution cycles (RED → GREEN → REFACTOR), each with file reads, test runs, and potential debugging. TDD features get dedicated plans to ensure full context is available throughout the cycle.
+**ข้อมูลเชิงลึกสำคัญ:** งาน TDD หนักกว่า tasks มาตรฐานโดยพื้นฐาน—ต้องการ 2-3 execution cycles (RED → GREEN → REFACTOR) แต่ละรอบมีการอ่านไฟล์, การรัน test, และการ debugging ที่อาจเกิดขึ้น TDD features ได้แผนเฉพาะเพื่อให้มั่นใจว่ามี context เต็มตลอดรอบ
 </overview>
 
 <when_to_use_tdd>
-## When TDD Improves Quality
+## เมื่อ TDD ปรับปรุงคุณภาพ
 
-**TDD candidates (create a TDD plan):**
-- Business logic with defined inputs/outputs
-- API endpoints with request/response contracts
+**TDD candidates (สร้างแผน TDD):**
+- Business logic ที่มี inputs/outputs ที่กำหนดไว้
+- API endpoints ที่มี request/response contracts
 - Data transformations, parsing, formatting
-- Validation rules and constraints
-- Algorithms with testable behavior
-- State machines and workflows
-- Utility functions with clear specifications
+- กฎ Validation และ constraints
+- Algorithms ที่มีพฤติกรรมทดสอบได้
+- State machines และ workflows
+- Utility functions ที่มี specifications ชัดเจน
 
-**Skip TDD (use standard plan with `type="auto"` tasks):**
+**ข้าม TDD (ใช้แผนมาตรฐานพร้อม `type="auto"` tasks):**
 - UI layout, styling, visual components
-- Configuration changes
-- Glue code connecting existing components
-- One-off scripts and migrations
-- Simple CRUD with no business logic
+- การเปลี่ยนแปลง Configuration
+- Glue code ที่เชื่อมต่อ components ที่มีอยู่
+- Scripts และ migrations ครั้งเดียว
+- CRUD ง่ายที่ไม่มี business logic
 - Exploratory prototyping
 
-**Heuristic:** Can you write `expect(fn(input)).toBe(output)` before writing `fn`?
-→ Yes: Create a TDD plan
-→ No: Use standard plan, add tests after if needed
+**Heuristic:** คุณสามารถเขียน `expect(fn(input)).toBe(output)` ก่อนเขียน `fn` ได้หรือไม่?
+→ ใช่: สร้างแผน TDD
+→ ไม่: ใช้แผนมาตรฐาน, เพิ่ม tests หลังจากถ้าจำเป็น
 </when_to_use_tdd>
 
 <tdd_plan_structure>
-## TDD Plan Structure
+## โครงสร้างแผน TDD
 
-Each TDD plan implements **one feature** through the full RED-GREEN-REFACTOR cycle.
+แต่ละแผน TDD implement **หนึ่งฟีเจอร์** ผ่านรอบ RED-GREEN-REFACTOR เต็ม
 
 ```markdown
 ---
@@ -44,9 +44,9 @@ type: tdd
 ---
 
 <objective>
-[What feature and why]
-Purpose: [Design benefit of TDD for this feature]
-Output: [Working, tested feature]
+[ฟีเจอร์อะไรและทำไม]
+Purpose: [ประโยชน์ design ของ TDD สำหรับฟีเจอร์นี้]
+Output: [ฟีเจอร์ที่ทำงานและทดสอบแล้ว]
 </objective>
 
 <context>
@@ -56,89 +56,89 @@ Output: [Working, tested feature]
 </context>
 
 <feature>
-  <name>[Feature name]</name>
+  <name>[ชื่อฟีเจอร์]</name>
   <files>[source file, test file]</files>
   <behavior>
-    [Expected behavior in testable terms]
+    [พฤติกรรมที่คาดหวังในรูปแบบที่ทดสอบได้]
     Cases: input → expected output
   </behavior>
-  <implementation>[How to implement once tests pass]</implementation>
+  <implementation>[วิธี implement เมื่อ tests ผ่าน]</implementation>
 </feature>
 
 <verification>
-[Test command that proves feature works]
+[Test command ที่พิสูจน์ว่าฟีเจอร์ทำงาน]
 </verification>
 
 <success_criteria>
-- Failing test written and committed
-- Implementation passes test
-- Refactor complete (if needed)
-- All 2-3 commits present
+- Failing test เขียนและ committed
+- Implementation ทำให้ test ผ่าน
+- Refactor เสร็จ (ถ้าจำเป็น)
+- มี commits ทั้ง 2-3 อัน
 </success_criteria>
 
 <output>
-After completion, create SUMMARY.md with:
-- RED: What test was written, why it failed
-- GREEN: What implementation made it pass
-- REFACTOR: What cleanup was done (if any)
-- Commits: List of commits produced
+หลังเสร็จ สร้าง SUMMARY.md พร้อม:
+- RED: Test อะไรถูกเขียน, ทำไมมันล้มเหลว
+- GREEN: Implementation อะไรทำให้มันผ่าน
+- REFACTOR: Cleanup อะไรถูกทำ (ถ้ามี)
+- Commits: รายการ commits ที่สร้าง
 </output>
 ```
 
-**One feature per TDD plan.** If features are trivial enough to batch, they're trivial enough to skip TDD—use a standard plan and add tests after.
+**หนึ่งฟีเจอร์ต่อแผน TDD** ถ้าฟีเจอร์เล็กพอที่จะรวม มันเล็กพอที่จะข้าม TDD—ใช้แผนมาตรฐานและเพิ่ม tests หลังจาก
 </tdd_plan_structure>
 
 <execution_flow>
-## Red-Green-Refactor Cycle
+## รอบ Red-Green-Refactor
 
-**RED - Write failing test:**
-1. Create test file following project conventions
-2. Write test describing expected behavior (from `<behavior>` element)
-3. Run test - it MUST fail
-4. If test passes: feature exists or test is wrong. Investigate.
+**RED - เขียน failing test:**
+1. สร้าง test file ตาม conventions โปรเจกต์
+2. เขียน test อธิบายพฤติกรรมที่คาดหวัง (จาก `<behavior>` element)
+3. รัน test - มันต้องล้มเหลว
+4. ถ้า test ผ่าน: ฟีเจอร์อาจมีอยู่แล้วหรือ test ผิด สืบสวน
 5. Commit: `test({phase}-{plan}): add failing test for [feature]`
 
-**GREEN - Implement to pass:**
-1. Write minimal code to make test pass
-2. No cleverness, no optimization - just make it work
-3. Run test - it MUST pass
+**GREEN - Implement ให้ผ่าน:**
+1. เขียน code น้อยที่สุดเพื่อให้ test ผ่าน
+2. ไม่ใช่ความฉลาด, ไม่ optimize - แค่ทำให้ทำงาน
+3. รัน test - มันต้องผ่าน
 4. Commit: `feat({phase}-{plan}): implement [feature]`
 
-**REFACTOR (if needed):**
-1. Clean up implementation if obvious improvements exist
-2. Run tests - MUST still pass
-3. Only commit if changes made: `refactor({phase}-{plan}): clean up [feature]`
+**REFACTOR (ถ้าจำเป็น):**
+1. ทำความสะอาด implementation ถ้ามีการปรับปรุงที่ชัดเจน
+2. รัน tests - ต้องยังผ่าน
+3. Commit เฉพาะถ้ามีการเปลี่ยนแปลง: `refactor({phase}-{plan}): clean up [feature]`
 
-**Result:** Each TDD plan produces 2-3 atomic commits.
+**ผลลัพธ์:** แต่ละแผน TDD สร้าง 2-3 atomic commits
 </execution_flow>
 
 <test_quality>
-## Good Tests vs Bad Tests
+## Tests ที่ดี vs Tests ที่ไม่ดี
 
-**Test behavior, not implementation:**
-- Good: "returns formatted date string"
-- Bad: "calls formatDate helper with correct params"
-- Tests should survive refactors
+**ทดสอบพฤติกรรม ไม่ใช่ implementation:**
+- ดี: "returns formatted date string"
+- ไม่ดี: "calls formatDate helper with correct params"
+- Tests ควรอยู่รอด refactors
 
-**One concept per test:**
-- Good: Separate tests for valid input, empty input, malformed input
-- Bad: Single test checking all edge cases with multiple assertions
+**หนึ่ง concept ต่อ test:**
+- ดี: Tests แยกสำหรับ valid input, empty input, malformed input
+- ไม่ดี: Test เดียวตรวจสอบ edge cases ทั้งหมดด้วย assertions หลายอัน
 
-**Descriptive names:**
-- Good: "should reject empty email", "returns null for invalid ID"
-- Bad: "test1", "handles error", "works correctly"
+**ชื่อที่อธิบายได้:**
+- ดี: "should reject empty email", "returns null for invalid ID"
+- ไม่ดี: "test1", "handles error", "works correctly"
 
-**No implementation details:**
-- Good: Test public API, observable behavior
-- Bad: Mock internals, test private methods, assert on internal state
+**ไม่มีรายละเอียด implementation:**
+- ดี: ทดสอบ public API, พฤติกรรมที่สังเกตได้
+- ไม่ดี: Mock internals, ทดสอบ private methods, assert บน internal state
 </test_quality>
 
 <framework_setup>
-## Test Framework Setup (If None Exists)
+## การตั้งค่า Test Framework (ถ้าไม่มี)
 
-When executing a TDD plan but no test framework is configured, set it up as part of the RED phase:
+เมื่อรันแผน TDD แต่ไม่มี test framework configured ให้ตั้งค่าเป็นส่วนหนึ่งของ RED phase:
 
-**1. Detect project type:**
+**1. ตรวจหาประเภทโปรเจกต์:**
 ```bash
 # JavaScript/TypeScript
 if [ -f package.json ]; then echo "node"; fi
@@ -153,8 +153,8 @@ if [ -f go.mod ]; then echo "go"; fi
 if [ -f Cargo.toml ]; then echo "rust"; fi
 ```
 
-**2. Install minimal framework:**
-| Project | Framework | Install |
+**2. ติดตั้ง framework น้อยที่สุด:**
+| โปรเจกต์ | Framework | Install |
 |---------|-----------|---------|
 | Node.js | Jest | `npm install -D jest @types/jest ts-jest` |
 | Node.js (Vite) | Vitest | `npm install -D vitest` |
@@ -162,57 +162,57 @@ if [ -f Cargo.toml ]; then echo "rust"; fi
 | Go | testing | Built-in |
 | Rust | cargo test | Built-in |
 
-**3. Create config if needed:**
-- Jest: `jest.config.js` with ts-jest preset
-- Vitest: `vitest.config.ts` with test globals
-- pytest: `pytest.ini` or `pyproject.toml` section
+**3. สร้าง config ถ้าจำเป็น:**
+- Jest: `jest.config.js` พร้อม ts-jest preset
+- Vitest: `vitest.config.ts` พร้อม test globals
+- pytest: `pytest.ini` หรือ `pyproject.toml` section
 
-**4. Verify setup:**
+**4. ตรวจสอบการตั้งค่า:**
 ```bash
-# Run empty test suite - should pass with 0 tests
+# รัน empty test suite - ควรผ่านด้วย 0 tests
 npm test  # Node
 pytest    # Python
 go test ./...  # Go
 cargo test    # Rust
 ```
 
-**5. Create first test file:**
-Follow project conventions for test location:
-- `*.test.ts` / `*.spec.ts` next to source
+**5. สร้าง test file แรก:**
+ตาม conventions โปรเจกต์สำหรับตำแหน่ง test:
+- `*.test.ts` / `*.spec.ts` ข้าง source
 - `__tests__/` directory
-- `tests/` directory at root
+- `tests/` directory ที่ root
 
-Framework setup is a one-time cost included in the first TDD plan's RED phase.
+การตั้งค่า Framework เป็นค่าใช้จ่ายครั้งเดียวรวมใน RED phase ของแผน TDD แรก
 </framework_setup>
 
 <error_handling>
-## Error Handling
+## การจัดการ Error
 
-**Test doesn't fail in RED phase:**
-- Feature may already exist - investigate
-- Test may be wrong (not testing what you think)
-- Fix before proceeding
+**Test ไม่ล้มเหลวใน RED phase:**
+- ฟีเจอร์อาจมีอยู่แล้ว - สืบสวน
+- Test อาจผิด (ไม่ได้ทดสอบสิ่งที่คุณคิด)
+- แก้ไขก่อนดำเนินการต่อ
 
-**Test doesn't pass in GREEN phase:**
+**Test ไม่ผ่านใน GREEN phase:**
 - Debug implementation
-- Don't skip to refactor
-- Keep iterating until green
+- อย่าข้ามไป refactor
+- ทำซ้ำจนกว่าจะ green
 
-**Tests fail in REFACTOR phase:**
+**Tests ล้มเหลวใน REFACTOR phase:**
 - Undo refactor
-- Commit was premature
-- Refactor in smaller steps
+- Commit ก่อนกำหนด
+- Refactor ในขั้นตอนเล็กลง
 
-**Unrelated tests break:**
-- Stop and investigate
-- May indicate coupling issue
-- Fix before proceeding
+**Tests ที่ไม่เกี่ยวข้องพัง:**
+- หยุดและสืบสวน
+- อาจบ่งบอกปัญหา coupling
+- แก้ไขก่อนดำเนินการต่อ
 </error_handling>
 
 <commit_pattern>
-## Commit Pattern for TDD Plans
+## Commit Pattern สำหรับแผน TDD
 
-TDD plans produce 2-3 atomic commits (one per phase):
+แผน TDD สร้าง 2-3 atomic commits (หนึ่งต่อ phase):
 
 ```
 test(08-02): add failing test for email validation
@@ -234,30 +234,30 @@ refactor(08-02): extract regex to constant (optional)
 - Tests still pass
 ```
 
-**Comparison with standard plans:**
-- Standard plans: 1 commit per task, 2-4 commits per plan
-- TDD plans: 2-3 commits for single feature
+**เปรียบเทียบกับแผนมาตรฐาน:**
+- แผนมาตรฐาน: 1 commit ต่อ task, 2-4 commits ต่อแผน
+- แผน TDD: 2-3 commits สำหรับฟีเจอร์เดียว
 
-Both follow same format: `{type}({phase}-{plan}): {description}`
+ทั้งสองตามรูปแบบเดียวกัน: `{type}({phase}-{plan}): {description}`
 
-**Benefits:**
-- Each commit independently revertable
-- Git bisect works at commit level
-- Clear history showing TDD discipline
-- Consistent with overall commit strategy
+**ประโยชน์:**
+- แต่ละ commit revert ได้อย่างอิสระ
+- Git bisect ทำงานที่ระดับ commit
+- ประวัติชัดเจนแสดง TDD discipline
+- สม่ำเสมอกับกลยุทธ์ commit โดยรวม
 </commit_pattern>
 
 <context_budget>
-## Context Budget
+## งบประมาณ Context
 
-TDD plans target **~40% context usage** (lower than standard plans' ~50%).
+แผน TDD เป้าหมาย **~40% การใช้ context** (ต่ำกว่า ~50% ของแผนมาตรฐาน)
 
-Why lower:
-- RED phase: write test, run test, potentially debug why it didn't fail
-- GREEN phase: implement, run test, potentially iterate on failures
-- REFACTOR phase: modify code, run tests, verify no regressions
+ทำไมต่ำกว่า:
+- RED phase: เขียน test, รัน test, อาจ debug ว่าทำไมมันไม่ล้มเหลว
+- GREEN phase: implement, รัน test, อาจทำซ้ำเมื่อล้มเหลว
+- REFACTOR phase: แก้ไข code, รัน tests, ยืนยันไม่มี regressions
 
-Each phase involves reading files, running commands, analyzing output. The back-and-forth is inherently heavier than linear task execution.
+แต่ละ phase เกี่ยวข้องกับการอ่านไฟล์, การรัน commands, การวิเคราะห์ output การไป-กลับหนักกว่าการรัน task แบบ linear โดยธรรมชาติ
 
-Single feature focus ensures full quality throughout the cycle.
+การเน้นฟีเจอร์เดียวทำให้มั่นใจคุณภาพเต็มตลอดรอบ
 </context_budget>

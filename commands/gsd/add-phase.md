@@ -1,6 +1,6 @@
 ---
 name: gsd:add-phase
-description: Add phase to end of current milestone in roadmap
+description: เพิ่ม phase ต่อท้าย milestone ปัจจุบันใน roadmap
 argument-hint: <description>
 allowed-tools:
   - Read
@@ -9,11 +9,11 @@ allowed-tools:
 ---
 
 <objective>
-Add a new integer phase to the end of the current milestone in the roadmap.
+เพิ่ม phase ใหม่ (เลขจำนวนเต็ม) ต่อท้าย milestone ปัจจุบันใน roadmap
 
-This command appends sequential phases to the current milestone's phase list, automatically calculating the next phase number based on existing phases.
+คำสั่งนี้จะเพิ่ม phase ตามลำดับต่อจาก phase สุดท้าย โดยคำนวณหมายเลข phase ถัดไปอัตโนมัติจาก phase ที่มีอยู่
 
-Purpose: Add planned work discovered during execution that belongs at the end of current milestone.
+วัตถุประสงค์: เพิ่มงานที่วางแผนไว้ซึ่งค้นพบระหว่างทำงาน และควรอยู่ท้าย milestone ปัจจุบัน
 </objective>
 
 <execution_context>
@@ -24,46 +24,46 @@ Purpose: Add planned work discovered during execution that belongs at the end of
 <process>
 
 <step name="parse_arguments">
-Parse the command arguments:
-- All arguments become the phase description
-- Example: `/gsd:add-phase Add authentication` → description = "Add authentication"
-- Example: `/gsd:add-phase Fix critical performance issues` → description = "Fix critical performance issues"
+แยกวิเคราะห์ arguments ของคำสั่ง:
+- ทุก argument รวมกันเป็นคำอธิบาย phase
+- ตัวอย่าง: `/gsd:add-phase Add authentication` → description = "Add authentication"
+- ตัวอย่าง: `/gsd:add-phase Fix critical performance issues` → description = "Fix critical performance issues"
 
-If no arguments provided:
+ถ้าไม่มี argument:
 
 ```
-ERROR: Phase description required
-Usage: /gsd:add-phase <description>
-Example: /gsd:add-phase Add authentication system
+ERROR: ต้องระบุคำอธิบาย phase
+การใช้งาน: /gsd:add-phase <description>
+ตัวอย่าง: /gsd:add-phase Add authentication system
 ```
 
-Exit.
+ออกจากคำสั่ง
 </step>
 
 <step name="load_roadmap">
-Load the roadmap file:
+โหลดไฟล์ roadmap:
 
 ```bash
 if [ -f .planning/ROADMAP.md ]; then
   ROADMAP=".planning/ROADMAP.md"
 else
-  echo "ERROR: No roadmap found (.planning/ROADMAP.md)"
+  echo "ERROR: ไม่พบ roadmap (.planning/ROADMAP.md)"
   exit 1
 fi
 ```
 
-Read roadmap content for parsing.
+อ่านเนื้อหา roadmap เพื่อวิเคราะห์
 </step>
 
 <step name="find_current_milestone">
-Parse the roadmap to find the current milestone section:
+วิเคราะห์ roadmap เพื่อหา milestone ปัจจุบัน:
 
-1. Locate the "## Current Milestone:" heading
-2. Extract milestone name and version
-3. Identify all phases under this milestone (before next "---" separator or next milestone heading)
-4. Parse existing phase numbers (including decimals if present)
+1. หา heading "## Current Milestone:"
+2. ดึงชื่อ milestone และเวอร์ชัน
+3. ระบุ phases ทั้งหมดใน milestone นี้ (ก่อนถึง "---" หรือ heading milestone ถัดไป)
+4. วิเคราะห์หมายเลข phase ที่มีอยู่ (รวมทศนิยมถ้ามี)
 
-Example structure:
+ตัวอย่างโครงสร้าง:
 
 ```
 ## Current Milestone: v1.0 Foundation
@@ -76,109 +76,109 @@ Example structure:
 </step>
 
 <step name="calculate_next_phase">
-Find the highest integer phase number in the current milestone:
+หาหมายเลข phase จำนวนเต็มสูงสุดใน milestone ปัจจุบัน:
 
-1. Extract all phase numbers from phase headings (### Phase N:)
-2. Filter to integer phases only (ignore decimals like 4.1, 4.2)
-3. Find the maximum integer value
-4. Add 1 to get the next phase number
+1. ดึงหมายเลข phase ทั้งหมดจาก heading (### Phase N:)
+2. กรองเฉพาะ phase จำนวนเต็ม (ไม่รวมทศนิยมเช่น 4.1, 4.2)
+3. หาค่าสูงสุด
+4. บวก 1 เพื่อได้หมายเลข phase ถัดไป
 
-Example: If phases are 4, 5, 5.1, 6 → next is 7
+ตัวอย่าง: ถ้า phases เป็น 4, 5, 5.1, 6 → ถัดไปคือ 7
 
-Format as two-digit: `printf "%02d" $next_phase`
+แปลงเป็นเลขสองหลัก: `printf "%02d" $next_phase`
 </step>
 
 <step name="generate_slug">
-Convert the phase description to a kebab-case slug:
+แปลงคำอธิบาย phase เป็น kebab-case slug:
 
 ```bash
-# Example transformation:
+# ตัวอย่างการแปลง:
 # "Add authentication" → "add-authentication"
 # "Fix critical performance issues" → "fix-critical-performance-issues"
 
 slug=$(echo "$description" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-//;s/-$//')
 ```
 
-Phase directory name: `{two-digit-phase}-{slug}`
-Example: `07-add-authentication`
+ชื่อโฟลเดอร์ phase: `{two-digit-phase}-{slug}`
+ตัวอย่าง: `07-add-authentication`
 </step>
 
 <step name="create_phase_directory">
-Create the phase directory structure:
+สร้างโครงสร้างโฟลเดอร์ phase:
 
 ```bash
 phase_dir=".planning/phases/${phase_num}-${slug}"
 mkdir -p "$phase_dir"
 ```
 
-Confirm: "Created directory: $phase_dir"
+ยืนยัน: "สร้างโฟลเดอร์: $phase_dir"
 </step>
 
 <step name="update_roadmap">
-Add the new phase entry to the roadmap:
+เพิ่ม phase ใหม่ใน roadmap:
 
-1. Find the insertion point (after last phase in current milestone, before "---" separator)
-2. Insert new phase heading:
+1. หาจุดแทรก (หลัง phase สุดท้ายใน milestone ปัจจุบัน ก่อน "---")
+2. แทรก heading phase ใหม่:
 
    ```
    ### Phase {N}: {Description}
 
-   **Goal:** [To be planned]
+   **Goal:** [รอวางแผน]
    **Depends on:** Phase {N-1}
    **Plans:** 0 plans
 
    Plans:
-   - [ ] TBD (run /gsd:plan-phase {N} to break down)
+   - [ ] TBD (รัน /gsd:plan-phase {N} เพื่อแบ่งงาน)
 
    **Details:**
-   [To be added during planning]
+   [จะเพิ่มระหว่างวางแผน]
    ```
 
-3. Write updated roadmap back to file
+3. เขียน roadmap ที่อัพเดทกลับไปที่ไฟล์
 
-Preserve all other content exactly (formatting, spacing, other phases).
+คงเนื้อหาอื่นทั้งหมดไว้เหมือนเดิม (formatting, spacing, phases อื่น)
 </step>
 
 <step name="update_project_state">
-Update STATE.md to reflect the new phase:
+อัพเดท STATE.md เพื่อสะท้อน phase ใหม่:
 
-1. Read `.planning/STATE.md`
-2. Under "## Current Position" → "**Next Phase:**" add reference to new phase
-3. Under "## Accumulated Context" → "### Roadmap Evolution" add entry:
+1. อ่าน `.planning/STATE.md`
+2. ใน "## Current Position" → "**Next Phase:**" เพิ่มการอ้างอิง phase ใหม่
+3. ใน "## Accumulated Context" → "### Roadmap Evolution" เพิ่มรายการ:
    ```
    - Phase {N} added: {description}
    ```
 
-If "Roadmap Evolution" section doesn't exist, create it.
+ถ้าไม่มี section "Roadmap Evolution" ให้สร้างขึ้นมา
 </step>
 
 <step name="completion">
-Present completion summary:
+แสดงสรุปการเสร็จสิ้น:
 
 ```
-Phase {N} added to current milestone:
-- Description: {description}
-- Directory: .planning/phases/{phase-num}-{slug}/
-- Status: Not planned yet
+Phase {N} ถูกเพิ่มใน milestone ปัจจุบัน:
+- คำอธิบาย: {description}
+- โฟลเดอร์: .planning/phases/{phase-num}-{slug}/
+- สถานะ: ยังไม่ได้วางแผน
 
-Roadmap updated: {roadmap-path}
-Project state updated: .planning/STATE.md
+Roadmap อัพเดทแล้ว: {roadmap-path}
+Project state อัพเดทแล้ว: .planning/STATE.md
 
 ---
 
-## ▶ Next Up
+## ▶ ถัดไป
 
 **Phase {N}: {description}**
 
 `/gsd:plan-phase {N}`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → เริ่ม context window ใหม่</sub>
 
 ---
 
-**Also available:**
-- `/gsd:add-phase <description>` — add another phase
-- Review roadmap
+**ตัวเลือกอื่น:**
+- `/gsd:add-phase <description>` — เพิ่ม phase อีก
+- ดู roadmap
 
 ---
 ```
@@ -188,20 +188,20 @@ Project state updated: .planning/STATE.md
 
 <anti_patterns>
 
-- Don't modify phases outside current milestone
-- Don't renumber existing phases
-- Don't use decimal numbering (that's /gsd:insert-phase)
-- Don't create plans yet (that's /gsd:plan-phase)
-- Don't commit changes (user decides when to commit)
+- อย่าแก้ไข phases นอก milestone ปัจจุบัน
+- อย่าเปลี่ยนหมายเลข phases ที่มีอยู่
+- อย่าใช้หมายเลขทศนิยม (นั่นคือ /gsd:insert-phase)
+- อย่าสร้าง plans ตอนนี้ (นั่นคือ /gsd:plan-phase)
+- อย่า commit changes (ผู้ใช้ตัดสินใจเองว่าจะ commit เมื่อไหร่)
   </anti_patterns>
 
 <success_criteria>
-Phase addition is complete when:
+การเพิ่ม phase เสร็จสมบูรณ์เมื่อ:
 
-- [ ] Phase directory created: `.planning/phases/{NN}-{slug}/`
-- [ ] Roadmap updated with new phase entry
-- [ ] STATE.md updated with roadmap evolution note
-- [ ] New phase appears at end of current milestone
-- [ ] Next phase number calculated correctly (ignoring decimals)
-- [ ] User informed of next steps
+- [ ] สร้างโฟลเดอร์ phase แล้ว: `.planning/phases/{NN}-{slug}/`
+- [ ] อัพเดท roadmap ด้วย phase ใหม่แล้ว
+- [ ] อัพเดท STATE.md ด้วย roadmap evolution note แล้ว
+- [ ] Phase ใหม่ปรากฏท้าย milestone ปัจจุบัน
+- [ ] คำนวณหมายเลข phase ถัดไปถูกต้อง (ไม่รวมทศนิยม)
+- [ ] แจ้งผู้ใช้เรื่องขั้นตอนถัดไปแล้ว
       </success_criteria>

@@ -1,19 +1,19 @@
 <decimal_phase_numbering>
-Decimal phases enable urgent work insertion without renumbering:
+Decimal phases เปิดให้แทรกงานเร่งด่วนโดยไม่ต้อง renumber:
 
-- Integer phases (1, 2, 3) = planned milestone work
-- Decimal phases (2.1, 2.2) = urgent insertions between integers
+- Integer phases (1, 2, 3) = งาน milestone ที่วางแผน
+- Decimal phases (2.1, 2.2) = การแทรกเร่งด่วนระหว่าง integers
 
-**Rules:**
-- Decimals between consecutive integers (2.1 between 2 and 3)
-- Filesystem sorting works automatically (2 < 2.1 < 2.2 < 3)
+**กฎ:**
+- Decimals ระหว่าง consecutive integers (2.1 ระหว่าง 2 และ 3)
+- Filesystem sorting ทำงานอัตโนมัติ (2 < 2.1 < 2.2 < 3)
 - Directory format: `02.1-description/`, Plan format: `02.1-01-PLAN.md`
 
-**Validation:** Integer X must exist and be complete, X+1 must exist, decimal X.Y must not exist, Y >= 1
+**Validation:** Integer X ต้องมีและ complete, X+1 ต้องมีใน roadmap, decimal X.Y ต้องไม่มี, Y >= 1
 </decimal_phase_numbering>
 
 <required_reading>
-**Read these files NOW:**
+**อ่านไฟล์เหล่านี้ตอนนี้:**
 
 1. ~/.claude/get-shit-done/templates/phase-prompt.md
 2. ~/.claude/get-shit-done/references/plan-format.md
@@ -23,45 +23,45 @@ Decimal phases enable urgent work insertion without renumbering:
 6. .planning/ROADMAP.md
 7. .planning/PROJECT.md
 
-**Load domain expertise from ROADMAP:**
-- Parse ROADMAP.md's `## Domain Expertise` section for paths
-- Read each domain SKILL.md (these serve as indexes)
-- Determine phase type and load ONLY references relevant to THIS phase type from each SKILL.md's `<references_index>`
+**โหลด domain expertise จาก ROADMAP:**
+- Parse ส่วน `## Domain Expertise` ของ ROADMAP.md สำหรับ paths
+- อ่านแต่ละ domain SKILL.md (เหล่านี้ทำหน้าที่เป็น indexes)
+- กำหนด phase type และโหลดเฉพาะ references ที่เกี่ยวข้องกับ phase type นี้จาก `<references_index>` ของแต่ละ SKILL.md
 </required_reading>
 
 <purpose>
-Create an executable phase prompt (PLAN.md). PLAN.md IS the prompt that Claude executes - not a document that gets transformed.
+สร้าง executable phase prompt (PLAN.md) PLAN.md คือ prompt ที่ Claude execute - ไม่ใช่เอกสารที่ถูก transform
 </purpose>
 
 <planning_principles>
-**Secure by design:** Assume hostile input on every boundary. Validate, parameterize, authenticate, fail closed.
+**Secure by design:** สมมติ hostile input ที่ทุก boundary Validate, parameterize, authenticate, fail closed
 
-**Performance by design:** Assume production load, not demo conditions. Plan for efficient data access, appropriate caching, minimal round trips.
+**Performance by design:** สมมติ production load ไม่ใช่ demo conditions Plan สำหรับ efficient data access, appropriate caching, minimal round trips
 
-**Observable by design:** Plan to debug your own work. Include meaningful error messages, appropriate logging, and clear failure states.
+**Observable by design:** Plan เพื่อ debug งานของตัวเอง Include meaningful error messages, appropriate logging และ clear failure states
 </planning_principles>
 
 <process>
 
 <step name="load_project_state" priority="first">
-Read `.planning/STATE.md` and parse:
-- Current position (which phase we're planning)
-- Accumulated decisions (constraints on this phase)
-- Deferred issues (candidates for inclusion)
-- Blockers/concerns (things this phase may address)
+อ่าน `.planning/STATE.md` และ parse:
+- Current position (phase ไหนที่กำลัง plan)
+- Accumulated decisions (constraints สำหรับ phase นี้)
+- Deferred issues (candidates สำหรับ inclusion)
+- Blockers/concerns (สิ่งที่ phase นี้อาจจัดการ)
 - Brief alignment status
 
-If STATE.md missing but .planning/ exists, offer to reconstruct or continue without.
+หาก STATE.md ไม่มีแต่ .planning/ มี เสนอให้ reconstruct หรือดำเนินการโดยไม่มี
 </step>
 
 <step name="load_codebase_context">
-Check for codebase map:
+ตรวจสอบ codebase map:
 
 ```bash
 ls .planning/codebase/*.md 2>/dev/null
 ```
 
-**If .planning/codebase/ exists:** Load relevant documents based on phase type:
+**หาก .planning/codebase/ มี:** โหลด documents ที่เกี่ยวข้องตาม phase type:
 
 | Phase Keywords | Load These |
 |----------------|------------|
@@ -74,211 +74,211 @@ ls .planning/codebase/*.md 2>/dev/null
 | setup, config | STACK.md, STRUCTURE.md |
 | (default) | STACK.md, ARCHITECTURE.md |
 
-Track extracted constraints for PLAN.md context section.
+Track extracted constraints สำหรับ PLAN.md context section
 </step>
 
 <step name="identify_phase">
-Check roadmap and existing phases:
+ตรวจสอบ roadmap และ existing phases:
 
 ```bash
 cat .planning/ROADMAP.md
 ls .planning/phases/
 ```
 
-If multiple phases available, ask which one to plan. If obvious (first incomplete phase), proceed.
+หากมีหลาย phases ให้เลือก ถามว่าจะ plan อันไหน หากชัดเจน (first incomplete phase) ดำเนินการ
 
 **Phase number parsing:** Regex `^(\d+)(?:\.(\d+))?$` - Group 1: integer, Group 2: decimal (optional)
 
-**If decimal phase:** Validate integer X exists and is complete, X+1 exists in roadmap, decimal X.Y doesn't exist, Y >= 1.
+**หากเป็น decimal phase:** Validate ว่า integer X มีและ complete, X+1 มีใน roadmap, decimal X.Y ไม่มี, Y >= 1
 
-Read any existing PLAN.md or DISCOVERY.md in the phase directory.
+อ่าน PLAN.md หรือ DISCOVERY.md ใดๆ ที่มีอยู่ใน phase directory
 </step>
 
 <step name="mandatory_discovery">
-**Discovery is MANDATORY unless you can prove current context exists.**
+**Discovery เป็น MANDATORY เว้นแต่คุณพิสูจน์ได้ว่ามี current context**
 
 <discovery_decision>
 **Level 0 - Skip** (pure internal work, existing patterns only)
-- ALL work follows established codebase patterns (grep confirms)
-- No new external dependencies
-- Pure internal refactoring or feature extension
-- Examples: Add delete button, add field to model, create CRUD endpoint
+- งานทั้งหมดทำตาม established codebase patterns (grep confirms)
+- ไม่มี new external dependencies
+- Pure internal refactoring หรือ feature extension
+- ตัวอย่าง: Add delete button, add field to model, create CRUD endpoint
 
 **Level 1 - Quick Verification** (2-5 min)
-- Single known library, confirming syntax/version
-- Low-risk decision (easily changed later)
-- Action: Context7 resolve-library-id + query-docs, no DISCOVERY.md needed
+- Single known library, ยืนยัน syntax/version
+- Low-risk decision (เปลี่ยนได้ง่ายทีหลัง)
+- Action: Context7 resolve-library-id + query-docs, ไม่ต้องสร้าง DISCOVERY.md
 
 **Level 2 - Standard Research** (15-30 min)
-- Choosing between 2-3 options
+- เลือกระหว่าง 2-3 options
 - New external integration (API, service)
 - Medium-risk decision
-- Action: Route to workflows/discovery-phase.md depth=standard, produces DISCOVERY.md
+- Action: Route ไป workflows/discovery-phase.md depth=standard, สร้าง DISCOVERY.md
 
 **Level 3 - Deep Dive** (1+ hour)
-- Architectural decision with long-term impact
-- Novel problem without clear patterns
-- High-risk, hard to change later
-- Action: Route to workflows/discovery-phase.md depth=deep, full DISCOVERY.md
+- Architectural decision ที่มี long-term impact
+- Novel problem ที่ไม่มี clear patterns
+- High-risk, ยากที่จะเปลี่ยนทีหลัง
+- Action: Route ไป workflows/discovery-phase.md depth=deep, DISCOVERY.md เต็มรูปแบบ
 
 **Depth indicators:**
-- Level 2+: New library not in package.json, external API, "choose/select/evaluate" in description, roadmap marked Research: Yes
+- Level 2+: New library ไม่อยู่ใน package.json, external API, "choose/select/evaluate" ในคำอธิบาย, roadmap marked Research: Yes
 - Level 3: "architecture/design/system", multiple external services, data modeling, auth design, real-time/distributed
 </discovery_decision>
 
-If roadmap flagged `Research: Likely`, Level 0 (skip) is not available.
+หาก roadmap flagged `Research: Likely`, Level 0 (skip) ไม่มีให้เลือก
 
-For niche domains (3D, games, audio, shaders, ML), suggest `/gsd:research-phase` before plan-phase.
+สำหรับ niche domains (3D, games, audio, shaders, ML) แนะนำ `/gsd:research-phase` ก่อน plan-phase
 </step>
 
 <step name="read_project_history">
-**Intelligent context assembly from frontmatter dependency graph:**
+**Intelligent context assembly จาก frontmatter dependency graph:**
 
-**1. Scan all summary frontmatter (cheap - first ~25 lines):**
+**1. Scan summary frontmatter ทั้งหมด (cheap - 25 บรรทัดแรก):**
 
 ```bash
 for f in .planning/phases/*/*-SUMMARY.md; do
-  # Extract frontmatter only (between first two --- markers)
+  # ดึง frontmatter เท่านั้น (ระหว่าง --- markers สองอันแรก)
   sed -n '1,/^---$/p; /^---$/q' "$f" | head -30
 done
 ```
 
-Parse YAML to extract: phase, subsystem, requires, provides, affects, tags, key-decisions, key-files
+Parse YAML เพื่อดึง: phase, subsystem, requires, provides, affects, tags, key-decisions, key-files
 
-**2. Build dependency graph for current phase:**
+**2. สร้าง dependency graph สำหรับ current phase:**
 
-- **Check affects field:** Which prior phases have current phase in their `affects` list? → Direct dependencies
-- **Check subsystem:** Which prior phases share same subsystem? → Related work
-- **Check requires chains:** If phase X requires phase Y, and we need X, we also need Y → Transitive dependencies
-- **Check roadmap:** Any phases marked as dependencies in ROADMAP.md phase description?
+- **Check affects field:** Prior phases ไหนมี current phase ใน `affects` list? → Direct dependencies
+- **Check subsystem:** Prior phases ไหน share same subsystem? → Related work
+- **Check requires chains:** หาก phase X requires phase Y และเราต้องการ X เราก็ต้องการ Y → Transitive dependencies
+- **Check roadmap:** Phases ใดๆ ที่ marked เป็น dependencies ใน ROADMAP.md phase description?
 
 **3. Select relevant summaries:**
 
-Auto-select phases that match ANY of:
-- Current phase name/number appears in prior phase's `affects` field
+Auto-select phases ที่ match ข้อใดข้อหนึ่ง:
+- Current phase name/number ปรากฏใน prior phase's `affects` field
 - Same `subsystem` value
-- In `requires` chain (transitive closure)
-- Explicitly mentioned in STATE.md decisions as affecting current phase
+- ใน `requires` chain (transitive closure)
+- Explicitly mentioned ใน STATE.md decisions ว่าส่งผลต่อ current phase
 
 Typical selection: 2-4 prior phases (immediately prior + related subsystem work)
 
-**4. Extract context from frontmatter (WITHOUT opening full summaries yet):**
+**4. Extract context จาก frontmatter (ไม่ต้องเปิด full summaries ยัง):**
 
-From selected phases' frontmatter, extract:
-- **Tech available:** Union of all tech-stack.added lists
-- **Patterns established:** Union of all tech-stack.patterns and patterns-established
-- **Key files:** Union of all key-files (for @context references)
-- **Decisions:** Extract key-decisions from frontmatter
+จาก selected phases' frontmatter ดึง:
+- **Tech available:** Union ของทุก tech-stack.added lists
+- **Patterns established:** Union ของทุก tech-stack.patterns และ patterns-established
+- **Key files:** Union ของทุก key-files (สำหรับ @context references)
+- **Decisions:** ดึง key-decisions จาก frontmatter
 
-**5. Now read FULL summaries for selected phases:**
+**5. ตอนนี้อ่าน FULL summaries สำหรับ selected phases:**
 
-Only now open and read complete SUMMARY.md files for the selected relevant phases. Extract:
-- Detailed "Accomplishments" section
+ตอนนี้เท่านั้นที่เปิดและอ่าน complete SUMMARY.md files สำหรับ selected relevant phases ดึง:
+- ส่วน "Accomplishments" ละเอียด
 - "Next Phase Readiness" warnings/blockers
-- "Issues Encountered" that might affect current phase
-- "Deviations from Plan" for patterns
+- "Issues Encountered" ที่อาจส่งผลต่อ current phase
+- "Deviations from Plan" สำหรับ patterns
 
-**From STATE.md:** Decisions → constrain approach. Deferred issues → candidates. Blockers → may need to address.
+**จาก STATE.md:** Decisions → constrain approach Deferred issues → candidates Blockers → may need to address
 
-**From ISSUES.md:**
+**จาก ISSUES.md:**
 
 ```bash
 cat .planning/ISSUES.md 2>/dev/null
 ```
 
-Assess each open issue - relevant to this phase? Waiting long enough? Natural to address now? Blocking something?
+ประเมินแต่ละ open issue - เกี่ยวข้องกับ phase นี้? รอนานพอ? เป็นธรรมชาติที่จะจัดการตอนนี้? Blocking something?
 
-**Answer before proceeding:**
-- Q1: What decisions from previous phases constrain this phase?
-- Q2: Are there deferred issues that should become tasks?
-- Q3: Are there concerns from "Next Phase Readiness" that apply?
-- Q4: Given all context, does the roadmap's description still make sense?
+**ตอบก่อนดำเนินการ:**
+- Q1: Decisions ใดจาก previous phases constrain phase นี้?
+- Q2: มี deferred issues ที่ควรกลายเป็น tasks หรือไม่?
+- Q3: มี concerns จาก "Next Phase Readiness" ที่ใช้ได้หรือไม่?
+- Q4: เมื่อพิจารณา context ทั้งหมด คำอธิบายของ roadmap ยังสมเหตุสมผลหรือไม่?
 
-**Track for PLAN.md context section:**
-- Which summaries were selected (for @context references)
-- Tech stack available (from frontmatter)
-- Established patterns (from frontmatter)
-- Key files to reference (from frontmatter)
-- Applicable decisions (from frontmatter + full summary)
-- Issues being addressed (from ISSUES.md)
-- Concerns being verified (from "Next Phase Readiness")
+**Track สำหรับ PLAN.md context section:**
+- Summaries ไหนถูก select (สำหรับ @context references)
+- Tech stack available (จาก frontmatter)
+- Established patterns (จาก frontmatter)
+- Key files to reference (จาก frontmatter)
+- Applicable decisions (จาก frontmatter + full summary)
+- Issues being addressed (จาก ISSUES.md)
+- Concerns being verified (จาก "Next Phase Readiness")
 </step>
 
 <step name="gather_phase_context">
-Understand:
-- Phase goal (from roadmap)
-- What exists already (scan codebase if mid-project)
+เข้าใจ:
+- Phase goal (จาก roadmap)
+- อะไรมีอยู่แล้ว (scan codebase หากเป็น mid-project)
 - Dependencies met (previous phases complete?)
-- Any {phase}-RESEARCH.md (from /gsd:research-phase)
-- Any DISCOVERY.md (from mandatory discovery)
-- Any {phase}-CONTEXT.md (from /gsd:discuss-phase)
+- {phase}-RESEARCH.md ใดๆ (จาก /gsd:research-phase)
+- DISCOVERY.md ใดๆ (จาก mandatory discovery)
+- {phase}-CONTEXT.md ใดๆ (จาก /gsd:discuss-phase)
 
 ```bash
-# If mid-project, understand current state
+# หากเป็น mid-project เข้าใจ current state
 ls -la src/ 2>/dev/null
 cat package.json 2>/dev/null | head -20
 
-# Check for ecosystem research (from /gsd:research-phase)
+# ตรวจสอบ ecosystem research (จาก /gsd:research-phase)
 cat .planning/phases/XX-name/${PHASE}-RESEARCH.md 2>/dev/null
 
-# Check for phase context (from /gsd:discuss-phase)
+# ตรวจสอบ phase context (จาก /gsd:discuss-phase)
 cat .planning/phases/XX-name/${PHASE}-CONTEXT.md 2>/dev/null
 ```
 
-**If RESEARCH.md exists:** Use standard_stack (these libraries), architecture_patterns (follow in task structure), dont_hand_roll (NEVER custom solutions for listed problems), common_pitfalls (inform verification), code_examples (reference in actions).
+**หาก RESEARCH.md มี:** ใช้ standard_stack (libraries เหล่านี้), architecture_patterns (ทำตามใน task structure), dont_hand_roll (อย่าสร้าง custom solutions สำหรับปัญหาที่ลิสต์เด็ดขาด), common_pitfalls (แจ้ง verification), code_examples (reference ใน actions)
 
-**If CONTEXT.md exists:** Honor vision, prioritize essential, respect boundaries, incorporate specifics.
+**หาก CONTEXT.md มี:** เคารพ vision, ให้ความสำคัญ essential, เคารพ boundaries, incorporate specifics
 
-**If neither exist:** Suggest /gsd:research-phase for niche domains, /gsd:discuss-phase for simpler domains, or proceed with roadmap only.
+**หากไม่มีทั้งสอง:** แนะนำ /gsd:research-phase สำหรับ niche domains, /gsd:discuss-phase สำหรับ simpler domains, หรือดำเนินการด้วย roadmap เท่านั้น
 </step>
 
 <step name="break_into_tasks">
-Decompose phase into tasks and identify TDD candidates.
+แยก phase เป็น tasks และระบุ TDD candidates
 
-**Standard tasks need:**
+**Standard tasks ต้องการ:**
 - **Type**: auto, checkpoint:human-verify, checkpoint:decision (human-action rarely needed)
-- **Task name**: Clear, action-oriented
-- **Files**: Which files created/modified (for auto tasks)
-- **Action**: Specific implementation (including what to avoid and WHY)
-- **Verify**: How to prove it worked
+- **Task name**: ชัดเจน action-oriented
+- **Files**: ไฟล์ใดสร้าง/แก้ไข (สำหรับ auto tasks)
+- **Action**: Implementation เฉพาะ (รวมถึงอะไรที่ต้องหลีกเลี่ยงและทำไม)
+- **Verify**: วิธีพิสูจน์ว่าทำงาน
 - **Done**: Acceptance criteria
 
-**TDD detection:** For each potential task, evaluate TDD fit:
+**TDD detection:** สำหรับแต่ละ potential task ประเมิน TDD fit:
 
-TDD candidates (create dedicated TDD plans):
-- Business logic with defined inputs/outputs
-- API endpoints with request/response contracts
+TDD candidates (สร้าง dedicated TDD plans):
+- Business logic ที่มี defined inputs/outputs
+- API endpoints ที่มี request/response contracts
 - Data transformations, parsing, formatting
-- Validation rules and constraints
-- Algorithms with testable behavior
-- State machines and workflows
+- Validation rules และ constraints
+- Algorithms ที่มี testable behavior
+- State machines และ workflows
 
-Standard tasks (remain in standard plans):
+Standard tasks (ยังอยู่ใน standard plans):
 - UI layout, styling, visual components
 - Configuration changes
 - Glue code connecting existing components
-- One-off scripts and migrations
-- Simple CRUD with no business logic
+- One-off scripts และ migrations
+- Simple CRUD ที่ไม่มี business logic
 
-**Heuristic:** Can you write `expect(fn(input)).toBe(output)` before writing `fn`?
-→ Yes: Create a dedicated TDD plan for this feature (one feature per TDD plan)
-→ No: Standard task in standard plan
+**Heuristic:** สามารถเขียน `expect(fn(input)).toBe(output)` ก่อนเขียน `fn` ได้หรือไม่?
+→ Yes: สร้าง dedicated TDD plan สำหรับ feature นี้ (one feature per TDD plan)
+→ No: Standard task ใน standard plan
 
-**Why TDD gets its own plan:** TDD requires 2-3 execution cycles (RED → GREEN → REFACTOR), each with file reads, test runs, and potential debugging. Embedded in a multi-task plan, TDD work consumes 50-60% of context alone, degrading quality for remaining tasks.
+**ทำไม TDD ได้ plan ของตัวเอง:** TDD ต้องการ 2-3 execution cycles (RED → GREEN → REFACTOR) แต่ละอันมี file reads, test runs และ potential debugging Embedded ใน multi-task plan, TDD work ใช้ 50-60% ของ context คนเดียว ทำให้ quality ลดลงสำหรับ tasks ที่เหลือ
 
-**Test framework:** If project has no test setup and TDD plans are needed, the first TDD plan's RED phase handles framework setup as part of writing the first test.
+**Test framework:** หากโปรเจกต์ไม่มี test setup และต้องการ TDD plans, TDD plan แรกจะ handle framework setup เป็นส่วนของการเขียน test แรกใน RED phase
 
-See `~/.claude/get-shit-done/references/tdd.md` for TDD plan structure.
+ดู `~/.claude/get-shit-done/references/tdd.md` สำหรับ TDD plan structure
 
-**Checkpoints:** Visual/functional verification → checkpoint:human-verify. Implementation choices → checkpoint:decision. Manual action (email, 2FA) → checkpoint:human-action (rare).
+**Checkpoints:** Visual/functional verification → checkpoint:human-verify Implementation choices → checkpoint:decision Manual action (email, 2FA) → checkpoint:human-action (rare)
 
-**Critical:** If external resource has CLI/API (Vercel, Stripe, etc.), use type="auto" to automate. Only checkpoint for verification AFTER automation.
+**สำคัญ:** หาก external resource มี CLI/API (Vercel, Stripe, etc.) ใช้ type="auto" เพื่อ automate Checkpoint สำหรับ verification หลัง automation เท่านั้น
 
-See ~/.claude/get-shit-done/references/checkpoints.md for checkpoint structure.
+ดู ~/.claude/get-shit-done/references/checkpoints.md สำหรับ checkpoint structure
 </step>
 
 <step name="estimate_scope">
-After tasks, assess against quality degradation curve.
+หลัง tasks ประเมินกับ quality degradation curve
 
 **Check depth setting:**
 ```bash
@@ -286,7 +286,7 @@ cat .planning/config.json 2>/dev/null | grep depth
 ```
 
 <depth_aware_splitting>
-**Depth controls compression tolerance, not artificial inflation.**
+**Depth ควบคุมความยืดหยุ่นในการบีบอัด ไม่ใช่การขยายเทียม**
 
 | Depth | Typical Plans/Phase | Tasks/Plan |
 |-------|---------------------|------------|
@@ -294,44 +294,44 @@ cat .planning/config.json 2>/dev/null | grep depth
 | Standard | 3-5 | 2-3 |
 | Comprehensive | 5-10 | 2-3 |
 
-**Key principle:** Derive plans from actual work. Depth determines how aggressively you combine things, not a target to hit.
+**หลักการสำคัญ:** ได้ plans จากงานจริง Depth กำหนดว่ารวมสิ่งต่างๆ อย่างเข้มข้นแค่ไหน ไม่ใช่เป้าหมายที่ต้องถึง
 
-- Comprehensive auth phase = 8 plans (because auth genuinely has 8 concerns)
-- Comprehensive "add config file" phase = 1 plan (because that's all it is)
+- Comprehensive auth phase = 8 plans (เพราะ auth มี 8 concerns จริงๆ)
+- Comprehensive "add config file" phase = 1 plan (เพราะมีแค่นั้น)
 
-For comprehensive depth:
-- Create MORE plans when the work warrants it, not bigger ones
-- If a phase has 15 tasks, that's 5-8 plans (not 3 plans with 5 tasks each)
-- Don't compress to look efficient—thoroughness is the goal
-- Let small phases stay small—don't pad to hit a number
-- Each plan stays focused: 2-3 tasks, single concern
+สำหรับ comprehensive depth:
+- สร้าง MORE plans เมื่องาน warrants it ไม่ใช่ plans ที่ใหญ่ขึ้น
+- หาก phase มี 15 tasks นั่นคือ 5-8 plans (ไม่ใช่ 3 plans ที่มี 5 tasks แต่ละอัน)
+- อย่าบีบอัดเพื่อให้ดู efficient—thoroughness คือเป้าหมาย
+- ให้ phases เล็กๆ ยังคงเล็ก—อย่าเพิ่มเพื่อให้ถึงจำนวน
+- แต่ละ plan โฟกัส: 2-3 tasks, single concern
 
-For quick depth:
-- Combine aggressively into fewer plans
-- 1-3 plans per phase is fine
-- Focus on critical path
+สำหรับ quick depth:
+- รวมอย่างเข้มข้นเป็น fewer plans
+- 1-3 plans per phase ก็ดี
+- โฟกัสที่ critical path
 </depth_aware_splitting>
 
-**ALWAYS split if:** >3 tasks, multiple subsystems, >5 files in any task, complex domains (auth, payments).
+**แยกเสมอหาก:** >3 tasks, multiple subsystems, >5 files ใน task ใดๆ, complex domains (auth, payments)
 
-**If scope appropriate (2-3 tasks, single subsystem, <5 files/task):** Proceed to confirm_breakdown.
+**หาก scope เหมาะสม (2-3 tasks, single subsystem, <5 files/task):** ดำเนินการไป confirm_breakdown
 
-**If large (>3 tasks):** Split by subsystem, dependency, complexity, or autonomous vs interactive.
+**หากใหญ่ (>3 tasks):** แยกตาม subsystem, dependency, complexity หรือ autonomous vs interactive
 
-**Each plan must be:** 2-3 tasks max, ~50% context target, independently committable.
+**แต่ละ plan ต้อง:** 2-3 tasks max, ~50% context target, independently committable
 
-**Autonomous optimization:** No checkpoints → subagent (fresh context). Has checkpoints → main context. Group autonomous work together.
+**Autonomous optimization:** No checkpoints → subagent (fresh context) Has checkpoints → main context Group autonomous work together
 
-See ~/.claude/get-shit-done/references/scope-estimation.md for complete guidance.
+ดู ~/.claude/get-shit-done/references/scope-estimation.md สำหรับ guidance ครบถ้วน
 </step>
 
 <step name="confirm_breakdown">
 <if mode="yolo">
-Auto-approve and proceed to write_phase_prompt.
+Auto-approve และดำเนินการไป write_phase_prompt
 </if>
 
 <if mode="interactive">
-Present breakdown inline:
+แสดง breakdown inline:
 
 ```
 Phase [X] breakdown:
@@ -342,33 +342,33 @@ Phase [X] breakdown:
 
 Autonomous: [yes/no]
 
-Does this look right? (yes / adjust / start over)
+ดูถูกต้องไหม? (yes / adjust / start over)
 ```
 
-For multiple plans, show each plan with its tasks.
+สำหรับ multiple plans แสดงแต่ละ plan พร้อม tasks
 
-Wait for confirmation. If "adjust": revise. If "start over": return to gather_phase_context.
+รอการยืนยัน หาก "adjust": แก้ไข หาก "start over": กลับไป gather_phase_context
 </if>
 </step>
 
 <step name="write_phase_prompt">
-Use template from `~/.claude/get-shit-done/templates/phase-prompt.md`.
+ใช้ template จาก `~/.claude/get-shit-done/templates/phase-prompt.md`
 
-**Single plan:** Write to `.planning/phases/XX-name/{phase}-01-PLAN.md`
+**Single plan:** เขียนไป `.planning/phases/XX-name/{phase}-01-PLAN.md`
 
-**Multiple plans:** Write separate files ({phase}-01-PLAN.md, {phase}-02-PLAN.md, etc.)
+**Multiple plans:** เขียนไฟล์แยก ({phase}-01-PLAN.md, {phase}-02-PLAN.md, etc.)
 
-Each plan follows template structure with:
+แต่ละ plan ทำตามโครงสร้าง template ด้วย:
 - Frontmatter (phase, plan, type, domain)
 - Objective (plan-specific goal, purpose, output)
-- Execution context (execute-phase.md, summary template, checkpoints.md if needed)
-- Context (@references to PROJECT, ROADMAP, STATE, codebase docs, RESEARCH/DISCOVERY/CONTEXT if exist, prior summaries, source files, prior decisions, deferred issues, concerns)
+- Execution context (execute-phase.md, summary template, checkpoints.md หากจำเป็น)
+- Context (@references ไป PROJECT, ROADMAP, STATE, codebase docs, RESEARCH/DISCOVERY/CONTEXT หากมี, prior summaries, source files, prior decisions, deferred issues, concerns)
 - Tasks (XML format with types)
 - Verification, Success criteria, Output specification
 
-**Context section population from frontmatter analysis:**
+**Context section population จาก frontmatter analysis:**
 
-Inject automatically-assembled context package from read_project_history step:
+Inject automatically-assembled context package จาก read_project_history step:
 
 ```markdown
 <context>
@@ -376,11 +376,11 @@ Inject automatically-assembled context package from read_project_history step:
 @.planning/ROADMAP.md
 @.planning/STATE.md
 
-# Auto-selected based on dependency graph (from frontmatter):
+# Auto-selected based on dependency graph (จาก frontmatter):
 @.planning/phases/XX-name/YY-ZZ-SUMMARY.md
 @.planning/phases/AA-name/BB-CC-SUMMARY.md
 
-# Key files from frontmatter (relevant to this phase):
+# Key files จาก frontmatter (เกี่ยวข้องกับ phase นี้):
 @path/to/important/file.ts
 @path/to/another/file.ts
 
@@ -390,23 +390,23 @@ Inject automatically-assembled context package from read_project_history step:
 - [Phase X]: [decision from frontmatter]
 - [Phase Y]: [decision from frontmatter]
 
-**Issues being addressed:** [If any from ISSUES.md]
+**Issues being addressed:** [หากมีจาก ISSUES.md]
 </context>
 ```
 
-This ensures every PLAN.md gets optimal context automatically assembled via dependency graph, making execution as informed as possible.
+นี่รับประกันว่าทุก PLAN.md ได้ optimal context ที่ assembled อัตโนมัติผ่าน dependency graph ทำให้ execution informed มากที่สุด
 
-For multi-plan phases: each plan has focused scope, references previous plan summaries (via frontmatter selection), last plan's success criteria includes "Phase X complete".
+สำหรับ multi-plan phases: แต่ละ plan มี focused scope, references previous plan summaries (ผ่าน frontmatter selection), success criteria ของ plan สุดท้ายรวม "Phase X complete"
 </step>
 
 <step name="git_commit">
 Commit phase plan(s):
 
 ```bash
-# Stage all PLAN.md files for this phase
+# Stage ทุก PLAN.md files สำหรับ phase นี้
 git add .planning/phases/${PHASE}-*/${PHASE}-*-PLAN.md
 
-# Also stage DISCOVERY.md if it was created during mandatory_discovery
+# รวม stage DISCOVERY.md หากสร้างระหว่าง mandatory_discovery
 git add .planning/phases/${PHASE}-*/DISCOVERY.md 2>/dev/null
 
 git commit -m "$(cat <<'EOF'
@@ -420,7 +420,7 @@ EOF
 )"
 ```
 
-Confirm: "Committed: docs(${PHASE}): create phase plan"
+ยืนยัน: "Committed: docs(${PHASE}): create phase plan"
 </step>
 
 <step name="offer_next">
@@ -430,19 +430,19 @@ Phase plan created: .planning/phases/XX-name/{phase}-01-PLAN.md
 
 ---
 
-## Next Up
+## ถัดไป
 
 **{phase}-01: [Plan Name]** - [objective summary]
 
 `/gsd:execute-plan .planning/phases/XX-name/{phase}-01-PLAN.md`
 
-<sub>`/clear` first - fresh context window</sub>
+<sub>`/clear` ก่อน - context window ใหม่</sub>
 
 ---
 
-**Also available:**
-- Review/adjust tasks before executing
-[If multiple plans: - View all plans: `ls .planning/phases/XX-name/*-PLAN.md`]
+**ยังมีให้เลือก:**
+- Review/adjust tasks ก่อน executing
+[หากมี multiple plans: - View all plans: `ls .planning/phases/XX-name/*-PLAN.md`]
 
 ---
 ```
@@ -455,34 +455,34 @@ Phase plan created: .planning/phases/XX-name/{phase}-01-PLAN.md
 - "Add User model to Prisma schema with email, passwordHash, createdAt"
 - "Create POST /api/auth/login endpoint with bcrypt validation"
 
-**Bad tasks:** Vague, not actionable
+**Bad tasks:** คลุมเครือ ไม่ actionable
 - "Set up authentication" / "Make it secure" / "Handle edge cases"
 
-If you can't specify Files + Action + Verify + Done, the task is too vague.
+หากระบุ Files + Action + Verify + Done ไม่ได้ task คลุมเครือเกินไป
 
-**TDD candidates get dedicated plans.** If "Create price calculator with discount rules" warrants TDD, create a TDD plan for it. See `~/.claude/get-shit-done/references/tdd.md` for TDD plan structure.
+**TDD candidates ได้ dedicated plans** หาก "Create price calculator with discount rules" warrants TDD สร้าง TDD plan สำหรับมัน ดู `~/.claude/get-shit-done/references/tdd.md` สำหรับ TDD plan structure
 </task_quality>
 
 <anti_patterns>
-- No story points or hour estimates
-- No team assignments
-- No acceptance criteria committees
-- No sub-sub-sub tasks
-Tasks are instructions for Claude, not Jira tickets.
+- ไม่มี story points หรือ hour estimates
+- ไม่มี team assignments
+- ไม่มี acceptance criteria committees
+- ไม่มี sub-sub-sub tasks
+Tasks คือ instructions สำหรับ Claude ไม่ใช่ Jira tickets
 </anti_patterns>
 
 <success_criteria>
-Phase planning complete when:
-- [ ] STATE.md read, project history absorbed
+Phase planning complete เมื่อ:
+- [ ] STATE.md อ่าน project history absorbed
 - [ ] Mandatory discovery completed (Level 0-3)
 - [ ] Prior decisions, issues, concerns synthesized
-- [ ] PLAN file(s) exist with XML structure
-- [ ] Each plan: Objective, context, tasks, verification, success criteria, output
-- [ ] @context references included (STATE, RESEARCH/DISCOVERY if exist, relevant summaries)
-- [ ] Each plan: 2-3 tasks (~50% context)
-- [ ] Each task: Type, Files (if auto), Action, Verify, Done
-- [ ] Checkpoints properly structured
-- [ ] If RESEARCH.md exists: "don't hand-roll" items NOT being custom-built
-- [ ] PLAN file(s) committed to git
-- [ ] User knows next steps
+- [ ] PLAN file(s) มีพร้อม XML structure
+- [ ] แต่ละ plan: Objective, context, tasks, verification, success criteria, output
+- [ ] @context references included (STATE, RESEARCH/DISCOVERY หากมี, relevant summaries)
+- [ ] แต่ละ plan: 2-3 tasks (~50% context)
+- [ ] แต่ละ task: Type, Files (หาก auto), Action, Verify, Done
+- [ ] Checkpoints structured ถูกต้อง
+- [ ] หาก RESEARCH.md มี: "don't hand-roll" items ไม่ถูก custom-built
+- [ ] PLAN file(s) committed ไป git
+- [ ] ผู้ใช้รู้ขั้นตอนถัดไป
 </success_criteria>

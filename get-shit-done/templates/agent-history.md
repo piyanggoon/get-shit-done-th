@@ -1,6 +1,6 @@
 # Agent History Template
 
-Template for `.planning/agent-history.json` - tracks subagent spawns during plan execution for resume capability.
+Template สำหรับ `.planning/agent-history.json` - ติดตาม subagent spawns ระหว่าง plan execution เพื่อ resume capability
 
 ---
 
@@ -16,7 +16,7 @@ Template for `.planning/agent-history.json` - tracks subagent spawns during plan
 
 ## Entry Schema
 
-Each entry tracks a subagent spawn or status change:
+แต่ละ entry ติดตาม subagent spawn หรือการเปลี่ยนแปลง status:
 
 ```json
 {
@@ -35,14 +35,14 @@ Each entry tracks a subagent spawn or status change:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| agent_id | string | Unique ID returned by Task tool |
-| task_description | string | Brief description of what agent is executing |
-| phase | string | Phase number (e.g., "02", "02.1") |
-| plan | string | Plan number within phase |
-| segment | number | Segment number (1-based) for segmented plans, null for Pattern A |
-| timestamp | string | ISO 8601 timestamp when agent was spawned |
-| status | string | Current status: spawned, completed, interrupted, resumed |
-| completion_timestamp | string/null | ISO 8601 timestamp when completed, null if pending |
+| agent_id | string | Unique ID ที่ Task tool return |
+| task_description | string | คำอธิบายสั้นว่า agent กำลัง execute อะไร |
+| phase | string | หมายเลข phase (เช่น "02", "02.1") |
+| plan | string | หมายเลข plan ใน phase |
+| segment | number | หมายเลข segment (1-based) สำหรับ segmented plans, null สำหรับ Pattern A |
+| timestamp | string | ISO 8601 timestamp เมื่อ spawn agent |
+| status | string | Status ปัจจุบัน: spawned, completed, interrupted, resumed |
+| completion_timestamp | string/null | ISO 8601 timestamp เมื่อเสร็จ, null ถ้ายังรอ |
 
 ### Status Lifecycle
 
@@ -53,35 +53,35 @@ spawned ────────────────────────
     └──> interrupted ──> resumed ───────┘
 ```
 
-- **spawned**: Agent created via Task tool, execution in progress
-- **completed**: Agent finished successfully, results received
-- **interrupted**: Session ended before agent completed (detected on resume)
-- **resumed**: Previously interrupted agent resumed via resume parameter
+- **spawned**: Agent ถูกสร้างผ่าน Task tool, กำลัง execute
+- **completed**: Agent เสร็จสำเร็จ, ได้รับผลลัพธ์แล้ว
+- **interrupted**: Session จบก่อน agent เสร็จ (ตรวจพบเมื่อ resume)
+- **resumed**: Agent ที่ถูกขัดจังหวะก่อนหน้า resume ผ่าน resume parameter
 
 ## Usage
 
-### When to Create File
+### เมื่อไหร่ควรสร้างไฟล์
 
-Create `.planning/agent-history.json` from this template when:
-- First subagent spawn in execute-phase workflow
-- File doesn't exist yet
+สร้าง `.planning/agent-history.json` จาก template นี้เมื่อ:
+- Spawn subagent ครั้งแรกใน execute-phase workflow
+- ไฟล์ยังไม่มี
 
-### When to Add Entry
+### เมื่อไหร่ควรเพิ่ม Entry
 
-Add new entry immediately after Task tool returns with agent_id:
+เพิ่ม entry ใหม่ทันทีหลัง Task tool return พร้อม agent_id:
 
 ```
 1. Task tool spawns subagent
-2. Response includes agent_id
-3. Write agent_id to .planning/current-agent-id.txt
-4. Append entry to agent-history.json with status "spawned"
+2. Response มี agent_id
+3. เขียน agent_id ไปยัง .planning/current-agent-id.txt
+4. เพิ่ม entry ใน agent-history.json พร้อม status "spawned"
 ```
 
-### When to Update Entry
+### เมื่อไหร่ควรอัพเดท Entry
 
-Update existing entry when:
+อัพเดท entry ที่มีอยู่เมื่อ:
 
-**On successful completion:**
+**เมื่อเสร็จสำเร็จ:**
 ```json
 {
   "status": "completed",
@@ -89,14 +89,14 @@ Update existing entry when:
 }
 ```
 
-**On resume detection (interrupted agent found):**
+**เมื่อตรวจพบ resume (พบ interrupted agent):**
 ```json
 {
   "status": "interrupted"
 }
 ```
 
-Then add new entry with resumed status:
+จากนั้นเพิ่ม entry ใหม่พร้อม resumed status:
 ```json
 {
   "agent_id": "agent_01HXXXX...",
@@ -107,10 +107,10 @@ Then add new entry with resumed status:
 
 ### Entry Retention
 
-- Keep maximum 50 entries (configurable via max_entries)
-- On exceeding limit, remove oldest completed entries first
-- Never remove entries with status "spawned" (may need resume)
-- Prune during init_agent_tracking step
+- เก็บ entries สูงสุด 50 รายการ (ปรับได้ผ่าน max_entries)
+- เมื่อเกิน limit ลบ completed entries เก่าสุดก่อน
+- ไม่เคยลบ entries ที่มี status "spawned" (อาจต้อง resume)
+- Prune ระหว่าง init_agent_tracking step
 
 ## Example File
 
@@ -145,17 +145,17 @@ Then add new entry with resumed status:
 
 ## Related Files
 
-- `.planning/current-agent-id.txt`: Single line with currently active agent ID (for quick resume lookup)
-- `.planning/STATE.md`: Project state including session continuity info
+- `.planning/current-agent-id.txt`: บรรทัดเดียวพร้อม agent ID ที่ active อยู่ (สำหรับ quick resume lookup)
+- `.planning/STATE.md`: Project state รวมถึง session continuity info
 
 ---
 
 ## Template Notes
 
-**When to create:** First subagent spawn during execute-phase workflow.
+**เมื่อไหร่ควรสร้าง:** Spawn subagent ครั้งแรกระหว่าง execute-phase workflow
 
 **Location:** `.planning/agent-history.json`
 
-**Companion file:** `.planning/current-agent-id.txt` (single agent ID, overwritten on each spawn)
+**Companion file:** `.planning/current-agent-id.txt` (agent ID เดียว, เขียนทับทุกครั้งที่ spawn)
 
-**Purpose:** Enable resume capability for interrupted subagent executions via Task tool's resume parameter.
+**วัตถุประสงค์:** เปิดใช้ resume capability สำหรับ interrupted subagent executions ผ่าน Task tool's resume parameter

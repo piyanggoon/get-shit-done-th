@@ -1,15 +1,15 @@
 ---
 name: gsd:discuss-phase
-description: Gather phase context through adaptive questioning before planning
+description: รวบรวม context ของ phase ผ่านการถามคำถามแบบปรับตัวก่อนวางแผน
 argument-hint: "[phase]"
 ---
 
 <objective>
-Help the user articulate their vision for a phase through collaborative thinking.
+ช่วยผู้ใช้อธิบาย vision สำหรับ phase ผ่านการคิดร่วมกัน
 
-Purpose: Understand HOW the user imagines this phase working — what it looks like, what's essential, what's out of scope. You're a thinking partner helping them crystallize their vision, not an interviewer gathering technical requirements.
+วัตถุประสงค์: เข้าใจว่าผู้ใช้จินตนาการว่า phase นี้ทำงานอย่างไร — มันดูเป็นอย่างไร อะไรจำเป็น อะไรอยู่นอก scope คุณเป็น thinking partner ที่ช่วยให้เขา crystallize vision ของตัวเอง ไม่ใช่ผู้สัมภาษณ์ที่เก็บ technical requirements
 
-Output: {phase}-CONTEXT.md capturing the user's vision for the phase
+Output: {phase}-CONTEXT.md ที่บันทึก vision ของผู้ใช้สำหรับ phase
 </objective>
 
 <execution_context>
@@ -20,41 +20,41 @@ Output: {phase}-CONTEXT.md capturing the user's vision for the phase
 <context>
 Phase number: $ARGUMENTS (required)
 
-**Load project state first:**
+**โหลด project state ก่อน:**
 @.planning/STATE.md
 
-**Load roadmap:**
+**โหลด roadmap:**
 @.planning/ROADMAP.md
 </context>
 
 <process>
-1. Validate phase number argument (error if missing or invalid)
-2. Check if phase exists in roadmap
-3. Check if CONTEXT.md already exists (offer to update if yes)
-4. Follow discuss-phase.md workflow with **ALL questions using AskUserQuestion**:
-   - Present phase from roadmap
-   - Use AskUserQuestion: "How do you imagine this working?" with interpretation options
-   - Use AskUserQuestion to follow their thread — probe what excites them
-   - Use AskUserQuestion to sharpen the core — what's essential for THIS phase
-   - Use AskUserQuestion to find boundaries — what's explicitly out of scope
-   - Use AskUserQuestion for decision gate (ready / ask more / let me add context)
-   - Create CONTEXT.md capturing their vision
-5. Offer next steps (research or plan the phase)
+1. ตรวจสอบ phase number argument (error ถ้าไม่มีหรือไม่ถูกต้อง)
+2. ตรวจสอบว่า phase มีอยู่ใน roadmap
+3. ตรวจสอบว่า CONTEXT.md มีอยู่แล้วหรือไม่ (เสนอให้ update ถ้ามี)
+4. ทำตาม discuss-phase.md workflow โดย**ทุกคำถามใช้ AskUserQuestion**:
+   - แสดง phase จาก roadmap
+   - ใช้ AskUserQuestion: "คุณจินตนาการว่ามันทำงานอย่างไร?" พร้อม interpretation options
+   - ใช้ AskUserQuestion เพื่อตาม thread ของเขา — probe สิ่งที่เขาตื่นเต้น
+   - ใช้ AskUserQuestion เพื่อ sharpen core — อะไรจำเป็นสำหรับ phase นี้
+   - ใช้ AskUserQuestion เพื่อหา boundaries — อะไรอยู่นอก scope อย่างชัดเจน
+   - ใช้ AskUserQuestion สำหรับ decision gate (พร้อม / ถามเพิ่ม / ขอเพิ่ม context)
+   - สร้าง CONTEXT.md ที่บันทึก vision ของเขา
+5. เสนอขั้นตอนถัดไป (research หรือ plan phase)
 
-**CRITICAL: ALL questions use AskUserQuestion. Never ask inline text questions.**
+**สำคัญมาก: ทุกคำถามใช้ AskUserQuestion อย่าถามคำถาม inline text**
 
-User is the visionary, you are the builder:
-- Ask about vision, feel, essential outcomes
-- DON'T ask about technical risks (you figure those out)
-- DON'T ask about codebase patterns (you read the code)
-- DON'T ask about success metrics (too corporate)
-- DON'T interrogate about constraints they didn't mention
+ผู้ใช้คือ visionary คุณคือ builder:
+- ถามเรื่อง vision, feel, essential outcomes
+- อย่าถามเรื่อง technical risks (คุณหาเอง)
+- อย่าถามเรื่อง codebase patterns (คุณอ่าน code เอง)
+- อย่าถามเรื่อง success metrics (formal เกินไป)
+- อย่าซักถามเรื่อง constraints ที่เขาไม่ได้พูดถึง
 </process>
 
 <success_criteria>
 
-- Phase validated against roadmap
-- Vision gathered through collaborative thinking (not interrogation)
-- CONTEXT.md captures: how it works, what's essential, what's out of scope
-- User knows next steps (research or plan the phase)
+- ตรวจสอบ phase กับ roadmap แล้ว
+- รวบรวม vision ผ่านการคิดร่วมกัน (ไม่ใช่การซักถาม)
+- CONTEXT.md บันทึก: มันทำงานอย่างไร, อะไรจำเป็น, อะไรอยู่นอก scope
+- ผู้ใช้รู้ขั้นตอนถัดไป (research หรือ plan phase)
 </success_criteria>

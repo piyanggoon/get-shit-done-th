@@ -1,6 +1,6 @@
 ---
 name: gsd:progress
-description: Check project progress, show context, and route to next action (execute or plan)
+description: ตรวจสอบ project progress, แสดง context, และ route ไปยัง next action (execute หรือ plan)
 allowed-tools:
   - Read
   - Bash
@@ -10,95 +10,95 @@ allowed-tools:
 ---
 
 <objective>
-Check project progress, summarize recent work and what's ahead, then intelligently route to the next action - either executing an existing plan or creating the next one.
+ตรวจสอบ project progress, สรุปงานล่าสุดและสิ่งที่อยู่ข้างหน้า จากนั้น route ไปยัง next action อย่างชาญฉลาด - ไม่ว่าจะ execute plan ที่มีอยู่หรือสร้าง plan ถัดไป
 
-Provides situational awareness before continuing work.
+ให้ situational awareness ก่อนทำงานต่อ
 </objective>
 
 
 <process>
 
 <step name="verify">
-**Verify planning structure exists:**
+**ตรวจสอบว่ามี planning structure:**
 
-If no `.planning/` directory:
+ถ้าไม่มีโฟลเดอร์ `.planning/`:
 
 ```
-No planning structure found.
+ไม่พบ planning structure
 
-Run /gsd:new-project to start a new project.
+รัน /gsd:new-project เพื่อเริ่มโปรเจคใหม่
 ```
 
-Exit.
+ออกจากคำสั่ง
 
-If missing STATE.md or ROADMAP.md: inform what's missing, suggest running `/gsd:new-project`.
+ถ้าไม่มี STATE.md หรือ ROADMAP.md: แจ้งว่าอะไรขาด แนะนำให้รัน `/gsd:new-project`
 </step>
 
 <step name="load">
-**Load full project context:**
+**โหลด full project context:**
 
-- Read `.planning/STATE.md` for living memory (position, decisions, issues)
-- Read `.planning/ROADMAP.md` for phase structure and objectives
-- Read `.planning/PROJECT.md` for current state (What This Is, Core Value, Requirements)
+- อ่าน `.planning/STATE.md` สำหรับ living memory (position, decisions, issues)
+- อ่าน `.planning/ROADMAP.md` สำหรับ phase structure และ objectives
+- อ่าน `.planning/PROJECT.md` สำหรับ current state (What This Is, Core Value, Requirements)
   </step>
 
 <step name="recent">
-**Gather recent work context:**
+**รวบรวม recent work context:**
 
-- Find the 2-3 most recent SUMMARY.md files
-- Extract from each: what was accomplished, key decisions, any issues logged
-- This shows "what we've been working on"
+- หาไฟล์ SUMMARY.md 2-3 ไฟล์ล่าสุด
+- ดึงจากแต่ละไฟล์: ทำอะไรเสร็จ, key decisions, issues ที่ logged
+- นี่แสดง "เรากำลังทำอะไรอยู่"
   </step>
 
 <step name="position">
 **Parse current position:**
 
-- From STATE.md: current phase, plan number, status
-- Calculate: total plans, completed plans, remaining plans
-- Note any blockers, concerns, or deferred issues
-- Check for CONTEXT.md: For phases without PLAN.md files, check if `{phase}-CONTEXT.md` exists in phase directory
-- Count pending todos: `ls .planning/todos/pending/*.md 2>/dev/null | wc -l`
+- จาก STATE.md: current phase, plan number, status
+- คำนวณ: total plans, completed plans, remaining plans
+- จด blockers, concerns, หรือ deferred issues
+- ตรวจสอบ CONTEXT.md: สำหรับ phases ที่ไม่มีไฟล์ PLAN.md ตรวจว่ามี `{phase}-CONTEXT.md` ในโฟลเดอร์ phase
+- นับ pending todos: `ls .planning/todos/pending/*.md 2>/dev/null | wc -l`
   </step>
 
 <step name="report">
-**Present rich status report:**
+**แสดง rich status report:**
 
 ```
 # [Project Name]
 
 **Progress:** [████████░░] 8/10 plans complete
 
-## Recent Work
-- [Phase X, Plan Y]: [what was accomplished - 1 line]
-- [Phase X, Plan Z]: [what was accomplished - 1 line]
+## งานล่าสุด
+- [Phase X, Plan Y]: [ทำอะไรเสร็จ - 1 บรรทัด]
+- [Phase X, Plan Z]: [ทำอะไรเสร็จ - 1 บรรทัด]
 
-## Current Position
-Phase [N] of [total]: [phase-name]
-Plan [M] of [phase-total]: [status]
-CONTEXT: [✓ if CONTEXT.md exists | - if not]
+## ตำแหน่งปัจจุบัน
+Phase [N] จาก [total]: [phase-name]
+Plan [M] จาก [phase-total]: [status]
+CONTEXT: [✓ ถ้ามี CONTEXT.md | - ถ้าไม่มี]
 
-## Key Decisions Made
-- [decision 1 from STATE.md]
+## Key Decisions ที่ตัดสินใจแล้ว
+- [decision 1 จาก STATE.md]
 - [decision 2]
 
 ## Open Issues
-- [any deferred issues or blockers]
+- [deferred issues หรือ blockers]
 
 ## Pending Todos
-- [count] pending — /gsd:check-todos to review
+- [count] pending — /gsd:check-todos เพื่อ review
 
-## What's Next
-[Next phase/plan objective from ROADMAP]
+## ถัดไป
+[Next phase/plan objective จาก ROADMAP]
 ```
 
 </step>
 
 <step name="route">
-**Determine next action based on verified counts.**
+**กำหนด next action ตาม verified counts**
 
-**Step 1: Count plans, summaries, and issues in current phase**
+**Step 1: นับ plans, summaries, และ issues ใน current phase**
 
-List files in the current phase directory:
+List files ในโฟลเดอร์ current phase:
 
 ```bash
 ls -1 .planning/phases/[current-phase-dir]/*-PLAN.md 2>/dev/null | wc -l
@@ -108,191 +108,191 @@ ls -1 .planning/phases/[current-phase-dir]/*-FIX.md 2>/dev/null | wc -l
 ls -1 .planning/phases/[current-phase-dir]/*-FIX-SUMMARY.md 2>/dev/null | wc -l
 ```
 
-State: "This phase has {X} plans, {Y} summaries, {Z} issues files, {W} fix plans."
+ระบุ: "Phase นี้มี {X} plans, {Y} summaries, {Z} issues files, {W} fix plans"
 
-**Step 1.5: Check for unaddressed UAT issues**
+**Step 1.5: ตรวจสอบ unaddressed UAT issues**
 
-For each *-ISSUES.md file, check if matching *-FIX.md exists.
-For each *-FIX.md file, check if matching *-FIX-SUMMARY.md exists.
+สำหรับแต่ละ *-ISSUES.md file ตรวจว่ามี matching *-FIX.md หรือไม่
+สำหรับแต่ละ *-FIX.md file ตรวจว่ามี matching *-FIX-SUMMARY.md หรือไม่
 
 Track:
-- `issues_without_fix`: ISSUES.md files without FIX.md
-- `fixes_without_summary`: FIX.md files without FIX-SUMMARY.md
+- `issues_without_fix`: ISSUES.md files ที่ไม่มี FIX.md
+- `fixes_without_summary`: FIX.md files ที่ไม่มี FIX-SUMMARY.md
 
-**Step 2: Route based on counts**
+**Step 2: Route ตาม counts**
 
-| Condition | Meaning | Action |
+| เงื่อนไข | ความหมาย | Action |
 |-----------|---------|--------|
-| fixes_without_summary > 0 | Unexecuted fix plans exist | Go to **Route A** (with FIX.md) |
-| issues_without_fix > 0 | UAT issues need fix plans | Go to **Route E** |
-| summaries < plans | Unexecuted plans exist | Go to **Route A** |
-| summaries = plans AND plans > 0 | Phase complete | Go to Step 3 |
-| plans = 0 | Phase not yet planned | Go to **Route B** |
+| fixes_without_summary > 0 | มี unexecuted fix plans | ไป **Route A** (ด้วย FIX.md) |
+| issues_without_fix > 0 | UAT issues ต้องการ fix plans | ไป **Route E** |
+| summaries < plans | มี unexecuted plans | ไป **Route A** |
+| summaries = plans AND plans > 0 | Phase เสร็จ | ไป Step 3 |
+| plans = 0 | Phase ยังไม่ได้ plan | ไป **Route B** |
 
 ---
 
-**Route A: Unexecuted plan exists**
+**Route A: มี unexecuted plan**
 
-Find the first PLAN.md without matching SUMMARY.md.
-Read its `<objective>` section.
+หา PLAN.md แรกที่ไม่มี matching SUMMARY.md
+อ่าน `<objective>` section ของมัน
 
 ```
 ---
 
-## ▶ Next Up
+## ▶ ถัดไป
 
-**{phase}-{plan}: [Plan Name]** — [objective summary from PLAN.md]
+**{phase}-{plan}: [Plan Name]** — [objective summary จาก PLAN.md]
 
 `/gsd:execute-plan [full-path-to-PLAN.md]`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → เริ่ม context window ใหม่</sub>
 
 ---
 ```
 
 ---
 
-**Route B: Phase needs planning**
+**Route B: Phase ต้องการ planning**
 
-Check if `{phase}-CONTEXT.md` exists in phase directory.
+ตรวจว่ามี `{phase}-CONTEXT.md` ในโฟลเดอร์ phase หรือไม่
 
-**If CONTEXT.md exists:**
+**ถ้ามี CONTEXT.md:**
 
 ```
 ---
 
-## ▶ Next Up
+## ▶ ถัดไป
 
-**Phase {N}: {Name}** — {Goal from ROADMAP.md}
-<sub>✓ Context gathered, ready to plan</sub>
+**Phase {N}: {Name}** — {Goal จาก ROADMAP.md}
+<sub>✓ รวบรวม Context แล้ว พร้อม plan</sub>
 
 `/gsd:plan-phase {phase-number}`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → เริ่ม context window ใหม่</sub>
 
 ---
 ```
 
-**If CONTEXT.md does NOT exist:**
+**ถ้าไม่มี CONTEXT.md:**
 
 ```
 ---
 
-## ▶ Next Up
+## ▶ ถัดไป
 
-**Phase {N}: {Name}** — {Goal from ROADMAP.md}
+**Phase {N}: {Name}** — {Goal จาก ROADMAP.md}
 
 `/gsd:plan-phase {phase}`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → เริ่ม context window ใหม่</sub>
 
 ---
 
-**Also available:**
-- `/gsd:discuss-phase {phase}` — gather context first
-- `/gsd:research-phase {phase}` — investigate unknowns
-- `/gsd:list-phase-assumptions {phase}` — see Claude's assumptions
+**ตัวเลือกอื่น:**
+- `/gsd:discuss-phase {phase}` — รวบรวม context ก่อน
+- `/gsd:research-phase {phase}` — ค้นคว้าสิ่งที่ไม่รู้
+- `/gsd:list-phase-assumptions {phase}` — ดู assumptions ของ Claude
 
 ---
 ```
 
 ---
 
-**Route E: UAT issues need fix plans**
+**Route E: UAT issues ต้องการ fix plans**
 
-ISSUES.md exists without matching FIX.md. User needs to plan fixes.
+ISSUES.md มีอยู่แต่ไม่มี matching FIX.md ผู้ใช้ต้องวางแผนแก้ไข
 
 ```
 ---
 
-## ⚠ UAT Issues Found
+## ⚠ พบ UAT Issues
 
-**{plan}-ISSUES.md** has {N} issues without a fix plan.
+**{plan}-ISSUES.md** มี {N} issues ที่ไม่มี fix plan
 
 `/gsd:plan-fix {plan}`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → เริ่ม context window ใหม่</sub>
 
 ---
 
-**Also available:**
-- `/gsd:execute-plan [path]` — continue with other work first
-- `/gsd:verify-work {phase}` — run more UAT testing
+**ตัวเลือกอื่น:**
+- `/gsd:execute-plan [path]` — ทำงานอื่นต่อก่อน
+- `/gsd:verify-work {phase}` — รัน UAT testing เพิ่ม
 
 ---
 ```
 
 ---
 
-**Step 3: Check milestone status (only when phase complete)**
+**Step 3: ตรวจสอบ milestone status (เฉพาะเมื่อ phase เสร็จ)**
 
-Read ROADMAP.md and identify:
+อ่าน ROADMAP.md และระบุ:
 1. Current phase number
-2. All phase numbers in the current milestone section
+2. Phase numbers ทั้งหมดใน current milestone section
 
-Count total phases and identify the highest phase number.
+นับ total phases และระบุ highest phase number
 
-State: "Current phase is {X}. Milestone has {N} phases (highest: {Y})."
+ระบุ: "Current phase คือ {X} Milestone มี {N} phases (highest: {Y})"
 
-**Route based on milestone status:**
+**Route ตาม milestone status:**
 
-| Condition | Meaning | Action |
+| เงื่อนไข | ความหมาย | Action |
 |-----------|---------|--------|
-| current phase < highest phase | More phases remain | Go to **Route C** |
-| current phase = highest phase | Milestone complete | Go to **Route D** |
+| current phase < highest phase | ยังมี phases เหลือ | ไป **Route C** |
+| current phase = highest phase | Milestone เสร็จ | ไป **Route D** |
 
 ---
 
-**Route C: Phase complete, more phases remain**
+**Route C: Phase เสร็จ ยังมี phases เหลือ**
 
-Read ROADMAP.md to get the next phase's name and goal.
+อ่าน ROADMAP.md เพื่อดูชื่อและ goal ของ phase ถัดไป
 
 ```
 ---
 
-## ✓ Phase {Z} Complete
+## ✓ Phase {Z} เสร็จแล้ว
 
-## ▶ Next Up
+## ▶ ถัดไป
 
-**Phase {Z+1}: {Name}** — {Goal from ROADMAP.md}
+**Phase {Z+1}: {Name}** — {Goal จาก ROADMAP.md}
 
 `/gsd:plan-phase {Z+1}`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → เริ่ม context window ใหม่</sub>
 
 ---
 
-**Also available:**
-- `/gsd:verify-work {Z}` — user acceptance test before continuing
-- `/gsd:discuss-phase {Z+1}` — gather context first
-- `/gsd:research-phase {Z+1}` — investigate unknowns
+**ตัวเลือกอื่น:**
+- `/gsd:verify-work {Z}` — user acceptance test ก่อนทำต่อ
+- `/gsd:discuss-phase {Z+1}` — รวบรวม context ก่อน
+- `/gsd:research-phase {Z+1}` — ค้นคว้าสิ่งที่ไม่รู้
 
 ---
 ```
 
 ---
 
-**Route D: Milestone complete**
+**Route D: Milestone เสร็จ**
 
 ```
 ---
 
-## 🎉 Milestone Complete
+## 🎉 Milestone เสร็จแล้ว
 
-All {N} phases finished!
+{N} phases ทั้งหมดเสร็จแล้ว!
 
-## ▶ Next Up
+## ▶ ถัดไป
 
-**Complete Milestone** — archive and prepare for next
+**Complete Milestone** — archive และเตรียมสำหรับถัดไป
 
 `/gsd:complete-milestone`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → เริ่ม context window ใหม่</sub>
 
 ---
 
-**Also available:**
-- `/gsd:verify-work` — user acceptance test before completing milestone
+**ตัวเลือกอื่น:**
+- `/gsd:verify-work` — user acceptance test ก่อน complete milestone
 
 ---
 ```
@@ -300,22 +300,22 @@ All {N} phases finished!
 </step>
 
 <step name="edge_cases">
-**Handle edge cases:**
+**จัดการ edge cases:**
 
-- Phase complete but next phase not planned → offer `/gsd:plan-phase [next]`
-- All work complete → offer milestone completion
-- Blockers present → highlight before offering to continue
-- Handoff file exists → mention it, offer `/gsd:resume-work`
+- Phase เสร็จแต่ next phase ยังไม่ได้ plan → เสนอ `/gsd:plan-phase [next]`
+- งานทั้งหมดเสร็จ → เสนอ milestone completion
+- มี blockers → highlight ก่อนเสนอให้ทำต่อ
+- มี handoff file → พูดถึงมัน เสนอ `/gsd:resume-work`
   </step>
 
 </process>
 
 <success_criteria>
 
-- [ ] Rich context provided (recent work, decisions, issues)
-- [ ] Current position clear with visual progress
-- [ ] What's next clearly explained
-- [ ] Smart routing: /gsd:execute-plan if plan exists, /gsd:plan-phase if not
-- [ ] User confirms before any action
-- [ ] Seamless handoff to appropriate gsd command
+- [ ] ให้ rich context (recent work, decisions, issues)
+- [ ] Current position ชัดเจนพร้อม visual progress
+- [ ] อธิบายสิ่งที่ต้องทำถัดไปชัดเจน
+- [ ] Smart routing: /gsd:execute-plan ถ้ามี plan, /gsd:plan-phase ถ้าไม่มี
+- [ ] ผู้ใช้ยืนยันก่อน action ใดๆ
+- [ ] Seamless handoff ไปยัง gsd command ที่เหมาะสม
       </success_criteria>

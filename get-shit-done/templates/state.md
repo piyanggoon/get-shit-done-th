@@ -1,119 +1,119 @@
-# State Template
+# เทมเพลต State
 
-Template for `.planning/STATE.md` — the project's living memory.
+เทมเพลตสำหรับ `.planning/STATE.md` — ความทรงจำที่ยังมีชีวิตของโปรเจกต์
 
 ---
 
-## File Template
+## เทมเพลตไฟล์
 
 ```markdown
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated [date])
+ดู: .planning/PROJECT.md (อัปเดต [วันที่])
 
-**Core value:** [One-liner from PROJECT.md Core Value section]
-**Current focus:** [Current phase name]
+**คุณค่าหลัก:** [One-liner จาก PROJECT.md Core Value section]
+**จุดเน้นปัจจุบัน:** [ชื่อเฟสปัจจุบัน]
 
-## Current Position
+## ตำแหน่งปัจจุบัน
 
-Phase: [X] of [Y] ([Phase name])
-Plan: [A] of [B] in current phase
-Status: [Ready to plan / Planning / Ready to execute / In progress / Phase complete]
-Last activity: [YYYY-MM-DD] — [What happened]
+เฟส: [X] จาก [Y] ([ชื่อเฟส])
+แผน: [A] จาก [B] ในเฟสปัจจุบัน
+สถานะ: [พร้อมวางแผน / กำลังวางแผน / พร้อม execute / กำลังดำเนินการ / เฟสเสร็จสมบูรณ์]
+กิจกรรมล่าสุด: [YYYY-MM-DD] — [สิ่งที่เกิดขึ้น]
 
-Progress: [░░░░░░░░░░] 0%
+ความคืบหน้า: [░░░░░░░░░░] 0%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: [N]
-- Average duration: [X] min
-- Total execution time: [X.X] hours
+- แผนที่เสร็จทั้งหมด: [N]
+- ระยะเวลาเฉลี่ย: [X] นาที
+- เวลา execution รวม: [X.X] ชั่วโมง
 
-**By Phase:**
+**แยกตามเฟส:**
 
-| Phase | Plans | Total | Avg/Plan |
+| เฟส | แผน | รวม | เฉลี่ย/แผน |
 |-------|-------|-------|----------|
 | - | - | - | - |
 
-**Recent Trend:**
-- Last 5 plans: [durations]
-- Trend: [Improving / Stable / Degrading]
+**Trend ล่าสุด:**
+- 5 แผนล่าสุด: [ระยะเวลา]
+- Trend: [ดีขึ้น / คงที่ / แย่ลง]
 
-*Updated after each plan completion*
+*อัปเดตหลังจากแต่ละแผนเสร็จ*
 
 ## Accumulated Context
 
-### Decisions
+### การตัดสินใจ
 
-Decisions are logged in PROJECT.md Key Decisions table.
-Recent decisions affecting current work:
+การตัดสินใจถูก log ใน PROJECT.md Key Decisions table
+การตัดสินใจล่าสุดที่ส่งผลต่องานปัจจุบัน:
 
-- [Phase X]: [Decision summary]
-- [Phase Y]: [Decision summary]
+- [เฟส X]: [สรุปการตัดสินใจ]
+- [เฟส Y]: [สรุปการตัดสินใจ]
 
-### Deferred Issues
+### ปัญหาที่เลื่อนออกไป
 
-[From ISSUES.md — list open items with phase of origin]
+[จาก ISSUES.md — ลิสต์ items ที่เปิดอยู่พร้อมเฟสที่ค้นพบ]
 
-None yet.
+ยังไม่มี
 
-### Pending Todos
+### Todos ที่รอดำเนินการ
 
-[From .planning/todos/pending/ — ideas captured during sessions]
+[จาก .planning/todos/pending/ — ไอเดียที่บันทึกระหว่าง sessions]
 
-None yet.
+ยังไม่มี
 
 ### Blockers/Concerns
 
-[Issues that affect future work]
+[ปัญหาที่ส่งผลต่องานในอนาคต]
 
-None yet.
+ยังไม่มี
 
 ## Session Continuity
 
-Last session: [YYYY-MM-DD HH:MM]
-Stopped at: [Description of last completed action]
-Resume file: [Path to .continue-here*.md if exists, otherwise "None"]
+Session ล่าสุด: [YYYY-MM-DD HH:MM]
+หยุดที่: [คำอธิบายของ action ที่เสร็จล่าสุด]
+Resume file: [Path ไปยัง .continue-here*.md ถ้ามี มิฉะนั้น "ไม่มี"]
 ```
 
 <purpose>
 
-STATE.md is the project's short-term memory spanning all phases and sessions.
+STATE.md คือความทรงจำระยะสั้นของโปรเจกต์ที่ครอบคลุมทุกเฟสและ sessions
 
-**Problem it solves:** Information is captured in summaries, issues, and decisions but not systematically consumed. Sessions start without context.
+**ปัญหาที่แก้:** ข้อมูลถูกบันทึกใน summaries, issues และ decisions แต่ไม่ถูกใช้อย่างเป็นระบบ Sessions เริ่มโดยไม่มี context
 
-**Solution:** A single, small file that's:
-- Read first in every workflow
-- Updated after every significant action
-- Contains digest of accumulated context
-- Enables instant session restoration
+**Solution:** ไฟล์เดียวขนาดเล็กที่:
+- อ่านก่อนในทุก workflow
+- อัปเดตหลังจากทุก action สำคัญ
+- มี digest ของ accumulated context
+- เปิดใช้การกู้คืน session ทันที
 
 </purpose>
 
 <lifecycle>
 
-**Creation:** After ROADMAP.md is created (during init)
-- Reference PROJECT.md (read it for current context)
+**การสร้าง:** หลังจาก ROADMAP.md ถูกสร้าง (ระหว่าง init)
+- Reference PROJECT.md (อ่านสำหรับ context ปัจจุบัน)
 - Initialize empty accumulated context sections
-- Set position to "Phase 1 ready to plan"
+- ตั้งตำแหน่งเป็น "เฟส 1 พร้อมวางแผน"
 
-**Reading:** First step of every workflow
-- progress: Present status to user
-- plan: Inform planning decisions
-- execute: Know current position
-- transition: Know what's complete
+**การอ่าน:** ขั้นตอนแรกของทุก workflow
+- progress: นำเสนอสถานะให้ผู้ใช้
+- plan: แจ้ง planning decisions
+- execute: รู้ตำแหน่งปัจจุบัน
+- transition: รู้ว่าอะไรเสร็จแล้ว
 
-**Writing:** After every significant action
-- execute: After SUMMARY.md created
-  - Update position (phase, plan, status)
-  - Note new decisions (detail in PROJECT.md)
-  - Update deferred issues list
-  - Add blockers/concerns
-- transition: After phase marked complete
-  - Update progress bar
+**การเขียน:** หลังจากทุก action สำคัญ
+- execute: หลังจากสร้าง SUMMARY.md
+  - อัปเดตตำแหน่ง (เฟส, แผน, สถานะ)
+  - บันทึกการตัดสินใจใหม่ (รายละเอียดใน PROJECT.md)
+  - อัปเดตรายการ deferred issues
+  - เพิ่ม blockers/concerns
+- transition: หลังจากเฟส marked complete
+  - อัปเดต progress bar
   - Clear resolved blockers
   - Refresh Project Reference date
 
@@ -122,98 +122,98 @@ STATE.md is the project's short-term memory spanning all phases and sessions.
 <sections>
 
 ### Project Reference
-Points to PROJECT.md for full context. Includes:
-- Core value (the ONE thing that matters)
-- Current focus (which phase)
-- Last update date (triggers re-read if stale)
+ชี้ไปยัง PROJECT.md สำหรับ full context รวม:
+- คุณค่าหลัก (สิ่งหนึ่งที่สำคัญ)
+- จุดเน้นปัจจุบัน (เฟสไหน)
+- วันที่อัปเดตล่าสุด (triggers การอ่านใหม่ถ้า stale)
 
-Claude reads PROJECT.md directly for requirements, constraints, and decisions.
+Claude อ่าน PROJECT.md โดยตรงสำหรับ requirements, constraints และ decisions
 
-### Current Position
-Where we are right now:
-- Phase X of Y — which phase
-- Plan A of B — which plan within phase
-- Status — current state
-- Last activity — what happened most recently
-- Progress bar — visual indicator of overall completion
+### ตำแหน่งปัจจุบัน
+เราอยู่ที่ไหนตอนนี้:
+- เฟส X จาก Y — เฟสไหน
+- แผน A จาก B — แผนไหนในเฟส
+- สถานะ — state ปัจจุบัน
+- กิจกรรมล่าสุด — อะไรเกิดขึ้นล่าสุด
+- Progress bar — visual indicator ของความคืบหน้าโดยรวม
 
-Progress calculation: (completed plans) / (total plans across all phases) × 100%
+การคำนวณความคืบหน้า: (completed plans) / (total plans across all phases) × 100%
 
 ### Performance Metrics
-Track velocity to understand execution patterns:
-- Total plans completed
-- Average duration per plan
-- Per-phase breakdown
-- Recent trend (improving/stable/degrading)
+ติดตาม velocity เพื่อเข้าใจ execution patterns:
+- แผนที่เสร็จทั้งหมด
+- ระยะเวลาเฉลี่ยต่อแผน
+- breakdown แยกตามเฟส
+- trend ล่าสุด (ดีขึ้น/คงที่/แย่ลง)
 
-Updated after each plan completion.
+อัปเดตหลังจากแต่ละแผนเสร็จ
 
 ### Accumulated Context
 
-**Decisions:** Reference to PROJECT.md Key Decisions table, plus recent decisions summary for quick access. Full decision log lives in PROJECT.md.
+**การตัดสินใจ:** Reference ไปยัง PROJECT.md Key Decisions table บวกสรุปการตัดสินใจล่าสุดสำหรับ quick access Decision log เต็มอยู่ใน PROJECT.md
 
-**Deferred Issues:** Open items from ISSUES.md
-- Brief description with ISS-XXX number
-- Phase where discovered
-- Effort estimate if known
-- Helps phase planning identify what to address
+**ปัญหาที่เลื่อนออกไป:** Open items จาก ISSUES.md
+- คำอธิบายสั้นพร้อม ISS-XXX number
+- เฟสที่ค้นพบ
+- Effort estimate ถ้ารู้
+- ช่วย phase planning ระบุว่าจะแก้อะไร
 
-**Pending Todos:** Ideas captured via /gsd:add-todo
-- Count of pending todos
-- Reference to .planning/todos/pending/
-- Brief list if few, count if many (e.g., "5 pending todos — see /gsd:check-todos")
+**Todos ที่รอดำเนินการ:** ไอเดียที่บันทึกผ่าน /gsd:add-todo
+- จำนวน pending todos
+- Reference ไปยัง .planning/todos/pending/
+- ลิสต์สั้นถ้าน้อย จำนวนถ้าเยอะ (เช่น "5 pending todos — ดู /gsd:check-todos")
 
-**Blockers/Concerns:** From "Next Phase Readiness" sections
-- Issues that affect future work
-- Prefix with originating phase
-- Cleared when addressed
+**Blockers/Concerns:** จาก "Next Phase Readiness" sections
+- ปัญหาที่ส่งผลต่องานในอนาคต
+- Prefix ด้วยเฟสที่มา
+- Cleared เมื่อถูกแก้ไข
 
 ### Session Continuity
-Enables instant resumption:
-- When was last session
-- What was last completed
-- Is there a .continue-here file to resume from
+เปิดใช้การกลับมาทำงานต่อทันที:
+- session ล่าสุดเมื่อไหร่
+- อะไรที่เสร็จล่าสุด
+- มี .continue-here file ที่ต้อง resume หรือไม่
 
 </sections>
 
 <size_constraint>
 
-Keep STATE.md under 100 lines.
+รักษา STATE.md ให้ต่ำกว่า 100 บรรทัด
 
-It's a DIGEST, not an archive. If accumulated context grows too large:
-- Keep only 3-5 recent decisions in summary (full log in PROJECT.md)
-- Reference ISSUES.md instead of listing all: "12 open issues — see ISSUES.md"
-- Keep only active blockers, remove resolved ones
+มันเป็น DIGEST ไม่ใช่ archive ถ้า accumulated context โตเกินไป:
+- เก็บแค่ 3-5 การตัดสินใจล่าสุดในสรุป (full log ใน PROJECT.md)
+- Reference ISSUES.md แทนการลิสต์ทั้งหมด: "12 open issues — ดู ISSUES.md"
+- เก็บแค่ active blockers ลบที่ resolved แล้ว
 
-The goal is "read once, know where we are" — if it's too long, that fails.
+เป้าหมายคือ "อ่านครั้งเดียว รู้ว่าเราอยู่ที่ไหน" — ถ้ายาวเกินไป มันล้มเหลว
 
 </size_constraint>
 
 <guidelines>
 
-**When created:**
-- During project initialization (after ROADMAP.md)
-- Reference PROJECT.md (extract core value and current focus)
+**เมื่อไหร่สร้าง:**
+- ระหว่าง project initialization (หลัง ROADMAP.md)
+- Reference PROJECT.md (extract core value และ current focus)
 - Initialize empty sections
 
-**When read:**
-- Every workflow starts by reading STATE.md
-- Then read PROJECT.md for full context
-- Provides instant context restoration
+**เมื่อไหร่อ่าน:**
+- ทุก workflow เริ่มโดยอ่าน STATE.md
+- จากนั้นอ่าน PROJECT.md สำหรับ full context
+- ให้ instant context restoration
 
-**When updated:**
-- After each plan execution (update position, note decisions, update issues/blockers)
-- After phase transitions (update progress bar, clear resolved blockers, refresh project reference)
+**เมื่อไหร่อัปเดต:**
+- หลังจากแต่ละ plan execution (update position, note decisions, update issues/blockers)
+- หลังจาก phase transitions (update progress bar, clear resolved blockers, refresh project reference)
 
-**Size management:**
-- Keep under 100 lines total
-- Recent decisions only in STATE.md (full log in PROJECT.md)
-- Reference ISSUES.md instead of listing all issues
-- Keep only active blockers
+**การจัดการขนาด:**
+- รักษาให้ต่ำกว่า 100 บรรทัดทั้งหมด
+- แค่ recent decisions ใน STATE.md (full log ใน PROJECT.md)
+- Reference ISSUES.md แทนการลิสต์ทุก issues
+- เก็บแค่ active blockers
 
 **Sections:**
-- Project Reference: Pointer to PROJECT.md with core value
-- Current Position: Where we are now (phase, plan, status)
+- Project Reference: Pointer ไปยัง PROJECT.md พร้อม core value
+- ตำแหน่งปัจจุบัน: เราอยู่ที่ไหนตอนนี้ (เฟส, แผน, สถานะ)
 - Performance Metrics: Velocity tracking
 - Accumulated Context: Recent decisions, deferred issues, blockers
 - Session Continuity: Resume information

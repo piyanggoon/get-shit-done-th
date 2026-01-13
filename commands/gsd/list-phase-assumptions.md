@@ -1,6 +1,6 @@
 ---
 name: gsd:list-phase-assumptions
-description: Surface Claude's assumptions about a phase approach before planning
+description: แสดง assumptions ของ Claude เกี่ยวกับ approach ของ phase ก่อนวางแผน
 argument-hint: "[phase]"
 allowed-tools:
   - Read
@@ -10,10 +10,10 @@ allowed-tools:
 ---
 
 <objective>
-Analyze a phase and present Claude's assumptions about technical approach, implementation order, scope boundaries, risk areas, and dependencies.
+วิเคราะห์ phase และแสดง assumptions ของ Claude เกี่ยวกับ technical approach, implementation order, scope boundaries, risk areas, และ dependencies
 
-Purpose: Help users see what Claude thinks BEFORE planning begins - enabling course correction early when assumptions are wrong.
-Output: Conversational output only (no file creation) - ends with "What do you think?" prompt
+วัตถุประสงค์: ช่วยผู้ใช้เห็นว่า Claude คิดอะไรก่อนเริ่มวางแผน — เปิดให้ course correct ได้แต่เนิ่นๆ เมื่อ assumptions ผิด
+Output: Conversational output เท่านั้น (ไม่สร้างไฟล์) - จบด้วย "คุณคิดอย่างไร?" prompt
 </objective>
 
 <execution_context>
@@ -23,28 +23,28 @@ Output: Conversational output only (no file creation) - ends with "What do you t
 <context>
 Phase number: $ARGUMENTS (required)
 
-**Load project state first:**
+**โหลด project state ก่อน:**
 @.planning/STATE.md
 
-**Load roadmap:**
+**โหลด roadmap:**
 @.planning/ROADMAP.md
 </context>
 
 <process>
-1. Validate phase number argument (error if missing or invalid)
-2. Check if phase exists in roadmap
-3. Follow list-phase-assumptions.md workflow:
-   - Analyze roadmap description
-   - Surface assumptions about: technical approach, implementation order, scope, risks, dependencies
-   - Present assumptions clearly
-   - Prompt "What do you think?"
-4. Gather feedback and offer next steps
+1. ตรวจสอบ phase number argument (error ถ้าไม่มีหรือไม่ถูกต้อง)
+2. ตรวจสอบว่า phase มีอยู่ใน roadmap
+3. ทำตาม list-phase-assumptions.md workflow:
+   - วิเคราะห์คำอธิบาย roadmap
+   - แสดง assumptions เกี่ยวกับ: technical approach, implementation order, scope, risks, dependencies
+   - แสดง assumptions อย่างชัดเจน
+   - Prompt "คุณคิดอย่างไร?"
+4. รวบรวม feedback และเสนอขั้นตอนถัดไป
 </process>
 
 <success_criteria>
 
-- Phase validated against roadmap
-- Assumptions surfaced across five areas
-- User prompted for feedback
-- User knows next steps (discuss context, plan phase, or correct assumptions)
+- ตรวจสอบ phase กับ roadmap แล้ว
+- แสดง assumptions ครบทั้ง 5 areas
+- Prompt ผู้ใช้ให้ feedback แล้ว
+- ผู้ใช้รู้ขั้นตอนถัดไป (discuss context, plan phase, หรือ correct assumptions)
   </success_criteria>

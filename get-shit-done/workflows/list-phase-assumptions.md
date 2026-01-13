@@ -1,15 +1,15 @@
 <purpose>
-Surface Claude's assumptions about a phase before planning, enabling users to correct misconceptions early.
+แสดงสมมติฐานของ Claude เกี่ยวกับ phase ก่อนวางแผน ช่วยให้ผู้ใช้แก้ไขความเข้าใจผิดได้เร็ว
 
-Key difference from discuss-phase: This is ANALYSIS of what Claude thinks, not INTAKE of what user knows. No file output - purely conversational to prompt discussion.
+ความแตกต่างหลักจาก discuss-phase: นี่คือการวิเคราะห์สิ่งที่ Claude คิด ไม่ใช่การรับข้อมูลสิ่งที่ผู้ใช้รู้ ไม่มี file output - เป็นการสนทนาเพื่อกระตุ้น discussion
 </purpose>
 
 <process>
 
 <step name="validate_phase" priority="first">
-Phase number: $ARGUMENTS (required)
+Phase number: $ARGUMENTS (ต้องการ)
 
-**If argument missing:**
+**หากไม่มี argument:**
 
 ```
 Error: Phase number required.
@@ -18,16 +18,16 @@ Usage: /gsd:list-phase-assumptions [phase-number]
 Example: /gsd:list-phase-assumptions 3
 ```
 
-Exit workflow.
+ออกจาก workflow
 
-**If argument provided:**
-Validate phase exists in roadmap:
+**หากมี argument:**
+ตรวจสอบ phase มีอยู่ใน roadmap:
 
 ```bash
 cat .planning/ROADMAP.md | grep -i "Phase ${PHASE}"
 ```
 
-**If phase not found:**
+**หากไม่พบ phase:**
 
 ```
 Error: Phase ${PHASE} not found in roadmap.
@@ -36,60 +36,60 @@ Available phases:
 [list phases from roadmap]
 ```
 
-Exit workflow.
+ออกจาก workflow
 
-**If phase found:**
-Parse phase details from roadmap:
+**หากพบ phase:**
+Parse รายละเอียด phase จาก roadmap:
 
 - Phase number
 - Phase name
 - Phase description/goal
-- Any scope details mentioned
+- Scope details ใดๆ ที่กล่าวถึง
 
-Continue to analyze_phase.
+ดำเนินการไป analyze_phase
 </step>
 
 <step name="analyze_phase">
-Based on roadmap description and project context, identify assumptions across five areas:
+ตามคำอธิบาย roadmap และ project context ระบุสมมติฐานในห้าด้าน:
 
 **1. Technical Approach:**
-What libraries, frameworks, patterns, or tools would Claude use?
-- "I'd use X library because..."
-- "I'd follow Y pattern because..."
-- "I'd structure this as Z because..."
+Claude จะใช้ libraries, frameworks, patterns หรือ tools อะไร?
+- "ฉันจะใช้ X library เพราะ..."
+- "ฉันจะทำตาม Y pattern เพราะ..."
+- "ฉันจะโครงสร้างนี้เป็น Z เพราะ..."
 
 **2. Implementation Order:**
-What would Claude build first, second, third?
-- "I'd start with X because it's foundational"
-- "Then Y because it depends on X"
-- "Finally Z because..."
+Claude จะสร้างอะไรก่อน สอง สาม?
+- "ฉันจะเริ่มด้วย X เพราะมันเป็น foundational"
+- "แล้ว Y เพราะมันขึ้นกับ X"
+- "สุดท้าย Z เพราะ..."
 
 **3. Scope Boundaries:**
-What's included vs excluded in Claude's interpretation?
-- "This phase includes: A, B, C"
-- "This phase does NOT include: D, E, F"
-- "Boundary ambiguities: G could go either way"
+อะไรรวม vs ไม่รวม ในการตีความของ Claude?
+- "Phase นี้รวม: A, B, C"
+- "Phase นี้ไม่รวม: D, E, F"
+- "ขอบเขตที่กำกวม: G อาจไปทางใดก็ได้"
 
 **4. Risk Areas:**
-Where does Claude expect complexity or challenges?
-- "The tricky part is X because..."
-- "Potential issues: Y, Z"
-- "I'd watch out for..."
+Claude คาดว่าความซับซ้อนหรือความท้าทายอยู่ที่ไหน?
+- "ส่วนที่ยากคือ X เพราะ..."
+- "ปัญหาที่อาจเกิด: Y, Z"
+- "ฉันจะระวัง..."
 
 **5. Dependencies:**
-What does Claude assume exists or needs to be in place?
-- "This assumes X from previous phases"
+Claude สมมติว่าอะไรมีอยู่หรือต้องพร้อม?
+- "นี่สมมติว่า X จาก phases ก่อนหน้า"
 - "External dependencies: Y, Z"
-- "This will be consumed by..."
+- "นี่จะถูกใช้โดย..."
 
-Be honest about uncertainty. Mark assumptions with confidence levels:
-- "Fairly confident: ..." (clear from roadmap)
-- "Assuming: ..." (reasonable inference)
-- "Unclear: ..." (could go multiple ways)
+ซื่อสัตย์เกี่ยวกับความไม่แน่นอน ทำเครื่องหมายสมมติฐานด้วย confidence levels:
+- "Fairly confident: ..." (ชัดเจนจาก roadmap)
+- "Assuming: ..." (การอนุมานที่สมเหตุสมผล)
+- "Unclear: ..." (อาจไปได้หลายทาง)
 </step>
 
 <step name="present_assumptions">
-Present assumptions in a clear, scannable format:
+แสดงสมมติฐานในรูปแบบที่ชัดเจนและสแกนได้:
 
 ```
 ## My Assumptions for Phase ${PHASE}: ${PHASE_NAME}
@@ -123,13 +123,13 @@ Are these assumptions accurate? Let me know:
 - What I'm missing
 ```
 
-Wait for user response.
+รอการตอบจากผู้ใช้
 </step>
 
 <step name="gather_feedback">
-**If user provides corrections:**
+**หากผู้ใช้ให้การแก้ไข:**
 
-Acknowledge the corrections:
+รับทราบการแก้ไข:
 
 ```
 Got it. Key corrections:
@@ -139,40 +139,40 @@ Got it. Key corrections:
 This changes my understanding significantly. [Summarize new understanding]
 ```
 
-**If user confirms assumptions:**
+**หากผู้ใช้ยืนยันสมมติฐาน:**
 
 ```
 Great, assumptions validated.
 ```
 
-Continue to offer_next.
+ดำเนินการไป offer_next
 </step>
 
 <step name="offer_next">
-Present next steps:
+แสดงขั้นตอนถัดไป:
 
 ```
 What's next?
-1. Discuss context (/gsd:discuss-phase ${PHASE}) - Let me ask you questions to build comprehensive context
-2. Plan this phase (/gsd:plan-phase ${PHASE}) - Create detailed execution plans
-3. Re-examine assumptions - I'll analyze again with your corrections
+1. Discuss context (/gsd:discuss-phase ${PHASE}) - ให้ฉันถามคำถามเพื่อสร้าง context ครอบคลุม
+2. Plan this phase (/gsd:plan-phase ${PHASE}) - สร้าง execution plans ละเอียด
+3. Re-examine assumptions - ฉันจะวิเคราะห์อีกครั้งด้วยการแก้ไขของคุณ
 4. Done for now
 ```
 
-Wait for user selection.
+รอการเลือกของผู้ใช้
 
-If "Discuss context": Note that CONTEXT.md will incorporate any corrections discussed here
-If "Plan this phase": Proceed knowing assumptions are understood
-If "Re-examine": Return to analyze_phase with updated understanding
+หาก "Discuss context": Note ว่า CONTEXT.md จะรวมการแก้ไขใดๆ ที่ discuss ที่นี่
+หาก "Plan this phase": ดำเนินการโดยรู้ว่า assumptions เข้าใจแล้ว
+หาก "Re-examine": กลับไป analyze_phase ด้วยความเข้าใจที่อัปเดต
 </step>
 
 </process>
 
 <success_criteria>
-- Phase number validated against roadmap
-- Assumptions surfaced across five areas: technical approach, implementation order, scope, risks, dependencies
-- Confidence levels marked where appropriate
-- "What do you think?" prompt presented
-- User feedback acknowledged
-- Clear next steps offered
+- Phase number validated กับ roadmap
+- Assumptions แสดงในห้าด้าน: technical approach, implementation order, scope, risks, dependencies
+- Confidence levels ทำเครื่องหมายตามความเหมาะสม
+- "What do you think?" prompt แสดง
+- User feedback รับทราบ
+- ขั้นตอนถัดไปชัดเจนเสนอ
 </success_criteria>

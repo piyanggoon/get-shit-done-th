@@ -1,22 +1,22 @@
 <purpose>
-Create a new milestone for an existing project. Defines phases, updates roadmap, and resets state tracking for the new milestone.
+สร้าง milestone ใหม่สำหรับโปรเจกต์ที่มีอยู่ กำหนด phases อัปเดต roadmap และรีเซ็ตการติดตามสถานะสำหรับ milestone ใหม่
 
-This is used after completing a milestone when ready to define the next chunk of work.
+นี่ใช้หลังจาก milestone เสร็จสมบูรณ์เมื่อพร้อมกำหนดงานชุดถัดไป
 </purpose>
 
 <required_reading>
-**Read these files NOW:**
+**อ่านไฟล์เหล่านี้ตอนนี้:**
 
-1. ~/.claude/get-shit-done/templates/roadmap.md (milestone-grouped format)
+1. ~/.claude/get-shit-done/templates/roadmap.md (รูปแบบจัดกลุ่มตาม milestone)
 2. `.planning/ROADMAP.md`
 3. `.planning/STATE.md`
-4. `.planning/MILESTONES.md` (if exists)
+4. `.planning/MILESTONES.md` (ถ้ามี)
    </required_reading>
 
 <process>
 
 <step name="load_context">
-Load project context:
+โหลด context โปรเจกต์:
 
 ```bash
 cat .planning/ROADMAP.md
@@ -25,62 +25,62 @@ cat .planning/MILESTONES.md 2>/dev/null || echo "No milestones file yet"
 cat .planning/MILESTONE-CONTEXT.md 2>/dev/null || echo "No milestone context file"
 ```
 
-Extract:
+ดึง:
 
-- Previous milestone version (e.g., v1.0)
-- Last phase number used
-- Deferred issues from STATE.md
-- Project context from PROJECT.md (What This Is, Core Value)
+- เวอร์ชัน milestone ก่อนหน้า (เช่น v1.0)
+- หมายเลข phase สุดท้ายที่ใช้
+- Issues ที่เลื่อนจาก STATE.md
+- Context โปรเจกต์จาก PROJECT.md (What This Is, Core Value)
 
-**Check for milestone context from discuss-milestone:**
+**ตรวจสอบ milestone context จาก discuss-milestone:**
 
-If `.planning/MILESTONE-CONTEXT.md` exists:
-- This contains context from `/gsd:discuss-milestone`
-- Extract: features, suggested name, phase mapping, constraints
-- Use this to pre-populate milestone details (skip prompting for info already gathered)
+หาก `.planning/MILESTONE-CONTEXT.md` มีอยู่:
+- นี่มี context จาก `/gsd:discuss-milestone`
+- ดึง: features, ชื่อที่แนะนำ, การ map phase, constraints
+- ใช้สิ่งนี้เพื่อกรอกรายละเอียด milestone ล่วงหน้า (ข้ามการถามข้อมูลที่รวบรวมแล้ว)
 
-**Calculate next milestone version:**
+**คำนวณเวอร์ชัน milestone ถัดไป:**
 
-- If previous was v1.0 → suggest v1.1 (minor) or v2.0 (major)
-- If previous was v1.3 → suggest v1.4 or v2.0
-- Parse from ROADMAP.md "Completed Milestones" section
+- ถ้าก่อนหน้าเป็น v1.0 → แนะนำ v1.1 (minor) หรือ v2.0 (major)
+- ถ้าก่อนหน้าเป็น v1.3 → แนะนำ v1.4 หรือ v2.0
+- Parse จากส่วน "Completed Milestones" ใน ROADMAP.md
   </step>
 
 <step name="get_milestone_info">
-**If MILESTONE-CONTEXT.md exists (from /gsd:discuss-milestone):**
-Use the features, scope, and constraints from the context file.
-Use the suggested milestone name from `<scope>` section.
-Use the phase mapping from `<phase_mapping>` section.
+**หาก MILESTONE-CONTEXT.md มีอยู่ (จาก /gsd:discuss-milestone):**
+ใช้ features, scope และ constraints จากไฟล์ context
+ใช้ชื่อ milestone ที่แนะนำจากส่วน `<scope>`
+ใช้การ map phase จากส่วน `<phase_mapping>`
 
-**If called directly (no MILESTONE-CONTEXT.md):**
-Ask for milestone details:
+**หากเรียกโดยตรง (ไม่มี MILESTONE-CONTEXT.md):**
+ถามรายละเอียด milestone:
 
-header: "Milestone Name"
-question: "What should we call this milestone?"
+header: "ชื่อ Milestone"
+question: "ควรเรียก milestone นี้ว่าอะไร?"
 options:
 
-- "v[X.Y] Features" - Adding new functionality
-- "v[X.Y] Improvements" - Enhancing existing features
-- "v[X.Y] Fixes" - Bug fixes and stability
-- "v[X.Y] Refactor" - Code quality and architecture
-- "v[X.Y+1].0 [Major]" - Major version bump
-- "Other" - Custom name
+- "v[X.Y] Features" - เพิ่มฟังก์ชันใหม่
+- "v[X.Y] Improvements" - ปรับปรุงฟีเจอร์ที่มี
+- "v[X.Y] Fixes" - Bug fixes และ stability
+- "v[X.Y] Refactor" - คุณภาพโค้ดและ architecture
+- "v[X.Y+1].0 [Major]" - เพิ่มเวอร์ชันหลัก
+- "Other" - ชื่อกำหนดเอง
 
-Get milestone name in format: "v[X.Y] [Name]"
+รับชื่อ milestone ในรูปแบบ: "v[X.Y] [Name]"
 </step>
 
 <step name="identify_phases">
-**Calculate starting phase number:**
+**คำนวณหมายเลข phase เริ่มต้น:**
 
 ```bash
-# Find highest phase number from roadmap
+# หาหมายเลข phase สูงสุดจาก roadmap
 grep -E "^### Phase [0-9]+" .planning/ROADMAP.md | tail -1
-# Extract number, add 1
+# ดึงหมายเลข บวก 1
 ```
 
-Next phase starts at: [last_phase + 1]
+Phase ถัดไปเริ่มที่: [last_phase + 1]
 
-**Check depth setting and gather phases accordingly:**
+**ตรวจสอบการตั้งค่า depth และรวบรวม phases ตามนั้น:**
 
 ```bash
 cat .planning/config.json 2>/dev/null | grep depth
@@ -92,75 +92,75 @@ cat .planning/config.json 2>/dev/null | grep depth
 | Standard | 5-8 |
 | Comprehensive | 8-12 |
 
-If context from discuss-milestone provided, use that scope.
+หาก context จาก discuss-milestone ให้มา ใช้ scope นั้น
 
-Otherwise, ask:
+ไม่เช่นนั้น ถาม:
 
 ```
-What phases should this milestone include?
+Milestone นี้ควรรวม phases อะไรบ้าง?
 
-Starting at Phase [N]:
-- Phase [N]: [name] - [one-line goal]
-- Phase [N+1]: [name] - [one-line goal]
+เริ่มที่ Phase [N]:
+- Phase [N]: [name] - [goal หนึ่งบรรทัด]
+- Phase [N+1]: [name] - [goal หนึ่งบรรทัด]
 ...
 
-Describe the phases, or say "help me break this down" for guidance.
+อธิบาย phases หรือพูดว่า "help me break this down" สำหรับคำแนะนำ
 ```
 
-For each phase, capture:
+สำหรับแต่ละ phase จับ:
 
-- Phase number (continuing sequence)
-- Phase name (kebab-case for directory)
-- One-line goal
-- Research flag (Likely/Unlikely based on triggers)
+- หมายเลข Phase (ลำดับต่อเนื่อง)
+- ชื่อ Phase (kebab-case สำหรับ directory)
+- Goal หนึ่งบรรทัด
+- Flag Research (Likely/Unlikely ตาม triggers)
   </step>
 
 <step name="detect_research_needs">
-**For each phase, determine if research is likely needed.**
+**สำหรับแต่ละ phase กำหนดว่าต้องการ research หรือไม่**
 
-Apply research triggers from create-roadmap.md:
+ใช้ research triggers จาก create-roadmap.md:
 
 <research_triggers>
-**Likely (flag the phase):**
+**Likely (flag phase):**
 
-| Trigger Pattern                                       | Why Research Needed                     |
+| รูปแบบ Trigger                                        | ทำไมต้อง Research                       |
 | ----------------------------------------------------- | --------------------------------------- |
-| "integrate [service]", "connect to [API]"             | External API - need current docs        |
-| "authentication", "auth", "login", "JWT"              | Architectural decision + library choice |
+| "integrate [service]", "connect to [API]"             | External API - ต้องการ docs ปัจจุบัน    |
+| "authentication", "auth", "login", "JWT"              | การตัดสินใจ Architectural + เลือก library |
 | "payment", "billing", "Stripe", "subscription"        | External API + compliance patterns      |
 | "email", "SMS", "notifications", "SendGrid", "Twilio" | External service integration            |
-| "database", "Postgres", "MongoDB", "Supabase"         | If new to project - setup patterns      |
-| "real-time", "websocket", "sync", "live updates"      | Architectural decision                  |
-| "deploy", "Vercel", "Railway", "hosting"              | If first deployment - config patterns   |
-| "choose between", "select", "evaluate", "which"       | Explicit decision needed                |
-| "AI", "OpenAI", "Claude", "LLM", "embeddings"         | Fast-moving APIs - need current docs    |
-| Any technology not already in codebase                | New integration                         |
+| "database", "Postgres", "MongoDB", "Supabase"         | หากใหม่สำหรับโปรเจกต์ - setup patterns  |
+| "real-time", "websocket", "sync", "live updates"      | การตัดสินใจ Architectural              |
+| "deploy", "Vercel", "Railway", "hosting"              | หาก deployment ครั้งแรก - config patterns |
+| "choose between", "select", "evaluate", "which"       | ต้องการการตัดสินใจชัดเจน               |
+| "AI", "OpenAI", "Claude", "LLM", "embeddings"         | APIs เปลี่ยนเร็ว - ต้องการ docs ปัจจุบัน |
+| Technology ใดๆ ที่ยังไม่มีใน codebase                 | Integration ใหม่                        |
 
-**Unlikely (no flag needed):**
+**Unlikely (ไม่ต้อง flag):**
 
-| Pattern                                     | Why No Research         |
+| รูปแบบ                                      | ทำไมไม่ต้อง Research    |
 | ------------------------------------------- | ----------------------- |
 | "add button", "create form", "update UI"    | Internal patterns       |
 | "CRUD operations", "list/detail views"      | Standard patterns       |
-| "refactor", "reorganize", "clean up"        | Internal work           |
-| "following existing patterns"               | Conventions established |
-| Technology already in package.json/codebase | Patterns exist          |
+| "refactor", "reorganize", "clean up"        | งานภายใน               |
+| "following existing patterns"               | Conventions ที่ตั้งไว้แล้ว |
+| Technology ที่มีใน package.json/codebase แล้ว | มี Patterns อยู่แล้ว     |
 
 </research_triggers>
 
-Present research assessment:
+แสดงการประเมิน research:
 
 ```
-Research needs detected:
+Research needs ที่ตรวจพบ:
 
 Phase [N]: [Name]
   Research: Unlikely (internal patterns)
 
 Phase [N+1]: [Name]
   Research: Likely (new API integration)
-  Topics: [What to investigate]
+  Topics: [สิ่งที่ต้องสืบค้น]
 
-Does this look right? (yes / adjust)
+ดูถูกต้องไหม? (yes / adjust)
 ```
 
 </step>
@@ -174,20 +174,20 @@ cat .planning/config.json 2>/dev/null
 
 <if mode="yolo">
 ```
-⚡ Auto-approved: Milestone phases ([N] phases)
+⚡ อนุมัติอัตโนมัติ: Milestone phases ([N] phases)
 
 1. Phase [X]: [Name] - [goal]
 2. Phase [X+1]: [Name] - [goal]
 ...
 
-Proceeding to create milestone structure...
+ดำเนินการสร้างโครงสร้าง milestone...
 ```
 
-Proceed directly to update_roadmap step.
+ดำเนินการไปยังขั้นตอน update_roadmap โดยตรง
 </if>
 
 <if mode="interactive" OR="missing OR custom with gates.confirm_phases true">
-Present the phase breakdown:
+แสดงการแบ่ง phase:
 
 ```
 Milestone: v[X.Y] [Name]
@@ -197,47 +197,47 @@ Phases:
 2. Phase [X+1]: [Name] - [goal]
 3. Phase [X+2]: [Name] - [goal]
 
-Does this feel right? (yes / adjust)
+รู้สึกถูกต้องไหม? (yes / adjust)
 ```
 
-If "adjust": Ask what to change, revise, present again.
+หาก "adjust": ถามว่าต้องเปลี่ยนอะไร แก้ไข แสดงอีกครั้ง
 </step>
 
 <step name="update_roadmap">
-Write new milestone details to `.planning/ROADMAP.md`.
+เขียนรายละเอียด milestone ใหม่ลง `.planning/ROADMAP.md`
 
-**File to update:** `.planning/ROADMAP.md`
+**ไฟล์ที่อัปเดต:** `.planning/ROADMAP.md`
 
-The main ROADMAP.md file holds full phase details for the active milestone. Archive files in `milestones/` are created only when a milestone ships (via `/gsd:complete-milestone`).
+ไฟล์ ROADMAP.md หลักเก็บรายละเอียด phase ทั้งหมดสำหรับ milestone ที่ active ไฟล์ Archive ใน `milestones/` สร้างเมื่อ milestone ส่งมอบเท่านั้น (ผ่าน `/gsd:complete-milestone`)
 
-**Process:**
+**กระบวนการ:**
 
-**1. Update Milestones section:**
+**1. อัปเดตส่วน Milestones:**
 
-Add the new milestone to the milestones list. Completed milestones show as links to their archive files, new milestone shows as in-progress.
+เพิ่ม milestone ใหม่ลงรายการ milestones Milestone ที่เสร็จแล้วแสดงเป็นลิงก์ไปยังไฟล์ archive milestone ใหม่แสดงว่ากำลังดำเนินการ
 
 ```markdown
 ## Milestones
 
-- ✅ **v1.0 [Previous]** - [link to milestones/v1.0-ROADMAP.md] (Phases 1-9, shipped YYYY-MM-DD)
+- ✅ **v1.0 [Previous]** - [ลิงก์ไปยัง milestones/v1.0-ROADMAP.md] (Phases 1-9, shipped YYYY-MM-DD)
 - 🚧 **v[X.Y] [Name]** - Phases [N]-[M] (in progress)
 ```
 
-**2. Add full phase details:**
+**2. เพิ่มรายละเอียด phase ทั้งหมด:**
 
-Write complete phase sections for all phases in this milestone. Each phase gets full details including goal, dependencies, research assessment, and plan placeholders.
+เขียนส่วน phase ที่สมบูรณ์สำหรับทุก phases ใน milestone นี้ แต่ละ phase ได้รายละเอียดครบถ้วนรวม goal, dependencies, การประเมิน research และ plan placeholders
 
 ```markdown
 ### 🚧 v[X.Y] [Name] (In Progress)
 
-**Milestone Goal:** [One sentence describing what this milestone delivers]
+**Milestone Goal:** [หนึ่งประโยคอธิบายสิ่งที่ milestone นี้ส่งมอบ]
 
 #### Phase [N]: [Name]
 
-**Goal**: [What this phase delivers]
-**Depends on**: Phase [N-1] (or "Previous milestone complete")
-**Research**: [Likely/Unlikely] ([reason])
-**Research topics**: [If Likely, what to investigate]
+**Goal**: [สิ่งที่ phase นี้ส่งมอบ]
+**Depends on**: Phase [N-1] (หรือ "Previous milestone complete")
+**Research**: [Likely/Unlikely] ([เหตุผล])
+**Research topics**: [หาก Likely สิ่งที่ต้องสืบค้น]
 **Plans**: TBD
 
 Plans:
@@ -245,20 +245,20 @@ Plans:
 
 #### Phase [N+1]: [Name]
 
-**Goal**: [What this phase delivers]
+**Goal**: [สิ่งที่ phase นี้ส่งมอบ]
 **Depends on**: Phase [N]
-**Research**: [Likely/Unlikely] ([reason])
+**Research**: [Likely/Unlikely] ([เหตุผล])
 **Plans**: TBD
 
 Plans:
 - [ ] [N+1]-01: TBD
 
-[... continue for all phases in this milestone ...]
+[... ต่อสำหรับทุก phases ใน milestone นี้ ...]
 ```
 
-**3. Update Progress table:**
+**3. อัปเดตตาราง Progress:**
 
-Add rows for all new phases with milestone attribution.
+เพิ่มแถวสำหรับ phases ใหม่ทั้งหมดพร้อมระบุ milestone
 
 ```markdown
 | Phase         | Milestone | Plans | Status      | Completed |
@@ -270,39 +270,39 @@ Add rows for all new phases with milestone attribution.
 </step>
 
 <step name="create_phase_directories">
-Create directories for new phases:
+สร้าง directories สำหรับ phases ใหม่:
 
 ```bash
 mkdir -p .planning/phases/[NN]-[slug]
 mkdir -p .planning/phases/[NN+1]-[slug]
-# ... for each phase
+# ... สำหรับแต่ละ phase
 ```
 
-Use two-digit padding: `10-name`, `11-name`, etc.
+ใช้ padding สองหลัก: `10-name`, `11-name` เป็นต้น
 </step>
 
 <step name="update_state">
-Update `.planning/STATE.md` for new milestone:
+อัปเดต `.planning/STATE.md` สำหรับ milestone ใหม่:
 
-**Update Current Position:**
+**อัปเดต Current Position:**
 
 ```markdown
 ## Current Position
 
-Phase: [N] of [M] ([First phase name])
+Phase: [N] of [M] ([ชื่อ Phase แรก])
 Plan: Not started
 Status: Ready to plan
-Last activity: [today's date] - Milestone v[X.Y] created
+Last activity: [วันนี้] - Milestone v[X.Y] created
 
 Progress: ░░░░░░░░░░ 0%
 ```
 
-**Update Accumulated Context:**
+**อัปเดต Accumulated Context:**
 
-Keep decisions from previous milestone (they're historical record).
-Clear "Blockers/Concerns Carried Forward" section.
+เก็บการตัดสินใจจาก milestone ก่อนหน้า (เป็นบันทึกประวัติ)
+ล้างส่วน "Blockers/Concerns Carried Forward"
 
-**Add to Roadmap Evolution:**
+**เพิ่มลง Roadmap Evolution:**
 
 ```markdown
 ### Roadmap Evolution
@@ -310,12 +310,12 @@ Clear "Blockers/Concerns Carried Forward" section.
 - Milestone v[X.Y] created: [theme/focus], [N] phases (Phase [start]-[end])
 ```
 
-**Update Session Continuity:**
+**อัปเดต Session Continuity:**
 
 ```markdown
 ## Session Continuity
 
-Last session: [today's date and time]
+Last session: [วันและเวลาวันนี้]
 Stopped at: Milestone v[X.Y] initialization
 Resume file: None
 ```
@@ -323,7 +323,7 @@ Resume file: None
 </step>
 
 <step name="git_commit">
-Commit milestone creation:
+Commit การสร้าง milestone:
 
 ```bash
 git add .planning/ROADMAP.md .planning/STATE.md
@@ -339,17 +339,17 @@ EOF
 )"
 ```
 
-Confirm: "Committed: docs: create milestone v[X.Y] [Name]"
+ยืนยัน: "Committed: docs: create milestone v[X.Y] [Name]"
 </step>
 
 <step name="cleanup_context">
-Delete the temporary milestone context file if it exists:
+ลบไฟล์ milestone context ชั่วคราวหากมี:
 
 ```bash
 rm -f .planning/MILESTONE-CONTEXT.md
 ```
 
-This file was a handoff artifact from `/gsd:discuss-milestone`. Now that the milestone is created, the context is persisted in ROADMAP.md and the temporary file is no longer needed.
+ไฟล์นี้เป็น artifact ส่งต่อจาก `/gsd:discuss-milestone` ตอนนี้ที่ milestone สร้างแล้ว context คงอยู่ใน ROADMAP.md และไฟล์ชั่วคราวไม่จำเป็นอีกต่อไป
 </step>
 
 <step name="offer_next">
@@ -362,19 +362,19 @@ Milestone v[X.Y] [Name] created:
 
 ---
 
-## ▶ Next Up
+## ▶ ถัดไป
 
-**Phase [N]: [Name]** — [Goal from ROADMAP.md]
+**Phase [N]: [Name]** — [Goal จาก ROADMAP.md]
 
 `/gsd:plan-phase [N]`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → context window ใหม่</sub>
 
 ---
 
-**Also available:**
-- `/gsd:discuss-phase [N]` — gather context first
-- `/gsd:research-phase [N]` — investigate unknowns
+**ยังมีให้เลือก:**
+- `/gsd:discuss-phase [N]` — รวบรวม context ก่อน
+- `/gsd:research-phase [N]` — สืบค้นสิ่งที่ไม่รู้
 - Review roadmap
 
 ---
@@ -384,33 +384,33 @@ Milestone v[X.Y] [Name] created:
 </process>
 
 <phase_naming>
-Use `XX-kebab-case-name` format with continuous numbering:
+ใช้รูปแบบ `XX-kebab-case-name` พร้อมลำดับต่อเนื่อง:
 - `10-user-profiles`
 - `11-notifications`
 - `12-analytics`
 
-Numbers continue from previous milestone. Names describe content.
+หมายเลขต่อจาก milestone ก่อนหน้า ชื่ออธิบายเนื้อหา
 </phase_naming>
 
 <anti_patterns>
-- Don't restart phase numbering at 01 (continue sequence)
-- Don't add time estimates
-- Don't create Gantt charts
-- Respect depth setting for phase count (quick: 3-5, standard: 5-8, comprehensive: 8-12)
-- Don't modify completed milestone sections
+- อย่าเริ่มหมายเลข phase ใหม่ที่ 01 (ลำดับต่อเนื่อง)
+- อย่าเพิ่มการประมาณเวลา
+- อย่าสร้าง Gantt charts
+- เคารพการตั้งค่า depth สำหรับจำนวน phase (quick: 3-5, standard: 5-8, comprehensive: 8-12)
+- อย่าแก้ไขส่วน milestone ที่เสร็จแล้ว
 
-Milestones are coherent chunks of work, not project management artifacts.
+Milestones เป็นชุดงานที่สอดคล้องกัน ไม่ใช่ artifacts การจัดการโปรเจกต์
 </anti_patterns>
 
 <success_criteria>
-Milestone creation is complete when:
-- [ ] Next phase number calculated correctly (continues from previous)
-- [ ] Phases defined per depth setting (quick: 3-5, standard: 5-8, comprehensive: 8-12)
-- [ ] Research flags assigned for each phase
-- [ ] ROADMAP.md updated with new milestone section
-- [ ] Phase directories created
-- [ ] STATE.md reset for new milestone
-- [ ] Git commit made
-- [ ] User knows next steps
+Milestone creation สมบูรณ์เมื่อ:
+- [ ] หมายเลข phase ถัดไปคำนวณถูกต้อง (ต่อจากก่อนหน้า)
+- [ ] Phases กำหนดตามการตั้งค่า depth (quick: 3-5, standard: 5-8, comprehensive: 8-12)
+- [ ] Research flags กำหนดสำหรับแต่ละ phase
+- [ ] ROADMAP.md อัปเดตด้วยส่วน milestone ใหม่
+- [ ] Phase directories สร้างแล้ว
+- [ ] STATE.md รีเซ็ตสำหรับ milestone ใหม่
+- [ ] Git commit ทำแล้ว
+- [ ] ผู้ใช้รู้ขั้นตอนถัดไป
 </success_criteria>
 ```

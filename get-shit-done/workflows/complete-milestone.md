@@ -1,14 +1,14 @@
 <purpose>
 
-Mark a shipped version (v1.0, v1.1, v2.0) as complete. This creates a historical record in MILESTONES.md, performs full PROJECT.md evolution review, reorganizes ROADMAP.md with milestone groupings, and tags the release in git.
+ทำเครื่องหมายเวอร์ชันที่ส่งมอบแล้ว (v1.0, v1.1, v2.0) ว่าเสร็จสมบูรณ์ นี่สร้างบันทึกประวัติใน MILESTONES.md ดำเนินการทบทวนการพัฒนา PROJECT.md อย่างเต็มรูปแบบ จัดระเบียบ ROADMAP.md ใหม่ด้วยการจัดกลุ่ม milestone และติด tag release ใน git
 
-This is the ritual that separates "development" from "shipped."
+นี่คือพิธีกรรมที่แยก "การพัฒนา" ออกจาก "ส่งมอบแล้ว"
 
 </purpose>
 
 <required_reading>
 
-**Read these files NOW:**
+**อ่านไฟล์เหล่านี้ตอนนี้:**
 
 1. templates/milestone.md
 2. templates/milestone-archive.md
@@ -19,26 +19,26 @@ This is the ritual that separates "development" from "shipped."
 
 <archival_behavior>
 
-When a milestone completes, this workflow:
+เมื่อ milestone เสร็จสมบูรณ์ workflow นี้:
 
-1. Extracts full milestone details to `.planning/milestones/v[X.Y]-ROADMAP.md`
-2. Updates ROADMAP.md to replace milestone details with one-line summary
-3. Links to archive file for historical reference
-4. Performs full PROJECT.md evolution review
-5. Offers to create next milestone inline
+1. แยกรายละเอียด milestone ทั้งหมดไปยัง `.planning/milestones/v[X.Y]-ROADMAP.md`
+2. อัปเดต ROADMAP.md เพื่อแทนที่รายละเอียด milestone ด้วยสรุปหนึ่งบรรทัด
+3. ลิงก์ไปยังไฟล์ archive สำหรับอ้างอิงประวัติ
+4. ดำเนินการทบทวนการพัฒนา PROJECT.md อย่างเต็มรูปแบบ
+5. เสนอให้สร้าง milestone ถัดไปแบบ inline
 
-**Context Efficiency:**
+**ประสิทธิภาพ Context:**
 
-- Completed milestones: One line each (~50 tokens)
-- Full details: In archive files (loaded only when needed)
-- Result: ROADMAP.md stays constant size (~1-2k lines) forever
+- Milestone ที่เสร็จแล้ว: หนึ่งบรรทัดต่ออัน (~50 tokens)
+- รายละเอียดทั้งหมด: ในไฟล์ archive (โหลดเฉพาะเมื่อต้องการ)
+- ผลลัพธ์: ROADMAP.md คงขนาดคงที่ (~1-2k บรรทัด) ตลอดไป
 
-**Archive Format:**
-Uses `templates/milestone-archive.md` template with:
+**รูปแบบ Archive:**
+ใช้ template `templates/milestone-archive.md` ด้วย:
 
-- Milestone header (status, phases, date)
-- Full phase details from roadmap
-- Milestone summary (decisions, issues, technical debt)
+- หัวข้อ milestone (status, phases, วันที่)
+- รายละเอียด phase ทั้งหมดจาก roadmap
+- สรุป milestone (การตัดสินใจ, issues, technical debt)
 
 </archival_behavior>
 
@@ -46,32 +46,32 @@ Uses `templates/milestone-archive.md` template with:
 
 <step name="verify_readiness">
 
-Check if milestone is truly complete:
+ตรวจสอบว่า milestone เสร็จสมบูรณ์จริงหรือไม่:
 
 ```bash
 cat .planning/ROADMAP.md
 ls .planning/phases/*/SUMMARY.md 2>/dev/null | wc -l
 ```
 
-**Questions to ask:**
+**คำถามที่ต้องถาม:**
 
-- Which phases belong to this milestone?
-- Are all those phases complete (all plans have summaries)?
-- Has the work been tested/validated?
-- Is this ready to ship/tag?
+- Phase ใดบ้างที่อยู่ใน milestone นี้?
+- Phase ทั้งหมดเหล่านั้นเสร็จแล้วหรือไม่ (plan ทั้งหมดมี summary)?
+- งานได้รับการทดสอบ/ตรวจสอบแล้วหรือไม่?
+- พร้อมที่จะส่งมอบ/tag หรือยัง?
 
-Present:
+แสดง:
 
 ```
-Milestone: [Name from user, e.g., "v1.0 MVP"]
+Milestone: [ชื่อจากผู้ใช้ เช่น "v1.0 MVP"]
 
-Appears to include:
-- Phase 1: Foundation (2/2 plans complete)
-- Phase 2: Authentication (2/2 plans complete)
-- Phase 3: Core Features (3/3 plans complete)
-- Phase 4: Polish (1/1 plan complete)
+ดูเหมือนจะรวม:
+- Phase 1: Foundation (2/2 plan เสร็จ)
+- Phase 2: Authentication (2/2 plan เสร็จ)
+- Phase 3: Core Features (3/3 plan เสร็จ)
+- Phase 4: Polish (1/1 plan เสร็จ)
 
-Total: 4 phases, 8 plans, all complete
+รวม: 4 phases, 8 plans, เสร็จทั้งหมด
 ```
 
 <config-check>
@@ -85,28 +85,28 @@ cat .planning/config.json 2>/dev/null
 <if mode="yolo">
 
 ```
-⚡ Auto-approved: Milestone scope verification
+⚡ อนุมัติอัตโนมัติ: การยืนยันขอบเขต Milestone
 
-[Show breakdown summary without prompting]
+[แสดงสรุปการแบ่งโดยไม่ต้องถาม]
 
-Proceeding to stats gathering...
+ดำเนินการรวบรวมสถิติ...
 ```
 
-Proceed directly to gather_stats step.
+ดำเนินการไปยังขั้นตอน gather_stats โดยตรง
 
 </if>
 
 <if mode="interactive" OR="custom with gates.confirm_milestone_scope true">
 
 ```
-Ready to mark this milestone as shipped?
+พร้อมที่จะทำเครื่องหมาย milestone นี้ว่าส่งมอบแล้วหรือไม่?
 (yes / wait / adjust scope)
 ```
 
-Wait for confirmation.
+รอการยืนยัน
 
-If "adjust scope": Ask which phases should be included.
-If "wait": Stop, user will return when ready.
+หาก "adjust scope": ถามว่า phase ใดควรรวมอยู่ด้วย
+หาก "wait": หยุด ผู้ใช้จะกลับมาเมื่อพร้อม
 
 </if>
 
@@ -114,103 +114,103 @@ If "wait": Stop, user will return when ready.
 
 <step name="gather_stats">
 
-Calculate milestone statistics:
+คำนวณสถิติ milestone:
 
 ```bash
-# Count phases and plans in milestone
-# (user specified or detected from roadmap)
+# นับ phases และ plans ใน milestone
+# (ผู้ใช้ระบุหรือตรวจจับจาก roadmap)
 
-# Find git range
+# หาช่วง git
 git log --oneline --grep="feat(" | head -20
 
-# Count files modified in range
+# นับไฟล์ที่แก้ไขในช่วง
 git diff --stat FIRST_COMMIT..LAST_COMMIT | tail -1
 
-# Count LOC (adapt to language)
+# นับ LOC (ปรับตามภาษา)
 find . -name "*.swift" -o -name "*.ts" -o -name "*.py" | xargs wc -l 2>/dev/null
 
-# Calculate timeline
-git log --format="%ai" FIRST_COMMIT | tail -1  # Start date
-git log --format="%ai" LAST_COMMIT | head -1   # End date
+# คำนวณระยะเวลา
+git log --format="%ai" FIRST_COMMIT | tail -1  # วันเริ่มต้น
+git log --format="%ai" LAST_COMMIT | head -1   # วันสิ้นสุด
 ```
 
-Present summary:
+แสดงสรุป:
 
 ```
-Milestone Stats:
+สถิติ Milestone:
 - Phases: [X-Y]
-- Plans: [Z] total
-- Tasks: [N] total (estimated from phase summaries)
-- Files modified: [M]
-- Lines of code: [LOC] [language]
-- Timeline: [Days] days ([Start] → [End])
-- Git range: feat(XX-XX) → feat(YY-YY)
+- Plans: [Z] รวม
+- Tasks: [N] รวม (ประมาณจาก phase summaries)
+- ไฟล์ที่แก้ไข: [M]
+- บรรทัดโค้ด: [LOC] [ภาษา]
+- ระยะเวลา: [วัน] วัน ([เริ่ม] → [สิ้นสุด])
+- ช่วง Git: feat(XX-XX) → feat(YY-YY)
 ```
 
 </step>
 
 <step name="extract_accomplishments">
 
-Read all phase SUMMARY.md files in milestone range:
+อ่านไฟล์ SUMMARY.md ของทุก phase ในช่วง milestone:
 
 ```bash
 cat .planning/phases/01-*/01-*-SUMMARY.md
 cat .planning/phases/02-*/02-*-SUMMARY.md
-# ... for each phase in milestone
+# ... สำหรับแต่ละ phase ใน milestone
 ```
 
-From summaries, extract 4-6 key accomplishments.
+จาก summaries ดึง 4-6 ความสำเร็จหลัก
 
-Present:
+แสดง:
 
 ```
-Key accomplishments for this milestone:
-1. [Achievement from phase 1]
-2. [Achievement from phase 2]
-3. [Achievement from phase 3]
-4. [Achievement from phase 4]
-5. [Achievement from phase 5]
+ความสำเร็จหลักสำหรับ milestone นี้:
+1. [ความสำเร็จจาก phase 1]
+2. [ความสำเร็จจาก phase 2]
+3. [ความสำเร็จจาก phase 3]
+4. [ความสำเร็จจาก phase 4]
+5. [ความสำเร็จจาก phase 5]
 ```
 
 </step>
 
 <step name="create_milestone_entry">
 
-Create or update `.planning/MILESTONES.md`.
+สร้างหรืออัปเดต `.planning/MILESTONES.md`
 
-If file doesn't exist:
+หากไฟล์ไม่มี:
 
 ```markdown
-# Project Milestones: [Project Name from PROJECT.md]
+# Project Milestones: [ชื่อโปรเจกต์จาก PROJECT.md]
 
-[New entry]
+[รายการใหม่]
 ```
 
-If exists, prepend new entry (reverse chronological order).
+หากมีอยู่แล้ว เพิ่มรายการใหม่ไว้ด้านบน (ลำดับเวลาย้อนกลับ)
 
-Use template from `templates/milestone.md`:
+ใช้ template จาก `templates/milestone.md`:
 
 ```markdown
 ## v[Version] [Name] (Shipped: YYYY-MM-DD)
 
-**Delivered:** [One sentence from user]
+**Delivered:** [หนึ่งประโยคจากผู้ใช้]
 
-**Phases completed:** [X-Y] ([Z] plans total)
+**Phases completed:** [X-Y] ([Z] plans รวม)
 
 **Key accomplishments:**
 
-- [List from previous step]
+- [รายการจากขั้นตอนก่อนหน้า]
 
 **Stats:**
 
-- [Files] files created/modified
-- [LOC] lines of [language]
+- [Files] ไฟล์ที่สร้าง/แก้ไข
+- [LOC] บรรทัด [ภาษา]
 - [Phases] phases, [Plans] plans, [Tasks] tasks
-- [Days] days from [start milestone or start project] to ship
+- [Days] วัน จาก [เริ่ม milestone หรือเริ่มโปรเจกต์] ถึงส่งมอบ
 
 **Git range:** `feat(XX-XX)` → `feat(YY-YY)`
 
-**What's next:** [Ask user: what's the next goal?]
+**What's next:** [ถามผู้ใช้: เป้าหมายถัดไปคืออะไร?]
 
 ---
 ```
@@ -219,156 +219,156 @@ Use template from `templates/milestone.md`:
 
 <step name="evolve_project_full_review">
 
-Perform full PROJECT.md evolution review at milestone completion.
+ดำเนินการทบทวนการพัฒนา PROJECT.md อย่างเต็มรูปแบบเมื่อ milestone เสร็จสมบูรณ์
 
-**Read all phase summaries in this milestone:**
+**อ่าน phase summaries ทั้งหมดใน milestone นี้:**
 
 ```bash
 cat .planning/phases/*-*/*-SUMMARY.md
 ```
 
-**Full review checklist:**
+**รายการตรวจสอบการทบทวนเต็มรูปแบบ:**
 
-1. **"What This Is" accuracy:**
-   - Read current description
-   - Compare to what was actually built
-   - Update if the product has meaningfully changed
+1. **ความถูกต้องของ "What This Is":**
+   - อ่านคำอธิบายปัจจุบัน
+   - เปรียบเทียบกับสิ่งที่สร้างจริง
+   - อัปเดตหากผลิตภัณฑ์เปลี่ยนแปลงอย่างมีนัยสำคัญ
 
-2. **Core Value check:**
-   - Is the stated core value still the right priority?
-   - Did shipping reveal a different core value?
-   - Update if the ONE thing has shifted
+2. **ตรวจสอบ Core Value:**
+   - Core value ที่ระบุยังคงเป็นลำดับความสำคัญที่ถูกต้องหรือไม่?
+   - การส่งมอบเผยให้เห็น core value ที่แตกต่างหรือไม่?
+   - อัปเดตหากสิ่งหนึ่งสิ่งนั้นเปลี่ยนไป
 
-3. **Requirements audit:**
+3. **การตรวจสอบ Requirements:**
 
-   **Validated section:**
-   - All Active requirements shipped in this milestone → Move to Validated
-   - Format: `- ✓ [Requirement] — v[X.Y]`
+   **ส่วน Validated:**
+   - Requirements ที่ Active ทั้งหมดที่ส่งมอบใน milestone นี้ → ย้ายไป Validated
+   - รูปแบบ: `- ✓ [Requirement] — v[X.Y]`
 
-   **Active section:**
-   - Remove requirements that moved to Validated
-   - Add any new requirements for next milestone
-   - Keep requirements that weren't addressed yet
+   **ส่วน Active:**
+   - ลบ requirements ที่ย้ายไป Validated
+   - เพิ่ม requirements ใหม่สำหรับ milestone ถัดไป
+   - เก็บ requirements ที่ยังไม่ได้จัดการ
 
-   **Out of Scope audit:**
-   - Review each item — is the reasoning still valid?
-   - Remove items that are no longer relevant
-   - Add any requirements invalidated during this milestone
+   **การตรวจสอบ Out of Scope:**
+   - ทบทวนแต่ละรายการ — เหตุผลยังคงถูกต้องหรือไม่?
+   - ลบรายการที่ไม่เกี่ยวข้องอีกต่อไป
+   - เพิ่ม requirements ที่ถูกยกเลิกระหว่าง milestone นี้
 
-4. **Context update:**
-   - Current codebase state (LOC, tech stack)
-   - User feedback themes (if any)
-   - Known issues or technical debt to address
+4. **อัปเดต Context:**
+   - สถานะ codebase ปัจจุบัน (LOC, tech stack)
+   - ธีม feedback ของผู้ใช้ (ถ้ามี)
+   - ปัญหาที่ทราบหรือ technical debt ที่ต้องจัดการ
 
-5. **Key Decisions audit:**
-   - Extract all decisions from milestone phase summaries
-   - Add to Key Decisions table with outcomes where known
-   - Mark ✓ Good, ⚠️ Revisit, or — Pending for each
+5. **การตรวจสอบ Key Decisions:**
+   - ดึงการตัดสินใจทั้งหมดจาก milestone phase summaries
+   - เพิ่มลงในตาราง Key Decisions พร้อมผลลัพธ์ที่ทราบ
+   - ทำเครื่องหมาย ✓ Good, ⚠️ Revisit, หรือ — Pending สำหรับแต่ละอัน
 
-6. **Constraints check:**
-   - Any constraints that changed during development?
-   - Update as needed
+6. **ตรวจสอบ Constraints:**
+   - Constraints ใดที่เปลี่ยนแปลงระหว่างการพัฒนา?
+   - อัปเดตตามความจำเป็น
 
-**Update PROJECT.md:**
+**อัปเดต PROJECT.md:**
 
-Make all edits inline. Update "Last updated" footer:
+แก้ไขทั้งหมดแบบ inline อัปเดต footer "Last updated":
 
 ```markdown
 ---
-*Last updated: [date] after v[X.Y] milestone*
+*Last updated: [วันที่] after v[X.Y] milestone*
 ```
 
-**Example full evolution (v1.0 → v1.1 prep):**
+**ตัวอย่างการพัฒนาเต็มรูปแบบ (v1.0 → เตรียม v1.1):**
 
-Before:
+ก่อน:
 
 ```markdown
 ## What This Is
 
-A real-time collaborative whiteboard for remote teams.
+กระดานไวท์บอร์ดร่วมมือแบบเรียลไทม์สำหรับทีมระยะไกล
 
 ## Core Value
 
-Real-time sync that feels instant.
+การซิงค์แบบเรียลไทม์ที่รู้สึกทันที
 
 ## Requirements
 
 ### Validated
 
-(None yet — ship to validate)
+(ยังไม่มี — ส่งมอบเพื่อตรวจสอบ)
 
 ### Active
 
-- [ ] Canvas drawing tools
-- [ ] Real-time sync < 500ms
-- [ ] User authentication
-- [ ] Export to PNG
+- [ ] เครื่องมือวาด Canvas
+- [ ] ซิงค์แบบเรียลไทม์ < 500ms
+- [ ] การยืนยันตัวตนผู้ใช้
+- [ ] Export เป็น PNG
 
 ### Out of Scope
 
-- Mobile app — web-first approach
-- Video chat — use external tools
+- แอป Mobile — ให้ความสำคัญ web ก่อน
+- Video chat — ใช้เครื่องมือภายนอก
 ```
 
-After v1.0:
+หลัง v1.0:
 
 ```markdown
 ## What This Is
 
-A real-time collaborative whiteboard for remote teams with instant sync and drawing tools.
+กระดานไวท์บอร์ดร่วมมือแบบเรียลไทม์สำหรับทีมระยะไกลพร้อมการซิงค์ทันทีและเครื่องมือวาด
 
 ## Core Value
 
-Real-time sync that feels instant.
+การซิงค์แบบเรียลไทม์ที่รู้สึกทันที
 
 ## Requirements
 
 ### Validated
 
-- ✓ Canvas drawing tools — v1.0
-- ✓ Real-time sync < 500ms — v1.0 (achieved 200ms avg)
-- ✓ User authentication — v1.0
+- ✓ เครื่องมือวาด Canvas — v1.0
+- ✓ ซิงค์แบบเรียลไทม์ < 500ms — v1.0 (ทำได้ 200ms เฉลี่ย)
+- ✓ การยืนยันตัวตนผู้ใช้ — v1.0
 
 ### Active
 
-- [ ] Export to PNG
-- [ ] Undo/redo history
-- [ ] Shape tools (rectangles, circles)
+- [ ] Export เป็น PNG
+- [ ] ประวัติ Undo/redo
+- [ ] เครื่องมือ Shape (สี่เหลี่ยม, วงกลม)
 
 ### Out of Scope
 
-- Mobile app — web-first approach, PWA works well
-- Video chat — use external tools
-- Offline mode — real-time is core value
+- แอป Mobile — ให้ความสำคัญ web ก่อน, PWA ทำงานได้ดี
+- Video chat — ใช้เครื่องมือภายนอก
+- โหมด Offline — เรียลไทม์คือ core value
 
 ## Context
 
-Shipped v1.0 with 2,400 LOC TypeScript.
-Tech stack: Next.js, Supabase, Canvas API.
-Initial user testing showed demand for shape tools.
+ส่งมอบ v1.0 ด้วย 2,400 LOC TypeScript
+Tech stack: Next.js, Supabase, Canvas API
+การทดสอบผู้ใช้เบื้องต้นแสดงความต้องการเครื่องมือ shape
 ```
 
-**Step complete when:**
+**ขั้นตอนเสร็จสมบูรณ์เมื่อ:**
 
-- [ ] "What This Is" reviewed and updated if needed
-- [ ] Core Value verified as still correct
-- [ ] All shipped requirements moved to Validated
-- [ ] New requirements added to Active for next milestone
-- [ ] Out of Scope reasoning audited
-- [ ] Context updated with current state
-- [ ] All milestone decisions added to Key Decisions
-- [ ] "Last updated" footer reflects milestone completion
+- [ ] "What This Is" ทบทวนและอัปเดตหากจำเป็น
+- [ ] Core Value ยืนยันว่ายังคงถูกต้อง
+- [ ] Requirements ที่ส่งมอบทั้งหมดย้ายไป Validated
+- [ ] Requirements ใหม่เพิ่มลง Active สำหรับ milestone ถัดไป
+- [ ] เหตุผล Out of Scope ได้รับการตรวจสอบ
+- [ ] Context อัปเดตด้วยสถานะปัจจุบัน
+- [ ] การตัดสินใจ milestone ทั้งหมดเพิ่มลง Key Decisions
+- [ ] Footer "Last updated" สะท้อน milestone completion
 
 </step>
 
 <step name="reorganize_roadmap">
 
-Update `.planning/ROADMAP.md` to group completed milestone phases.
+อัปเดต `.planning/ROADMAP.md` เพื่อจัดกลุ่ม phases ของ milestone ที่เสร็จแล้ว
 
-Add milestone headers and collapse completed work:
+เพิ่มหัวข้อ milestone และยุบงานที่เสร็จแล้ว:
 
 ```markdown
-# Roadmap: [Project Name]
+# Roadmap: [ชื่อโปรเจกต์]
 
 ## Milestones
 
@@ -409,99 +409,99 @@ Add milestone headers and collapse completed work:
 
 <step name="archive_milestone">
 
-Extract completed milestone details and create archive file.
+แยกรายละเอียด milestone ที่เสร็จแล้วและสร้างไฟล์ archive
 
-**Process:**
+**กระบวนการ:**
 
-1. Create archive file path: `.planning/milestones/v[X.Y]-ROADMAP.md`
+1. สร้าง path ไฟล์ archive: `.planning/milestones/v[X.Y]-ROADMAP.md`
 
-2. Read `~/.claude/get-shit-done/templates/milestone-archive.md` template
+2. อ่าน template `~/.claude/get-shit-done/templates/milestone-archive.md`
 
-3. Extract data from current ROADMAP.md:
-   - All phases belonging to this milestone (by phase number range)
-   - Full phase details (goals, plans, dependencies, status)
-   - Phase plan lists with completion checkmarks
+3. ดึงข้อมูลจาก ROADMAP.md ปัจจุบัน:
+   - Phases ทั้งหมดที่อยู่ใน milestone นี้ (ตามช่วงหมายเลข phase)
+   - รายละเอียด phase ทั้งหมด (goals, plans, dependencies, status)
+   - รายการ phase plan พร้อม checkmarks ความสมบูรณ์
 
-4. Extract data from PROJECT.md:
-   - Key decisions made during this milestone
-   - Requirements that were validated
+4. ดึงข้อมูลจาก PROJECT.md:
+   - Key decisions ที่ทำระหว่าง milestone นี้
+   - Requirements ที่ได้รับการ validated
 
-5. Fill template {{PLACEHOLDERS}}:
-   - {{VERSION}} — Milestone version (e.g., "1.0")
-   - {{MILESTONE_NAME}} — From ROADMAP.md milestone header
-   - {{DATE}} — Today's date
-   - {{PHASE_START}} — First phase number in milestone
-   - {{PHASE_END}} — Last phase number in milestone
-   - {{TOTAL_PLANS}} — Count of all plans in milestone
-   - {{MILESTONE_DESCRIPTION}} — From ROADMAP.md overview
-   - {{PHASES_SECTION}} — Full phase details extracted
-   - {{DECISIONS_FROM_PROJECT}} — Key decisions from PROJECT.md
-   - {{ISSUES_RESOLVED_DURING_MILESTONE}} — From summaries
-   - {{ISSUES_DEFERRED_TO_LATER}} — From ISSUES.md
+5. กรอก template {{PLACEHOLDERS}}:
+   - {{VERSION}} — เวอร์ชัน Milestone (เช่น "1.0")
+   - {{MILESTONE_NAME}} — จากหัวข้อ milestone ใน ROADMAP.md
+   - {{DATE}} — วันที่วันนี้
+   - {{PHASE_START}} — หมายเลข phase แรกใน milestone
+   - {{PHASE_END}} — หมายเลข phase สุดท้ายใน milestone
+   - {{TOTAL_PLANS}} — จำนวน plans ทั้งหมดใน milestone
+   - {{MILESTONE_DESCRIPTION}} — จาก overview ใน ROADMAP.md
+   - {{PHASES_SECTION}} — รายละเอียด phase ทั้งหมดที่ดึงมา
+   - {{DECISIONS_FROM_PROJECT}} — Key decisions จาก PROJECT.md
+   - {{ISSUES_RESOLVED_DURING_MILESTONE}} — จาก summaries
+   - {{ISSUES_DEFERRED_TO_LATER}} — จาก ISSUES.md
 
-6. Write filled template to `.planning/milestones/v[X.Y]-ROADMAP.md`
+6. เขียน template ที่กรอกแล้วไปยัง `.planning/milestones/v[X.Y]-ROADMAP.md`
 
-7. Update ROADMAP.md:
-   - Create/update "## Completed Milestones" section if not exists
-   - Add one-line entry: `- ✅ [v[X.Y] [Name]](milestones/v[X.Y]-ROADMAP.md) (Phases [N]-[M]) — SHIPPED [DATE]`
-   - Remove full milestone details from "Current Milestone" section
-   - Move next planned milestone to "Current Milestone" position
+7. อัปเดต ROADMAP.md:
+   - สร้าง/อัปเดตส่วน "## Completed Milestones" หากไม่มี
+   - เพิ่มรายการหนึ่งบรรทัด: `- ✅ [v[X.Y] [Name]](milestones/v[X.Y]-ROADMAP.md) (Phases [N]-[M]) — SHIPPED [DATE]`
+   - ลบรายละเอียด milestone ทั้งหมดจากส่วน "Current Milestone"
+   - ย้าย milestone ที่วางแผนถัดไปไปตำแหน่ง "Current Milestone"
 
-8. Verify files:
-   - Check archive file exists: `ls .planning/milestones/v[X.Y]-ROADMAP.md`
-   - Validate ROADMAP.md still parseable
+8. ตรวจสอบไฟล์:
+   - ตรวจสอบว่าไฟล์ archive มีอยู่: `ls .planning/milestones/v[X.Y]-ROADMAP.md`
+   - ตรวจสอบว่า ROADMAP.md ยังสามารถ parse ได้
 
-9. Confirm archive complete:
+9. ยืนยัน archive เสร็จสมบูรณ์:
 
    ```
-   ✅ v[X.Y] archived to milestones/v[X.Y]-ROADMAP.md
+   ✅ v[X.Y] archived ไปยัง milestones/v[X.Y]-ROADMAP.md
    ```
 
 </step>
 
 <step name="update_state">
 
-Update STATE.md to reflect milestone completion.
+อัปเดต STATE.md เพื่อสะท้อน milestone completion
 
 **Project Reference:**
 
 ```markdown
 ## Project Reference
 
-See: .planning/PROJECT.md (updated [today])
+See: .planning/PROJECT.md (updated [วันนี้])
 
-**Core value:** [Current core value from PROJECT.md]
-**Current focus:** [Next milestone or "Planning next milestone"]
+**Core value:** [Core value ปัจจุบันจาก PROJECT.md]
+**Current focus:** [Milestone ถัดไปหรือ "Planning next milestone"]
 ```
 
 **Current Position:**
 
 ```markdown
-Phase: [Next phase] of [Total] ([Phase name])
+Phase: [Phase ถัดไป] of [Total] ([ชื่อ Phase])
 Plan: Not started
 Status: Ready to plan
-Last activity: [today] — v[X.Y] milestone complete
+Last activity: [วันนี้] — v[X.Y] milestone complete
 
 Progress: [updated progress bar]
 ```
 
 **Accumulated Context:**
 
-- Clear decisions summary (full log in PROJECT.md)
-- Clear resolved blockers
-- Keep open blockers for next milestone
+- ล้างสรุปการตัดสินใจ (log ทั้งหมดอยู่ใน PROJECT.md)
+- ล้าง blockers ที่แก้ไขแล้ว
+- เก็บ open blockers สำหรับ milestone ถัดไป
 
 </step>
 
 <step name="git_tag">
 
-Create git tag for milestone:
+สร้าง git tag สำหรับ milestone:
 
 ```bash
 git tag -a v[X.Y] -m "$(cat <<'EOF'
 v[X.Y] [Name]
 
-Delivered: [One sentence]
+Delivered: [หนึ่งประโยค]
 
 Key accomplishments:
 - [Item 1]
@@ -513,11 +513,11 @@ EOF
 )"
 ```
 
-Confirm: "Tagged: v[X.Y]"
+ยืนยัน: "Tagged: v[X.Y]"
 
-Ask: "Push tag to remote? (y/n)"
+ถาม: "Push tag ไป remote หรือไม่? (y/n)"
 
-If yes:
+หาก yes:
 
 ```bash
 git push origin v[X.Y]
@@ -527,17 +527,17 @@ git push origin v[X.Y]
 
 <step name="git_commit_milestone">
 
-Commit milestone completion including archive file.
+Commit milestone completion รวมถึงไฟล์ archive
 
 ```bash
-# Stage all milestone-related files
+# Stage ไฟล์ที่เกี่ยวข้องกับ milestone ทั้งหมด
 git add .planning/MILESTONES.md
 git add .planning/PROJECT.md
 git add .planning/ROADMAP.md
 git add .planning/STATE.md
 git add .planning/milestones/v[X.Y]-ROADMAP.md
 
-# Commit with descriptive message
+# Commit ด้วย message อธิบาย
 git commit -m "$(cat <<'EOF'
 chore: complete v[X.Y] milestone
 
@@ -551,7 +551,7 @@ EOF
 )"
 ```
 
-Confirm: "Committed: chore: complete v[X.Y] milestone"
+ยืนยัน: "Committed: chore: complete v[X.Y] milestone"
 
 </step>
 
@@ -562,25 +562,25 @@ Confirm: "Committed: chore: complete v[X.Y] milestone"
 
 Shipped:
 - [N] phases ([M] plans, [P] tasks)
-- [One sentence of what shipped]
+- [หนึ่งประโยคของสิ่งที่ส่งมอบ]
 
 Summary: .planning/MILESTONES.md
 Tag: v[X.Y]
 
 ---
 
-## ▶ Next Up
+## ▶ ถัดไป
 
-**Plan Next Milestone** — define v[X.Y+1] features and scope
+**Plan Next Milestone** — กำหนดฟีเจอร์และขอบเขต v[X.Y+1]
 
 `/gsd:discuss-milestone`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → context window ใหม่</sub>
 
 ---
 
-**Also available:**
-- `/gsd:new-milestone` — create directly if scope is clear
+**ยังมีให้เลือก:**
+- `/gsd:new-milestone` — สร้างโดยตรงถ้าขอบเขตชัดเจน
 
 ---
 ```
@@ -591,53 +591,53 @@ Tag: v[X.Y]
 
 <milestone_naming>
 
-**Version conventions:**
-- **v1.0** — Initial MVP
-- **v1.1, v1.2, v1.3** — Minor updates, new features, fixes
-- **v2.0, v3.0** — Major rewrites, breaking changes, significant new direction
+**ข้อตกลงเวอร์ชัน:**
+- **v1.0** — MVP เริ่มต้น
+- **v1.1, v1.2, v1.3** — อัปเดตย่อย, ฟีเจอร์ใหม่, fixes
+- **v2.0, v3.0** — เขียนใหม่ครั้งใหญ่, breaking changes, ทิศทางใหม่ที่สำคัญ
 
-**Name conventions:**
+**ข้อตกลงชื่อ:**
 - v1.0 MVP
 - v1.1 Security
 - v1.2 Performance
 - v2.0 Redesign
 - v2.0 iOS Launch
 
-Keep names short (1-2 words describing the focus).
+ให้ชื่อสั้น (1-2 คำอธิบายโฟกัส)
 
 </milestone_naming>
 
 <what_qualifies>
 
-**Create milestones for:**
-- Initial release (v1.0)
+**สร้าง milestones สำหรับ:**
+- Release เริ่มต้น (v1.0)
 - Public releases
-- Major feature sets shipped
-- Before archiving planning
+- ชุดฟีเจอร์หลักที่ส่งมอบ
+- ก่อน archive planning
 
-**Don't create milestones for:**
-- Every phase completion (too granular)
-- Work in progress (wait until shipped)
-- Internal dev iterations (unless truly shipped internally)
+**อย่าสร้าง milestones สำหรับ:**
+- ทุก phase completion (ละเอียดเกินไป)
+- งานที่กำลังดำเนินการ (รอจนกว่าจะส่งมอบ)
+- Internal dev iterations (เว้นแต่ส่งมอบภายในจริงๆ)
 
-If uncertain, ask: "Is this deployed/usable/shipped in some form?"
-If yes → milestone. If no → keep working.
+หากไม่แน่ใจ ถามว่า: "นี่ deployed/ใช้ได้/ส่งมอบในรูปแบบใดหรือไม่?"
+ถ้าใช่ → milestone ถ้าไม่ → ทำงานต่อ
 
 </what_qualifies>
 
 <success_criteria>
 
-Milestone completion is successful when:
+Milestone completion สำเร็จเมื่อ:
 
-- [ ] MILESTONES.md entry created with stats and accomplishments
-- [ ] PROJECT.md full evolution review completed
-- [ ] All shipped requirements moved to Validated
-- [ ] Key Decisions updated with outcomes
-- [ ] ROADMAP.md reorganized with milestone grouping
-- [ ] Milestone archive created
-- [ ] STATE.md updated with fresh project reference
-- [ ] Git tag created (v[X.Y])
-- [ ] Milestone commit made
-- [ ] User knows next steps
+- [ ] MILESTONES.md entry สร้างพร้อม stats และ accomplishments
+- [ ] PROJECT.md full evolution review เสร็จสมบูรณ์
+- [ ] Requirements ที่ส่งมอบทั้งหมดย้ายไป Validated
+- [ ] Key Decisions อัปเดตพร้อมผลลัพธ์
+- [ ] ROADMAP.md จัดระเบียบใหม่ด้วย milestone grouping
+- [ ] Milestone archive สร้างแล้ว
+- [ ] STATE.md อัปเดตด้วย project reference ใหม่
+- [ ] Git tag สร้างแล้ว (v[X.Y])
+- [ ] Milestone commit ทำแล้ว
+- [ ] ผู้ใช้รู้ขั้นตอนถัดไป
 
 </success_criteria>

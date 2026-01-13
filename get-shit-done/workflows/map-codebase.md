@@ -1,77 +1,77 @@
 <purpose>
-Orchestrate parallel Explore agents to analyze codebase and produce structured documents in .planning/codebase/
+Orchestrate parallel Explore agents เพื่อวิเคราะห์ codebase และสร้างเอกสารที่มีโครงสร้างใน .planning/codebase/
 
-Each agent has fresh context and focuses on specific aspects. Output is concise and actionable for planning.
+แต่ละ agent มี fresh context และโฟกัสที่ด้านเฉพาะ Output กระชับและ actionable สำหรับ planning
 </purpose>
 
 <philosophy>
-**Why parallel agents:**
-- Fresh context per domain (no token contamination)
-- Thorough analysis without context exhaustion
-- Each agent optimized for its domain (tech vs organization vs quality vs issues)
-- Faster execution (agents run simultaneously)
+**ทำไมต้อง parallel agents:**
+- Fresh context ต่อ domain (ไม่มี token contamination)
+- การวิเคราะห์ละเอียดโดยไม่หมด context
+- แต่ละ agent optimized สำหรับ domain ของมัน (tech vs organization vs quality vs issues)
+- Execution เร็วกว่า (agents run พร้อมกัน)
 
 **Document quality over length:**
-Include enough detail to be useful as reference. Prioritize practical examples (especially code patterns) over arbitrary brevity. A 200-line TESTING.md with real patterns is more valuable than a 74-line summary.
+Include รายละเอียดเพียงพอที่จะมีประโยชน์เป็น reference ให้ความสำคัญกับตัวอย่างจริง (โดยเฉพาะ code patterns) มากกว่าความสั้นโดยพลการ TESTING.md 200 บรรทัดที่มี real patterns มีค่ามากกว่าสรุป 74 บรรทัด
 
-**Always include file paths:**
-Documents are reference material for Claude when planning/executing. Vague descriptions like "UserService handles users" are not actionable. Always include actual file paths formatted with backticks: `src/services/user.ts`. This allows Claude to navigate directly to relevant code without re-searching. Do NOT include line numbers (they go stale), just file paths.
+**ใส่ file paths เสมอ:**
+Documents เป็น reference material สำหรับ Claude เมื่อ planning/executing คำอธิบายคลุมเครือเช่น "UserService handles users" ไม่ actionable ใส่ actual file paths ที่ format ด้วย backticks เสมอ: `src/services/user.ts` นี่ช่วยให้ Claude navigate ไปที่ relevant code ได้โดยตรงโดยไม่ต้อง re-search อย่าใส่ line numbers (เก่าเร็ว) แค่ file paths
 </philosophy>
 
 <process>
 
 <step name="check_existing" priority="first">
-Check if .planning/codebase/ already exists:
+ตรวจสอบว่า .planning/codebase/ มีอยู่แล้วหรือไม่:
 
 ```bash
 ls -la .planning/codebase/ 2>/dev/null
 ```
 
-**If exists:**
+**หากมี:**
 
 ```
-.planning/codebase/ already exists with these documents:
+.planning/codebase/ มีอยู่แล้วพร้อมเอกสารเหล่านี้:
 [List files found]
 
 What's next?
-1. Refresh - Delete existing and remap codebase
-2. Update - Keep existing, only update specific documents
-3. Skip - Use existing codebase map as-is
+1. Refresh - ลบที่มีและ remap codebase
+2. Update - เก็บที่มี อัปเดตเฉพาะเอกสารบางตัว
+3. Skip - ใช้ codebase map ที่มีตามที่เป็น
 ```
 
-Wait for user response.
+รอการตอบจากผู้ใช้
 
-If "Refresh": Delete .planning/codebase/, continue to create_structure
-If "Update": Ask which documents to update, continue to spawn_agents (filtered)
-If "Skip": Exit workflow
+หาก "Refresh": ลบ .planning/codebase/ ดำเนินการไป create_structure
+หาก "Update": ถามว่าจะอัปเดตเอกสารไหน ดำเนินการไป spawn_agents (filtered)
+หาก "Skip": ออกจาก workflow
 
-**If doesn't exist:**
-Continue to create_structure.
+**หากไม่มี:**
+ดำเนินการไป create_structure
 </step>
 
 <step name="create_structure">
-Create .planning/codebase/ directory:
+สร้าง .planning/codebase/ directory:
 
 ```bash
 mkdir -p .planning/codebase
 ```
 
 **Expected output files:**
-- STACK.md (from stack.md template)
-- ARCHITECTURE.md (from architecture.md template)
-- STRUCTURE.md (from structure.md template)
-- CONVENTIONS.md (from conventions.md template)
-- TESTING.md (from testing.md template)
-- INTEGRATIONS.md (from integrations.md template)
-- CONCERNS.md (from concerns.md template)
+- STACK.md (จาก stack.md template)
+- ARCHITECTURE.md (จาก architecture.md template)
+- STRUCTURE.md (จาก structure.md template)
+- CONVENTIONS.md (จาก conventions.md template)
+- TESTING.md (จาก testing.md template)
+- INTEGRATIONS.md (จาก integrations.md template)
+- CONCERNS.md (จาก concerns.md template)
 
-Continue to spawn_agents.
+ดำเนินการไป spawn_agents
 </step>
 
 <step name="spawn_agents">
-Spawn 4 parallel Explore agents to analyze codebase.
+Spawn 4 parallel Explore agents เพื่อวิเคราะห์ codebase
 
-Use Task tool with `subagent_type="Explore"` and `run_in_background=true` for parallel execution.
+ใช้ Task tool ด้วย `subagent_type="Explore"` และ `run_in_background=true` สำหรับ parallel execution
 
 **Agent 1: Stack + Integrations (Technology Focus)**
 
@@ -86,12 +86,12 @@ Prompt:
 ```
 Analyze this codebase for technology stack and external integrations.
 
-IMPORTANT: Always include actual file paths in your findings. Use backtick formatting like `src/config/database.ts`. This makes the output actionable for planning.
+IMPORTANT: ใส่ actual file paths ใน findings ของคุณเสมอ ใช้ backtick formatting เช่น `src/config/database.ts` นี่ทำให้ output actionable สำหรับ planning
 
 Focus areas:
 1. Languages (check file extensions, package manifests)
 2. Runtime environment (Node.js, Python, etc. - check .nvmrc, .python-version, engines field)
-3. Package manager and lockfiles
+3. Package manager และ lockfiles
 4. Frameworks (web, testing, build tools)
 5. Key dependencies (critical packages for functionality)
 6. External services (APIs, databases, auth providers)
@@ -105,7 +105,7 @@ Search for:
 - API client code, database connection code
 - Import statements for major libraries
 
-Output findings for populating these sections:
+Output findings สำหรับ populate sections เหล่านี้:
 - STACK.md: Languages, Runtime, Frameworks, Dependencies, Configuration
 - INTEGRATIONS.md: External APIs, Services, Third-party tools
 
@@ -130,17 +130,17 @@ Prompt:
 ```
 Analyze this codebase architecture and directory structure.
 
-IMPORTANT: Always include actual file paths in your findings. Use backtick formatting like `src/index.ts`. This makes the output actionable for planning.
+IMPORTANT: ใส่ actual file paths ใน findings ของคุณเสมอ ใช้ backtick formatting เช่น `src/index.ts` นี่ทำให้ output actionable สำหรับ planning
 
 Focus areas:
 1. Overall architectural pattern (monolith, microservices, layered, etc.)
 2. Conceptual layers (API, service, data, utility)
-3. Data flow and request lifecycle
-4. Key abstractions and patterns (services, controllers, repositories)
+3. Data flow และ request lifecycle
+4. Key abstractions และ patterns (services, controllers, repositories)
 5. Entry points (main files, server files, CLI entry)
-6. Directory organization and purposes
+6. Directory organization และ purposes
 7. Module boundaries
-8. Naming conventions for directories and files
+8. Naming conventions สำหรับ directories และ files
 
 Search for:
 - Entry points: index.ts, main.ts, server.ts, app.ts, cli.ts
@@ -148,7 +148,7 @@ Search for:
 - Import patterns (what imports what)
 - Recurring code patterns (base classes, interfaces, common abstractions)
 
-Output findings for populating these sections:
+Output findings สำหรับ populate sections เหล่านี้:
 - ARCHITECTURE.md: Pattern, Layers, Data Flow, Abstractions, Entry Points
 - STRUCTURE.md: Directory layout, Organization, Key locations
 
@@ -173,26 +173,26 @@ Prompt:
 ```
 Analyze this codebase for coding conventions and testing practices.
 
-IMPORTANT: Always include actual file paths in your findings. Use backtick formatting like `vitest.config.ts`. This makes the output actionable for planning.
+IMPORTANT: ใส่ actual file paths ใน findings ของคุณเสมอ ใช้ backtick formatting เช่น `vitest.config.ts` นี่ทำให้ output actionable สำหรับ planning
 
 Focus areas:
 1. Code style (indentation, quotes, semicolons, formatting)
 2. File naming conventions (kebab-case, PascalCase, etc.)
 3. Function/variable naming patterns
-4. Comment and documentation style
-5. Test framework and structure
+4. Comment และ documentation style
+5. Test framework และ structure
 6. Test organization (unit, integration, e2e)
 7. Test coverage approach
-8. Linting and formatting tools
+8. Linting และ formatting tools
 
 Search for:
 - Config files: .eslintrc, .prettierrc, tsconfig.json
 - Test files: *.test.*, *.spec.*, __tests__/
 - Test setup: vitest.config, jest.config
-- Code patterns across multiple files
-- README or CONTRIBUTING docs
+- Code patterns ข้ามหลาย files
+- README หรือ CONTRIBUTING docs
 
-Output findings for populating these sections:
+Output findings สำหรับ populate sections เหล่านี้:
 - CONVENTIONS.md: Code Style, Naming, Patterns, Documentation
 - TESTING.md: Framework, Structure, Coverage, Tools
 
@@ -217,28 +217,28 @@ Prompt:
 ```
 Analyze this codebase for technical debt, known issues, and areas of concern.
 
-CRITICAL: Always include actual file paths in your findings. Use backtick formatting like `src/auth/login.ts`. Concerns without file paths are not actionable. For each issue found, specify exactly where it is.
+CRITICAL: ใส่ actual file paths ใน findings ของคุณเสมอ ใช้ backtick formatting เช่น `src/auth/login.ts` Concerns ที่ไม่มี file paths ไม่ actionable สำหรับแต่ละ issue ที่พบ ระบุว่าอยู่ที่ไหนแน่นอน
 
 Focus areas:
-1. TODO and FIXME comments
-2. Complex or hard-to-understand code
+1. TODO และ FIXME comments
+2. Complex หรือ hard-to-understand code
 3. Missing error handling (try/catch, error checks)
 4. Security patterns (hardcoded secrets, unsafe operations)
 5. Outdated dependencies (check versions against current)
-6. Missing tests for critical code
+6. Missing tests สำหรับ critical code
 7. Duplicate code patterns
 8. Performance concerns (N+1 queries, inefficient loops)
 9. Documentation gaps (complex code without comments)
 
 Search for:
 - TODO, FIXME, HACK, XXX comments
-- Large functions or files (>200 lines)
+- Large functions หรือ files (>200 lines)
 - Repeated code patterns
-- Missing .env.example when .env is used
-- Dependencies with known vulnerabilities (check versions)
+- Missing .env.example เมื่อ .env ถูกใช้
+- Dependencies ที่มี known vulnerabilities (check versions)
 - Error-prone patterns (no validation, no error handling)
 
-Output findings for populating:
+Output findings สำหรับ populate:
 - CONCERNS.md: Technical Debt, Issues, Security, Performance, Documentation
 
 For EVERY concern, include file paths. Examples:
@@ -250,64 +250,64 @@ Be constructive - focus on actionable concerns, not nitpicks.
 If codebase is clean, note that rather than inventing problems.
 ```
 
-Continue to collect_results.
+ดำเนินการไป collect_results
 </step>
 
 <step name="collect_results">
-Wait for all 4 agents to complete.
+รอทุก 4 agents complete
 
-Use TaskOutput tool to collect results from each agent. Since agents were run with `run_in_background=true`, retrieve their output.
+ใช้ TaskOutput tool เพื่อรวบรวม results จากแต่ละ agent เนื่องจาก agents รันด้วย `run_in_background=true` retrieve output ของพวกมัน
 
 **Collection pattern:**
 
-For each agent, use TaskOutput tool to get the full exploration findings.
+สำหรับแต่ละ agent ใช้ TaskOutput tool เพื่อดู full exploration findings
 
-**Aggregate findings by document:**
+**Aggregate findings ตาม document:**
 
-From Agent 1 output, extract:
+จาก Agent 1 output ดึง:
 - STACK.md sections: Languages, Runtime, Frameworks, Dependencies, Configuration, Platform
 - INTEGRATIONS.md sections: External APIs, Services, Authentication, Webhooks
 
-From Agent 2 output, extract:
+จาก Agent 2 output ดึง:
 - ARCHITECTURE.md sections: Pattern Overview, Layers, Data Flow, Key Abstractions, Entry Points
 - STRUCTURE.md sections: Directory Layout, Key Locations, Organization
 
-From Agent 3 output, extract:
+จาก Agent 3 output ดึง:
 - CONVENTIONS.md sections: Code Style, Naming Conventions, Common Patterns, Documentation Style
 - TESTING.md sections: Framework, Structure, Coverage, Tools
 
-From Agent 4 output, extract:
+จาก Agent 4 output ดึง:
 - CONCERNS.md sections: Technical Debt, Known Issues, Security, Performance, Missing
 
 **Handling missing findings:**
 
-If an agent didn't find information for a section, use placeholder:
-- "Not detected" (for infrastructure/tools that may not exist)
-- "Not applicable" (for patterns that don't apply to this codebase)
-- "No significant concerns" (for CONCERNS.md if codebase is clean)
+หาก agent ไม่พบข้อมูลสำหรับ section ใช้ placeholder:
+- "Not detected" (สำหรับ infrastructure/tools ที่อาจไม่มี)
+- "Not applicable" (สำหรับ patterns ที่ไม่ใช้กับ codebase นี้)
+- "No significant concerns" (สำหรับ CONCERNS.md หาก codebase clean)
 
-Continue to write_documents.
+ดำเนินการไป write_documents
 </step>
 
 <step name="write_documents">
-Write all 7 codebase documents using templates and agent findings.
+เขียนทุก 7 codebase documents โดยใช้ templates และ agent findings
 
 **Template filling process:**
 
-For each document:
+สำหรับแต่ละ document:
 
-1. **Read template file** from `~/.claude/get-shit-done/templates/codebase/{name}.md`
-2. **Extract the "File Template" section** - this is the markdown code block containing the actual document structure
-3. **Fill template placeholders** with agent findings:
-   - Replace `[YYYY-MM-DD]` with current date
-   - Replace `[Placeholder text]` with specific findings from agents
-   - If agent found nothing for a section, use appropriate placeholder:
-     - "Not detected" for optional infrastructure
-     - "Not applicable" for patterns that don't fit this codebase
-     - "No significant concerns" for clean codebase areas
-4. **Write to .planning/codebase/{NAME}.md** (uppercase filename)
+1. **อ่าน template file** จาก `~/.claude/get-shit-done/templates/codebase/{name}.md`
+2. **ดึงส่วน "File Template"** - นี่คือ markdown code block ที่มีโครงสร้าง document จริง
+3. **กรอก template placeholders** ด้วย agent findings:
+   - แทนที่ `[YYYY-MM-DD]` ด้วยวันที่ปัจจุบัน
+   - แทนที่ `[Placeholder text]` ด้วย specific findings จาก agents
+   - หาก agent ไม่พบอะไรสำหรับ section ใช้ placeholder ที่เหมาะสม:
+     - "Not detected" สำหรับ optional infrastructure
+     - "Not applicable" สำหรับ patterns ที่ไม่เหมาะกับ codebase นี้
+     - "No significant concerns" สำหรับ codebase areas ที่ clean
+4. **เขียนไปยัง .planning/codebase/{NAME}.md** (uppercase filename)
 
-**Example filling pattern:**
+**ตัวอย่าง filling pattern:**
 
 Template placeholder:
 ```
@@ -328,19 +328,19 @@ Filled result:
 
 **Document writing order:**
 
-1. **STACK.md** (from stack.md template + Agent 1 findings)
-2. **INTEGRATIONS.md** (from integrations.md template + Agent 1 findings)
-3. **ARCHITECTURE.md** (from architecture.md template + Agent 2 findings)
-4. **STRUCTURE.md** (from structure.md template + Agent 2 findings)
-5. **CONVENTIONS.md** (from conventions.md template + Agent 3 findings)
-6. **TESTING.md** (from testing.md template + Agent 3 findings)
-7. **CONCERNS.md** (from concerns.md template + Agent 4 findings)
+1. **STACK.md** (จาก stack.md template + Agent 1 findings)
+2. **INTEGRATIONS.md** (จาก integrations.md template + Agent 1 findings)
+3. **ARCHITECTURE.md** (จาก architecture.md template + Agent 2 findings)
+4. **STRUCTURE.md** (จาก structure.md template + Agent 2 findings)
+5. **CONVENTIONS.md** (จาก conventions.md template + Agent 3 findings)
+6. **TESTING.md** (จาก testing.md template + Agent 3 findings)
+7. **CONCERNS.md** (จาก concerns.md template + Agent 4 findings)
 
-After all documents written, continue to verify_output.
+หลังเขียนทุก documents ดำเนินการไป verify_output
 </step>
 
 <step name="verify_output">
-Verify all documents created successfully:
+Verify ทุก documents สร้างสำเร็จ:
 
 ```bash
 ls -la .planning/codebase/
@@ -348,17 +348,17 @@ wc -l .planning/codebase/*.md
 ```
 
 **Verification checklist:**
-- All 7 documents exist
-- No empty documents
-- Templates populated with findings
+- ทุก 7 documents มี
+- ไม่มี empty documents
+- Templates populated ด้วย findings
 
-If any checks fail, report issues to user.
+หาก checks ใดล้มเหลว report issues ให้ผู้ใช้
 
-Continue to commit_codebase_map.
+ดำเนินการไป commit_codebase_map
 </step>
 
 <step name="commit_codebase_map">
-Commit the codebase map:
+Commit codebase map:
 
 ```bash
 git add .planning/codebase/*.md
@@ -376,11 +376,11 @@ EOF
 )"
 ```
 
-Continue to offer_next.
+ดำเนินการไป offer_next
 </step>
 
 <step name="offer_next">
-Present completion summary and next steps.
+แสดง completion summary และขั้นตอนถัดไป
 
 **Output format:**
 
@@ -399,36 +399,36 @@ Created .planning/codebase/:
 
 ---
 
-## ▶ Next Up
+## ▶ ถัดไป
 
-**Initialize project** — use codebase context for planning
+**Initialize project** — ใช้ codebase context สำหรับ planning
 
 `/gsd:new-project`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → context window ใหม่</sub>
 
 ---
 
-**Also available:**
+**ยังมีให้เลือก:**
 - Re-run mapping: `/gsd:map-codebase`
 - Review specific file: `cat .planning/codebase/STACK.md`
-- Edit any document before proceeding
+- Edit เอกสารใดๆ ก่อนดำเนินการ
 
 ---
 ```
 
-End workflow.
+จบ workflow
 </step>
 
 </process>
 
 <success_criteria>
-- .planning/codebase/ directory created
-- 4 parallel Explore agents spawned with run_in_background=true
-- Agent prompts are specific and actionable
-- TaskOutput used to collect all agent results
-- All 7 codebase documents written using template filling
-- Documents follow template structure with actual findings
-- Clear completion summary with line counts
-- User offered clear next steps in GSD style
+- .planning/codebase/ directory สร้างแล้ว
+- 4 parallel Explore agents spawned ด้วย run_in_background=true
+- Agent prompts specific และ actionable
+- TaskOutput ใช้เพื่อรวบรวม agent results ทั้งหมด
+- ทุก 7 codebase documents เขียนโดยใช้ template filling
+- Documents ทำตามโครงสร้าง template ด้วย actual findings
+- Completion summary ชัดเจนพร้อม line counts
+- ผู้ใช้เสนอขั้นตอนถัดไปชัดเจนในสไตล์ GSD
 </success_criteria>

@@ -1,93 +1,93 @@
-# Milestone Context Template
+# เทมเพลต Milestone Context
 
-Template for `.planning/MILESTONE-CONTEXT.md` - temporary handoff file from discuss-milestone to create-milestone.
+เทมเพลตสำหรับ `.planning/MILESTONE-CONTEXT.md` - ไฟล์ handoff ชั่วคราวจาก discuss-milestone ไปยัง create-milestone
 
-**Purpose:** Persist milestone discussion context so `/clear` can be used between commands. This file is consumed by `/gsd:new-milestone` and deleted after the milestone is created.
+**วัตถุประสงค์:** เก็บรักษา context การสนทนา milestone เพื่อให้สามารถใช้ `/clear` ระหว่างคำสั่งได้ ไฟล์นี้จะถูกใช้โดย `/gsd:new-milestone` และลบหลังจากสร้าง milestone แล้ว
 
 ---
 
-## File Template
+## เทมเพลตไฟล์
 
 ```markdown
 # Milestone Context
 
-**Generated:** [date]
-**Status:** Ready for /gsd:new-milestone
+**สร้างเมื่อ:** [วันที่]
+**สถานะ:** พร้อมสำหรับ /gsd:new-milestone
 
 <features>
-## Features to Build
+## ฟีเจอร์ที่จะสร้าง
 
-[Features identified during discussion - the substance of this milestone]
+[ฟีเจอร์ที่ระบุระหว่างการสนทนา - เนื้อหาหลักของ milestone นี้]
 
-- **[Feature 1]**: [description]
-- **[Feature 2]**: [description]
-- **[Feature 3]**: [description]
+- **[ฟีเจอร์ 1]**: [คำอธิบาย]
+- **[ฟีเจอร์ 2]**: [คำอธิบาย]
+- **[ฟีเจอร์ 3]**: [คำอธิบาย]
 
 </features>
 
 <scope>
-## Scope
+## ขอบเขต
 
-**Suggested name:** v[X.Y] [Theme Name]
-**Estimated phases:** [N]
-**Focus:** [One sentence theme/focus]
+**ชื่อที่แนะนำ:** v[X.Y] [Theme Name]
+**จำนวนเฟสโดยประมาณ:** [N]
+**จุดเน้น:** [หนึ่งประโยคสรุป theme/focus]
 
 </scope>
 
 <phase_mapping>
-## Phase Mapping
+## การจับคู่เฟส
 
-[How features map to phases - rough breakdown]
+[ฟีเจอร์จับคู่กับเฟสอย่างไร - breakdown คร่าวๆ]
 
-- Phase [N]: [Feature/goal]
-- Phase [N+1]: [Feature/goal]
-- Phase [N+2]: [Feature/goal]
+- เฟส [N]: [ฟีเจอร์/เป้าหมาย]
+- เฟส [N+1]: [ฟีเจอร์/เป้าหมาย]
+- เฟส [N+2]: [ฟีเจอร์/เป้าหมาย]
 
 </phase_mapping>
 
 <constraints>
-## Constraints
+## ข้อจำกัด
 
-[Any constraints or boundaries mentioned during discussion]
+[ข้อจำกัดหรือขอบเขตใดๆ ที่กล่าวถึงระหว่างการสนทนา]
 
-- [Constraint 1]
-- [Constraint 2]
+- [ข้อจำกัด 1]
+- [ข้อจำกัด 2]
 
 </constraints>
 
 <notes>
-## Additional Context
+## Context เพิ่มเติม
 
-[Anything else captured during discussion that informs the milestone]
+[สิ่งอื่นๆ ที่บันทึกระหว่างการสนทนาที่เป็นข้อมูลให้ milestone]
 
 </notes>
 
 ---
 
-*This file is temporary. It will be deleted after /gsd:new-milestone creates the milestone.*
+*ไฟล์นี้เป็นไฟล์ชั่วคราว จะถูกลบหลังจาก /gsd:new-milestone สร้าง milestone แล้ว*
 ```
 
 <guidelines>
-**This is a handoff artifact, not permanent documentation.**
+**นี่คือ handoff artifact ไม่ใช่เอกสารถาวร**
 
-The file exists only to pass context from `discuss-milestone` to `create-milestone` across a `/clear` boundary.
+ไฟล์นี้มีอยู่เพียงเพื่อส่งผ่าน context จาก `discuss-milestone` ไปยัง `create-milestone` ข้าม `/clear` boundary
 
-**Lifecycle:**
-1. `/gsd:discuss-milestone` creates this file at end of discussion
-2. User runs `/clear` (safe now - context is persisted)
-3. `/gsd:new-milestone` reads this file
-4. `/gsd:new-milestone` uses context to populate milestone
-5. `/gsd:new-milestone` deletes this file after successful creation
+**วงจรชีวิต:**
+1. `/gsd:discuss-milestone` สร้างไฟล์นี้เมื่อจบการสนทนา
+2. ผู้ใช้รัน `/clear` (ปลอดภัยแล้ว - context ถูกเก็บรักษาไว้)
+3. `/gsd:new-milestone` อ่านไฟล์นี้
+4. `/gsd:new-milestone` ใช้ context เพื่อเติมข้อมูล milestone
+5. `/gsd:new-milestone` ลบไฟล์นี้หลังจากสร้างสำเร็จ
 
-**Content should include:**
-- Features identified (the core of what to build)
-- Suggested milestone name/theme
-- Rough phase mapping
-- Any constraints or scope boundaries
-- Notes from discussion
+**เนื้อหาควรรวม:**
+- ฟีเจอร์ที่ระบุ (แกนหลักของสิ่งที่จะสร้าง)
+- ชื่อ/theme ที่แนะนำสำหรับ milestone
+- การจับคู่เฟสคร่าวๆ
+- ข้อจำกัดหรือขอบเขตใดๆ
+- โน้ตจากการสนทนา
 
-**Content should NOT include:**
-- Technical analysis (that comes during phase research)
-- Detailed phase specifications (create-milestone handles that)
-- Implementation details
+**เนื้อหาไม่ควรรวม:**
+- การวิเคราะห์เชิงเทคนิค (มาระหว่าง phase research)
+- รายละเอียดเฟสโดยละเอียด (create-milestone จัดการเอง)
+- รายละเอียดการ implementation
 </guidelines>

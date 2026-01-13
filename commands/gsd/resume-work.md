@@ -1,6 +1,6 @@
 ---
 name: gsd:resume-work
-description: Resume work from previous session with full context restoration
+description: Resume work จาก session ก่อนหน้าพร้อม full context restoration
 allowed-tools:
   - Read
   - Bash
@@ -10,15 +10,17 @@ allowed-tools:
 ---
 
 <objective>
-Restore complete project context and resume work seamlessly from previous session.
+Restore project context ทั้งหมดและ resume work อย่างราบรื่นจาก session ก่อนหน้า
 
-Routes to the resume-project workflow which handles:
+Routes ไปยัง resume-project workflow ซึ่งจัดการ:
 
-- STATE.md loading (or reconstruction if missing)
-- Checkpoint detection (.continue-here files)
-- Incomplete work detection (PLAN without SUMMARY)
-- Status presentation
-- Context-aware next action routing
+- โหลด STATE.md (หรือ reconstruct ถ้าไม่มี)
+- ตรวจจับ checkpoints (ไฟล์ .continue-here)
+- ตรวจจับงานที่ไม่เสร็จ (PLAN ที่ไม่มี SUMMARY)
+- แสดง status
+- เสนอ next action ตาม context (ตรวจ CONTEXT.md ก่อนแนะนำ plan vs discuss)
+- Routing ไปยัง command ถัดไปที่เหมาะสม
+- อัพเดท session continuity
   </objective>
 
 <execution_context>
@@ -26,15 +28,15 @@ Routes to the resume-project workflow which handles:
 </execution_context>
 
 <process>
-**Follow the resume-project workflow** from `@~/.claude/get-shit-done/workflows/resume-project.md`.
+**ทำตาม resume-project workflow** จาก `@~/.claude/get-shit-done/workflows/resume-project.md`
 
-The workflow handles all resumption logic including:
+Workflow จัดการ resumption logic ทั้งหมดรวมถึง:
 
-1. Project existence verification
-2. STATE.md loading or reconstruction
-3. Checkpoint and incomplete work detection
-4. Visual status presentation
-5. Context-aware option offering (checks CONTEXT.md before suggesting plan vs discuss)
-6. Routing to appropriate next command
-7. Session continuity updates
+1. ตรวจสอบว่ามีโปรเจค
+2. โหลดหรือ reconstruct STATE.md
+3. ตรวจจับ checkpoints และงานที่ไม่เสร็จ
+4. แสดง visual status
+5. เสนอ options ตาม context (ตรวจ CONTEXT.md ก่อนแนะนำ plan vs discuss)
+6. Routing ไปยัง command ถัดไปที่เหมาะสม
+7. อัพเดท session continuity
    </process>

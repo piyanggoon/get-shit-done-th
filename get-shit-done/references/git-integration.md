@@ -1,25 +1,25 @@
 <overview>
-Git integration for GSD framework.
+การรวม Git สำหรับ GSD framework
 </overview>
 
 <core_principle>
 
-**Commit outcomes, not process.**
+**Commit ผลลัพธ์ ไม่ใช่กระบวนการ**
 
-The git log should read like a changelog of what shipped, not a diary of planning activity.
+Git log ควรอ่านเหมือน changelog ของสิ่งที่ shipped ไม่ใช่บันทึกของกิจกรรมวางแผน
 </core_principle>
 
 <commit_points>
 
-| Event                   | Commit? | Why                                              |
+| เหตุการณ์ | Commit? | ทำไม |
 | ----------------------- | ------- | ------------------------------------------------ |
-| BRIEF + ROADMAP created | YES     | Project initialization                           |
-| PLAN.md created         | NO      | Intermediate - commit with plan completion       |
-| RESEARCH.md created     | NO      | Intermediate                                     |
-| DISCOVERY.md created    | NO      | Intermediate                                     |
-| **Task completed**      | YES     | Atomic unit of work (1 commit per task)         |
-| **Plan completed**      | YES     | Metadata commit (SUMMARY + STATE + ROADMAP)     |
-| Handoff created         | YES     | WIP state preserved                              |
+| สร้าง BRIEF + ROADMAP | ใช่ | การเริ่มต้นโปรเจกต์ |
+| สร้าง PLAN.md | ไม่ | ระหว่างทาง - commit พร้อมกับเมื่อแผนเสร็จ |
+| สร้าง RESEARCH.md | ไม่ | ระหว่างทาง |
+| สร้าง DISCOVERY.md | ไม่ | ระหว่างทาง |
+| **Task เสร็จ** | ใช่ | หน่วยงานแบบ atomic (1 commit ต่อ task) |
+| **แผนเสร็จ** | ใช่ | Metadata commit (SUMMARY + STATE + ROADMAP) |
+| สร้าง Handoff | ใช่ | เก็บรักษาสถานะ WIP |
 
 </commit_points>
 
@@ -29,18 +29,18 @@ The git log should read like a changelog of what shipped, not a diary of plannin
 [ -d .git ] && echo "GIT_EXISTS" || echo "NO_GIT"
 ```
 
-If NO_GIT: Run `git init` silently. GSD projects always get their own repo.
+ถ้า NO_GIT: รัน `git init` โดยเงียบ โปรเจกต์ GSD ได้ repo ของตัวเองเสมอ
 </git_check>
 
 <commit_formats>
 
 <format name="initialization">
-## Project Initialization (brief + roadmap together)
+## การเริ่มต้นโปรเจกต์ (brief + roadmap ด้วยกัน)
 
 ```
 docs: initialize [project-name] ([N] phases)
 
-[One-liner from PROJECT.md]
+[คำอธิบายหนึ่งบรรทัดจาก PROJECT.md]
 
 Phases:
 1. [phase-name]: [goal]
@@ -48,7 +48,7 @@ Phases:
 3. [phase-name]: [goal]
 ```
 
-What to commit:
+สิ่งที่ต้อง commit:
 
 ```bash
 git add .planning/
@@ -58,30 +58,30 @@ git commit
 </format>
 
 <format name="task-completion">
-## Task Completion (During Plan Execution)
+## Task เสร็จ (ระหว่างรันแผน)
 
-Each task gets its own commit immediately after completion.
+แต่ละ task ได้ commit ของตัวเองทันทีหลังเสร็จ
 
 ```
 {type}({phase}-{plan}): {task-name}
 
-- [Key change 1]
-- [Key change 2]
-- [Key change 3]
+- [การเปลี่ยนแปลงสำคัญ 1]
+- [การเปลี่ยนแปลงสำคัญ 2]
+- [การเปลี่ยนแปลงสำคัญ 3]
 ```
 
 **Commit types:**
-- `feat` - New feature/functionality
-- `fix` - Bug fix
-- `test` - Test-only (TDD RED phase)
-- `refactor` - Code cleanup (TDD REFACTOR phase)
-- `perf` - Performance improvement
+- `feat` - ฟีเจอร์/ฟังก์ชันใหม่
+- `fix` - แก้ไข Bug
+- `test` - เฉพาะ test (TDD RED phase)
+- `refactor` - ทำความสะอาด code (TDD REFACTOR phase)
+- `perf` - ปรับปรุง performance
 - `chore` - Dependencies, config, tooling
 
-**Examples:**
+**ตัวอย่าง:**
 
 ```bash
-# Standard task
+# Task มาตรฐาน
 git add src/api/auth.ts src/types/user.ts
 git commit -m "feat(08-02): create user registration endpoint
 
@@ -112,9 +112,9 @@ git commit -m "feat(07-02): implement JWT generation
 </format>
 
 <format name="plan-completion">
-## Plan Completion (After All Tasks Done)
+## แผนเสร็จ (หลังจาก Tasks ทั้งหมดเสร็จ)
 
-After all tasks committed, one final metadata commit captures plan completion.
+หลังจาก tasks ทั้งหมด committed แล้ว metadata commit หนึ่งอันจับการเสร็จสิ้นแผน
 
 ```
 docs({phase}-{plan}): complete [plan-name] plan
@@ -127,7 +127,7 @@ Tasks completed: [N]/[N]
 SUMMARY: .planning/phases/XX-name/{phase}-{plan}-SUMMARY.md
 ```
 
-What to commit:
+สิ่งที่ต้อง commit:
 
 ```bash
 git add .planning/phases/XX-name/{phase}-{plan}-PLAN.md
@@ -137,7 +137,7 @@ git add .planning/ROADMAP.md
 git commit
 ```
 
-**Note:** Code files NOT included - already committed per-task.
+**หมายเหตุ:** ไฟล์ Code ไม่รวม - committed ต่อ task แล้ว
 
 </format>
 
@@ -148,10 +148,10 @@ git commit
 wip: [phase-name] paused at task [X]/[Y]
 
 Current: [task name]
-[If blocked:] Blocked: [reason]
+[ถ้าติดขัด:] Blocked: [reason]
 ```
 
-What to commit:
+สิ่งที่ต้อง commit:
 
 ```bash
 git add .planning/
@@ -163,7 +163,7 @@ git commit
 
 <example_log>
 
-**Old approach (per-plan commits):**
+**วิธีเก่า (commits ต่อแผน):**
 ```
 a7f2d1 feat(checkout): Stripe payments with webhook verification
 3e9c4b feat(products): catalog with search, filters, and pagination
@@ -172,7 +172,7 @@ a7f2d1 feat(checkout): Stripe payments with webhook verification
 2f4a8d docs: initialize ecommerce-app (5 phases)
 ```
 
-**New approach (per-task commits):**
+**วิธีใหม่ (commits ต่อ task):**
 ```
 # Phase 04 - Checkout
 1a2b3c docs(04-01): complete checkout flow plan
@@ -204,51 +204,51 @@ a7f2d1 feat(checkout): Stripe payments with webhook verification
 5c6d7e docs: initialize ecommerce-app (5 phases)
 ```
 
-Each plan produces 2-4 commits (tasks + metadata). Clear, granular, bisectable.
+แต่ละแผนสร้าง 2-4 commits (tasks + metadata) ชัดเจน, ละเอียด, bisect ได้
 
 </example_log>
 
 <anti_patterns>
 
-**Still don't commit (intermediate artifacts):**
-- PLAN.md creation (commit with plan completion)
-- RESEARCH.md (intermediate)
-- DISCOVERY.md (intermediate)
-- Minor planning tweaks
+**ยังไม่ควร commit (artifacts ระหว่างทาง):**
+- การสร้าง PLAN.md (commit พร้อมกับเมื่อแผนเสร็จ)
+- RESEARCH.md (ระหว่างทาง)
+- DISCOVERY.md (ระหว่างทาง)
+- การปรับแต่ง planning เล็กน้อย
 - "Fixed typo in roadmap"
 
-**Do commit (outcomes):**
-- Each task completion (feat/fix/test/refactor)
-- Plan completion metadata (docs)
-- Project initialization (docs)
+**ควร commit (ผลลัพธ์):**
+- การเสร็จสิ้นแต่ละ task (feat/fix/test/refactor)
+- Metadata เมื่อแผนเสร็จ (docs)
+- การเริ่มต้นโปรเจกต์ (docs)
 
-**Key principle:** Commit working code and shipped outcomes, not planning process.
+**หลักการสำคัญ:** Commit working code และผลลัพธ์ที่ shipped ไม่ใช่กระบวนการวางแผน
 
 </anti_patterns>
 
 <commit_strategy_rationale>
 
-## Why Per-Task Commits?
+## ทำไมต้อง Commits ต่อ Task?
 
-**Context engineering for AI:**
-- Git history becomes primary context source for future Claude sessions
-- `git log --grep="{phase}-{plan}"` shows all work for a plan
-- `git diff <hash>^..<hash>` shows exact changes per task
-- Less reliance on parsing SUMMARY.md = more context for actual work
+**Context engineering สำหรับ AI:**
+- Git history กลายเป็นแหล่ง context หลักสำหรับ Claude sessions ในอนาคต
+- `git log --grep="{phase}-{plan}"` แสดงงานทั้งหมดสำหรับแผน
+- `git diff <hash>^..<hash>` แสดงการเปลี่ยนแปลงที่แน่นอนต่อ task
+- พึ่งพาการ parse SUMMARY.md น้อยลง = มี context มากขึ้นสำหรับงานจริง
 
-**Failure recovery:**
-- Task 1 committed ✅, Task 2 failed ❌
-- Claude in next session: sees task 1 complete, can retry task 2
-- Can `git reset --hard` to last successful task
+**การกู้คืนความล้มเหลว:**
+- Task 1 committed ✅, Task 2 ล้มเหลว ❌
+- Claude ใน session ถัดไป: เห็น task 1 เสร็จ, สามารถลอง task 2 ใหม่
+- สามารถ `git reset --hard` ไปยัง task สุดท้ายที่สำเร็จ
 
-**Debugging:**
-- `git bisect` finds exact failing task, not just failing plan
-- `git blame` traces line to specific task context
-- Each commit is independently revertable
+**การ debugging:**
+- `git bisect` หา task ที่ล้มเหลวที่แน่นอน ไม่ใช่แค่แผนที่ล้มเหลว
+- `git blame` ติดตามบรรทัดไปยัง context ของ task เฉพาะ
+- แต่ละ commit revert ได้อย่างอิสระ
 
 **Observability:**
-- Solo developer + Claude workflow benefits from granular attribution
-- Atomic commits are git best practice
-- "Commit noise" irrelevant when consumer is Claude, not humans
+- Solo developer + Claude workflow ได้ประโยชน์จาก attribution ที่ละเอียด
+- Atomic commits เป็น git best practice
+- "Commit noise" ไม่เกี่ยวเมื่อผู้ใช้คือ Claude ไม่ใช่มนุษย์
 
 </commit_strategy_rationale>

@@ -1,196 +1,196 @@
-# Roadmap Template
+# เทมเพลต Roadmap
 
-Template for `.planning/ROADMAP.md`.
+เทมเพลตสำหรับ `.planning/ROADMAP.md`
 
 ## Initial Roadmap (v1.0 Greenfield)
 
 ```markdown
-# Roadmap: [Project Name]
+# Roadmap: [ชื่อโปรเจกต์]
 
-## Overview
+## ภาพรวม
 
-[One paragraph describing the journey from start to finish]
+[หนึ่งย่อหน้าอธิบายการเดินทางจากเริ่มต้นถึงสิ้นสุด]
 
 ## Domain Expertise
 
-[Paths to domain skills that inform planning. These SKILL.md files serve as indexes - during phase planning, read them to find relevant references for each phase type.]
+[Paths ไปยัง domain skills ที่แจ้งการวางแผน ไฟล์ SKILL.md เหล่านี้ทำหน้าที่เป็น indexes - ระหว่าง phase planning อ่านเพื่อหา references ที่เกี่ยวข้องสำหรับแต่ละ phase type]
 
 - ~/.claude/skills/expertise/[domain]/SKILL.md
-[Add additional domains if project spans multiple (e.g., ISF shaders + macOS app)]
+[เพิ่ม domains เพิ่มเติมถ้าโปรเจกต์ครอบคลุมหลายอย่าง (เช่น ISF shaders + macOS app)]
 
-Or: None
+หรือ: ไม่มี
 
-## Phases
+## เฟส
 
-**Phase Numbering:**
-- Integer phases (1, 2, 3): Planned milestone work
-- Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
+**การนับเลขเฟส:**
+- เฟสจำนวนเต็ม (1, 2, 3): งาน milestone ที่วางแผนไว้
+- เฟสทศนิยม (2.1, 2.2): การแทรกเร่งด่วน (marked ด้วย INSERTED)
 
-Decimal phases appear between their surrounding integers in numeric order.
+เฟสทศนิยมปรากฏระหว่างจำนวนเต็มรอบข้างตามลำดับตัวเลข
 
-- [ ] **Phase 1: [Name]** - [One-line description]
-- [ ] **Phase 2: [Name]** - [One-line description]
-- [ ] **Phase 3: [Name]** - [One-line description]
-- [ ] **Phase 4: [Name]** - [One-line description]
+- [ ] **เฟส 1: [ชื่อ]** - [คำอธิบายหนึ่งบรรทัด]
+- [ ] **เฟส 2: [ชื่อ]** - [คำอธิบายหนึ่งบรรทัด]
+- [ ] **เฟส 3: [ชื่อ]** - [คำอธิบายหนึ่งบรรทัด]
+- [ ] **เฟส 4: [ชื่อ]** - [คำอธิบายหนึ่งบรรทัด]
 
-## Phase Details
+## รายละเอียดเฟส
 
-### Phase 1: [Name]
-**Goal**: [What this phase delivers]
-**Depends on**: Nothing (first phase)
+### เฟส 1: [ชื่อ]
+**เป้าหมาย**: [สิ่งที่เฟสนี้ส่งมอบ]
+**ขึ้นอยู่กับ**: ไม่มี (เฟสแรก)
 **Research**: Unlikely (established patterns)
-**Plans**: [Number of plans, e.g., "3 plans" or "TBD"]
+**แผน**: [จำนวนแผน เช่น "3 แผน" หรือ "TBD"]
 
-Plans:
-- [ ] 01-01: [Brief description of first plan]
-- [ ] 01-02: [Brief description of second plan]
-- [ ] 01-03: [Brief description of third plan]
+แผนงาน:
+- [ ] 01-01: [คำอธิบายสั้นของแผนแรก]
+- [ ] 01-02: [คำอธิบายสั้นของแผนสอง]
+- [ ] 01-03: [คำอธิบายสั้นของแผนสาม]
 
-### Phase 2: [Name]
-**Goal**: [What this phase delivers]
-**Depends on**: Phase 1
+### เฟส 2: [ชื่อ]
+**เป้าหมาย**: [สิ่งที่เฟสนี้ส่งมอบ]
+**ขึ้นอยู่กับ**: เฟส 1
 **Research**: Likely (new integration)
-**Research topics**: [What needs investigating]
-**Plans**: [Number of plans]
+**Research topics**: [อะไรต้องสำรวจ]
+**แผน**: [จำนวนแผน]
 
-Plans:
-- [ ] 02-01: [Brief description]
-- [ ] 02-02: [Brief description]
+แผนงาน:
+- [ ] 02-01: [คำอธิบายสั้น]
+- [ ] 02-02: [คำอธิบายสั้น]
 
-### Phase 2.1: Critical Fix (INSERTED)
-**Goal**: [Urgent work inserted between phases]
-**Depends on**: Phase 2
-**Plans**: 1 plan
+### เฟส 2.1: Critical Fix (INSERTED)
+**เป้าหมาย**: [งานเร่งด่วนแทรกระหว่างเฟส]
+**ขึ้นอยู่กับ**: เฟส 2
+**แผน**: 1 แผน
 
-Plans:
-- [ ] 02.1-01: [Description]
+แผนงาน:
+- [ ] 02.1-01: [คำอธิบาย]
 
-### Phase 3: [Name]
-**Goal**: [What this phase delivers]
-**Depends on**: Phase 2
+### เฟส 3: [ชื่อ]
+**เป้าหมาย**: [สิ่งที่เฟสนี้ส่งมอบ]
+**ขึ้นอยู่กับ**: เฟส 2
 **Research**: Likely (external API)
-**Research topics**: [What needs investigating]
-**Plans**: [Number of plans]
+**Research topics**: [อะไรต้องสำรวจ]
+**แผน**: [จำนวนแผน]
 
-Plans:
-- [ ] 03-01: [Brief description]
-- [ ] 03-02: [Brief description]
+แผนงาน:
+- [ ] 03-01: [คำอธิบายสั้น]
+- [ ] 03-02: [คำอธิบายสั้น]
 
-### Phase 4: [Name]
-**Goal**: [What this phase delivers]
-**Depends on**: Phase 3
+### เฟส 4: [ชื่อ]
+**เป้าหมาย**: [สิ่งที่เฟสนี้ส่งมอบ]
+**ขึ้นอยู่กับ**: เฟส 3
 **Research**: Unlikely (internal patterns)
-**Plans**: [Number of plans]
+**แผน**: [จำนวนแผน]
 
-Plans:
-- [ ] 04-01: [Brief description]
+แผนงาน:
+- [ ] 04-01: [คำอธิบายสั้น]
 
-## Progress
+## ความคืบหน้า
 
-**Execution Order:**
-Phases execute in numeric order: 2 → 2.1 → 2.2 → 3 → 3.1 → 4
+**ลำดับ Execution:**
+เฟส execute ตามลำดับตัวเลข: 2 → 2.1 → 2.2 → 3 → 3.1 → 4
 
-| Phase | Plans Complete | Status | Completed |
+| เฟส | แผนเสร็จ | สถานะ | เสร็จเมื่อ |
 |-------|----------------|--------|-----------|
-| 1. [Name] | 0/3 | Not started | - |
-| 2. [Name] | 0/2 | Not started | - |
-| 3. [Name] | 0/2 | Not started | - |
-| 4. [Name] | 0/1 | Not started | - |
+| 1. [ชื่อ] | 0/3 | ยังไม่เริ่ม | - |
+| 2. [ชื่อ] | 0/2 | ยังไม่เริ่ม | - |
+| 3. [ชื่อ] | 0/2 | ยังไม่เริ่ม | - |
+| 4. [ชื่อ] | 0/1 | ยังไม่เริ่ม | - |
 ```
 
 <guidelines>
-**Initial planning (v1.0):**
-- Phase count depends on depth setting (quick: 3-5, standard: 5-8, comprehensive: 8-12)
-- Each phase delivers something coherent
-- Phases can have 1+ plans (split if >3 tasks or multiple subsystems)
-- Plans use naming: {phase}-{plan}-PLAN.md (e.g., 01-02-PLAN.md)
-- No time estimates (this isn't enterprise PM)
-- Progress table updated by execute workflow
-- Plan count can be "TBD" initially, refined during planning
+**การวางแผนเริ่มต้น (v1.0):**
+- จำนวนเฟสขึ้นอยู่กับ depth setting (quick: 3-5, standard: 5-8, comprehensive: 8-12)
+- แต่ละเฟสส่งมอบอะไรบางอย่างที่สอดคล้องกัน
+- เฟสมีได้ 1+ แผน (แยกถ้า >3 tasks หรือหลาย subsystems)
+- แผนใช้การตั้งชื่อ: {phase}-{plan}-PLAN.md (เช่น 01-02-PLAN.md)
+- ไม่มีการประมาณเวลา (นี่ไม่ใช่ enterprise PM)
+- Progress table อัปเดตโดย execute workflow
+- จำนวนแผนเป็น "TBD" ได้ในตอนแรก ปรับปรุงระหว่างการวางแผน
 
 **Research flags:**
-- `Research: Likely` - External APIs, new libraries, architectural decisions
+- `Research: Likely` - External APIs, libraries ใหม่, architectural decisions
 - `Research: Unlikely` - Internal patterns, CRUD operations, established conventions
-- Include `Research topics:` when Likely
-- Flags are hints, not mandates - validate at planning time
+- รวม `Research topics:` เมื่อ Likely
+- Flags เป็น hints ไม่ใช่คำสั่ง - validate ตอน planning time
 
-**After milestones ship:**
-- Collapse completed milestones in `<details>` tags
-- Add new milestone sections for upcoming work
-- Keep continuous phase numbering (never restart at 01)
+**หลังจาก milestones ship:**
+- ยุบ completed milestones ใน `<details>` tags
+- เพิ่ม milestone sections ใหม่สำหรับงานที่กำลังมา
+- รักษาการนับเลขเฟสต่อเนื่อง (ไม่เริ่มใหม่ที่ 01)
 </guidelines>
 
 <status_values>
-- `Not started` - Haven't begun
-- `In progress` - Currently working
-- `Complete` - Done (add completion date)
-- `Deferred` - Pushed to later (with reason)
+- `ยังไม่เริ่ม` - ยังไม่เริ่ม
+- `กำลังดำเนินการ` - กำลังทำงาน
+- `เสร็จสมบูรณ์` - เสร็จแล้ว (เพิ่มวันที่เสร็จ)
+- `เลื่อนออกไป` - เลื่อนไปทีหลัง (พร้อมเหตุผล)
 </status_values>
 
-## Milestone-Grouped Roadmap (After v1.0 Ships)
+## Milestone-Grouped Roadmap (หลัง v1.0 Ships)
 
-After completing first milestone, reorganize with milestone groupings:
+หลังจากเสร็จสิ้น milestone แรก จัดระเบียบใหม่ด้วย milestone groupings:
 
 ```markdown
-# Roadmap: [Project Name]
+# Roadmap: [ชื่อโปรเจกต์]
 
 ## Milestones
 
-- ✅ **v1.0 MVP** - Phases 1-4 (shipped YYYY-MM-DD)
-- 🚧 **v1.1 [Name]** - Phases 5-6 (in progress)
-- 📋 **v2.0 [Name]** - Phases 7-10 (planned)
+- ✅ **v1.0 MVP** - เฟส 1-4 (shipped YYYY-MM-DD)
+- 🚧 **v1.1 [ชื่อ]** - เฟส 5-6 (กำลังดำเนินการ)
+- 📋 **v2.0 [ชื่อ]** - เฟส 7-10 (วางแผนแล้ว)
 
-## Phases
+## เฟส
 
 <details>
-<summary>✅ v1.0 MVP (Phases 1-4) - SHIPPED YYYY-MM-DD</summary>
+<summary>✅ v1.0 MVP (เฟส 1-4) - SHIPPED YYYY-MM-DD</summary>
 
-### Phase 1: [Name]
-**Goal**: [What this phase delivers]
-**Plans**: 3 plans
+### เฟส 1: [ชื่อ]
+**เป้าหมาย**: [สิ่งที่เฟสนี้ส่งมอบ]
+**แผน**: 3 แผน
 
-Plans:
-- [x] 01-01: [Brief description]
-- [x] 01-02: [Brief description]
-- [x] 01-03: [Brief description]
+แผนงาน:
+- [x] 01-01: [คำอธิบายสั้น]
+- [x] 01-02: [คำอธิบายสั้น]
+- [x] 01-03: [คำอธิบายสั้น]
 
-[... remaining v1.0 phases ...]
+[... เฟส v1.0 ที่เหลือ ...]
 
 </details>
 
-### 🚧 v1.1 [Name] (In Progress)
+### 🚧 v1.1 [ชื่อ] (กำลังดำเนินการ)
 
-**Milestone Goal:** [What v1.1 delivers]
+**เป้าหมาย Milestone:** [สิ่งที่ v1.1 ส่งมอบ]
 
-#### Phase 5: [Name]
-**Goal**: [What this phase delivers]
-**Depends on**: Phase 4
-**Plans**: 2 plans
+#### เฟส 5: [ชื่อ]
+**เป้าหมาย**: [สิ่งที่เฟสนี้ส่งมอบ]
+**ขึ้นอยู่กับ**: เฟส 4
+**แผน**: 2 แผน
 
-Plans:
-- [ ] 05-01: [Brief description]
-- [ ] 05-02: [Brief description]
+แผนงาน:
+- [ ] 05-01: [คำอธิบายสั้น]
+- [ ] 05-02: [คำอธิบายสั้น]
 
-[... remaining v1.1 phases ...]
+[... เฟส v1.1 ที่เหลือ ...]
 
-### 📋 v2.0 [Name] (Planned)
+### 📋 v2.0 [ชื่อ] (วางแผนแล้ว)
 
-**Milestone Goal:** [What v2.0 delivers]
+**เป้าหมาย Milestone:** [สิ่งที่ v2.0 ส่งมอบ]
 
-[... v2.0 phases ...]
+[... เฟส v2.0 ...]
 
-## Progress
+## ความคืบหน้า
 
-| Phase | Milestone | Plans Complete | Status | Completed |
+| เฟส | Milestone | แผนเสร็จ | สถานะ | เสร็จเมื่อ |
 |-------|-----------|----------------|--------|-----------|
-| 1. Foundation | v1.0 | 3/3 | Complete | YYYY-MM-DD |
-| 2. Features | v1.0 | 2/2 | Complete | YYYY-MM-DD |
-| 5. Security | v1.1 | 0/2 | Not started | - |
+| 1. Foundation | v1.0 | 3/3 | เสร็จสมบูรณ์ | YYYY-MM-DD |
+| 2. Features | v1.0 | 2/2 | เสร็จสมบูรณ์ | YYYY-MM-DD |
+| 5. Security | v1.1 | 0/2 | ยังไม่เริ่ม | - |
 ```
 
-**Notes:**
-- Milestone emoji: ✅ shipped, 🚧 in progress, 📋 planned
-- Completed milestones collapsed in `<details>` for readability
-- Current/future milestones expanded
-- Continuous phase numbering (01-99)
-- Progress table includes milestone column
+**หมายเหตุ:**
+- Milestone emoji: ✅ shipped, 🚧 กำลังดำเนินการ, 📋 วางแผนแล้ว
+- Completed milestones ยุบใน `<details>` เพื่อความอ่านง่าย
+- Current/future milestones ขยาย
+- การนับเลขเฟสต่อเนื่อง (01-99)
+- Progress table รวมคอลัมน์ milestone

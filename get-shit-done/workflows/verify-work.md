@@ -1,202 +1,202 @@
 <purpose>
-Guide manual user acceptance testing of recently built features. Extract deliverables from SUMMARY.md, generate test checklist, guide user through each test, log issues to phase-scoped file.
+แนะนำการทดสอบ user acceptance testing แบบ manual สำหรับฟีเจอร์ที่เพิ่งสร้าง ดึง deliverables จาก SUMMARY.md, สร้าง test checklist, แนะนำผู้ใช้ผ่านการทดสอบแต่ละรายการ, บันทึก issues ไปยังไฟล์ที่จำกัดขอบเขตตามเฟส
 
-The USER performs all testing — Claude generates the checklist, guides the process, and captures issues.
+ผู้ใช้ทำการทดสอบทั้งหมด — Claude สร้าง checklist, แนะนำกระบวนการ, และบันทึก issues
 </purpose>
 
 <process>
 
 <step name="identify">
-**Determine what to test:**
+**ระบุสิ่งที่จะทดสอบ:**
 
-If $ARGUMENTS provided:
-- Parse as phase number (e.g., "4") or plan number (e.g., "04-02")
-- Find corresponding SUMMARY.md file(s)
+ถ้ามี $ARGUMENTS:
+- แยกวิเคราะห์เป็นหมายเลขเฟส (เช่น "4") หรือหมายเลขแผน (เช่น "04-02")
+- ค้นหาไฟล์ SUMMARY.md ที่ตรงกัน
 
-If no arguments:
-- Find most recently modified SUMMARY.md
+ถ้าไม่มี arguments:
+- ค้นหา SUMMARY.md ที่แก้ไขล่าสุด
 
 ```bash
 find .planning/phases -name "*SUMMARY.md" -type f -exec ls -lt {} + | head -5
 ```
 
-Read the SUMMARY.md to understand what was built.
+อ่าน SUMMARY.md เพื่อเข้าใจสิ่งที่ถูกสร้าง
 </step>
 
 <step name="extract">
-**Extract testable deliverables from SUMMARY.md:**
+**ดึง deliverables ที่ทดสอบได้จาก SUMMARY.md:**
 
-Parse for:
-1. **Accomplishments** - Features/functionality added
-2. **Files Created/Modified** - What changed
-3. **User-facing changes** - UI, workflows, interactions
+แยกวิเคราะห์หา:
+1. **Accomplishments** - ฟีเจอร์/ฟังก์ชันที่เพิ่ม
+2. **Files Created/Modified** - อะไรเปลี่ยน
+3. **User-facing changes** - UI, เวิร์กโฟลว์, การโต้ตอบ
 
-Focus on USER-OBSERVABLE outcomes, not implementation details.
+เน้นผลลัพธ์ที่ผู้ใช้สังเกตได้ ไม่ใช่รายละเอียดการ implementation
 
-Examples:
-- "Check-in menu item added to navigation" → User can see/click Check-in in nav
-- "HomePage refreshes after check-in" → After check-in, home shows updated state
+ตัวอย่าง:
+- "Check-in menu item added to navigation" → ผู้ใช้สามารถเห็น/คลิก Check-in ใน nav
+- "HomePage refreshes after check-in" → หลัง check-in หน้าแรกแสดงสถานะที่อัปเดต
 </step>
 
 <step name="generate">
-**Generate manual test checklist:**
+**สร้าง manual test checklist:**
 
-Create structured test plan:
+สร้างแผนการทดสอบที่มีโครงสร้าง:
 
 ```
-# User Acceptance Test: [Plan/Phase Name]
+# User Acceptance Test: [ชื่อแผน/เฟส]
 
-**Scope:** [What was built - from SUMMARY.md]
-**Testing:** Manual user validation
+**Scope:** [สิ่งที่ถูกสร้าง - จาก SUMMARY.md]
+**Testing:** การตรวจสอบแบบ manual โดยผู้ใช้
 
 ## Pre-flight
-- [ ] Application builds and runs without errors
-- [ ] Application launches to expected state
+- [ ] แอปพลิเคชัน build และรันได้โดยไม่มี errors
+- [ ] แอปพลิเคชันเปิดไปยังสถานะที่คาดหวัง
 
 ## Feature Tests
 
-### [Feature 1 from deliverables]
-**What to test:** [User-observable behavior]
-**Steps:**
-1. [Specific action to take]
-2. [What to look for]
-3. [Expected result]
+### [ฟีเจอร์ 1 จาก deliverables]
+**สิ่งที่ต้องทดสอบ:** [พฤติกรรมที่ผู้ใช้สังเกตได้]
+**ขั้นตอน:**
+1. [การกระทำเฉพาะที่ต้องทำ]
+2. [สิ่งที่ต้องดู]
+3. [ผลลัพธ์ที่คาดหวัง]
 
-### [Feature 2 from deliverables]
+### [ฟีเจอร์ 2 จาก deliverables]
 ...
 
 ## Edge Cases
-- [ ] [Relevant edge case based on feature]
-- [ ] [Another edge case]
+- [ ] [Edge case ที่เกี่ยวข้องตามฟีเจอร์]
+- [ ] [Edge case อื่น]
 
 ## Visual/UX Check
-- [ ] UI matches expected design
-- [ ] No visual glitches or layout issues
-- [ ] Responsive to interactions
+- [ ] UI ตรงกับดีไซน์ที่คาดหวัง
+- [ ] ไม่มี visual glitches หรือปัญหา layout
+- [ ] ตอบสนองต่อการโต้ตอบ
 ```
 
-Present this checklist to user.
+นำเสนอ checklist นี้ให้ผู้ใช้
 </step>
 
 <step name="guide">
-**Guide user through each test:**
+**แนะนำผู้ใช้ผ่านการทดสอบแต่ละรายการ:**
 
-For each test item, use AskUserQuestion:
-- header: "[Feature name]"
-- question: "[Test description] - Did this work as expected?"
+สำหรับแต่ละ test item ใช้ AskUserQuestion:
+- header: "[ชื่อฟีเจอร์]"
+- question: "[คำอธิบายการทดสอบ] - สิ่งนี้ทำงานตามที่คาดหวังหรือไม่?"
 - options:
-  - "Pass" — Works correctly
-  - "Fail" — Doesn't work as expected
-  - "Partial" — Works but with issues
-  - "Skip" — Can't test right now
+  - "Pass" — ทำงานถูกต้อง
+  - "Fail" — ไม่ทำงานตามที่คาดหวัง
+  - "Partial" — ทำงานแต่มีปัญหา
+  - "Skip" — ทดสอบไม่ได้ตอนนี้
 
-**If Pass:** Move to next test
+**ถ้า Pass:** ไปการทดสอบถัดไป
 
-**If Fail or Partial:**
-Follow up with AskUserQuestion:
-- header: "Issue details"
-- question: "What went wrong?"
+**ถ้า Fail หรือ Partial:**
+ติดตามด้วย AskUserQuestion:
+- header: "รายละเอียด Issue"
+- question: "เกิดปัญหาอะไร?"
 - options:
-  - "Crashes/errors" — Application error or exception
-  - "Wrong behavior" — Does something unexpected
-  - "Missing feature" — Expected functionality not present
-  - "UI/visual issue" — Looks wrong but functions
-  - "Let me describe" — Free-form description needed
+  - "Crashes/errors" — แอปพลิเคชัน error หรือ exception
+  - "Wrong behavior" — ทำสิ่งที่ไม่คาดหวัง
+  - "Missing feature" — ฟังก์ชันที่คาดหวังไม่มี
+  - "UI/visual issue" — ดูผิดปกติแต่ยังทำงานได้
+  - "Let me describe" — ต้องการอธิบายเอง
 </step>
 
 <step name="collect">
-**Collect and categorize issues:**
+**รวบรวมและจัดหมวดหมู่ issues:**
 
-For each failed/partial test, gather:
-- Feature affected
-- What went wrong (from user input)
-- Severity:
-  - **Blocker** — Can't use the feature at all
-  - **Major** — Feature works but significant problem
-  - **Minor** — Small issue, feature still usable
-  - **Cosmetic** — Visual only, no functional impact
+สำหรับแต่ละการทดสอบที่ failed/partial รวบรวม:
+- ฟีเจอร์ที่ได้รับผลกระทบ
+- เกิดปัญหาอะไร (จาก input ของผู้ใช้)
+- ความรุนแรง:
+  - **Blocker** — ใช้ฟีเจอร์ไม่ได้เลย
+  - **Major** — ฟีเจอร์ทำงานแต่มีปัญหาสำคัญ
+  - **Minor** — ปัญหาเล็กน้อย ฟีเจอร์ยังใช้ได้
+  - **Cosmetic** — เฉพาะ visual ไม่มีผลกระทบต่อฟังก์ชัน
 </step>
 
 <step name="log">
-**Log issues to phase-scoped file:**
+**บันทึก issues ไปยังไฟล์ที่จำกัดขอบเขตตามเฟส:**
 
-If any issues found:
+ถ้าพบ issues:
 
-1. Create `.planning/phases/XX-name/{phase}-{plan}-ISSUES.md` if doesn't exist
-2. Use template from `@~/.claude/get-shit-done/templates/uat-issues.md`
-3. Add each issue:
+1. สร้าง `.planning/phases/XX-name/{phase}-{plan}-ISSUES.md` ถ้ายังไม่มี
+2. ใช้ template จาก `@~/.claude/get-shit-done/templates/uat-issues.md`
+3. เพิ่มแต่ละ issue:
 
 ```markdown
-### UAT-[NNN]: [Brief description]
+### UAT-[NNN]: [คำอธิบายสั้น]
 
-**Discovered:** [date] during user acceptance testing
-**Phase/Plan:** [phase]-[plan] that was tested
+**Discovered:** [วันที่] ระหว่าง user acceptance testing
+**Phase/Plan:** [phase]-[plan] ที่ถูกทดสอบ
 **Severity:** [Blocker/Major/Minor/Cosmetic]
-**Description:** [User's description of the problem]
-**Expected:** [What should have happened]
-**Actual:** [What actually happened]
+**Description:** [คำอธิบายปัญหาของผู้ใช้]
+**Expected:** [สิ่งที่ควรเกิดขึ้น]
+**Actual:** [สิ่งที่เกิดขึ้นจริง]
 ```
 
-**Note:** Issues go to phase-scoped file, NOT global `.planning/ISSUES.md`. This keeps UAT findings tied to the specific work being tested and enables `/gsd:plan-fix` to address them.
+**หมายเหตุ:** Issues ไปยังไฟล์ที่จำกัดขอบเขตตามเฟส ไม่ใช่ `.planning/ISSUES.md` ทั่วไป เพื่อเก็บผลการค้นพบ UAT ให้ผูกกับงานเฉพาะที่กำลังทดสอบ และทำให้ `/gsd:plan-fix` สามารถแก้ไขได้
 </step>
 
 <step name="summarize">
-**Present test summary:**
+**นำเสนอสรุปการทดสอบ:**
 
 ```
-# Test Results: [Plan/Phase Name]
+# ผลการทดสอบ: [ชื่อแผน/เฟส]
 
-**Tests run:** [N]
+**ทดสอบ:** [N] รายการ
 **Passed:** [N]
 **Failed:** [N]
 **Partial:** [N]
 **Skipped:** [N]
 
-## Issues Found
-[List any issues with severity]
+## Issues ที่พบ
+[แสดงรายการ issues พร้อมความรุนแรง]
 
-## Verdict
-[Based on results:]
-- ALL PASS: "All tests passed. Feature validated."
-- MINOR ISSUES: "Feature works with minor issues logged."
-- MAJOR ISSUES: "Significant issues found - review before proceeding."
-- BLOCKERS: "Blocking issues found - must fix before continuing."
+## ข้อสรุป
+[ตามผลลัพธ์:]
+- ALL PASS: "การทดสอบทั้งหมดผ่าน ฟีเจอร์ได้รับการตรวจสอบแล้ว"
+- MINOR ISSUES: "ฟีเจอร์ทำงานพร้อมปัญหาเล็กน้อยที่บันทึกไว้"
+- MAJOR ISSUES: "พบปัญหาสำคัญ — ตรวจสอบก่อนดำเนินการต่อ"
+- BLOCKERS: "พบปัญหาที่บล็อก — ต้องแก้ไขก่อนดำเนินการต่อ"
 
-## Next Steps
-[Based on verdict:]
-- If clean: Suggest proceeding to next phase
-- If issues: Suggest /gsd:plan-fix to address
+## ขั้นตอนถัดไป
+[ตามข้อสรุป:]
+- ถ้าสะอาด: แนะนำดำเนินการไปเฟสถัดไป
+- ถ้ามี issues: แนะนำ /gsd:plan-fix เพื่อแก้ไข
 ```
 </step>
 
 <step name="offer">
-**Offer next actions based on results:**
+**เสนอการดำเนินการถัดไปตามผลลัพธ์:**
 
-Use AskUserQuestion:
-- header: "Next"
-- question: "What would you like to do?"
-- options (based on results):
+ใช้ AskUserQuestion:
+- header: "ถัดไป"
+- question: "คุณต้องการทำอะไร?"
+- options (ตามผลลัพธ์):
 
-If all passed:
-- "Continue to next phase" — Proceed with confidence
-- "Test more" — Run additional manual tests
-- "Done" — Finish testing session
+ถ้าผ่านทั้งหมด:
+- "ดำเนินการไปเฟสถัดไป" — ดำเนินการต่อด้วยความมั่นใจ
+- "ทดสอบเพิ่มเติม" — รันการทดสอบ manual เพิ่มเติม
+- "เสร็จสิ้น" — จบ session การทดสอบ
 
-If issues found:
-- "Plan fixes" — Create plan to address issues (/gsd:plan-fix)
-- "Log and continue" — Issues logged, proceed anyway
-- "Review issues" — Look at logged issues in detail
-- "Done" — Finish testing session
+ถ้าพบ issues:
+- "วางแผนแก้ไข" — สร้างแผนเพื่อแก้ไข issues (/gsd:plan-fix)
+- "บันทึกและดำเนินการต่อ" — บันทึก issues แล้ว ดำเนินการต่ออยู่ดี
+- "ตรวจสอบ issues" — ดูรายละเอียด issues ที่บันทึก
+- "เสร็จสิ้น" — จบ session การทดสอบ
 </step>
 
 </process>
 
 <success_criteria>
-- [ ] Test scope identified from SUMMARY.md
-- [ ] Checklist generated based on deliverables
-- [ ] User guided through each test via AskUserQuestion
-- [ ] All test results captured (pass/fail/partial/skip)
-- [ ] Any issues logged to phase-scoped ISSUES.md
-- [ ] Summary presented with verdict
-- [ ] User knows next steps based on results
+- [ ] ระบุขอบเขตการทดสอบจาก SUMMARY.md
+- [ ] สร้าง checklist ตาม deliverables
+- [ ] แนะนำผู้ใช้ผ่านการทดสอบแต่ละรายการผ่าน AskUserQuestion
+- [ ] บันทึกผลการทดสอบทั้งหมด (pass/fail/partial/skip)
+- [ ] บันทึก issues ไปยัง ISSUES.md ที่จำกัดขอบเขตตามเฟส
+- [ ] นำเสนอสรุปพร้อมข้อสรุป
+- [ ] ผู้ใช้รู้ขั้นตอนถัดไปตามผลลัพธ์
 </success_criteria>

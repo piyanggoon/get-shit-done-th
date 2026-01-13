@@ -1,6 +1,6 @@
 ---
 name: gsd:consider-issues
-description: Review deferred issues with codebase context, close resolved ones, identify urgent ones
+description: Review issues ที่เลื่อนไว้พร้อม codebase context, ปิด issues ที่แก้แล้ว, ระบุ issues ที่เร่งด่วน
 allowed-tools:
   - Read
   - Bash
@@ -12,9 +12,9 @@ allowed-tools:
 ---
 
 <objective>
-Review all open issues from ISSUES.md with current codebase context. Identify which issues are resolved (can close), which are now urgent (should address), and which can continue waiting.
+Review open issues ทั้งหมดจาก ISSUES.md พร้อม codebase context ปัจจุบัน ระบุว่า issues ไหนแก้แล้ว (ปิดได้), ไหนเร่งด่วนแล้ว (ควรจัดการ), และไหนรอต่อได้
 
-This prevents issue pile-up by providing a triage mechanism with codebase awareness.
+ป้องกันการสะสม issues โดยมีกลไก triage พร้อม codebase awareness
 </objective>
 
 <context>
@@ -26,177 +26,177 @@ This prevents issue pile-up by providing a triage mechanism with codebase awaren
 <process>
 
 <step name="verify">
-**Verify issues file exists:**
+**ตรวจสอบว่ามีไฟล์ issues:**
 
-If no `.planning/ISSUES.md`:
+ถ้าไม่มี `.planning/ISSUES.md`:
 ```
-No issues file found.
+ไม่พบไฟล์ issues
 
-This means no enhancements have been deferred yet (Rule 5 hasn't triggered).
+หมายความว่ายังไม่มี enhancements ที่ถูกเลื่อนไว้ (Rule 5 ยังไม่ trigger)
 
-Nothing to review.
+ไม่มีอะไรให้ review
 ```
-Exit.
+ออกจากคำสั่ง
 
-If ISSUES.md exists but has no open issues (only template or empty "Open Enhancements"):
+ถ้า ISSUES.md มีอยู่แต่ไม่มี open issues (มีแค่ template หรือ "Open Enhancements" ว่างเปล่า):
 ```
-No open issues to review.
+ไม่มี open issues ให้ review
 
-All clear - continue with current work.
+ว่างหมด - ทำงานปัจจุบันต่อได้
 ```
-Exit.
+ออกจากคำสั่ง
 </step>
 
 <step name="parse">
-**Parse all open issues:**
+**Parse open issues ทั้งหมด:**
 
-Extract from "## Open Enhancements" section:
+ดึงจาก "## Open Enhancements" section:
 - ISS number (ISS-001, ISS-002, etc.)
-- Brief description
-- Discovered phase/date
+- คำอธิบายสั้น
+- Phase/date ที่ค้นพบ
 - Type (Performance/Refactoring/UX/Testing/Documentation/Accessibility)
-- Description details
+- รายละเอียดคำอธิบาย
 - Effort estimate
 
-Build list of issues to analyze.
+สร้างรายการ issues ที่จะวิเคราะห์
 </step>
 
 <step name="analyze">
-**For each open issue, perform codebase analysis:**
+**สำหรับแต่ละ open issue ทำการวิเคราะห์ codebase:**
 
-1. **Check if still relevant:**
-   - Search codebase for related code/files mentioned in issue
-   - If code no longer exists or was significantly refactored: likely resolved
+1. **ตรวจสอบว่ายังเกี่ยวข้อง:**
+   - ค้นหา codebase สำหรับ code/files ที่เกี่ยวข้องที่กล่าวถึงใน issue
+   - ถ้า code ไม่มีอยู่แล้วหรือถูก refactor อย่างมาก: น่าจะแก้แล้ว
 
-2. **Check if accidentally resolved:**
-   - Look for commits/changes that may have addressed this
-   - Check if the enhancement was implemented as part of other work
+2. **ตรวจสอบว่าแก้โดยบังเอิญ:**
+   - ดู commits/changes ที่อาจ address เรื่องนี้แล้ว
+   - ตรวจสอบว่า enhancement ถูก implement เป็นส่วนหนึ่งของงานอื่นหรือไม่
 
-3. **Assess current urgency:**
-   - Is this blocking upcoming phases?
-   - Has this become a pain point mentioned in recent summaries?
-   - Is this now affecting code we're actively working on?
+3. **ประเมินความเร่งด่วนปัจจุบัน:**
+   - กำลัง block phases ที่จะทำหรือไม่?
+   - กลายเป็น pain point ที่กล่าวถึงใน summaries ล่าสุดหรือไม่?
+   - กำลังส่งผลกระทบต่อ code ที่เรากำลังทำอยู่หรือไม่?
 
-4. **Check natural fit:**
-   - Does this align with an upcoming phase in the roadmap?
-   - Would addressing it now touch the same files as current work?
+4. **ตรวจสอบ natural fit:**
+   - ตรงกับ phase ที่จะทำใน roadmap หรือไม่?
+   - การ address ตอนนี้จะแตะไฟล์เดียวกับงานปัจจุบันหรือไม่?
 
-**Categorize each issue:**
-- **Resolved** - Can be closed (code changed, no longer applicable)
-- **Urgent** - Should address before continuing (blocking or causing problems)
-- **Natural fit** - Good candidate for upcoming phase X
-- **Can wait** - Keep deferred, no change in status
+**จัดหมวดแต่ละ issue:**
+- **Resolved** - ปิดได้ (code เปลี่ยน, ไม่ applicable แล้ว)
+- **Urgent** - ควร address ก่อนทำต่อ (blocking หรือสร้างปัญหา)
+- **Natural fit** - ตัวเลือกที่ดีสำหรับ Phase X ที่จะทำ
+- **Can wait** - เลื่อนต่อได้ ไม่มีการเปลี่ยนแปลงสถานะ
 </step>
 
 <step name="report">
-**Present categorized report:**
+**แสดงรายงานที่จัดหมวดแล้ว:**
 
 ```
 # Issue Review
 
-**Analyzed:** [N] open issues
-**Last reviewed:** [today's date]
+**วิเคราะห์แล้ว:** [N] open issues
+**Review ล่าสุด:** [วันนี้]
 
-## Resolved (can close)
+## Resolved (ปิดได้)
 
 ### ISS-XXX: [description]
-**Reason:** [Why it's resolved - code changed, implemented elsewhere, no longer applicable]
-**Evidence:** [What you found - file changes, missing code, etc.]
+**เหตุผล:** [ทำไมถึงแก้แล้ว - code เปลี่ยน, implement ที่อื่น, ไม่ applicable แล้ว]
+**หลักฐาน:** [ที่พบ - file changes, missing code, etc.]
 
-[Repeat for each resolved issue, or "None" if none resolved]
+[ทำซ้ำสำหรับแต่ละ resolved issue, หรือ "ไม่มี" ถ้าไม่มี]
 
 ---
 
-## Urgent (should address now)
+## Urgent (ควร address ตอนนี้)
 
 ### ISS-XXX: [description]
-**Why urgent:** [What changed - blocking next phase, causing active problems, etc.]
-**Recommendation:** Insert plan before Phase [X] / Add to current phase
+**ทำไมเร่งด่วน:** [อะไรเปลี่ยน - blocking next phase, สร้างปัญหาอยู่, etc.]
+**คำแนะนำ:** Insert plan ก่อน Phase [X] / เพิ่มใน phase ปัจจุบัน
 **Effort:** [Quick/Medium/Substantial]
 
-[Repeat for each urgent issue, or "None - all issues can wait" if none urgent]
+[ทำซ้ำสำหรับแต่ละ urgent issue, หรือ "ไม่มี - issues ทั้งหมดรอได้" ถ้าไม่มี]
 
 ---
 
-## Natural Fit for Upcoming Work
+## Natural Fit สำหรับงานที่จะทำ
 
 ### ISS-XXX: [description]
-**Fits with:** Phase [X] - [phase name]
-**Reason:** [Same files, same subsystem, natural inclusion]
+**เหมาะกับ:** Phase [X] - [phase name]
+**เหตุผล:** [ไฟล์เดียวกัน, subsystem เดียวกัน, รวมได้เป็นธรรมชาติ]
 
-[Repeat for each, or "None" if no natural fits]
+[ทำซ้ำสำหรับแต่ละ, หรือ "ไม่มี" ถ้าไม่มี]
 
 ---
 
-## Can Wait (no change)
+## Can Wait (ไม่มีการเปลี่ยนแปลง)
 
 ### ISS-XXX: [description]
-**Status:** Still valid, not urgent, keep deferred
+**สถานะ:** ยังคง valid, ไม่เร่งด่วน, เลื่อนต่อได้
 
-[Repeat for each, or list ISS numbers if many]
+[ทำซ้ำสำหรับแต่ละ, หรือแสดง ISS numbers ถ้ามีเยอะ]
 ```
 </step>
 
 <step name="offer_actions">
-**Offer batch actions:**
+**เสนอ batch actions:**
 
-Based on analysis, present options:
+ตาม analysis เสนอ options:
 
 ```
 ## Actions
 
-What would you like to do?
+ต้องการทำอะไร?
 ```
 
-Use AskUserQuestion with appropriate options based on findings:
+ใช้ AskUserQuestion พร้อม options ที่เหมาะสมตามผลที่พบ:
 
-**If resolved issues exist:**
-- "Close resolved issues" - Move to Closed Enhancements section
-- "Review each first" - Show details before closing
+**ถ้ามี resolved issues:**
+- "ปิด resolved issues" - ย้ายไป Closed Enhancements section
+- "ดูรายละเอียดก่อน" - แสดง details ก่อนปิด
 
-**If urgent issues exist:**
-- "Insert urgent phase" - Create phase to address urgent issues (/gsd:insert-phase)
-- "Add to current plan" - Include in next plan being created
-- "Defer anyway" - Keep as-is despite urgency
+**ถ้ามี urgent issues:**
+- "Insert urgent phase" - สร้าง phase เพื่อ address urgent issues (/gsd:insert-phase)
+- "เพิ่มใน plan ปัจจุบัน" - รวมใน plan ที่กำลังสร้าง
+- "เลื่อนอยู่ดี" - เก็บไว้เหมือนเดิมแม้จะเร่งด่วน
 
-**If natural fits exist:**
-- "Note for phase planning" - Will be picked up during /gsd:plan-phase
-- "Add explicit reminder" - Update issue with "Include in Phase X"
+**ถ้ามี natural fits:**
+- "จดไว้สำหรับ phase planning" - จะถูกหยิบขึ้นมาระหว่าง /gsd:plan-phase
+- "เพิ่ม reminder ชัดเจน" - อัพเดท issue ด้วย "Include in Phase X"
 
-**Always include:**
-- "Done for now" - Exit without changes
+**รวมเสมอ:**
+- "เสร็จสำหรับตอนนี้" - ออกโดยไม่เปลี่ยนแปลง
 </step>
 
 <step name="execute_actions">
-**Execute selected actions:**
+**ดำเนินการ actions ที่เลือก:**
 
-**If closing resolved issues:**
-1. Read current ISSUES.md
-2. For each resolved issue:
-   - Remove from "## Open Enhancements"
-   - Add to "## Closed Enhancements" with resolution note:
+**ถ้าปิด resolved issues:**
+1. อ่าน ISSUES.md ปัจจุบัน
+2. สำหรับแต่ละ resolved issue:
+   - ลบจาก "## Open Enhancements"
+   - เพิ่มใน "## Closed Enhancements" พร้อม resolution note:
      ```
      ### ISS-XXX: [description]
      **Resolved:** [date] - [reason]
      ```
-3. Write updated ISSUES.md
-4. Update STATE.md deferred issues count
+3. เขียน ISSUES.md ที่อัพเดท
+4. อัพเดท STATE.md deferred issues count
 
-**If inserting urgent phase:**
-- Display the command for user to run after clearing: `/gsd:insert-phase [after-phase] Address urgent issues ISS-XXX, ISS-YYY`
+**ถ้า insert urgent phase:**
+- แสดงคำสั่งให้ผู้ใช้รันหลัง clear: `/gsd:insert-phase [after-phase] Address urgent issues ISS-XXX, ISS-YYY`
 
-**If noting for phase planning:**
-- Update issue's "Suggested phase" field with specific phase number
-- These will be picked up by /gsd:plan-phase workflow
+**ถ้าจดไว้สำหรับ phase planning:**
+- อัพเดท "Suggested phase" field ของ issue ด้วย phase number เฉพาะ
+- เหล่านี้จะถูกหยิบโดย /gsd:plan-phase workflow
 </step>
 
 </process>
 
 <success_criteria>
-- [ ] All open issues analyzed against current codebase
-- [ ] Each issue categorized (resolved/urgent/natural-fit/can-wait)
-- [ ] Clear reasoning provided for each categorization
-- [ ] Actions offered based on findings
-- [ ] ISSUES.md updated if user takes action
-- [ ] STATE.md updated if issue count changes
+- [ ] วิเคราะห์ open issues ทั้งหมดกับ codebase ปัจจุบัน
+- [ ] จัดหมวดแต่ละ issue (resolved/urgent/natural-fit/can-wait)
+- [ ] ให้เหตุผลชัดเจนสำหรับแต่ละการจัดหมวด
+- [ ] เสนอ actions ตามผลที่พบ
+- [ ] อัพเดท ISSUES.md ถ้าผู้ใช้ดำเนินการ
+- [ ] อัพเดท STATE.md ถ้า issue count เปลี่ยน
 </success_criteria>

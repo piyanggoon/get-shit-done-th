@@ -1,57 +1,57 @@
-# Research Template
+# เทมเพลต Research
 
-Template for `.planning/phases/XX-name/{phase}-RESEARCH.md` - comprehensive ecosystem research before planning.
+เทมเพลตสำหรับ `.planning/phases/XX-name/{phase}-RESEARCH.md` - การวิจัย ecosystem แบบครอบคลุมก่อนการวางแผน
 
-**Purpose:** Document what Claude needs to know to implement a phase well - not just "which library" but "how do experts build this."
+**วัตถุประสงค์:** บันทึกสิ่งที่ Claude จำเป็นต้องรู้เพื่อ implement เฟสได้ดี - ไม่ใช่แค่ "library ไหน" แต่ "ผู้เชี่ยวชาญสร้างสิ่งนี้อย่างไร"
 
 ---
 
-## File Template
+## เทมเพลตไฟล์
 
 ```markdown
-# Phase [X]: [Name] - Research
+# เฟส [X]: [ชื่อ] - Research
 
-**Researched:** [date]
-**Domain:** [primary technology/problem domain]
-**Confidence:** [HIGH/MEDIUM/LOW]
+**วันที่วิจัย:** [วันที่]
+**โดเมน:** [เทคโนโลยีหลัก/problem domain]
+**ความมั่นใจ:** [HIGH/MEDIUM/LOW]
 
 <research_summary>
-## Summary
+## สรุป
 
-[2-3 paragraph executive summary]
-- What was researched
-- What the standard approach is
-- Key recommendations
+[สรุปผู้บริหาร 2-3 ย่อหน้า]
+- สิ่งที่วิจัย
+- แนวทางมาตรฐานคืออะไร
+- คำแนะนำสำคัญ
 
-**Primary recommendation:** [one-liner actionable guidance]
+**คำแนะนำหลัก:** [หนึ่งบรรทัด guidance ที่ actionable]
 </research_summary>
 
 <standard_stack>
 ## Standard Stack
 
-The established libraries/tools for this domain:
+libraries/tools ที่เป็นมาตรฐานสำหรับโดเมนนี้:
 
 ### Core
-| Library | Version | Purpose | Why Standard |
+| Library | Version | วัตถุประสงค์ | ทำไมเป็นมาตรฐาน |
 |---------|---------|---------|--------------|
-| [name] | [ver] | [what it does] | [why experts use it] |
-| [name] | [ver] | [what it does] | [why experts use it] |
+| [ชื่อ] | [ver] | [ทำอะไร] | [ทำไมผู้เชี่ยวชาญใช้] |
+| [ชื่อ] | [ver] | [ทำอะไร] | [ทำไมผู้เชี่ยวชาญใช้] |
 
 ### Supporting
-| Library | Version | Purpose | When to Use |
+| Library | Version | วัตถุประสงค์ | เมื่อไหร่ใช้ |
 |---------|---------|---------|-------------|
-| [name] | [ver] | [what it does] | [use case] |
-| [name] | [ver] | [what it does] | [use case] |
+| [ชื่อ] | [ver] | [ทำอะไร] | [use case] |
+| [ชื่อ] | [ver] | [ทำอะไร] | [use case] |
 
-### Alternatives Considered
-| Instead of | Could Use | Tradeoff |
+### Alternatives ที่พิจารณา
+| แทนที่ | อาจใช้ | Tradeoff |
 |------------|-----------|----------|
-| [standard] | [alternative] | [when alternative makes sense] |
+| [มาตรฐาน] | [ทางเลือก] | [เมื่อไหร่ทางเลือกเหมาะสม] |
 
-**Installation:**
+**การติดตั้ง:**
 ```bash
 npm install [packages]
-# or
+# หรือ
 yarn add [packages]
 ```
 </standard_stack>
@@ -59,75 +59,75 @@ yarn add [packages]
 <architecture_patterns>
 ## Architecture Patterns
 
-### Recommended Project Structure
+### โครงสร้างโปรเจกต์ที่แนะนำ
 ```
 src/
-├── [folder]/        # [purpose]
-├── [folder]/        # [purpose]
-└── [folder]/        # [purpose]
+├── [folder]/        # [วัตถุประสงค์]
+├── [folder]/        # [วัตถุประสงค์]
+└── [folder]/        # [วัตถุประสงค์]
 ```
 
-### Pattern 1: [Pattern Name]
-**What:** [description]
-**When to use:** [conditions]
-**Example:**
+### Pattern 1: [ชื่อ Pattern]
+**อะไร:** [คำอธิบาย]
+**เมื่อไหร่ใช้:** [เงื่อนไข]
+**ตัวอย่าง:**
 ```typescript
-// [code example from Context7/official docs]
+// [ตัวอย่างโค้ดจาก Context7/official docs]
 ```
 
-### Pattern 2: [Pattern Name]
-**What:** [description]
-**When to use:** [conditions]
-**Example:**
+### Pattern 2: [ชื่อ Pattern]
+**อะไร:** [คำอธิบาย]
+**เมื่อไหร่ใช้:** [เงื่อนไข]
+**ตัวอย่าง:**
 ```typescript
-// [code example]
+// [ตัวอย่างโค้ด]
 ```
 
-### Anti-Patterns to Avoid
-- **[Anti-pattern]:** [why it's bad, what to do instead]
-- **[Anti-pattern]:** [why it's bad, what to do instead]
+### Anti-Patterns ที่ควรหลีกเลี่ยง
+- **[Anti-pattern]:** [ทำไมไม่ดี ควรทำอะไรแทน]
+- **[Anti-pattern]:** [ทำไมไม่ดี ควรทำอะไรแทน]
 </architecture_patterns>
 
 <dont_hand_roll>
-## Don't Hand-Roll
+## อย่าเขียนเอง
 
-Problems that look simple but have existing solutions:
+ปัญหาที่ดูง่ายแต่มี solutions อยู่แล้ว:
 
-| Problem | Don't Build | Use Instead | Why |
+| ปัญหา | อย่าสร้าง | ใช้แทน | ทำไม |
 |---------|-------------|-------------|-----|
-| [problem] | [what you'd build] | [library] | [edge cases, complexity] |
-| [problem] | [what you'd build] | [library] | [edge cases, complexity] |
-| [problem] | [what you'd build] | [library] | [edge cases, complexity] |
+| [ปัญหา] | [สิ่งที่คุณจะสร้าง] | [library] | [edge cases, complexity] |
+| [ปัญหา] | [สิ่งที่คุณจะสร้าง] | [library] | [edge cases, complexity] |
+| [ปัญหา] | [สิ่งที่คุณจะสร้าง] | [library] | [edge cases, complexity] |
 
-**Key insight:** [why custom solutions are worse in this domain]
+**Insight สำคัญ:** [ทำไม custom solutions แย่กว่าในโดเมนนี้]
 </dont_hand_roll>
 
 <common_pitfalls>
 ## Common Pitfalls
 
-### Pitfall 1: [Name]
-**What goes wrong:** [description]
-**Why it happens:** [root cause]
-**How to avoid:** [prevention strategy]
-**Warning signs:** [how to detect early]
+### Pitfall 1: [ชื่อ]
+**ผิดพลาดอะไร:** [คำอธิบาย]
+**ทำไมเกิด:** [สาเหตุหลัก]
+**วิธีหลีกเลี่ยง:** [กลยุทธ์ป้องกัน]
+**สัญญาณเตือน:** [วิธีตรวจจับเร็ว]
 
-### Pitfall 2: [Name]
-**What goes wrong:** [description]
-**Why it happens:** [root cause]
-**How to avoid:** [prevention strategy]
-**Warning signs:** [how to detect early]
+### Pitfall 2: [ชื่อ]
+**ผิดพลาดอะไร:** [คำอธิบาย]
+**ทำไมเกิด:** [สาเหตุหลัก]
+**วิธีหลีกเลี่ยง:** [กลยุทธ์ป้องกัน]
+**สัญญาณเตือน:** [วิธีตรวจจับเร็ว]
 
-### Pitfall 3: [Name]
-**What goes wrong:** [description]
-**Why it happens:** [root cause]
-**How to avoid:** [prevention strategy]
-**Warning signs:** [how to detect early]
+### Pitfall 3: [ชื่อ]
+**ผิดพลาดอะไร:** [คำอธิบาย]
+**ทำไมเกิด:** [สาเหตุหลัก]
+**วิธีหลีกเลี่ยง:** [กลยุทธ์ป้องกัน]
+**สัญญาณเตือน:** [วิธีตรวจจับเร็ว]
 </common_pitfalls>
 
 <code_examples>
-## Code Examples
+## ตัวอย่างโค้ด
 
-Verified patterns from official sources:
+Patterns ที่ verified จาก official sources:
 
 ### [Common Operation 1]
 ```typescript
@@ -151,124 +151,124 @@ Verified patterns from official sources:
 <sota_updates>
 ## State of the Art (2024-2025)
 
-What's changed recently:
+อะไรเปลี่ยนล่าสุด:
 
-| Old Approach | Current Approach | When Changed | Impact |
+| แนวทางเก่า | แนวทางปัจจุบัน | เปลี่ยนเมื่อไหร่ | ผลกระทบ |
 |--------------|------------------|--------------|--------|
-| [old] | [new] | [date/version] | [what it means for implementation] |
+| [เก่า] | [ใหม่] | [วันที่/version] | [หมายถึงอะไรสำหรับ implementation] |
 
-**New tools/patterns to consider:**
-- [Tool/Pattern]: [what it enables, when to use]
-- [Tool/Pattern]: [what it enables, when to use]
+**เครื่องมือ/patterns ใหม่ที่ควรพิจารณา:**
+- [Tool/Pattern]: [เปิดใช้อะไร เมื่อไหร่ใช้]
+- [Tool/Pattern]: [เปิดใช้อะไร เมื่อไหร่ใช้]
 
 **Deprecated/outdated:**
-- [Thing]: [why it's outdated, what replaced it]
+- [สิ่ง]: [ทำไม outdated อะไรแทนที่]
 </sota_updates>
 
 <open_questions>
-## Open Questions
+## คำถามที่ยังเปิดอยู่
 
-Things that couldn't be fully resolved:
+สิ่งที่ไม่สามารถแก้ไขได้อย่างสมบูรณ์:
 
-1. **[Question]**
-   - What we know: [partial info]
-   - What's unclear: [the gap]
-   - Recommendation: [how to handle during planning/execution]
+1. **[คำถาม]**
+   - สิ่งที่เรารู้: [ข้อมูลบางส่วน]
+   - สิ่งที่ไม่ชัด: [ช่องว่าง]
+   - คำแนะนำ: [วิธีจัดการระหว่างการวางแผน/execution]
 
-2. **[Question]**
-   - What we know: [partial info]
-   - What's unclear: [the gap]
-   - Recommendation: [how to handle]
+2. **[คำถาม]**
+   - สิ่งที่เรารู้: [ข้อมูลบางส่วน]
+   - สิ่งที่ไม่ชัด: [ช่องว่าง]
+   - คำแนะนำ: [วิธีจัดการ]
 </open_questions>
 
 <sources>
-## Sources
+## แหล่งข้อมูล
 
 ### Primary (HIGH confidence)
 - [Context7 library ID] - [topics fetched]
-- [Official docs URL] - [what was checked]
+- [Official docs URL] - [สิ่งที่ตรวจสอบ]
 
 ### Secondary (MEDIUM confidence)
 - [WebSearch verified with official source] - [finding + verification]
 
-### Tertiary (LOW confidence - needs validation)
-- [WebSearch only] - [finding, marked for validation during implementation]
+### Tertiary (LOW confidence - ต้อง validation)
+- [WebSearch only] - [finding ต้อง validation ระหว่าง implementation]
 </sources>
 
 <metadata>
 ## Metadata
 
-**Research scope:**
-- Core technology: [what]
-- Ecosystem: [libraries explored]
-- Patterns: [patterns researched]
-- Pitfalls: [areas checked]
+**ขอบเขต Research:**
+- Core technology: [อะไร]
+- Ecosystem: [libraries ที่สำรวจ]
+- Patterns: [patterns ที่วิจัย]
+- Pitfalls: [areas ที่ตรวจสอบ]
 
 **Confidence breakdown:**
-- Standard stack: [HIGH/MEDIUM/LOW] - [reason]
-- Architecture: [HIGH/MEDIUM/LOW] - [reason]
-- Pitfalls: [HIGH/MEDIUM/LOW] - [reason]
-- Code examples: [HIGH/MEDIUM/LOW] - [reason]
+- Standard stack: [HIGH/MEDIUM/LOW] - [เหตุผล]
+- Architecture: [HIGH/MEDIUM/LOW] - [เหตุผล]
+- Pitfalls: [HIGH/MEDIUM/LOW] - [เหตุผล]
+- Code examples: [HIGH/MEDIUM/LOW] - [เหตุผล]
 
-**Research date:** [date]
-**Valid until:** [estimate - 30 days for stable tech, 7 days for fast-moving]
+**วันที่วิจัย:** [วันที่]
+**ใช้ได้ถึง:** [ประมาณ - 30 วันสำหรับ tech ที่ stable, 7 วันสำหรับ fast-moving]
 </metadata>
 
 ---
 
-*Phase: XX-name*
-*Research completed: [date]*
-*Ready for planning: [yes/no]*
+*เฟส: XX-name*
+*Research เสร็จ: [วันที่]*
+*พร้อมสำหรับการวางแผน: [yes/no]*
 ```
 
 ---
 
-## Good Example
+## ตัวอย่างที่ดี
 
 ```markdown
-# Phase 3: 3D City Driving - Research
+# เฟส 3: 3D City Driving - Research
 
-**Researched:** 2025-01-20
-**Domain:** Three.js 3D web game with driving mechanics
-**Confidence:** HIGH
+**วันที่วิจัย:** 2025-01-20
+**โดเมน:** Three.js 3D web game พร้อม driving mechanics
+**ความมั่นใจ:** HIGH
 
 <research_summary>
-## Summary
+## สรุป
 
-Researched the Three.js ecosystem for building a 3D city driving game. The standard approach uses Three.js with React Three Fiber for component architecture, Rapier for physics, and drei for common helpers.
+วิจัย Three.js ecosystem สำหรับการสร้าง 3D city driving game แนวทางมาตรฐานใช้ Three.js พร้อม React Three Fiber สำหรับ component architecture, Rapier สำหรับ physics และ drei สำหรับ common helpers
 
-Key finding: Don't hand-roll physics or collision detection. Rapier (via @react-three/rapier) handles vehicle physics, terrain collision, and city object interactions efficiently. Custom physics code leads to bugs and performance issues.
+Finding สำคัญ: อย่าเขียน physics หรือ collision detection เอง Rapier (ผ่าน @react-three/rapier) จัดการ vehicle physics, terrain collision และ city object interactions อย่างมีประสิทธิภาพ Custom physics code นำไปสู่ bugs และปัญหา performance
 
-**Primary recommendation:** Use R3F + Rapier + drei stack. Start with vehicle controller from drei, add Rapier vehicle physics, build city with instanced meshes for performance.
+**คำแนะนำหลัก:** ใช้ R3F + Rapier + drei stack เริ่มด้วย vehicle controller จาก drei เพิ่ม Rapier vehicle physics สร้างเมืองด้วย instanced meshes เพื่อ performance
 </research_summary>
 
 <standard_stack>
 ## Standard Stack
 
 ### Core
-| Library | Version | Purpose | Why Standard |
+| Library | Version | วัตถุประสงค์ | ทำไมเป็นมาตรฐาน |
 |---------|---------|---------|--------------|
-| three | 0.160.0 | 3D rendering | The standard for web 3D |
-| @react-three/fiber | 8.15.0 | React renderer for Three.js | Declarative 3D, better DX |
-| @react-three/drei | 9.92.0 | Helpers and abstractions | Solves common problems |
-| @react-three/rapier | 1.2.1 | Physics engine bindings | Best physics for R3F |
+| three | 0.160.0 | 3D rendering | มาตรฐานสำหรับ web 3D |
+| @react-three/fiber | 8.15.0 | React renderer สำหรับ Three.js | Declarative 3D, DX ดีกว่า |
+| @react-three/drei | 9.92.0 | Helpers และ abstractions | แก้ปัญหาทั่วไป |
+| @react-three/rapier | 1.2.1 | Physics engine bindings | Physics ที่ดีที่สุดสำหรับ R3F |
 
 ### Supporting
-| Library | Version | Purpose | When to Use |
+| Library | Version | วัตถุประสงค์ | เมื่อไหร่ใช้ |
 |---------|---------|---------|-------------|
 | @react-three/postprocessing | 2.16.0 | Visual effects | Bloom, DOF, motion blur |
 | leva | 0.9.35 | Debug UI | Tweaking parameters |
 | zustand | 4.4.7 | State management | Game state, UI state |
 | use-sound | 4.0.1 | Audio | Engine sounds, ambient |
 
-### Alternatives Considered
-| Instead of | Could Use | Tradeoff |
+### Alternatives ที่พิจารณา
+| แทนที่ | อาจใช้ | Tradeoff |
 |------------|-----------|----------|
-| Rapier | Cannon.js | Cannon simpler but less performant for vehicles |
-| R3F | Vanilla Three | Vanilla if no React, but R3F DX is much better |
-| drei | Custom helpers | drei is battle-tested, don't reinvent |
+| Rapier | Cannon.js | Cannon ง่ายกว่าแต่ performant น้อยกว่าสำหรับ vehicles |
+| R3F | Vanilla Three | Vanilla ถ้าไม่มี React แต่ R3F DX ดีกว่ามาก |
+| drei | Custom helpers | drei ผ่านการทดสอบแล้ว อย่าคิดค้นใหม่ |
 
-**Installation:**
+**การติดตั้ง:**
 ```bash
 npm install three @react-three/fiber @react-three/drei @react-three/rapier zustand
 ```
@@ -277,12 +277,12 @@ npm install three @react-three/fiber @react-three/drei @react-three/rapier zusta
 <architecture_patterns>
 ## Architecture Patterns
 
-### Recommended Project Structure
+### โครงสร้างโปรเจกต์ที่แนะนำ
 ```
 src/
 ├── components/
-│   ├── Vehicle/          # Player car with physics
-│   ├── City/             # City generation and buildings
+│   ├── Vehicle/          # รถผู้เล่นพร้อม physics
+│   ├── City/             # City generation และอาคาร
 │   ├── Road/             # Road network
 │   └── Environment/      # Sky, lighting, fog
 ├── hooks/
@@ -294,10 +294,10 @@ src/
     └── cityGenerator.ts  # Procedural generation helpers
 ```
 
-### Pattern 1: Vehicle with Rapier Physics
-**What:** Use RigidBody with vehicle-specific settings, not custom physics
-**When to use:** Any ground vehicle
-**Example:**
+### Pattern 1: Vehicle พร้อม Rapier Physics
+**อะไร:** ใช้ RigidBody พร้อม vehicle-specific settings ไม่ใช่ custom physics
+**เมื่อไหร่ใช้:** ground vehicle ใดๆ
+**ตัวอย่าง:**
 ```typescript
 // Source: @react-three/rapier docs
 import { RigidBody, useRapier } from '@react-three/rapier'
@@ -323,10 +323,10 @@ function Vehicle() {
 }
 ```
 
-### Pattern 2: Instanced Meshes for City
-**What:** Use InstancedMesh for repeated objects (buildings, trees, props)
-**When to use:** >100 similar objects
-**Example:**
+### Pattern 2: Instanced Meshes สำหรับเมือง
+**อะไร:** ใช้ InstancedMesh สำหรับ objects ที่ซ้ำกัน (อาคาร, ต้นไม้, props)
+**เมื่อไหร่ใช้:** >100 objects ที่คล้ายกัน
+**ตัวอย่าง:**
 ```typescript
 // Source: drei docs
 import { Instances, Instance } from '@react-three/drei'
@@ -344,50 +344,50 @@ function Buildings({ positions }) {
 }
 ```
 
-### Anti-Patterns to Avoid
-- **Creating meshes in render loop:** Create once, update transforms only
-- **Not using InstancedMesh:** Individual meshes for buildings kills performance
-- **Custom physics math:** Rapier handles it better, every time
+### Anti-Patterns ที่ควรหลีกเลี่ยง
+- **สร้าง meshes ใน render loop:** สร้างครั้งเดียว อัปเดตแค่ transforms
+- **ไม่ใช้ InstancedMesh:** Individual meshes สำหรับอาคารฆ่า performance
+- **Custom physics math:** Rapier จัดการได้ดีกว่า ทุกครั้ง
 </architecture_patterns>
 
 <dont_hand_roll>
-## Don't Hand-Roll
+## อย่าเขียนเอง
 
-| Problem | Don't Build | Use Instead | Why |
+| ปัญหา | อย่าสร้าง | ใช้แทน | ทำไม |
 |---------|-------------|-------------|-----|
-| Vehicle physics | Custom velocity/acceleration | Rapier RigidBody | Wheel friction, suspension, collisions are complex |
-| Collision detection | Raycasting everything | Rapier colliders | Performance, edge cases, tunneling |
-| Camera follow | Manual lerp | drei CameraControls or custom with useFrame | Smooth interpolation, bounds |
-| City generation | Pure random placement | Grid-based with noise for variation | Random looks wrong, grid is predictable |
-| LOD | Manual distance checks | drei <Detailed> | Handles transitions, hysteresis |
+| Vehicle physics | Custom velocity/acceleration | Rapier RigidBody | Wheel friction, suspension, collisions ซับซ้อน |
+| Collision detection | Raycasting ทุกอย่าง | Rapier colliders | Performance, edge cases, tunneling |
+| Camera follow | Manual lerp | drei CameraControls หรือ custom พร้อม useFrame | Smooth interpolation, bounds |
+| City generation | Pure random placement | Grid-based พร้อม noise สำหรับ variation | Random ดูผิด grid คาดเดาได้ |
+| LOD | Manual distance checks | drei <Detailed> | จัดการ transitions, hysteresis |
 
-**Key insight:** 3D game development has 40+ years of solved problems. Rapier implements proper physics simulation. drei implements proper 3D helpers. Fighting these leads to bugs that look like "game feel" issues but are actually physics edge cases.
+**Insight สำคัญ:** 3D game development มีปัญหาที่แก้ไขแล้ว 40+ ปี Rapier implement proper physics simulation drei implement proper 3D helpers สู้กับสิ่งเหล่านี้นำไปสู่ bugs ที่ดูเหมือน "game feel" issues แต่จริงๆ คือ physics edge cases
 </dont_hand_roll>
 
 <common_pitfalls>
 ## Common Pitfalls
 
 ### Pitfall 1: Physics Tunneling
-**What goes wrong:** Fast objects pass through walls
-**Why it happens:** Default physics step too large for velocity
-**How to avoid:** Use CCD (Continuous Collision Detection) in Rapier
-**Warning signs:** Objects randomly appearing outside buildings
+**ผิดพลาดอะไร:** Objects เร็วทะลุกำแพง
+**ทำไมเกิด:** Default physics step ใหญ่เกินไปสำหรับ velocity
+**วิธีหลีกเลี่ยง:** ใช้ CCD (Continuous Collision Detection) ใน Rapier
+**สัญญาณเตือน:** Objects ปรากฏนอกอาคารแบบสุ่ม
 
 ### Pitfall 2: Performance Death by Draw Calls
-**What goes wrong:** Game stutters with many buildings
-**Why it happens:** Each mesh = 1 draw call, hundreds of buildings = hundreds of calls
-**How to avoid:** InstancedMesh for similar objects, merge static geometry
-**Warning signs:** GPU bound, low FPS despite simple scene
+**ผิดพลาดอะไร:** เกมกระตุกเมื่อมีอาคารเยอะ
+**ทำไมเกิด:** แต่ละ mesh = 1 draw call, หลายร้อยอาคาร = หลายร้อย calls
+**วิธีหลีกเลี่ยง:** InstancedMesh สำหรับ objects ที่คล้ายกัน merge static geometry
+**สัญญาณเตือน:** GPU bound, FPS ต่ำแม้ scene ง่าย
 
-### Pitfall 3: Vehicle "Floaty" Feel
-**What goes wrong:** Car doesn't feel grounded
-**Why it happens:** Missing proper wheel/suspension simulation
-**How to avoid:** Use Rapier vehicle controller or tune mass/damping carefully
-**Warning signs:** Car bounces oddly, doesn't grip corners
+### Pitfall 3: Vehicle "ลอย" Feel
+**ผิดพลาดอะไร:** รถไม่รู้สึกติดพื้น
+**ทำไมเกิด:** ขาด proper wheel/suspension simulation
+**วิธีหลีกเลี่ยง:** ใช้ Rapier vehicle controller หรือ tune mass/damping อย่างระมัดระวัง
+**สัญญาณเตือน:** รถกระเด้งแปลกๆ ไม่ยึดเกาะโค้ง
 </common_pitfalls>
 
 <code_examples>
-## Code Examples
+## ตัวอย่างโค้ด
 
 ### Basic R3F + Rapier Setup
 ```typescript
@@ -438,23 +438,23 @@ function useVehicleControls(rigidBodyRef) {
 <sota_updates>
 ## State of the Art (2024-2025)
 
-| Old Approach | Current Approach | When Changed | Impact |
+| แนวทางเก่า | แนวทางปัจจุบัน | เปลี่ยนเมื่อไหร่ | ผลกระทบ |
 |--------------|------------------|--------------|--------|
-| cannon-es | Rapier | 2023 | Rapier is faster, better maintained |
-| vanilla Three.js | React Three Fiber | 2020+ | R3F is now standard for React apps |
-| Manual InstancedMesh | drei <Instances> | 2022 | Simpler API, handles updates |
+| cannon-es | Rapier | 2023 | Rapier เร็วกว่า maintain ดีกว่า |
+| vanilla Three.js | React Three Fiber | 2020+ | R3F เป็นมาตรฐานสำหรับ React apps แล้ว |
+| Manual InstancedMesh | drei <Instances> | 2022 | API ง่ายกว่า จัดการ updates |
 
-**New tools/patterns to consider:**
-- **WebGPU:** Coming but not production-ready for games yet (2025)
-- **drei Gltf helpers:** <useGLTF.preload> for loading screens
+**เครื่องมือ/patterns ใหม่ที่ควรพิจารณา:**
+- **WebGPU:** กำลังมาแต่ยังไม่พร้อม production สำหรับเกม (2025)
+- **drei Gltf helpers:** <useGLTF.preload> สำหรับ loading screens
 
 **Deprecated/outdated:**
-- **cannon.js (original):** Use cannon-es fork or better, Rapier
-- **Manual raycasting for physics:** Just use Rapier colliders
+- **cannon.js (original):** ใช้ cannon-es fork หรือดีกว่า Rapier
+- **Manual raycasting สำหรับ physics:** แค่ใช้ Rapier colliders
 </sota_updates>
 
 <sources>
-## Sources
+## แหล่งข้อมูล
 
 ### Primary (HIGH confidence)
 - /pmndrs/react-three-fiber - getting started, hooks, performance
@@ -462,68 +462,68 @@ function useVehicleControls(rigidBodyRef) {
 - /dimforge/rapier-js - physics setup, vehicle physics
 
 ### Secondary (MEDIUM confidence)
-- Three.js discourse "city driving game" threads - verified patterns against docs
+- Three.js discourse "city driving game" threads - verified patterns กับ docs
 - R3F examples repository - verified code works
 
-### Tertiary (LOW confidence - needs validation)
-- None - all findings verified
+### Tertiary (LOW confidence - ต้อง validation)
+- ไม่มี - findings ทั้งหมด verified
 </sources>
 
 <metadata>
 ## Metadata
 
-**Research scope:**
+**ขอบเขต Research:**
 - Core technology: Three.js + React Three Fiber
 - Ecosystem: Rapier, drei, zustand
 - Patterns: Vehicle physics, instancing, city generation
 - Pitfalls: Performance, physics, feel
 
 **Confidence breakdown:**
-- Standard stack: HIGH - verified with Context7, widely used
-- Architecture: HIGH - from official examples
-- Pitfalls: HIGH - documented in discourse, verified in docs
-- Code examples: HIGH - from Context7/official sources
+- Standard stack: HIGH - verified กับ Context7 ใช้กันแพร่หลาย
+- Architecture: HIGH - จาก official examples
+- Pitfalls: HIGH - documented ใน discourse verified ใน docs
+- Code examples: HIGH - จาก Context7/official sources
 
-**Research date:** 2025-01-20
-**Valid until:** 2025-02-20 (30 days - R3F ecosystem stable)
+**วันที่วิจัย:** 2025-01-20
+**ใช้ได้ถึง:** 2025-02-20 (30 วัน - R3F ecosystem stable)
 </metadata>
 
 ---
 
-*Phase: 03-city-driving*
-*Research completed: 2025-01-20*
-*Ready for planning: yes*
+*เฟส: 03-city-driving*
+*Research เสร็จ: 2025-01-20*
+*พร้อมสำหรับการวางแผน: yes*
 ```
 
 ---
 
-## Guidelines
+## แนวทาง
 
-**When to create:**
-- Before planning phases in niche/complex domains
-- When Claude's training data is likely stale or sparse
-- When "how do experts do this" matters more than "which library"
+**เมื่อไหร่ควรสร้าง:**
+- ก่อนวางแผนเฟสใน niche/complex domains
+- เมื่อ training data ของ Claude น่าจะ stale หรือ sparse
+- เมื่อ "ผู้เชี่ยวชาญทำอย่างไร" สำคัญกว่า "library ไหน"
 
-**Structure:**
-- Use XML tags for section markers (matches GSD templates)
-- Seven core sections: summary, standard_stack, architecture_patterns, dont_hand_roll, common_pitfalls, code_examples, sources
-- All sections required (drives comprehensive research)
+**โครงสร้าง:**
+- ใช้ XML tags สำหรับ section markers (ตรงกับ GSD templates)
+- เจ็ด core sections: summary, standard_stack, architecture_patterns, dont_hand_roll, common_pitfalls, code_examples, sources
+- ทุก sections จำเป็น (ขับเคลื่อน comprehensive research)
 
-**Content quality:**
-- Standard stack: Specific versions, not just names
-- Architecture: Include actual code examples from authoritative sources
-- Don't hand-roll: Be explicit about what problems to NOT solve yourself
-- Pitfalls: Include warning signs, not just "don't do this"
-- Sources: Mark confidence levels honestly
+**คุณภาพเนื้อหา:**
+- Standard stack: versions ที่เจาะจง ไม่ใช่แค่ชื่อ
+- Architecture: รวมตัวอย่างโค้ดจริงจาก authoritative sources
+- Don't hand-roll: ระบุชัดเจนว่าปัญหาไหนไม่ควรแก้เอง
+- Pitfalls: รวม warning signs ไม่ใช่แค่ "อย่าทำ"
+- Sources: mark confidence levels อย่างซื่อสัตย์
 
-**Integration with planning:**
-- RESEARCH.md loaded as @context reference in PLAN.md
-- Standard stack informs library choices
-- Don't hand-roll prevents custom solutions
+**Integration กับการวางแผน:**
+- RESEARCH.md load เป็น @context reference ใน PLAN.md
+- Standard stack inform library choices
+- Don't hand-roll ป้องกัน custom solutions
 - Pitfalls inform verification criteria
-- Code examples can be referenced in task actions
+- Code examples สามารถ reference ใน task actions
 
-**After creation:**
-- File lives in phase directory: `.planning/phases/XX-name/{phase}-RESEARCH.md`
-- Referenced during planning workflow
-- plan-phase loads it automatically when present
+**หลังจากสร้าง:**
+- ไฟล์อยู่ใน phase directory: `.planning/phases/XX-name/{phase}-RESEARCH.md`
+- Reference ระหว่าง planning workflow
+- plan-phase load อัตโนมัติเมื่อมีอยู่

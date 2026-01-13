@@ -1,307 +1,307 @@
-# Coding Conventions Template
+# เทมเพลต Coding Conventions
 
-Template for `.planning/codebase/CONVENTIONS.md` - captures coding style and patterns.
+เทมเพลตสำหรับ `.planning/codebase/CONVENTIONS.md` - บันทึก coding style และ patterns
 
-**Purpose:** Document how code is written in this codebase. Prescriptive guide for Claude to match existing style.
+**วัตถุประสงค์:** บันทึกว่าโค้ดเขียนอย่างไรใน codebase นี้ Prescriptive guide สำหรับ Claude ให้ตรงกับ style ที่มีอยู่
 
 ---
 
-## File Template
+## เทมเพลตไฟล์
 
 ```markdown
 # Coding Conventions
 
-**Analysis Date:** [YYYY-MM-DD]
+**วันที่วิเคราะห์:** [YYYY-MM-DD]
 
 ## Naming Patterns
 
 **Files:**
-- [Pattern: e.g., "kebab-case for all files"]
-- [Test files: e.g., "*.test.ts alongside source"]
-- [Components: e.g., "PascalCase.tsx for React components"]
+- [Pattern: เช่น "kebab-case สำหรับทุกไฟล์"]
+- [Test files: เช่น "*.test.ts ข้างๆ source"]
+- [Components: เช่น "PascalCase.tsx สำหรับ React components"]
 
 **Functions:**
-- [Pattern: e.g., "camelCase for all functions"]
-- [Async: e.g., "no special prefix for async functions"]
-- [Handlers: e.g., "handleEventName for event handlers"]
+- [Pattern: เช่น "camelCase สำหรับทุก functions"]
+- [Async: เช่น "ไม่มี special prefix สำหรับ async functions"]
+- [Handlers: เช่น "handleEventName สำหรับ event handlers"]
 
 **Variables:**
-- [Pattern: e.g., "camelCase for variables"]
-- [Constants: e.g., "UPPER_SNAKE_CASE for constants"]
-- [Private: e.g., "_prefix for private members" or "no prefix"]
+- [Pattern: เช่น "camelCase สำหรับ variables"]
+- [Constants: เช่น "UPPER_SNAKE_CASE สำหรับ constants"]
+- [Private: เช่น "_prefix สำหรับ private members" หรือ "no prefix"]
 
 **Types:**
-- [Interfaces: e.g., "PascalCase, no I prefix"]
-- [Types: e.g., "PascalCase for type aliases"]
-- [Enums: e.g., "PascalCase for enum name, UPPER_CASE for values"]
+- [Interfaces: เช่น "PascalCase, ไม่มี I prefix"]
+- [Types: เช่น "PascalCase สำหรับ type aliases"]
+- [Enums: เช่น "PascalCase สำหรับ enum name, UPPER_CASE สำหรับ values"]
 
 ## Code Style
 
 **Formatting:**
-- [Tool: e.g., "Prettier with config in .prettierrc"]
-- [Line length: e.g., "100 characters max"]
-- [Quotes: e.g., "single quotes for strings"]
-- [Semicolons: e.g., "required" or "omitted"]
+- [Tool: เช่น "Prettier พร้อม config ใน .prettierrc"]
+- [Line length: เช่น "100 characters max"]
+- [Quotes: เช่น "single quotes สำหรับ strings"]
+- [Semicolons: เช่น "required" หรือ "omitted"]
 
 **Linting:**
-- [Tool: e.g., "ESLint with eslint.config.js"]
-- [Rules: e.g., "extends airbnb-base, no console in production"]
-- [Run: e.g., "npm run lint"]
+- [Tool: เช่น "ESLint พร้อม eslint.config.js"]
+- [Rules: เช่น "extends airbnb-base, no console in production"]
+- [Run: เช่น "npm run lint"]
 
 ## Import Organization
 
-**Order:**
-1. [e.g., "External packages (react, express, etc.)"]
-2. [e.g., "Internal modules (@/lib, @/components)"]
-3. [e.g., "Relative imports (., ..)"]
-4. [e.g., "Type imports (import type {})"]
+**ลำดับ:**
+1. [เช่น "External packages (react, express, etc.)"]
+2. [เช่น "Internal modules (@/lib, @/components)"]
+3. [เช่น "Relative imports (., ..)"]
+4. [เช่น "Type imports (import type {})"]
 
 **Grouping:**
-- [Blank lines: e.g., "blank line between groups"]
-- [Sorting: e.g., "alphabetical within each group"]
+- [Blank lines: เช่น "blank line ระหว่าง groups"]
+- [Sorting: เช่น "alphabetical ภายในแต่ละ group"]
 
 **Path Aliases:**
-- [Aliases used: e.g., "@/ for src/, @components/ for src/components/"]
+- [Aliases ที่ใช้: เช่น "@/ สำหรับ src/, @components/ สำหรับ src/components/"]
 
 ## Error Handling
 
 **Patterns:**
-- [Strategy: e.g., "throw errors, catch at boundaries"]
-- [Custom errors: e.g., "extend Error class, named *Error"]
-- [Async: e.g., "use try/catch, no .catch() chains"]
+- [Strategy: เช่น "throw errors, catch at boundaries"]
+- [Custom errors: เช่น "extend Error class, ตั้งชื่อ *Error"]
+- [Async: เช่น "use try/catch, no .catch() chains"]
 
 **Error Types:**
-- [When to throw: e.g., "invalid input, missing dependencies"]
-- [When to return: e.g., "expected failures return Result<T, E>"]
-- [Logging: e.g., "log error with context before throwing"]
+- [เมื่อไหร่ throw: เช่น "invalid input, missing dependencies"]
+- [เมื่อไหร่ return: เช่น "expected failures return Result<T, E>"]
+- [Logging: เช่น "log error with context before throwing"]
 
 ## Logging
 
 **Framework:**
-- [Tool: e.g., "console.log, pino, winston"]
-- [Levels: e.g., "debug, info, warn, error"]
+- [Tool: เช่น "console.log, pino, winston"]
+- [Levels: เช่น "debug, info, warn, error"]
 
 **Patterns:**
-- [Format: e.g., "structured logging with context object"]
-- [When: e.g., "log state transitions, external calls"]
-- [Where: e.g., "log at service boundaries, not in utils"]
+- [Format: เช่น "structured logging with context object"]
+- [When: เช่น "log state transitions, external calls"]
+- [Where: เช่น "log at service boundaries, not in utils"]
 
 ## Comments
 
-**When to Comment:**
-- [e.g., "explain why, not what"]
-- [e.g., "document business logic, algorithms, edge cases"]
-- [e.g., "avoid obvious comments like // increment counter"]
+**เมื่อไหร่ Comment:**
+- [เช่น "explain why, not what"]
+- [เช่น "document business logic, algorithms, edge cases"]
+- [เช่น "avoid obvious comments like // increment counter"]
 
 **JSDoc/TSDoc:**
-- [Usage: e.g., "required for public APIs, optional for internal"]
-- [Format: e.g., "use @param, @returns, @throws tags"]
+- [Usage: เช่น "required สำหรับ public APIs, optional สำหรับ internal"]
+- [Format: เช่น "use @param, @returns, @throws tags"]
 
 **TODO Comments:**
-- [Pattern: e.g., "// TODO(username): description"]
-- [Tracking: e.g., "link to issue number if available"]
+- [Pattern: เช่น "// TODO(username): description"]
+- [Tracking: เช่น "link to issue number if available"]
 
 ## Function Design
 
 **Size:**
-- [e.g., "keep under 50 lines, extract helpers"]
+- [เช่น "keep under 50 lines, extract helpers"]
 
 **Parameters:**
-- [e.g., "max 3 parameters, use object for more"]
-- [e.g., "destructure objects in parameter list"]
+- [เช่น "max 3 parameters, use object for more"]
+- [เช่น "destructure objects in parameter list"]
 
 **Return Values:**
-- [e.g., "explicit returns, no implicit undefined"]
-- [e.g., "return early for guard clauses"]
+- [เช่น "explicit returns, no implicit undefined"]
+- [เช่น "return early for guard clauses"]
 
 ## Module Design
 
 **Exports:**
-- [e.g., "named exports preferred, default exports for React components"]
-- [e.g., "export from index.ts for public API"]
+- [เช่น "named exports preferred, default exports สำหรับ React components"]
+- [เช่น "export from index.ts สำหรับ public API"]
 
 **Barrel Files:**
-- [e.g., "use index.ts to re-export public API"]
-- [e.g., "avoid circular dependencies"]
+- [เช่น "use index.ts to re-export public API"]
+- [เช่น "avoid circular dependencies"]
 
 ---
 
-*Convention analysis: [date]*
-*Update when patterns change*
+*Convention analysis: [วันที่]*
+*อัปเดตเมื่อ patterns เปลี่ยน*
 ```
 
 <good_examples>
 ```markdown
 # Coding Conventions
 
-**Analysis Date:** 2025-01-20
+**วันที่วิเคราะห์:** 2025-01-20
 
 ## Naming Patterns
 
 **Files:**
-- kebab-case for all files (command-handler.ts, user-service.ts)
-- *.test.ts alongside source files
-- index.ts for barrel exports
+- kebab-case สำหรับทุกไฟล์ (command-handler.ts, user-service.ts)
+- *.test.ts ข้างๆ source files
+- index.ts สำหรับ barrel exports
 
 **Functions:**
-- camelCase for all functions
-- No special prefix for async functions
-- handleEventName for event handlers (handleClick, handleSubmit)
+- camelCase สำหรับทุก functions
+- ไม่มี special prefix สำหรับ async functions
+- handleEventName สำหรับ event handlers (handleClick, handleSubmit)
 
 **Variables:**
-- camelCase for variables
-- UPPER_SNAKE_CASE for constants (MAX_RETRIES, API_BASE_URL)
-- No underscore prefix (no private marker in TS)
+- camelCase สำหรับ variables
+- UPPER_SNAKE_CASE สำหรับ constants (MAX_RETRIES, API_BASE_URL)
+- ไม่มี underscore prefix (ไม่มี private marker ใน TS)
 
 **Types:**
-- PascalCase for interfaces, no I prefix (User, not IUser)
-- PascalCase for type aliases (UserConfig, ResponseData)
-- PascalCase for enum names, UPPER_CASE for values (Status.PENDING)
+- PascalCase สำหรับ interfaces ไม่มี I prefix (User, ไม่ใช่ IUser)
+- PascalCase สำหรับ type aliases (UserConfig, ResponseData)
+- PascalCase สำหรับ enum names, UPPER_CASE สำหรับ values (Status.PENDING)
 
 ## Code Style
 
 **Formatting:**
-- Prettier with .prettierrc
+- Prettier พร้อม .prettierrc
 - 100 character line length
-- Single quotes for strings
+- Single quotes สำหรับ strings
 - Semicolons required
 - 2 space indentation
 
 **Linting:**
-- ESLint with eslint.config.js
+- ESLint พร้อม eslint.config.js
 - Extends @typescript-eslint/recommended
-- No console.log in production code (use logger)
+- ไม่มี console.log ใน production code (ใช้ logger)
 - Run: npm run lint
 
 ## Import Organization
 
-**Order:**
+**ลำดับ:**
 1. External packages (react, express, commander)
 2. Internal modules (@/lib, @/services)
 3. Relative imports (./utils, ../types)
 4. Type imports (import type { User })
 
 **Grouping:**
-- Blank line between groups
-- Alphabetical within each group
-- Type imports last within each group
+- Blank line ระหว่าง groups
+- Alphabetical ภายในแต่ละ group
+- Type imports สุดท้ายภายในแต่ละ group
 
 **Path Aliases:**
-- @/ maps to src/
-- No other aliases defined
+- @/ maps ไปยัง src/
+- ไม่มี aliases อื่น defined
 
 ## Error Handling
 
 **Patterns:**
 - Throw errors, catch at boundaries (route handlers, main functions)
-- Extend Error class for custom errors (ValidationError, NotFoundError)
-- Async functions use try/catch, no .catch() chains
+- Extend Error class สำหรับ custom errors (ValidationError, NotFoundError)
+- Async functions ใช้ try/catch ไม่ใช่ .catch() chains
 
 **Error Types:**
-- Throw on invalid input, missing dependencies, invariant violations
-- Log error with context before throwing: logger.error({ err, userId }, 'Failed to process')
-- Include cause in error message: new Error('Failed to X', { cause: originalError })
+- Throw เมื่อ invalid input, missing dependencies, invariant violations
+- Log error พร้อม context ก่อน throwing: logger.error({ err, userId }, 'Failed to process')
+- รวม cause ใน error message: new Error('Failed to X', { cause: originalError })
 
 ## Logging
 
 **Framework:**
-- pino logger instance exported from lib/logger.ts
-- Levels: debug, info, warn, error (no trace)
+- pino logger instance exported จาก lib/logger.ts
+- Levels: debug, info, warn, error (ไม่มี trace)
 
 **Patterns:**
-- Structured logging with context: logger.info({ userId, action }, 'User action')
-- Log at service boundaries, not in utility functions
+- Structured logging พร้อม context: logger.info({ userId, action }, 'User action')
+- Log at service boundaries ไม่ใช่ใน utility functions
 - Log state transitions, external API calls, errors
-- No console.log in committed code
+- ไม่มี console.log ใน committed code
 
 ## Comments
 
-**When to Comment:**
-- Explain why, not what: // Retry 3 times because API has transient failures
-- Document business rules: // Users must verify email within 24 hours
-- Explain non-obvious algorithms or workarounds
-- Avoid obvious comments: // set count to 0
+**เมื่อไหร่ Comment:**
+- Explain why, not what: // Retry 3 times เพราะ API มี transient failures
+- Document business rules: // Users ต้อง verify email ภายใน 24 ชั่วโมง
+- Explain non-obvious algorithms หรือ workarounds
+- หลีกเลี่ยง obvious comments: // set count to 0
 
 **JSDoc/TSDoc:**
-- Required for public API functions
-- Optional for internal functions if signature is self-explanatory
-- Use @param, @returns, @throws tags
+- Required สำหรับ public API functions
+- Optional สำหรับ internal functions ถ้า signature self-explanatory
+- ใช้ @param, @returns, @throws tags
 
 **TODO Comments:**
-- Format: // TODO: description (no username, using git blame)
-- Link to issue if exists: // TODO: Fix race condition (issue #123)
+- Format: // TODO: description (ไม่มี username ใช้ git blame)
+- Link to issue ถ้ามี: // TODO: Fix race condition (issue #123)
 
 ## Function Design
 
 **Size:**
-- Keep under 50 lines
-- Extract helpers for complex logic
-- One level of abstraction per function
+- รักษาให้ต่ำกว่า 50 บรรทัด
+- Extract helpers สำหรับ complex logic
+- หนึ่ง level of abstraction ต่อ function
 
 **Parameters:**
 - Max 3 parameters
-- Use options object for 4+ parameters: function create(options: CreateOptions)
-- Destructure in parameter list: function process({ id, name }: ProcessParams)
+- ใช้ options object สำหรับ 4+ parameters: function create(options: CreateOptions)
+- Destructure ใน parameter list: function process({ id, name }: ProcessParams)
 
 **Return Values:**
 - Explicit return statements
-- Return early for guard clauses
-- Use Result<T, E> type for expected failures
+- Return early สำหรับ guard clauses
+- ใช้ Result<T, E> type สำหรับ expected failures
 
 ## Module Design
 
 **Exports:**
 - Named exports preferred
-- Default exports only for React components
-- Export public API from index.ts barrel files
+- Default exports สำหรับ React components เท่านั้น
+- Export public API จาก index.ts barrel files
 
 **Barrel Files:**
 - index.ts re-exports public API
-- Keep internal helpers private (don't export from index)
-- Avoid circular dependencies (import from specific files if needed)
+- รักษา internal helpers private (don't export from index)
+- หลีกเลี่ยง circular dependencies (import จาก specific files ถ้าต้องการ)
 
 ---
 
 *Convention analysis: 2025-01-20*
-*Update when patterns change*
+*อัปเดตเมื่อ patterns เปลี่ยน*
 ```
 </good_examples>
 
 <guidelines>
-**What belongs in CONVENTIONS.md:**
-- Naming patterns observed in the codebase
+**อะไรควรอยู่ใน CONVENTIONS.md:**
+- Naming patterns ที่สังเกตได้ใน codebase
 - Formatting rules (Prettier config, linting rules)
 - Import organization patterns
 - Error handling strategy
 - Logging approach
 - Comment conventions
-- Function and module design patterns
+- Function และ module design patterns
 
-**What does NOT belong here:**
-- Architecture decisions (that's ARCHITECTURE.md)
-- Technology choices (that's STACK.md)
-- Test patterns (that's TESTING.md)
-- File organization (that's STRUCTURE.md)
+**อะไรไม่ควรอยู่ที่นี่:**
+- Architecture decisions (นั่นคือ ARCHITECTURE.md)
+- Technology choices (นั่นคือ STACK.md)
+- Test patterns (นั่นคือ TESTING.md)
+- File organization (นั่นคือ STRUCTURE.md)
 
-**When filling this template:**
-- Check .prettierrc, .eslintrc, or similar config files
-- Examine 5-10 representative source files for patterns
-- Look for consistency: if 80%+ follows a pattern, document it
-- Be prescriptive: "Use X" not "Sometimes Y is used"
+**เมื่อกรอกเทมเพลตนี้:**
+- ตรวจสอบ .prettierrc, .eslintrc หรือ similar config files
+- ตรวจสอบ 5-10 representative source files สำหรับ patterns
+- มองหา consistency: ถ้า 80%+ ทำตาม pattern ให้ document มัน
+- Be prescriptive: "Use X" ไม่ใช่ "Sometimes Y is used"
 - Note deviations: "Legacy code uses Y, new code should use X"
-- Keep under ~150 lines total
+- รักษาให้ต่ำกว่า ~150 บรรทัดทั้งหมด
 
-**Useful for phase planning when:**
-- Writing new code (match existing style)
-- Adding features (follow naming patterns)
+**มีประโยชน์สำหรับ phase planning เมื่อ:**
+- เขียนโค้ดใหม่ (match existing style)
+- เพิ่ม features (follow naming patterns)
 - Refactoring (apply consistent conventions)
 - Code review (check against documented patterns)
 - Onboarding (understand style expectations)
 
-**Analysis approach:**
-- Scan src/ directory for file naming patterns
-- Check package.json scripts for lint/format commands
-- Read 5-10 files to identify function naming, error handling
-- Look for config files (.prettierrc, eslint.config.js)
-- Note patterns in imports, comments, function signatures
+**แนวทาง Analysis:**
+- Scan src/ directory สำหรับ file naming patterns
+- ตรวจสอบ package.json scripts สำหรับ lint/format commands
+- อ่าน 5-10 files เพื่อระบุ function naming, error handling
+- มองหา config files (.prettierrc, eslint.config.js)
+- Note patterns ใน imports, comments, function signatures
 </guidelines>

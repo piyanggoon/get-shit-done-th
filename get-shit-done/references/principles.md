@@ -1,157 +1,157 @@
 <principles>
-Core principles for the Gets Shit Done planning system.
+หลักการหลักสำหรับระบบวางแผน Gets Shit Done
 
 <solo_developer_claude>
 
-You are planning for ONE person (the user) and ONE implementer (Claude).
-- No teams, stakeholders, ceremonies, coordination overhead
-- User is the visionary/product owner
-- Claude is the builder
-- Estimate effort in Claude execution time, not human dev time
+คุณกำลังวางแผนสำหรับหนึ่งคน (ผู้ใช้) และหนึ่งผู้ implement (Claude)
+- ไม่มีทีม, stakeholders, ceremonies, overhead การประสานงาน
+- ผู้ใช้คือ visionary/product owner
+- Claude คือผู้สร้าง
+- ประมาณการความพยายามด้วยเวลารัน Claude ไม่ใช่เวลา dev มนุษย์
 </solo_developer_claude>
 
 <plans_are_prompts>
 
-PLAN.md is not a document that gets transformed into a prompt.
-PLAN.md IS the prompt. It contains:
-- Objective (what and why)
+PLAN.md ไม่ใช่เอกสารที่ถูกแปลงเป็น prompt
+PLAN.md คือ prompt ประกอบด้วย:
+- Objective (อะไรและทำไม)
 - Context (@file references)
-- Tasks (with verification criteria)
-- Success criteria (measurable)
+- Tasks (พร้อม verification criteria)
+- Success criteria (วัดได้)
 
-When planning a phase, you are writing the prompt that will execute it.
+เมื่อวางแผนเฟส คุณกำลังเขียน prompt ที่จะรันมัน
 </plans_are_prompts>
 
 <initialization_leverage>
 
-The most leveraged moment is project initialization.
-- Deep questioning here = better everything downstream
+ช่วงเวลาที่มี leverage มากที่สุดคือการเริ่มต้นโปรเจกต์
+- การถามลึกที่นี่ = ทุกอย่างดีขึ้นในอนาคต
 - Garbage in = garbage out
-- Spend the tokens on context gathering
-- Don't rush to "the work"
+- ใช้ tokens ในการรวบรวม context
+- อย่ารีบไป "งาน"
 </initialization_leverage>
 
 <scope_control>
 
-Plans must complete within reasonable context usage.
+แผนต้องเสร็จภายในการใช้ context ที่เหมาะสม
 
 **Quality degradation curve:**
-- 0-30% context: Peak quality
-- 30-50% context: Good quality
-- 50-70% context: Degrading quality
-- 70%+ context: Poor quality
+- 0-30% context: คุณภาพสูงสุด
+- 30-50% context: คุณภาพดี
+- 50-70% context: คุณภาพลดลง
+- 70%+ context: คุณภาพต่ำ
 
-**Solution:** Aggressive atomicity - split into small, focused plans.
-- 2-3 tasks per plan maximum
-- Each plan independently executable
-- Better to have many small plans than few large ones
+**วิธีแก้:** Aggressive atomicity - แยกเป็นแผนเล็กๆ ที่เน้น
+- 2-3 tasks ต่อแผนสูงสุด
+- แต่ละแผนรันได้อย่างอิสระ
+- ดีกว่าที่จะมีแผนเล็กหลายแผนมากกว่าแผนใหญ่ไม่กี่แผน
 </scope_control>
 
 <claude_automates>
 
-If Claude CAN do it via CLI/API/tool, Claude MUST do it.
+ถ้า Claude ทำได้ผ่าน CLI/API/tool Claude ต้องทำมัน
 
-Checkpoints are for:
-- **Verification** - Human confirms Claude's work (visual, UX)
-- **Decision** - Human makes implementation choice
+Checkpoints มีไว้สำหรับ:
+- **การยืนยัน** - มนุษย์ยืนยันงานของ Claude (visual, UX)
+- **การตัดสินใจ** - มนุษย์เลือก implementation
 
-Not for:
-- Deploying (use CLI)
-- Creating resources (use CLI/API)
-- Running builds/tests (use Bash)
-- Writing files (use Write tool)
+ไม่ใช่สำหรับ:
+- Deploying (ใช้ CLI)
+- สร้าง resources (ใช้ CLI/API)
+- รัน builds/tests (ใช้ Bash)
+- เขียนไฟล์ (ใช้ Write tool)
 </claude_automates>
 
 <deviation_rules>
 
-Plans are guides, not straitjackets. During execution:
+แผนเป็นแนวทาง ไม่ใช่กฎเหล็ก ระหว่างการรัน:
 
-1. **Auto-fix bugs** - Fix immediately, document
-2. **Auto-add critical** - Security/correctness gaps, add immediately
-3. **Auto-fix blockers** - Can't proceed, fix immediately
-4. **Ask about architectural** - Major changes, stop and ask
-5. **Log enhancements** - Nice-to-haves, log to Issues, continue
+1. **แก้ bugs อัตโนมัติ** - แก้ทันที, บันทึก
+2. **เพิ่มสิ่งสำคัญอัตโนมัติ** - ช่องโหว่ security/ความถูกต้อง, เพิ่มทันที
+3. **แก้ blockers อัตโนมัติ** - ไปต่อไม่ได้, แก้ทันที
+4. **ถามเรื่อง architectural** - การเปลี่ยนแปลงใหญ่, หยุดและถาม
+5. **บันทึก enhancements** - Nice-to-haves, บันทึกไป Issues, ทำต่อ
 </deviation_rules>
 
 <test_driven_when_beneficial>
 
-Use TDD when the work WOULD benefit from it. Not dogma—pragmatism.
+ใช้ TDD เมื่องานจะได้ประโยชน์จากมัน ไม่ใช่ dogma—เป็น pragmatism
 
-**TDD candidates (create dedicated TDD plan):**
-- Business logic with defined inputs/outputs
-- API endpoints and handlers
-- Data transformations and parsing
-- Validation rules
-- State machines and workflows
-- Anything where you can describe expected behavior before implementing
+**TDD candidates (สร้างแผน TDD เฉพาะ):**
+- Business logic ที่มี inputs/outputs ที่กำหนดไว้
+- API endpoints และ handlers
+- Data transformations และ parsing
+- กฎ Validation
+- State machines และ workflows
+- อะไรก็ตามที่คุณสามารถอธิบายพฤติกรรมที่คาดหวังก่อน implement
 
-**Skip TDD (use standard plan):**
-- UI layout and styling
+**ข้าม TDD (ใช้แผนมาตรฐาน):**
+- UI layout และ styling
 - Exploratory prototyping
-- One-off scripts and migrations
-- Configuration changes
-- Glue code with no logic
+- Scripts และ migrations ครั้งเดียว
+- การเปลี่ยนแปลง Configuration
+- Glue code ที่ไม่มี logic
 
 **Decision heuristic:**
-Can you write `expect(fn(input)).toBe(output)` before writing `fn`?
-→ Yes: Create a TDD plan (one feature per plan)
-→ No: Standard plan, add tests after if needed
+คุณสามารถเขียน `expect(fn(input)).toBe(output)` ก่อนเขียน `fn` ได้หรือไม่?
+→ ใช่: สร้างแผน TDD (หนึ่งฟีเจอร์ต่อแผน)
+→ ไม่: แผนมาตรฐาน, เพิ่ม tests หลังจากถ้าจำเป็น
 
-**Why TDD gets its own plan:**
-TDD requires 2-3 execution cycles (RED → GREEN → REFACTOR), each with file reads, test runs, and potential debugging. This consumes 40-50% of context for a single feature. Dedicated TDD plans ensure full quality throughout the cycle.
+**ทำไม TDD ได้แผนของตัวเอง:**
+TDD ต้องการ 2-3 execution cycles (RED → GREEN → REFACTOR) แต่ละรอบมีการอ่านไฟล์, การรัน test, และการ debugging ที่อาจเกิดขึ้น นี่ใช้ 40-50% ของ context สำหรับฟีเจอร์เดียว แผน TDD เฉพาะทำให้มั่นใจว่าคุณภาพเต็มตลอดรอบ
 
-**TDD plan structure:**
-1. Write failing test (RED) → commit
-2. Implement to pass (GREEN) → commit
-3. Refactor if needed → commit
+**โครงสร้างแผน TDD:**
+1. เขียน failing test (RED) → commit
+2. Implement ให้ผ่าน (GREEN) → commit
+3. Refactor ถ้าจำเป็น → commit
 
-This is about design quality, not test coverage metrics.
+นี่เกี่ยวกับคุณภาพ design ไม่ใช่ metrics test coverage
 
-See `~/.claude/get-shit-done/references/tdd.md` for TDD plan structure.
+ดู `~/.claude/get-shit-done/references/tdd.md` สำหรับโครงสร้างแผน TDD
 </test_driven_when_beneficial>
 
 <ship_fast>
 
-No enterprise process. No approval gates.
+ไม่มี enterprise process ไม่มี approval gates
 
 Plan → Execute → Ship → Learn → Repeat
 
-Milestones mark shipped versions (v1.0 → v1.1 → v2.0).
+Milestones ทำเครื่องหมายเวอร์ชันที่ shipped (v1.0 → v1.1 → v2.0)
 </ship_fast>
 
 <atomic_commits>
 
-**Git commits = context engineering for Claude.**
+**Git commits = context engineering สำหรับ Claude**
 
-Each task gets its own commit immediately after completion:
-- Format: `{type}({phase}-{plan}): {task-description}`
+แต่ละ task ได้ commit ของตัวเองทันทีหลังเสร็จ:
+- รูปแบบ: `{type}({phase}-{plan}): {task-description}`
 - Types: feat, fix, test, refactor, perf, chore, docs
-- One final metadata commit per plan: `docs({phase}-{plan}): complete [plan-name]`
+- Metadata commit สุดท้ายต่อแผน: `docs({phase}-{plan}): complete [plan-name]`
 
-**Why per-task commits:**
-- Git history becomes primary context source for future Claude sessions
-- `git bisect` finds exact failing task, not just failing plan
-- Each task independently revertable
-- Better failure recovery (task 1 committed ✅, retry task 2)
-- Observability optimized for AI workflow, not human browsing
+**ทำไม commits ต่อ task:**
+- Git history กลายเป็นแหล่ง context หลักสำหรับ Claude sessions ในอนาคต
+- `git bisect` หา task ที่ล้มเหลวที่แน่นอน ไม่ใช่แค่แผนที่ล้มเหลว
+- แต่ละ task revert ได้อย่างอิสระ
+- การกู้คืนความล้มเหลวที่ดีขึ้น (task 1 committed ✅, ลอง task 2 ใหม่)
+- Observability ที่ปรับให้เหมาะกับ AI workflow ไม่ใช่การ browse ของมนุษย์
 
-**Plans produce 3-4 commits total:**
+**แผนสร้าง 3-4 commits รวม:**
 - 2-3 task commits (working code)
 - 1 metadata commit (SUMMARY + STATE + ROADMAP)
 
-See `~/.claude/get-shit-done/references/git-integration.md` for complete strategy.
+ดู `~/.claude/get-shit-done/references/git-integration.md` สำหรับกลยุทธ์ที่ครบถ้วน
 </atomic_commits>
 
 <anti_enterprise>
 
-NEVER include:
-- Team structures, RACI matrices
+อย่ารวม:
+- โครงสร้างทีม, RACI matrices
 - Stakeholder management
 - Sprint ceremonies
-- Human dev time estimates (hours, days, weeks—Claude works differently)
+- การประมาณเวลา dev มนุษย์ (ชั่วโมง, วัน, สัปดาห์—Claude ทำงานต่างกัน)
 - Change management processes
-- Documentation for documentation's sake
+- เอกสารเพื่อเอกสาร
 
-If it sounds like corporate PM theater, delete it.
+ถ้าฟังดูเหมือน corporate PM theater ให้ลบทิ้ง
 </anti_enterprise>
 </principles>

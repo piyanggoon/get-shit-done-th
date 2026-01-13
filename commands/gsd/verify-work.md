@@ -1,7 +1,7 @@
 ---
 name: gsd:verify-work
-description: Guide manual user acceptance testing of recently built features
-argument-hint: "[optional: phase or plan number, e.g., '4' or '04-02']"
+description: นำผู้ใช้ผ่าน manual user acceptance testing ของ features ที่สร้างเสร็จ
+argument-hint: "[optional: phase หรือ plan number, เช่น '4' หรือ '04-02']"
 allowed-tools:
   - Read
   - Bash
@@ -13,11 +13,11 @@ allowed-tools:
 ---
 
 <objective>
-Guide the user through manual acceptance testing of recently built features.
+นำผู้ใช้ผ่าน manual acceptance testing ของ features ที่สร้างเสร็จ
 
-Purpose: Validate that what Claude thinks was built actually works from the user's perspective. The USER performs all testing — Claude generates the test checklist, guides the process, and captures issues.
+วัตถุประสงค์: Validate ว่าสิ่งที่ Claude คิดว่าสร้างเสร็จจริงๆ ใช้งานได้จากมุมมองผู้ใช้ ผู้ใช้ทำ testing ทั้งหมด — Claude สร้าง test checklist, นำผ่านกระบวนการ, และบันทึก issues
 
-Output: Validation of features, any issues logged to phase-scoped ISSUES.md
+Output: Validation ของ features, issues ใดๆ log ไปยัง phase-scoped ISSUES.md
 </objective>
 
 <execution_context>
@@ -27,45 +27,45 @@ Output: Validation of features, any issues logged to phase-scoped ISSUES.md
 
 <context>
 Scope: $ARGUMENTS (optional)
-- If provided: Test specific phase or plan (e.g., "4" or "04-02")
-- If not provided: Test most recently completed plan
+- ถ้าระบุ: Test phase หรือ plan เฉพาะ (เช่น "4" หรือ "04-02")
+- ถ้าไม่ระบุ: Test plan ที่เสร็จล่าสุด
 
-**Load project state:**
+**โหลด project state:**
 @.planning/STATE.md
 
-**Load roadmap:**
+**โหลด roadmap:**
 @.planning/ROADMAP.md
 </context>
 
 <process>
-1. Validate arguments (if provided, parse as phase or plan number)
-2. Find relevant SUMMARY.md (specified or most recent)
-3. Follow verify-work.md workflow:
-   - Extract testable deliverables
-   - Generate test checklist
-   - Guide through each test via AskUserQuestion
-   - Collect and categorize issues
-   - Log issues to `.planning/phases/XX-name/{phase}-{plan}-ISSUES.md`
-   - Present summary with verdict
-4. Offer next steps based on results:
-   - If all passed: Continue to next phase
-   - If issues found: `/gsd:plan-fix {phase} {plan}` to create fix plan
+1. ตรวจสอบ arguments (ถ้าระบุ parse เป็น phase หรือ plan number)
+2. หา SUMMARY.md ที่เกี่ยวข้อง (ที่ระบุหรือล่าสุด)
+3. ทำตาม verify-work.md workflow:
+   - ดึง testable deliverables
+   - สร้าง test checklist
+   - นำผ่านแต่ละ test ผ่าน AskUserQuestion
+   - รวบรวมและจัดหมวด issues
+   - Log issues ไปยัง `.planning/phases/XX-name/{phase}-{plan}-ISSUES.md`
+   - แสดงสรุปพร้อม verdict
+4. เสนอขั้นตอนถัดไปตามผลลัพธ์:
+   - ถ้าผ่านทั้งหมด: ทำ phase ถัดไปต่อ
+   - ถ้าพบ issues: `/gsd:plan-fix {phase} {plan}` เพื่อสร้าง fix plan
 </process>
 
 <anti_patterns>
-- Don't run automated tests (that's for CI/test suites)
-- Don't make assumptions about test results — USER reports outcomes
-- Don't skip the guidance — walk through each test
-- Don't dismiss minor issues — log everything user reports
-- Don't fix issues during testing — capture for later
+- อย่ารัน automated tests (นั่นสำหรับ CI/test suites)
+- อย่าคาดเดาผลการทดสอบ — ผู้ใช้รายงานผลลัพธ์
+- อย่าข้าม guidance — walk through แต่ละ test
+- อย่า dismiss minor issues — log ทุกอย่างที่ผู้ใช้รายงาน
+- อย่าแก้ issues ระหว่างทดสอบ — บันทึกไว้ทำทีหลัง
 </anti_patterns>
 
 <success_criteria>
-- [ ] Test scope identified from SUMMARY.md
-- [ ] Checklist generated based on deliverables
-- [ ] User guided through each test
-- [ ] All test results captured (pass/fail/partial/skip)
-- [ ] Any issues logged to phase-scoped ISSUES.md (not global)
-- [ ] Summary presented with verdict
-- [ ] User knows next steps based on results
+- [ ] ระบุ test scope จาก SUMMARY.md
+- [ ] สร้าง checklist ตาม deliverables
+- [ ] นำผู้ใช้ผ่านแต่ละ test
+- [ ] บันทึก test results ทั้งหมด (pass/fail/partial/skip)
+- [ ] Log issues ใดๆ ไปยัง phase-scoped ISSUES.md (ไม่ใช่ global)
+- [ ] แสดงสรุปพร้อม verdict
+- [ ] ผู้ใช้รู้ขั้นตอนถัดไปตามผลลัพธ์
 </success_criteria>

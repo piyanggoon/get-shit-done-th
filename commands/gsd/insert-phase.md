@@ -1,6 +1,6 @@
 ---
 name: gsd:insert-phase
-description: Insert urgent work as decimal phase (e.g., 72.1) between existing phases
+description: แทรกงานเร่งด่วนเป็น decimal phase (เช่น 72.1) ระหว่าง phases ที่มีอยู่
 argument-hint: <after> <description>
 allowed-tools:
   - Read
@@ -9,11 +9,11 @@ allowed-tools:
 ---
 
 <objective>
-Insert a decimal phase for urgent work discovered mid-milestone that must be completed between existing integer phases.
+แทรก decimal phase สำหรับงานเร่งด่วนที่ค้นพบกลาง milestone ซึ่งต้องทำระหว่าง integer phases ที่มีอยู่
 
-Uses decimal numbering (72.1, 72.2, etc.) to preserve the logical sequence of planned phases while accommodating urgent insertions.
+ใช้หมายเลขทศนิยม (72.1, 72.2, etc.) เพื่อรักษาลำดับ logical ของ phases ที่วางแผนไว้ขณะรองรับการแทรกเร่งด่วน
 
-Purpose: Handle urgent work discovered during execution without renumbering entire roadmap.
+วัตถุประสงค์: จัดการงานเร่งด่วนที่ค้นพบระหว่าง execution โดยไม่ต้อง renumber roadmap ทั้งหมด
 </objective>
 
 <execution_context>
@@ -24,11 +24,11 @@ Purpose: Handle urgent work discovered during execution without renumbering enti
 <process>
 
 <step name="parse_arguments">
-Parse the command arguments:
-- First argument: integer phase number to insert after
-- Remaining arguments: phase description
+Parse arguments ของคำสั่ง:
+- Argument แรก: หมายเลข integer phase ที่จะแทรกหลังจาก
+- Arguments ที่เหลือ: คำอธิบาย phase
 
-Example: `/gsd:insert-phase 72 Fix critical auth bug`
+ตัวอย่าง: `/gsd:insert-phase 72 Fix critical auth bug`
 → after = 72
 → description = "Fix critical auth bug"
 
@@ -36,23 +36,23 @@ Validation:
 
 ```bash
 if [ $# -lt 2 ]; then
-  echo "ERROR: Both phase number and description required"
-  echo "Usage: /gsd:insert-phase <after> <description>"
-  echo "Example: /gsd:insert-phase 72 Fix critical auth bug"
+  echo "ERROR: ต้องระบุทั้งหมายเลข phase และคำอธิบาย"
+  echo "การใช้งาน: /gsd:insert-phase <after> <description>"
+  echo "ตัวอย่าง: /gsd:insert-phase 72 Fix critical auth bug"
   exit 1
 fi
 ```
 
-Parse first argument as integer:
+Parse argument แรกเป็น integer:
 
 ```bash
 after_phase=$1
 shift
 description="$*"
 
-# Validate after_phase is an integer
+# ตรวจสอบ after_phase เป็น integer
 if ! [[ "$after_phase" =~ ^[0-9]+$ ]]; then
-  echo "ERROR: Phase number must be an integer"
+  echo "ERROR: หมายเลข phase ต้องเป็น integer"
   exit 1
 fi
 ```
@@ -60,144 +60,144 @@ fi
 </step>
 
 <step name="load_roadmap">
-Load the roadmap file:
+โหลดไฟล์ roadmap:
 
 ```bash
 if [ -f .planning/ROADMAP.md ]; then
   ROADMAP=".planning/ROADMAP.md"
 else
-  echo "ERROR: No roadmap found (.planning/ROADMAP.md)"
+  echo "ERROR: ไม่พบ roadmap (.planning/ROADMAP.md)"
   exit 1
 fi
 ```
 
-Read roadmap content for parsing.
+อ่านเนื้อหา roadmap เพื่อ parse
 </step>
 
 <step name="verify_target_phase">
-Verify that the target phase exists in the roadmap:
+ตรวจสอบว่า target phase มีอยู่ใน roadmap:
 
-1. Search for "### Phase {after_phase}:" heading
-2. If not found:
+1. ค้นหา "### Phase {after_phase}:" heading
+2. ถ้าไม่พบ:
 
    ```
-   ERROR: Phase {after_phase} not found in roadmap
-   Available phases: [list phase numbers]
+   ERROR: ไม่พบ Phase {after_phase} ใน roadmap
+   Phases ที่มี: [list phase numbers]
    ```
 
-   Exit.
+   ออกจากคำสั่ง
 
-3. Verify phase is in current milestone (not completed/archived)
+3. ตรวจสอบว่า phase อยู่ใน current milestone (ไม่ใช่ completed/archived)
    </step>
 
 <step name="find_existing_decimals">
-Find existing decimal phases after the target phase:
+หา decimal phases ที่มีอยู่หลัง target phase:
 
-1. Search for all "### Phase {after_phase}.N:" headings
-2. Extract decimal suffixes (e.g., for Phase 72: find 72.1, 72.2, 72.3)
-3. Find the highest decimal suffix
-4. Calculate next decimal: max + 1
+1. ค้นหา "### Phase {after_phase}.N:" headings ทั้งหมด
+2. ดึง decimal suffixes (เช่น สำหรับ Phase 72: หา 72.1, 72.2, 72.3)
+3. หา decimal suffix สูงสุด
+4. คำนวณ decimal ถัดไป: max + 1
 
-Examples:
+ตัวอย่าง:
 
-- Phase 72 with no decimals → next is 72.1
-- Phase 72 with 72.1 → next is 72.2
-- Phase 72 with 72.1, 72.2 → next is 72.3
+- Phase 72 ไม่มี decimals → ถัดไปคือ 72.1
+- Phase 72 มี 72.1 → ถัดไปคือ 72.2
+- Phase 72 มี 72.1, 72.2 → ถัดไปคือ 72.3
 
-Store as: `decimal_phase="$(printf "%02d" $after_phase).${next_decimal}"`
+เก็บเป็น: `decimal_phase="$(printf "%02d" $after_phase).${next_decimal}"`
 </step>
 
 <step name="generate_slug">
-Convert the phase description to a kebab-case slug:
+แปลงคำอธิบาย phase เป็น kebab-case slug:
 
 ```bash
 slug=$(echo "$description" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-//;s/-$//')
 ```
 
-Phase directory name: `{decimal-phase}-{slug}`
-Example: `06.1-fix-critical-auth-bug` (phase 6 insertion)
+ชื่อโฟลเดอร์ phase: `{decimal-phase}-{slug}`
+ตัวอย่าง: `06.1-fix-critical-auth-bug` (phase 6 insertion)
 </step>
 
 <step name="create_phase_directory">
-Create the phase directory structure:
+สร้างโครงสร้างโฟลเดอร์ phase:
 
 ```bash
 phase_dir=".planning/phases/${decimal_phase}-${slug}"
 mkdir -p "$phase_dir"
 ```
 
-Confirm: "Created directory: $phase_dir"
+ยืนยัน: "สร้างโฟลเดอร์: $phase_dir"
 </step>
 
 <step name="update_roadmap">
-Insert the new phase entry into the roadmap:
+แทรก phase entry ใหม่ใน roadmap:
 
-1. Find insertion point: immediately after Phase {after_phase}'s content (before next phase heading or "---")
-2. Insert new phase heading with (INSERTED) marker:
+1. หาจุดแทรก: ทันทีหลังเนื้อหา Phase {after_phase} (ก่อน phase heading ถัดไปหรือ "---")
+2. แทรก phase heading ใหม่พร้อม (INSERTED) marker:
 
    ```
    ### Phase {decimal_phase}: {Description} (INSERTED)
 
-   **Goal:** [Urgent work - to be planned]
+   **Goal:** [งานเร่งด่วน - รอวางแผน]
    **Depends on:** Phase {after_phase}
    **Plans:** 0 plans
 
    Plans:
-   - [ ] TBD (run /gsd:plan-phase {decimal_phase} to break down)
+   - [ ] TBD (รัน /gsd:plan-phase {decimal_phase} เพื่อแบ่งงาน)
 
    **Details:**
-   [To be added during planning]
+   [จะเพิ่มระหว่างวางแผน]
    ```
 
-3. Write updated roadmap back to file
+3. เขียน roadmap ที่อัพเดทกลับไปที่ไฟล์
 
-The "(INSERTED)" marker helps identify decimal phases as urgent insertions.
+Marker "(INSERTED)" ช่วยระบุ decimal phases ว่าเป็นการแทรกเร่งด่วน
 
-Preserve all other content exactly (formatting, spacing, other phases).
+คงเนื้อหาอื่นทั้งหมดไว้เหมือนเดิม (formatting, spacing, phases อื่น)
 </step>
 
 <step name="update_project_state">
-Update STATE.md to reflect the inserted phase:
+อัพเดท STATE.md เพื่อสะท้อน phase ที่แทรก:
 
-1. Read `.planning/STATE.md`
-2. Under "## Accumulated Context" → "### Roadmap Evolution" add entry:
+1. อ่าน `.planning/STATE.md`
+2. ใน "## Accumulated Context" → "### Roadmap Evolution" เพิ่มรายการ:
    ```
    - Phase {decimal_phase} inserted after Phase {after_phase}: {description} (URGENT)
    ```
 
-If "Roadmap Evolution" section doesn't exist, create it.
+ถ้าไม่มี section "Roadmap Evolution" ให้สร้างขึ้นมา
 
-Add note about insertion reason if appropriate.
+เพิ่มหมายเหตุเรื่องเหตุผลการแทรกถ้าเหมาะสม
 </step>
 
 <step name="completion">
-Present completion summary:
+แสดงสรุปการเสร็จสิ้น:
 
 ```
-Phase {decimal_phase} inserted after Phase {after_phase}:
-- Description: {description}
-- Directory: .planning/phases/{decimal-phase}-{slug}/
-- Status: Not planned yet
-- Marker: (INSERTED) - indicates urgent work
+Phase {decimal_phase} แทรกหลัง Phase {after_phase}:
+- คำอธิบาย: {description}
+- โฟลเดอร์: .planning/phases/{decimal-phase}-{slug}/
+- สถานะ: ยังไม่ได้วางแผน
+- Marker: (INSERTED) - ระบุว่าเป็นงานเร่งด่วน
 
-Roadmap updated: {roadmap-path}
-Project state updated: .planning/STATE.md
+Roadmap อัพเดทแล้ว: {roadmap-path}
+Project state อัพเดทแล้ว: .planning/STATE.md
 
 ---
 
-## ▶ Next Up
+## ▶ ถัดไป
 
 **Phase {decimal_phase}: {description}** — urgent insertion
 
 `/gsd:plan-phase {decimal_phase}`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → เริ่ม context window ใหม่</sub>
 
 ---
 
-**Also available:**
-- Review insertion impact: Check if Phase {next_integer} dependencies still make sense
-- Review roadmap
+**ตัวเลือกอื่น:**
+- ตรวจสอบผลกระทบการแทรก: ตรวจสอบว่า dependencies ของ Phase {next_integer} ยังสมเหตุสมผล
+- ดู roadmap
 
 ---
 ```
@@ -207,21 +207,21 @@ Project state updated: .planning/STATE.md
 
 <anti_patterns>
 
-- Don't use this for planned work at end of milestone (use /gsd:add-phase)
-- Don't insert before Phase 1 (decimal 0.1 makes no sense)
-- Don't renumber existing phases
-- Don't modify the target phase content
-- Don't create plans yet (that's /gsd:plan-phase)
-- Don't commit changes (user decides when to commit)
+- อย่าใช้สำหรับงานวางแผนท้าย milestone (ใช้ /gsd:add-phase)
+- อย่าแทรกก่อน Phase 1 (decimal 0.1 ไม่สมเหตุสมผล)
+- อย่า renumber phases ที่มีอยู่
+- อย่าแก้ไขเนื้อหา target phase
+- อย่าสร้าง plans ตอนนี้ (นั่นคือ /gsd:plan-phase)
+- อย่า commit changes (ผู้ใช้ตัดสินใจเองว่าจะ commit เมื่อไหร่)
   </anti_patterns>
 
 <success_criteria>
-Phase insertion is complete when:
+การแทรก phase เสร็จสมบูรณ์เมื่อ:
 
-- [ ] Phase directory created: `.planning/phases/{N.M}-{slug}/`
-- [ ] Roadmap updated with new phase entry (includes "(INSERTED)" marker)
-- [ ] Phase inserted in correct position (after target phase, before next integer phase)
-- [ ] STATE.md updated with roadmap evolution note
-- [ ] Decimal number calculated correctly (based on existing decimals)
-- [ ] User informed of next steps and dependency implications
+- [ ] สร้างโฟลเดอร์ phase แล้ว: `.planning/phases/{N.M}-{slug}/`
+- [ ] อัพเดท roadmap ด้วย phase entry ใหม่ (รวม "(INSERTED)" marker)
+- [ ] Phase แทรกในตำแหน่งที่ถูกต้อง (หลัง target phase, ก่อน next integer phase)
+- [ ] อัพเดท STATE.md ด้วย roadmap evolution note
+- [ ] คำนวณ decimal number ถูกต้อง (ตาม decimals ที่มีอยู่)
+- [ ] แจ้งผู้ใช้เรื่องขั้นตอนถัดไปและ dependency implications
       </success_criteria>

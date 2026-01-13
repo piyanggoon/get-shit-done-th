@@ -1,6 +1,6 @@
 ---
 name: gsd:add-todo
-description: Capture idea or task as todo from current conversation context
+description: บันทึกไอเดียหรืองานเป็น todo จาก context การสนทนาปัจจุบัน
 argument-hint: [optional description]
 allowed-tools:
   - Read
@@ -10,9 +10,9 @@ allowed-tools:
 ---
 
 <objective>
-Capture an idea, task, or issue that surfaces during a GSD session as a structured todo for later work.
+บันทึกไอเดีย งาน หรือปัญหาที่เกิดขึ้นระหว่าง session GSD เป็น structured todo สำหรับทำงานทีหลัง
 
-Enables "thought → capture → continue" flow without losing context or derailing current work.
+เปิดใช้ flow "คิด → บันทึก → ทำต่อ" โดยไม่เสีย context หรือหลุดจากงานปัจจุบัน
 </objective>
 
 <context>
@@ -32,27 +32,27 @@ mkdir -p .planning/todos/pending .planning/todos/done
 ls .planning/todos/pending/*.md 2>/dev/null | xargs -I {} grep "^area:" {} 2>/dev/null | cut -d' ' -f2 | sort -u
 ```
 
-Note existing areas for consistency in infer_area step.
+จด areas ที่มีอยู่ไว้เพื่อใช้อ้างอิงใน infer_area step
 </step>
 
 <step name="extract_content">
-**With arguments:** Use as the title/focus.
+**มี arguments:** ใช้เป็น title/focus
 - `/gsd:add-todo Add auth token refresh` → title = "Add auth token refresh"
 
-**Without arguments:** Analyze recent conversation to extract:
-- The specific problem, idea, or task discussed
-- Relevant file paths mentioned
-- Technical details (error messages, line numbers, constraints)
+**ไม่มี arguments:** วิเคราะห์การสนทนาล่าสุดเพื่อดึงข้อมูล:
+- ปัญหา ไอเดีย หรืองานที่กำลังพูดถึง
+- file paths ที่เกี่ยวข้อง
+- รายละเอียดทางเทคนิค (error messages, line numbers, constraints)
 
-Formulate:
-- `title`: 3-10 word descriptive title (action verb preferred)
-- `problem`: What's wrong or why this is needed
-- `solution`: Approach hints or "TBD" if just an idea
-- `files`: Relevant paths with line numbers from conversation
+สร้าง:
+- `title`: หัวข้อ 3-10 คำ (ควรเริ่มด้วย action verb)
+- `problem`: มีปัญหาอะไร หรือทำไมถึงต้องทำ
+- `solution`: แนวทางแก้ไข หรือ "TBD" ถ้าเป็นแค่ไอเดีย
+- `files`: paths ที่เกี่ยวข้องพร้อม line numbers จากการสนทนา
 </step>
 
 <step name="infer_area">
-Infer area from file paths:
+อนุมาน area จาก file paths:
 
 | Path pattern | Area |
 |--------------|------|
@@ -64,9 +64,9 @@ Infer area from file paths:
 | `docs/*` | `docs` |
 | `.planning/*` | `planning` |
 | `scripts/*`, `bin/*` | `tooling` |
-| No files or unclear | `general` |
+| ไม่มีไฟล์หรือไม่ชัดเจน | `general` |
 
-Use existing area from step 2 if similar match exists.
+ใช้ area ที่มีอยู่จาก step 2 ถ้าตรงกัน
 </step>
 
 <step name="check_duplicates">
@@ -74,17 +74,17 @@ Use existing area from step 2 if similar match exists.
 grep -l -i "[key words from title]" .planning/todos/pending/*.md 2>/dev/null
 ```
 
-If potential duplicate found:
-1. Read the existing todo
-2. Compare scope
+ถ้าพบ todo ที่อาจซ้ำ:
+1. อ่าน todo ที่มีอยู่
+2. เปรียบเทียบ scope
 
-If overlapping, use AskUserQuestion:
-- header: "Duplicate?"
-- question: "Similar todo exists: [title]. What would you like to do?"
+ถ้าซ้อนทับกัน ใช้ AskUserQuestion:
+- header: "ซ้ำกัน?"
+- question: "มี todo คล้ายกัน: [title] จะทำอย่างไร?"
 - options:
-  - "Skip" — keep existing todo
-  - "Replace" — update existing with new context
-  - "Add anyway" — create as separate todo
+  - "ข้าม" — เก็บ todo เดิมไว้
+  - "แทนที่" — อัพเดท todo เดิมด้วย context ใหม่
+  - "เพิ่มอยู่ดี" — สร้างเป็น todo แยก
 </step>
 
 <step name="create_file">
@@ -93,9 +93,9 @@ timestamp=$(date "+%Y-%m-%dT%H:%M")
 date_prefix=$(date "+%Y-%m-%d")
 ```
 
-Generate slug from title (lowercase, hyphens, no special chars).
+สร้าง slug จาก title (lowercase, hyphens, ไม่มีอักขระพิเศษ)
 
-Write to `.planning/todos/pending/${date_prefix}-${slug}.md`:
+เขียนไปที่ `.planning/todos/pending/${date_prefix}-${slug}.md`:
 
 ```markdown
 ---
@@ -108,23 +108,23 @@ files:
 
 ## Problem
 
-[problem description - enough context for future Claude to understand weeks later]
+[คำอธิบายปัญหา - ให้ context พอที่ Claude ในอนาคตจะเข้าใจได้หลังจากผ่านไปหลายสัปดาห์]
 
 ## Solution
 
-[approach hints or "TBD"]
+[แนวทางแก้ไข หรือ "TBD"]
 ```
 </step>
 
 <step name="update_state">
-If `.planning/STATE.md` exists:
+ถ้ามี `.planning/STATE.md`:
 
-1. Count todos: `ls .planning/todos/pending/*.md 2>/dev/null | wc -l`
-2. Update "### Pending Todos" under "## Accumulated Context"
+1. นับ todos: `ls .planning/todos/pending/*.md 2>/dev/null | wc -l`
+2. อัพเดท "### Pending Todos" ใน "## Accumulated Context"
 </step>
 
 <step name="git_commit">
-Commit the todo and any updated state:
+Commit todo และ state ที่อัพเดท:
 
 ```bash
 git add .planning/todos/pending/[filename]
@@ -137,12 +137,12 @@ EOF
 )"
 ```
 
-Confirm: "Committed: docs: capture todo - [title]"
+ยืนยัน: "Committed: docs: capture todo - [title]"
 </step>
 
 <step name="confirm">
 ```
-Todo saved: .planning/todos/pending/[filename]
+Todo บันทึกแล้ว: .planning/todos/pending/[filename]
 
   [title]
   Area: [area]
@@ -150,11 +150,11 @@ Todo saved: .planning/todos/pending/[filename]
 
 ---
 
-Would you like to:
+ต้องการ:
 
-1. Continue with current work
-2. Add another todo
-3. View all todos (/gsd:check-todos)
+1. ทำงานปัจจุบันต่อ
+2. เพิ่ม todo อีก
+3. ดู todos ทั้งหมด (/gsd:check-todos)
 ```
 </step>
 
@@ -162,21 +162,21 @@ Would you like to:
 
 <output>
 - `.planning/todos/pending/[date]-[slug].md`
-- Updated `.planning/STATE.md` (if exists)
+- อัพเดท `.planning/STATE.md` (ถ้ามี)
 </output>
 
 <anti_patterns>
-- Don't create todos for work in current plan (that's deviation rule territory)
-- Don't create elaborate solution sections — captures ideas, not plans
-- Don't block on missing information — "TBD" is fine
+- อย่าสร้าง todos สำหรับงานใน plan ปัจจุบัน (นั่นคือ deviation rule territory)
+- อย่าสร้าง solution sections ที่ซับซ้อน — บันทึกไอเดีย ไม่ใช่ plans
+- อย่าติดขัดเรื่องข้อมูลที่ขาด — "TBD" ก็พอ
 </anti_patterns>
 
 <success_criteria>
-- [ ] Directory structure exists
-- [ ] Todo file created with valid frontmatter
-- [ ] Problem section has enough context for future Claude
-- [ ] No duplicates (checked and resolved)
-- [ ] Area consistent with existing todos
-- [ ] STATE.md updated if exists
-- [ ] Todo and state committed to git
+- [ ] โครงสร้างโฟลเดอร์มีอยู่
+- [ ] สร้างไฟล์ todo ด้วย frontmatter ที่ถูกต้อง
+- [ ] Problem section มี context พอสำหรับ Claude ในอนาคต
+- [ ] ไม่ซ้ำ (ตรวจสอบและแก้ไขแล้ว)
+- [ ] Area สอดคล้องกับ todos ที่มีอยู่
+- [ ] อัพเดท STATE.md แล้ว ถ้ามี
+- [ ] Commit todo และ state ไปยัง git แล้ว
 </success_criteria>

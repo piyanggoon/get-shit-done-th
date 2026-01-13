@@ -1,148 +1,148 @@
 <scope_estimation>
-Plans must maintain consistent quality from first task to last. This requires understanding quality degradation and splitting aggressively.
+แผนต้องรักษาคุณภาพที่สม่ำเสมอตั้งแต่ task แรกถึง task สุดท้าย สิ่งนี้ต้องการความเข้าใจ quality degradation และการแยกอย่าง aggressive
 
 <quality_insight>
-Claude degrades when it *perceives* context pressure and enters "completion mode."
+Claude ลดคุณภาพเมื่อ *รับรู้* ความกดดัน context และเข้าสู่ "completion mode"
 
-| Context Usage | Quality | Claude's State |
+| การใช้ Context | คุณภาพ | สถานะของ Claude |
 |---------------|---------|----------------|
-| 0-30% | PEAK | Thorough, comprehensive |
-| 30-50% | GOOD | Confident, solid work |
-| 50-70% | DEGRADING | Efficiency mode begins |
-| 70%+ | POOR | Rushed, minimal |
+| 0-30% | สูงสุด | ละเอียด, ครอบคลุม |
+| 30-50% | ดี | มั่นใจ, งานมั่นคง |
+| 50-70% | ลดลง | โหมดประหยัดเริ่ม |
+| 70%+ | ต่ำ | รีบ, น้อยที่สุด |
 
-**The 40-50% inflection point:** Claude sees context mounting and thinks "I'd better conserve now." Result: "I'll complete the remaining tasks more concisely" = quality crash.
+**จุดหักเห 40-50%:** Claude เห็น context สะสมและคิด "ฉันควรประหยัดตอนนี้" ผลลัพธ์: "ฉันจะทำ tasks ที่เหลือให้กระชับขึ้น" = คุณภาพตก
 
-**The rule:** Stop BEFORE quality degrades, not at context limit.
+**กฎ:** หยุดก่อนคุณภาพลดลง ไม่ใช่ที่ขีดจำกัด context
 </quality_insight>
 
 <context_target>
-**Plans should complete within ~50% of context usage.**
+**แผนควรเสร็จภายในการใช้ context ~50%**
 
-Why 50% not 80%?
-- No context anxiety possible
-- Quality maintained start to finish
-- Room for unexpected complexity
-- If you target 80%, you've already spent 40% in degradation mode
+ทำไม 50% ไม่ใช่ 80%?
+- ไม่มี context anxiety ได้
+- คุณภาพคงที่ตั้งแต่ต้นจนจบ
+- มีที่ว่างสำหรับความซับซ้อนที่ไม่คาดคิด
+- ถ้าคุณตั้งเป้า 80%, คุณใช้ 40% ใน degradation mode แล้ว
 </context_target>
 
 <task_rule>
-**Each plan: 2-3 tasks maximum. Stay under 50% context.**
+**แต่ละแผน: 2-3 tasks สูงสุด อยู่ใต้ 50% context**
 
-| Task Complexity | Tasks/Plan | Context/Task | Total |
+| ความซับซ้อน Task | Tasks/แผน | Context/Task | รวม |
 |-----------------|------------|--------------|-------|
-| Simple (CRUD, config) | 3 | ~10-15% | ~30-45% |
-| Complex (auth, payments) | 2 | ~20-30% | ~40-50% |
-| Very complex (migrations, refactors) | 1-2 | ~30-40% | ~30-50% |
+| ง่าย (CRUD, config) | 3 | ~10-15% | ~30-45% |
+| ซับซ้อน (auth, payments) | 2 | ~20-30% | ~40-50% |
+| ซับซ้อนมาก (migrations, refactors) | 1-2 | ~30-40% | ~30-50% |
 
-**When in doubt: Default to 2 tasks.** Better to have an extra plan than degraded quality.
+**เมื่อไม่แน่ใจ: Default เป็น 2 tasks** ดีกว่ามีแผนเพิ่มกว่าคุณภาพลดลง
 </task_rule>
 
 <tdd_plans>
-**TDD features get their own plans. Target ~40% context.**
+**TDD features ได้แผนของตัวเอง เป้าหมาย ~40% context**
 
-TDD requires 2-3 execution cycles (RED → GREEN → REFACTOR), each with file reads, test runs, and potential debugging. This is fundamentally heavier than linear task execution.
+TDD ต้องการ 2-3 execution cycles (RED → GREEN → REFACTOR) แต่ละรอบมีการอ่านไฟล์, การรัน test, และการ debugging ที่อาจเกิดขึ้น นี่หนักกว่าการรัน task แบบ linear โดยพื้นฐาน
 
-| TDD Feature Complexity | Context Usage |
+| ความซับซ้อน TDD Feature | การใช้ Context |
 |------------------------|---------------|
-| Simple utility function | ~25-30% |
-| Business logic with edge cases | ~35-40% |
-| Complex algorithm | ~40-50% |
+| Utility function ง่าย | ~25-30% |
+| Business logic พร้อม edge cases | ~35-40% |
+| Algorithm ซับซ้อน | ~40-50% |
 
-**One feature per TDD plan.** If features are trivial enough to batch, they're trivial enough to skip TDD.
+**หนึ่งฟีเจอร์ต่อแผน TDD** ถ้าฟีเจอร์เล็กพอที่จะรวม มันเล็กพอที่จะข้าม TDD
 
-**Why TDD plans are separate:**
-- TDD consumes 40-50% context for a single feature
-- Dedicated plans ensure full quality throughout RED-GREEN-REFACTOR
-- Each TDD feature gets fresh context, peak quality
+**ทำไมแผน TDD แยก:**
+- TDD ใช้ 40-50% context สำหรับฟีเจอร์เดียว
+- แผนเฉพาะทำให้มั่นใจคุณภาพเต็มตลอด RED-GREEN-REFACTOR
+- แต่ละ TDD feature ได้ context ใหม่, คุณภาพสูงสุด
 
-See `~/.claude/get-shit-done/references/tdd.md` for TDD plan structure.
+ดู `~/.claude/get-shit-done/references/tdd.md` สำหรับโครงสร้างแผน TDD
 </tdd_plans>
 
 <split_signals>
 
 <always_split>
-- **More than 3 tasks** - Even if tasks seem small
-- **Multiple subsystems** - DB + API + UI = separate plans
-- **Any task with >5 file modifications** - Split by file groups
-- **Checkpoint + implementation work** - Checkpoints in one plan, implementation after in separate plan
-- **Discovery + implementation** - DISCOVERY.md in one plan, implementation in another
+- **มากกว่า 3 tasks** - แม้ tasks จะดูเล็ก
+- **หลาย subsystems** - DB + API + UI = แผนแยก
+- **Task ใดมี >5 file modifications** - แยกตามกลุ่มไฟล์
+- **Checkpoint + งาน implementation** - Checkpoints ในแผนหนึ่ง, implementation หลังจากในแผนแยก
+- **Discovery + implementation** - DISCOVERY.md ในแผนหนึ่ง, implementation ในอีกแผน
 </always_split>
 
 <consider_splitting>
-- Estimated >5 files modified total
-- Complex domains (auth, payments, data modeling)
-- Any uncertainty about approach
-- Natural semantic boundaries (Setup -> Core -> Features)
+- ประมาณการ >5 files modified รวม
+- โดเมนซับซ้อน (auth, payments, data modeling)
+- มีความไม่แน่ใจเกี่ยวกับแนวทาง
+- ขอบเขต semantic ธรรมชาติ (Setup -> Core -> Features)
 </consider_splitting>
 </split_signals>
 
 <splitting_strategies>
-**By subsystem:** Auth → 01: DB models, 02: API routes, 03: Protected routes, 04: UI components
+**ตาม subsystem:** Auth → 01: DB models, 02: API routes, 03: Protected routes, 04: UI components
 
-**By dependency:** Payments → 01: Stripe setup, 02: Subscription logic, 03: Frontend integration
+**ตาม dependency:** Payments → 01: Stripe setup, 02: Subscription logic, 03: Frontend integration
 
-**By complexity:** Dashboard → 01: Layout shell, 02: Data fetching, 03: Visualization
+**ตาม complexity:** Dashboard → 01: Layout shell, 02: Data fetching, 03: Visualization
 
-**By verification:** Deploy → 01: Vercel setup (checkpoint), 02: Env config (auto), 03: CI/CD (checkpoint)
+**ตาม verification:** Deploy → 01: Vercel setup (checkpoint), 02: Env config (auto), 03: CI/CD (checkpoint)
 </splitting_strategies>
 
 <anti_patterns>
-**Bad - Comprehensive plan:**
+**ไม่ดี - แผนครอบคลุม:**
 ```
-Plan: "Complete Authentication System"
+แผน: "Complete Authentication System"
 Tasks: 8 (models, migrations, API, JWT, middleware, hashing, login form, register form)
-Result: Task 1-3 good, Task 4-5 degrading, Task 6-8 rushed
+ผลลัพธ์: Task 1-3 ดี, Task 4-5 ลดลง, Task 6-8 รีบ
 ```
 
-**Good - Atomic plans:**
+**ดี - แผน Atomic:**
 ```
-Plan 1: "Auth Database Models" (2 tasks)
-Plan 2: "Auth API Core" (3 tasks)
-Plan 3: "Auth API Protection" (2 tasks)
-Plan 4: "Auth UI Components" (2 tasks)
-Each: 30-40% context, peak quality, atomic commits (2-3 task commits + 1 metadata commit)
+แผน 1: "Auth Database Models" (2 tasks)
+แผน 2: "Auth API Core" (3 tasks)
+แผน 3: "Auth API Protection" (2 tasks)
+แผน 4: "Auth UI Components" (2 tasks)
+แต่ละ: 30-40% context, คุณภาพสูงสุด, atomic commits (2-3 task commits + 1 metadata commit)
 ```
 </anti_patterns>
 
 <estimating_context>
-| Files Modified | Context Impact |
+| Files Modified | ผลกระทบ Context |
 |----------------|----------------|
-| 0-3 files | ~10-15% (small) |
-| 4-6 files | ~20-30% (medium) |
-| 7+ files | ~40%+ (large - split) |
+| 0-3 files | ~10-15% (เล็ก) |
+| 4-6 files | ~20-30% (ปานกลาง) |
+| 7+ files | ~40%+ (ใหญ่ - แยก) |
 
-| Complexity | Context/Task |
+| ความซับซ้อน | Context/Task |
 |------------|--------------|
-| Simple CRUD | ~15% |
+| CRUD ง่าย | ~15% |
 | Business logic | ~25% |
-| Complex algorithms | ~40% |
+| Algorithms ซับซ้อน | ~40% |
 | Domain modeling | ~35% |
 
-**2 tasks:** Simple ~30%, Medium ~50%, Complex ~80% (split)
-**3 tasks:** Simple ~45%, Medium ~75% (risky), Complex 120% (impossible)
+**2 tasks:** ง่าย ~30%, ปานกลาง ~50%, ซับซ้อน ~80% (แยก)
+**3 tasks:** ง่าย ~45%, ปานกลาง ~75% (เสี่ยง), ซับซ้อน 120% (เป็นไปไม่ได้)
 </estimating_context>
 
 <depth_calibration>
-**Depth controls compression tolerance, not artificial inflation.**
+**Depth ควบคุม compression tolerance ไม่ใช่ artificial inflation**
 
-| Depth | Typical Phases | Typical Plans/Phase | Tasks/Plan |
+| Depth | เฟสโดยทั่วไป | แผน/เฟสโดยทั่วไป | Tasks/แผน |
 |-------|----------------|---------------------|------------|
 | Quick | 3-5 | 1-3 | 2-3 |
 | Standard | 5-8 | 3-5 | 2-3 |
 | Comprehensive | 8-12 | 5-10 | 2-3 |
 
-Tasks/plan is CONSTANT at 2-3. The 50% context rule applies universally.
+Tasks/แผนคงที่ที่ 2-3 กฎ 50% context ใช้ได้ทั่วไป
 
-**Key principle:** Derive from actual work. Depth determines how aggressively you combine things, not a target to hit.
+**หลักการสำคัญ:** ได้มาจากงานจริง Depth กำหนดว่าคุณรวมสิ่งต่างๆ อย่าง aggressive แค่ไหน ไม่ใช่เป้าหมายที่ต้องถึง
 
-- Comprehensive auth = 8 plans (because auth genuinely has 8 concerns)
-- Comprehensive "add favicon" = 1 plan (because that's all it is)
+- Auth แบบ comprehensive = 8 แผน (เพราะ auth มี 8 concerns จริงๆ)
+- "add favicon" แบบ comprehensive = 1 แผน (เพราะนั่นคือทั้งหมดที่เป็น)
 
-Don't pad small work to hit a number. Don't compress complex work to look efficient.
+อย่า pad งานเล็กให้ถึงตัวเลข อย่า compress งานซับซ้อนให้ดูมีประสิทธิภาพ
 
-**Comprehensive depth example:**
-Auth system at comprehensive depth = 8 plans (not 3 big ones):
+**ตัวอย่าง Comprehensive depth:**
+Auth system ที่ comprehensive depth = 8 แผน (ไม่ใช่ 3 แผนใหญ่):
 - 01: DB models (2 tasks)
 - 02: Password hashing (2 tasks)
 - 03: JWT generation (2 tasks)
@@ -152,21 +152,21 @@ Auth system at comprehensive depth = 8 plans (not 3 big ones):
 - 07: Protected route patterns (2 tasks)
 - 08: Auth UI components (3 tasks)
 
-Each plan: fresh context, peak quality. More plans = more thoroughness, same quality per plan.
+แต่ละแผน: context ใหม่, คุณภาพสูงสุด แผนมากขึ้น = ละเอียดมากขึ้น, คุณภาพเท่ากันต่อแผน
 </depth_calibration>
 
 <summary>
-**2-3 tasks, 50% context target:**
-- All tasks: Peak quality
-- Git: Atomic per-task commits (each task = 1 commit, plan = 1 metadata commit)
-- Autonomous plans: Subagent execution (fresh context)
+**2-3 tasks, เป้าหมาย 50% context:**
+- Tasks ทั้งหมด: คุณภาพสูงสุด
+- Git: Atomic per-task commits (แต่ละ task = 1 commit, แผน = 1 metadata commit)
+- แผน Autonomous: Subagent execution (context ใหม่)
 
-**The principle:** Aggressive atomicity. More plans, smaller scope, consistent quality.
+**หลักการ:** Aggressive atomicity แผนมากขึ้น, scope เล็กลง, คุณภาพสม่ำเสมอ
 
-**The rule:** If in doubt, split. Quality over consolidation. Always.
+**กฎ:** ถ้าไม่แน่ใจ แยก คุณภาพเหนือการรวม เสมอ
 
-**Depth rule:** Depth increases plan COUNT, never plan SIZE.
+**กฎ Depth:** Depth เพิ่มจำนวนแผน ไม่ใช่ขนาดแผน
 
-**Commit rule:** Each plan produces 3-4 commits total (2-3 task commits + 1 docs commit). More granular history = better observability for Claude.
+**กฎ Commit:** แต่ละแผนสร้าง 3-4 commits รวม (2-3 task commits + 1 docs commit) ประวัติที่ละเอียดกว่า = observability ดีกว่าสำหรับ Claude
 </summary>
 </scope_estimation>

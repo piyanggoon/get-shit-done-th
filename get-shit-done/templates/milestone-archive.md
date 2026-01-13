@@ -1,123 +1,123 @@
-# Milestone Archive Template
+# เทมเพลต Milestone Archive
 
-This template is used by the complete-milestone workflow to create archive files in `.planning/milestones/`.
+เทมเพลตนี้ใช้โดย workflow complete-milestone เพื่อสร้างไฟล์ archive ใน `.planning/milestones/`
 
 ---
 
-## File Template
+## เทมเพลตไฟล์
 
 # Milestone v{{VERSION}}: {{MILESTONE_NAME}}
 
-**Status:** ✅ SHIPPED {{DATE}}
-**Phases:** {{PHASE_START}}-{{PHASE_END}}
-**Total Plans:** {{TOTAL_PLANS}}
+**สถานะ:** ✅ SHIPPED {{DATE}}
+**เฟส:** {{PHASE_START}}-{{PHASE_END}}
+**แผนทั้งหมด:** {{TOTAL_PLANS}}
 
-## Overview
+## ภาพรวม
 
 {{MILESTONE_DESCRIPTION}}
 
-## Phases
+## เฟส
 
 {{PHASES_SECTION}}
 
-[For each phase in this milestone, include:]
+[สำหรับแต่ละเฟสใน milestone นี้ ให้รวม:]
 
-### Phase {{PHASE_NUM}}: {{PHASE_NAME}}
+### เฟส {{PHASE_NUM}}: {{PHASE_NAME}}
 
-**Goal**: {{PHASE_GOAL}}
-**Depends on**: {{DEPENDS_ON}}
-**Plans**: {{PLAN_COUNT}} plans
+**เป้าหมาย**: {{PHASE_GOAL}}
+**ขึ้นอยู่กับ**: {{DEPENDS_ON}}
+**แผน**: {{PLAN_COUNT}} แผน
 
-Plans:
+แผนงาน:
 
 - [x] {{PHASE}}-01: {{PLAN_DESCRIPTION}}
 - [x] {{PHASE}}-02: {{PLAN_DESCRIPTION}}
-      [... all plans ...]
+      [... แผนทั้งหมด ...]
 
-**Details:**
+**รายละเอียด:**
 {{PHASE_DETAILS_FROM_ROADMAP}}
 
-**For decimal phases, include (INSERTED) marker:**
+**สำหรับเฟสทศนิยม ให้รวม (INSERTED) marker:**
 
-### Phase 2.1: Critical Security Patch (INSERTED)
+### เฟส 2.1: Critical Security Patch (INSERTED)
 
-**Goal**: Fix authentication bypass vulnerability
-**Depends on**: Phase 2
-**Plans**: 1 plan
+**เป้าหมาย**: แก้ไขช่องโหว่ authentication bypass
+**ขึ้นอยู่กับ**: เฟส 2
+**แผน**: 1 แผน
 
-Plans:
+แผนงาน:
 
 - [x] 02.1-01: Patch auth vulnerability
 
-**Details:**
+**รายละเอียด:**
 {{PHASE_DETAILS_FROM_ROADMAP}}
 
 ---
 
-## Milestone Summary
+## สรุป Milestone
 
-**Decimal Phases:**
+**เฟสทศนิยม:**
 
-- Phase 2.1: Critical Security Patch (inserted after Phase 2 for urgent fix)
-- Phase 5.1: Performance Hotfix (inserted after Phase 5 for production issue)
+- เฟส 2.1: Critical Security Patch (แทรกหลังจากเฟส 2 สำหรับการแก้ไขเร่งด่วน)
+- เฟส 5.1: Performance Hotfix (แทรกหลังจากเฟส 5 สำหรับปัญหา production)
 
-**Key Decisions:**
+**การตัดสินใจสำคัญ:**
 {{DECISIONS_FROM_PROJECT_STATE}}
-[Example:]
+[ตัวอย่าง:]
 
-- Decision: Use ROADMAP.md split (Rationale: Constant context cost)
-- Decision: Decimal phase numbering (Rationale: Clear insertion semantics)
+- การตัดสินใจ: ใช้ ROADMAP.md split (เหตุผล: Constant context cost)
+- การตัดสินใจ: Decimal phase numbering (เหตุผล: Clear insertion semantics)
 
-**Issues Resolved:**
+**ปัญหาที่แก้ไขแล้ว:**
 {{ISSUES_RESOLVED_DURING_MILESTONE}}
-[Example:]
+[ตัวอย่าง:]
 
-- Fixed context overflow at 100+ phases
-- Resolved phase insertion confusion
+- แก้ไข context overflow ที่ 100+ เฟส
+- แก้ไขความสับสนในการแทรกเฟส
 
-**Issues Deferred:**
+**ปัญหาที่เลื่อนออกไป:**
 {{ISSUES_DEFERRED_TO_LATER}}
-[Example:]
+[ตัวอย่าง:]
 
-- PROJECT-STATE.md tiering (deferred until decisions > 300)
+- PROJECT-STATE.md tiering (เลื่อนจนกว่าการตัดสินใจ > 300)
 
-**Technical Debt Incurred:**
+**Technical Debt ที่เกิดขึ้น:**
 {{SHORTCUTS_NEEDING_FUTURE_WORK}}
-[Example:]
+[ตัวอย่าง:]
 
-- Some workflows still have hardcoded paths (fix in Phase 5)
-
----
-
-_For current project status, see .planning/ROADMAP.md_
+- บาง workflows ยังมี hardcoded paths (แก้ไขในเฟส 5)
 
 ---
 
-## Usage Guidelines
+_สำหรับสถานะโปรเจกต์ปัจจุบัน ดู .planning/ROADMAP.md_
+
+---
+
+## แนวทางการใช้งาน
 
 <guidelines>
-**When to create milestone archives:**
-- After completing all phases in a milestone (v1.0, v1.1, v2.0, etc.)
-- Triggered by complete-milestone workflow
-- Before planning next milestone work
+**เมื่อไหร่ควรสร้าง milestone archives:**
+- หลังจากเสร็จสิ้นทุกเฟสใน milestone (v1.0, v1.1, v2.0, เป็นต้น)
+- ทริกเกอร์โดย complete-milestone workflow
+- ก่อนวางแผนงาน milestone ถัดไป
 
-**How to fill template:**
+**วิธีกรอกเทมเพลต:**
 
-- Replace {{PLACEHOLDERS}} with actual values
-- Extract phase details from ROADMAP.md
-- Document decimal phases with (INSERTED) marker
-- Include key decisions from PROJECT-STATE.md or SUMMARY files
-- List issues resolved vs deferred
-- Capture technical debt for future reference
+- แทนที่ {{PLACEHOLDERS}} ด้วยค่าจริง
+- ดึงรายละเอียดเฟสจาก ROADMAP.md
+- บันทึกเฟสทศนิยมด้วย (INSERTED) marker
+- รวมการตัดสินใจสำคัญจาก PROJECT-STATE.md หรือไฟล์ SUMMARY
+- ลิสต์ปัญหาที่แก้ไขแล้ว vs ที่เลื่อนออกไป
+- บันทึก technical debt สำหรับอ้างอิงในอนาคต
 
-**Archive location:**
+**ตำแหน่ง archive:**
 
-- Save to `.planning/milestones/v{VERSION}-{NAME}.md`
-- Example: `.planning/milestones/v1.0-mvp.md`
+- บันทึกไปที่ `.planning/milestones/v{VERSION}-{NAME}.md`
+- ตัวอย่าง: `.planning/milestones/v1.0-mvp.md`
 
-**After archiving:**
+**หลังจาก archiving:**
 
-- Update ROADMAP.md to collapse completed milestone in `<details>` tag
-- Update PROJECT.md to brownfield format with Current State section
-- Continue phase numbering in next milestone (never restart at 01)
+- อัปเดต ROADMAP.md เพื่อยุบ milestone ที่เสร็จแล้วใน `<details>` tag
+- อัปเดต PROJECT.md เป็นรูปแบบ brownfield พร้อมส่วน Current State
+- ดำเนินการนับเลขเฟสต่อใน milestone ถัดไป (ไม่เริ่มใหม่ที่ 01)
   </guidelines>

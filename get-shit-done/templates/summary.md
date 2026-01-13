@@ -1,273 +1,273 @@
-# Summary Template
+# เทมเพลต Summary
 
-Template for `.planning/phases/XX-name/{phase}-{plan}-SUMMARY.md` - phase completion documentation.
+เทมเพลตสำหรับ `.planning/phases/XX-name/{phase}-{plan}-SUMMARY.md` - เอกสาร phase completion
 
 ---
 
-## File Template
+## เทมเพลตไฟล์
 
 ```markdown
 ---
 phase: XX-name
 plan: YY
-subsystem: [primary category: auth, payments, ui, api, database, infra, testing, etc.]
+subsystem: [หมวดหลัก: auth, payments, ui, api, database, infra, testing, เป็นต้น]
 tags: [searchable tech: jwt, stripe, react, postgres, prisma]
 
 # Dependency graph
 requires:
-  - phase: [prior phase this depends on]
-    provides: [what that phase built that this uses]
+  - phase: [เฟสก่อนหน้าที่นี่ขึ้นอยู่กับ]
+    provides: [อะไรที่เฟสนั้นสร้างที่นี่ใช้]
 provides:
-  - [bullet list of what this phase built/delivered]
-affects: [list of phase names or keywords that will need this context]
+  - [bullet list ของอะไรที่เฟสนี้สร้าง/ส่งมอบ]
+affects: [list of phase names หรือ keywords ที่จะต้องการ context นี้]
 
 # Tech tracking
 tech-stack:
-  added: [libraries/tools added in this phase]
-  patterns: [architectural/code patterns established]
+  added: [libraries/tools ที่เพิ่มในเฟสนี้]
+  patterns: [architectural/code patterns ที่ established]
 
 key-files:
-  created: [important files created]
-  modified: [important files modified]
+  created: [ไฟล์สำคัญที่สร้าง]
+  modified: [ไฟล์สำคัญที่แก้ไข]
 
 key-decisions:
-  - "Decision 1"
-  - "Decision 2"
+  - "การตัดสินใจ 1"
+  - "การตัดสินใจ 2"
 
 patterns-established:
-  - "Pattern 1: description"
-  - "Pattern 2: description"
+  - "Pattern 1: คำอธิบาย"
+  - "Pattern 2: คำอธิบาย"
 
-issues-created: [ISS-XXX, ISS-YYY] # From ISSUES.md if any
+issues-created: [ISS-XXX, ISS-YYY] # จาก ISSUES.md ถ้ามี
 
 # Metrics
 duration: Xmin
 completed: YYYY-MM-DD
 ---
 
-# Phase [X]: [Name] Summary
+# เฟส [X]: [ชื่อ] Summary
 
-**[Substantive one-liner describing outcome - NOT "phase complete" or "implementation finished"]**
+**[One-liner ที่มีสาระอธิบายผลลัพธ์ - ไม่ใช่ "phase complete" หรือ "implementation finished"]**
 
 ## Performance
 
-- **Duration:** [time] (e.g., 23 min, 1h 15m)
-- **Started:** [ISO timestamp]
-- **Completed:** [ISO timestamp]
-- **Tasks:** [count completed]
-- **Files modified:** [count]
+- **ระยะเวลา:** [เวลา] (เช่น 23 นาที, 1 ชม. 15 นาที)
+- **เริ่ม:** [ISO timestamp]
+- **เสร็จ:** [ISO timestamp]
+- **Tasks:** [จำนวนที่เสร็จ]
+- **Files modified:** [จำนวน]
 
-## Accomplishments
-- [Most important outcome]
-- [Second key accomplishment]
-- [Third if applicable]
+## ความสำเร็จ
+- [ผลลัพธ์สำคัญที่สุด]
+- [ความสำเร็จสำคัญที่สอง]
+- [ที่สามถ้ามี]
 
 ## Task Commits
 
-Each task was committed atomically:
+แต่ละ task ถูก commit แบบ atomic:
 
-1. **Task 1: [task name]** - `abc123f` (feat/fix/test/refactor)
-2. **Task 2: [task name]** - `def456g` (feat/fix/test/refactor)
-3. **Task 3: [task name]** - `hij789k` (feat/fix/test/refactor)
+1. **Task 1: [ชื่อ task]** - `abc123f` (feat/fix/test/refactor)
+2. **Task 2: [ชื่อ task]** - `def456g` (feat/fix/test/refactor)
+3. **Task 3: [ชื่อ task]** - `hij789k` (feat/fix/test/refactor)
 
 **Plan metadata:** `lmn012o` (docs: complete plan)
 
-_Note: TDD tasks may have multiple commits (test → feat → refactor)_
+_หมายเหตุ: TDD tasks อาจมีหลาย commits (test → feat → refactor)_
 
 ## Files Created/Modified
-- `path/to/file.ts` - What it does
-- `path/to/another.ts` - What it does
+- `path/to/file.ts` - ทำอะไร
+- `path/to/another.ts` - ทำอะไร
 
-## Decisions Made
-[Key decisions with brief rationale, or "None - followed plan as specified"]
+## การตัดสินใจที่ทำ
+[การตัดสินใจสำคัญพร้อมเหตุผลสั้น หรือ "ไม่มี - ทำตามแผนที่ระบุ"]
 
-## Deviations from Plan
+## การเบี่ยงเบนจากแผน
 
-[If no deviations: "None - plan executed exactly as written"]
+[ถ้าไม่มีการเบี่ยงเบน: "ไม่มี - แผน execute ตรงตามที่เขียน"]
 
-[If deviations occurred:]
+[ถ้ามีการเบี่ยงเบน:]
 
-### Auto-fixed Issues
+### ปัญหาที่แก้ไขอัตโนมัติ
 
-**1. [Rule X - Category] Brief description**
-- **Found during:** Task [N] ([task name])
-- **Issue:** [What was wrong]
-- **Fix:** [What was done]
+**1. [Rule X - หมวด] คำอธิบายสั้น**
+- **พบระหว่าง:** Task [N] ([ชื่อ task])
+- **ปัญหา:** [อะไรผิด]
+- **แก้ไข:** [ทำอะไร]
 - **Files modified:** [file paths]
-- **Verification:** [How it was verified]
-- **Committed in:** [hash] (part of task commit)
+- **Verification:** [verify อย่างไร]
+- **Committed in:** [hash] (ส่วนหนึ่งของ task commit)
 
-[... repeat for each auto-fix ...]
+[... ทำซ้ำสำหรับแต่ละ auto-fix ...]
 
-### Deferred Enhancements
+### Enhancements ที่เลื่อนออกไป
 
-Logged to .planning/ISSUES.md for future consideration:
-- ISS-XXX: [Brief description] (discovered in Task [N])
-- ISS-XXX: [Brief description] (discovered in Task [N])
-
----
-
-**Total deviations:** [N] auto-fixed ([breakdown by rule]), [N] deferred
-**Impact on plan:** [Brief assessment - e.g., "All auto-fixes necessary for correctness/security. No scope creep."]
-
-## Issues Encountered
-[Problems and how they were resolved, or "None"]
-
-[Note: "Deviations from Plan" documents unplanned work that was handled automatically via deviation rules. "Issues Encountered" documents problems during planned work that required problem-solving.]
-
-## Next Phase Readiness
-[What's ready for next phase]
-[Any blockers or concerns]
+Logged ไปยัง .planning/ISSUES.md สำหรับพิจารณาในอนาคต:
+- ISS-XXX: [คำอธิบายสั้น] (พบใน Task [N])
+- ISS-XXX: [คำอธิบายสั้น] (พบใน Task [N])
 
 ---
-*Phase: XX-name*
-*Completed: [date]*
+
+**การเบี่ยงเบนทั้งหมด:** [N] auto-fixed ([breakdown ตาม rule]), [N] เลื่อนออกไป
+**ผลกระทบต่อแผน:** [การประเมินสั้น - เช่น "All auto-fixes จำเป็นสำหรับ correctness/security ไม่มี scope creep"]
+
+## ปัญหาที่พบ
+[ปัญหาและวิธีแก้ไข หรือ "ไม่มี"]
+
+[หมายเหตุ: "การเบี่ยงเบนจากแผน" บันทึกงานที่ไม่ได้วางแผนที่ถูกจัดการอัตโนมัติผ่าน deviation rules "ปัญหาที่พบ" บันทึกปัญหาระหว่างงานที่วางแผนที่ต้อง problem-solving]
+
+## ความพร้อมเฟสถัดไป
+[อะไรพร้อมสำหรับเฟสถัดไป]
+[Blockers หรือ concerns ใดๆ]
+
+---
+*เฟส: XX-name*
+*เสร็จ: [วันที่]*
 ```
 
 <frontmatter_guidance>
-**Purpose:** Enable automatic context assembly via dependency graph. Frontmatter makes summary metadata machine-readable so plan-phase can scan all summaries quickly and select relevant ones based on dependencies.
+**วัตถุประสงค์:** เปิดใช้ automatic context assembly ผ่าน dependency graph Frontmatter ทำให้ summary metadata เป็น machine-readable เพื่อให้ plan-phase สามารถ scan summaries ทั้งหมดอย่างรวดเร็วและเลือกที่เกี่ยวข้องตาม dependencies
 
-**Fast scanning:** Frontmatter is first ~25 lines, cheap to scan across all summaries without reading full content.
+**Fast scanning:** Frontmatter เป็น ~25 บรรทัดแรก ราคาถูกในการ scan across summaries ทั้งหมดโดยไม่ต้องอ่านเนื้อหาเต็ม
 
-**Dependency graph:** `requires`/`provides`/`affects` create explicit links between phases, enabling transitive closure for context selection.
+**Dependency graph:** `requires`/`provides`/`affects` สร้าง explicit links ระหว่างเฟส เปิดใช้ transitive closure สำหรับ context selection
 
-**Subsystem:** Primary categorization (auth, payments, ui, api, database, infra, testing) for detecting related phases.
+**Subsystem:** Primary categorization (auth, payments, ui, api, database, infra, testing) สำหรับตรวจจับเฟสที่เกี่ยวข้อง
 
-**Tags:** Searchable technical keywords (libraries, frameworks, tools) for tech stack awareness.
+**Tags:** Searchable technical keywords (libraries, frameworks, tools) สำหรับ tech stack awareness
 
-**Key-files:** Important files for @context references in PLAN.md.
+**Key-files:** ไฟล์สำคัญสำหรับ @context references ใน PLAN.md
 
-**Patterns:** Established conventions future phases should maintain.
+**Patterns:** Established conventions ที่เฟสในอนาคตควรรักษา
 
-**Population:** Frontmatter is populated during summary creation in execute-phase.md. See `<step name="create_summary">` for field-by-field guidance.
+**Population:** Frontmatter ถูก populate ระหว่าง summary creation ใน execute-phase.md ดู `<step name="create_summary">` สำหรับ field-by-field guidance
 </frontmatter_guidance>
 
 <one_liner_rules>
-The one-liner MUST be substantive:
+One-liner ต้องมีสาระ:
 
-**Good:**
-- "JWT auth with refresh rotation using jose library"
-- "Prisma schema with User, Session, and Product models"
-- "Dashboard with real-time metrics via Server-Sent Events"
+**ดี:**
+- "JWT auth พร้อม refresh rotation ใช้ jose library"
+- "Prisma schema พร้อม User, Session และ Product models"
+- "Dashboard พร้อม real-time metrics ผ่าน Server-Sent Events"
 
-**Bad:**
+**แย่:**
 - "Phase complete"
 - "Authentication implemented"
 - "Foundation finished"
 - "All tasks done"
 
-The one-liner should tell someone what actually shipped.
+One-liner ควรบอกคนว่าอะไร shipped จริงๆ
 </one_liner_rules>
 
 <example>
 ```markdown
-# Phase 1: Foundation Summary
+# เฟส 1: Foundation Summary
 
-**JWT auth with refresh rotation using jose library, Prisma User model, and protected API middleware**
+**JWT auth พร้อม refresh rotation ใช้ jose library, Prisma User model และ protected API middleware**
 
 ## Performance
 
-- **Duration:** 28 min
-- **Started:** 2025-01-15T14:22:10Z
-- **Completed:** 2025-01-15T14:50:33Z
+- **ระยะเวลา:** 28 นาที
+- **เริ่ม:** 2025-01-15T14:22:10Z
+- **เสร็จ:** 2025-01-15T14:50:33Z
 - **Tasks:** 5
 - **Files modified:** 8
 
-## Accomplishments
-- User model with email/password auth
-- Login/logout endpoints with httpOnly JWT cookies
-- Protected route middleware checking token validity
-- Refresh token rotation on each request
+## ความสำเร็จ
+- User model พร้อม email/password auth
+- Login/logout endpoints พร้อม httpOnly JWT cookies
+- Protected route middleware ตรวจสอบ token validity
+- Refresh token rotation ทุก request
 
 ## Files Created/Modified
-- `prisma/schema.prisma` - User and Session models
+- `prisma/schema.prisma` - User และ Session models
 - `src/app/api/auth/login/route.ts` - Login endpoint
 - `src/app/api/auth/logout/route.ts` - Logout endpoint
 - `src/middleware.ts` - Protected route checks
-- `src/lib/auth.ts` - JWT helpers using jose
+- `src/lib/auth.ts` - JWT helpers ใช้ jose
 
-## Decisions Made
-- Used jose instead of jsonwebtoken (ESM-native, Edge-compatible)
-- 15-min access tokens with 7-day refresh tokens
-- Storing refresh tokens in database for revocation capability
+## การตัดสินใจที่ทำ
+- ใช้ jose แทน jsonwebtoken (ESM-native, Edge-compatible)
+- 15-min access tokens พร้อม 7-day refresh tokens
+- เก็บ refresh tokens ใน database สำหรับ revocation capability
 
-## Deviations from Plan
+## การเบี่ยงเบนจากแผน
 
-### Auto-fixed Issues
+### ปัญหาที่แก้ไขอัตโนมัติ
 
-**1. [Rule 2 - Missing Critical] Added password hashing with bcrypt**
-- **Found during:** Task 2 (Login endpoint implementation)
-- **Issue:** Plan didn't specify password hashing - storing plaintext would be critical security flaw
-- **Fix:** Added bcrypt hashing on registration, comparison on login with salt rounds 10
+**1. [Rule 2 - Missing Critical] เพิ่ม password hashing ด้วย bcrypt**
+- **พบระหว่าง:** Task 2 (Login endpoint implementation)
+- **ปัญหา:** แผนไม่ได้ระบุ password hashing - เก็บ plaintext จะเป็น critical security flaw
+- **แก้ไข:** เพิ่ม bcrypt hashing ตอน registration, comparison ตอน login พร้อม salt rounds 10
 - **Files modified:** src/app/api/auth/login/route.ts, src/lib/auth.ts
-- **Verification:** Password hash test passes, plaintext never stored
+- **Verification:** Password hash test ผ่าน, plaintext ไม่ถูกเก็บ
 - **Committed in:** abc123f (Task 2 commit)
 
-**2. [Rule 3 - Blocking] Installed missing jose dependency**
-- **Found during:** Task 4 (JWT token generation)
-- **Issue:** jose package not in package.json, import failing
-- **Fix:** Ran `npm install jose`
+**2. [Rule 3 - Blocking] Install missing jose dependency**
+- **พบระหว่าง:** Task 4 (JWT token generation)
+- **ปัญหา:** jose package ไม่อยู่ใน package.json, import ล้มเหลว
+- **แก้ไข:** รัน `npm install jose`
 - **Files modified:** package.json, package-lock.json
-- **Verification:** Import succeeds, build passes
+- **Verification:** Import สำเร็จ, build ผ่าน
 - **Committed in:** def456g (Task 4 commit)
 
-### Deferred Enhancements
+### Enhancements ที่เลื่อนออกไป
 
-Logged to .planning/ISSUES.md for future consideration:
-- ISS-001: Add rate limiting to login endpoint (discovered in Task 2)
-- ISS-002: Improve token refresh UX with auto-retry on 401 (discovered in Task 5)
-
----
-
-**Total deviations:** 2 auto-fixed (1 missing critical, 1 blocking), 2 deferred
-**Impact on plan:** Both auto-fixes essential for security and functionality. No scope creep.
-
-## Issues Encountered
-- jsonwebtoken CommonJS import failed in Edge runtime - switched to jose (planned library change, worked as expected)
-
-## Next Phase Readiness
-- Auth foundation complete, ready for feature development
-- User registration endpoint needed before public launch
+Logged ไปยัง .planning/ISSUES.md สำหรับพิจารณาในอนาคต:
+- ISS-001: เพิ่ม rate limiting ให้ login endpoint (พบใน Task 2)
+- ISS-002: ปรับปรุง token refresh UX ด้วย auto-retry เมื่อ 401 (พบใน Task 5)
 
 ---
-*Phase: 01-foundation*
-*Completed: 2025-01-15*
+
+**การเบี่ยงเบนทั้งหมด:** 2 auto-fixed (1 missing critical, 1 blocking), 2 เลื่อนออกไป
+**ผลกระทบต่อแผน:** Both auto-fixes จำเป็นสำหรับ security และ functionality ไม่มี scope creep
+
+## ปัญหาที่พบ
+- jsonwebtoken CommonJS import ล้มเหลวใน Edge runtime - เปลี่ยนเป็น jose (library change ที่วางแผนไว้, ทำงานตามคาด)
+
+## ความพร้อมเฟสถัดไป
+- Auth foundation เสร็จสมบูรณ์ พร้อมสำหรับ feature development
+- User registration endpoint ต้องการก่อน public launch
+
+---
+*เฟส: 01-foundation*
+*เสร็จ: 2025-01-15*
 ```
 </example>
 
 <guidelines>
-**When to create:**
-- After completing each phase plan
-- Required output from execute-phase workflow
-- Documents what actually happened vs what was planned
+**เมื่อไหร่สร้าง:**
+- หลังจากเสร็จสิ้นแต่ละ phase plan
+- Required output จาก execute-phase workflow
+- บันทึกอะไรที่เกิดขึ้นจริง vs อะไรที่วางแผนไว้
 
 **Frontmatter completion:**
-- MANDATORY: Complete all frontmatter fields during summary creation
-- See <frontmatter_guidance> for field purposes
-- Frontmatter enables automatic context assembly for future planning
+- จำเป็น: กรอก frontmatter fields ทั้งหมดระหว่าง summary creation
+- ดู <frontmatter_guidance> สำหรับ field purposes
+- Frontmatter เปิดใช้ automatic context assembly สำหรับการวางแผนในอนาคต
 
 **One-liner requirements:**
-- Must be substantive (describe what shipped, not "phase complete")
-- Should tell someone what was accomplished
-- Examples: "JWT auth with refresh rotation using jose library" not "Authentication implemented"
+- ต้องมีสาระ (อธิบายอะไร shipped ไม่ใช่ "phase complete")
+- ควรบอกคนว่าอะไรสำเร็จ
+- ตัวอย่าง: "JWT auth พร้อม refresh rotation ใช้ jose library" ไม่ใช่ "Authentication implemented"
 
 **Performance tracking:**
-- Include duration, start/end timestamps
-- Used for velocity metrics in STATE.md
+- รวม duration, start/end timestamps
+- ใช้สำหรับ velocity metrics ใน STATE.md
 
 **Deviations section:**
-- Documents unplanned work handled via deviation rules
-- Separate from "Issues Encountered" (which is planned work problems)
-- Auto-fixed issues: What was wrong, how fixed, verification
-- Deferred enhancements: Logged to ISSUES.md with ISS-XXX numbers
+- บันทึกงานที่ไม่ได้วางแผนที่จัดการผ่าน deviation rules
+- แยกจาก "ปัญหาที่พบ" (ซึ่งเป็นปัญหางานที่วางแผน)
+- Auto-fixed issues: อะไรผิด, แก้ไขอย่างไร, verification
+- Deferred enhancements: Logged ไปยัง ISSUES.md พร้อม ISS-XXX numbers
 
 **Decisions section:**
-- Key decisions made during execution
-- Include rationale (why this choice)
-- Extracted to STATE.md accumulated context
-- Use "None - followed plan as specified" if no deviations
+- การตัดสินใจสำคัญที่ทำระหว่าง execution
+- รวมเหตุผล (ทำไมเลือกนี้)
+- Extract ไปยัง STATE.md accumulated context
+- ใช้ "ไม่มี - ทำตามแผนที่ระบุ" ถ้าไม่มีการเบี่ยงเบน
 
-**After creation:**
-- STATE.md updated with position, decisions, issues
-- Next plan can reference decisions made
+**หลังจากสร้าง:**
+- STATE.md อัปเดตพร้อม position, decisions, issues
+- แผนถัดไปสามารถ reference การตัดสินใจที่ทำ
 </guidelines>

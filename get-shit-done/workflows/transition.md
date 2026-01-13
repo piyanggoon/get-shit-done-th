@@ -1,20 +1,20 @@
 <required_reading>
 
-**Read these files NOW:**
+**อ่านไฟล์เหล่านี้ทันที:**
 
 1. `.planning/STATE.md`
 2. `.planning/PROJECT.md`
 3. `.planning/ROADMAP.md`
-4. Current phase's plan files (`*-PLAN.md`)
-5. Current phase's summary files (`*-SUMMARY.md`)
+4. ไฟล์แผนของเฟสปัจจุบัน (`*-PLAN.md`)
+5. ไฟล์สรุปของเฟสปัจจุบัน (`*-SUMMARY.md`)
 
 </required_reading>
 
 <purpose>
 
-Mark current phase complete and advance to next. This is the natural point where progress tracking and PROJECT.md evolution happen.
+ทำเครื่องหมายเฟสปัจจุบันว่าเสร็จสมบูรณ์และเลื่อนไปเฟสถัดไป นี่คือจุดที่เกิดการติดตามความคืบหน้าและการปรับปรุง PROJECT.md ตามธรรมชาติ
 
-"Planning next phase" = "current phase is done"
+"วางแผนเฟสถัดไป" = "เฟสปัจจุบันเสร็จแล้ว"
 
 </purpose>
 
@@ -22,33 +22,33 @@ Mark current phase complete and advance to next. This is the natural point where
 
 <step name="load_project_state" priority="first">
 
-Before transition, read project state:
+ก่อนการเปลี่ยนผ่าน อ่านสถานะโปรเจกต์:
 
 ```bash
 cat .planning/STATE.md 2>/dev/null
 cat .planning/PROJECT.md 2>/dev/null
 ```
 
-Parse current position to verify we're transitioning the right phase.
-Note accumulated context that may need updating after transition.
+แยกวิเคราะห์ตำแหน่งปัจจุบันเพื่อยืนยันว่าเรากำลังเปลี่ยนผ่านเฟสที่ถูกต้อง
+จดบันทึกบริบทสะสมที่อาจต้องอัปเดตหลังการเปลี่ยนผ่าน
 
 </step>
 
 <step name="verify_completion">
 
-Check current phase has all plan summaries:
+ตรวจสอบว่าเฟสปัจจุบันมีสรุปแผนครบทุกรายการ:
 
 ```bash
 ls .planning/phases/XX-current/*-PLAN.md 2>/dev/null | sort
 ls .planning/phases/XX-current/*-SUMMARY.md 2>/dev/null | sort
 ```
 
-**Verification logic:**
+**ตรรกะการตรวจสอบ:**
 
-- Count PLAN files
-- Count SUMMARY files
-- If counts match: all plans complete
-- If counts don't match: incomplete
+- นับไฟล์ PLAN
+- นับไฟล์ SUMMARY
+- ถ้าจำนวนตรงกัน: แผนทั้งหมดเสร็จสมบูรณ์
+- ถ้าจำนวนไม่ตรงกัน: ยังไม่เสร็จสมบูรณ์
 
 <config-check>
 
@@ -58,90 +58,90 @@ cat .planning/config.json 2>/dev/null
 
 </config-check>
 
-**If all plans complete:**
+**ถ้าแผนทั้งหมดเสร็จสมบูรณ์:**
 
 <if mode="yolo">
 
 ```
-⚡ Auto-approved: Transition Phase [X] → Phase [X+1]
-Phase [X] complete — all [Y] plans finished.
+⚡ อนุมัติอัตโนมัติ: เปลี่ยนผ่านเฟส [X] → เฟส [X+1]
+เฟส [X] เสร็จสมบูรณ์ — แผนทั้ง [Y] รายการเสร็จแล้ว
 
-Proceeding to mark done and advance...
+ดำเนินการทำเครื่องหมายว่าเสร็จและเลื่อนต่อไป...
 ```
 
-Proceed directly to cleanup_handoff step.
+ดำเนินการต่อไปยังขั้นตอน cleanup_handoff โดยตรง
 
 </if>
 
 <if mode="interactive" OR="custom with gates.confirm_transition true">
 
-Ask: "Phase [X] complete — all [Y] plans finished. Ready to mark done and move to Phase [X+1]?"
+ถาม: "เฟส [X] เสร็จสมบูรณ์ — แผนทั้ง [Y] รายการเสร็จแล้ว พร้อมทำเครื่องหมายว่าเสร็จและเลื่อนไปเฟส [X+1] หรือไม่?"
 
-Wait for confirmation before proceeding.
+รอการยืนยันก่อนดำเนินการต่อ
 
 </if>
 
-**If plans incomplete:**
+**ถ้าแผนยังไม่เสร็จสมบูรณ์:**
 
-**SAFETY RAIL: always_confirm_destructive applies here.**
-Skipping incomplete plans is destructive — ALWAYS prompt regardless of mode.
+**SAFETY RAIL: always_confirm_destructive ใช้ที่นี่**
+การข้ามแผนที่ไม่เสร็จเป็นการกระทำที่ทำลายได้ — ต้องถามเสมอโดยไม่คำนึงถึงโหมด
 
-Present:
+แสดง:
 
 ```
-Phase [X] has incomplete plans:
-- {phase}-01-SUMMARY.md ✓ Complete
-- {phase}-02-SUMMARY.md ✗ Missing
-- {phase}-03-SUMMARY.md ✗ Missing
+เฟส [X] มีแผนที่ยังไม่เสร็จ:
+- {phase}-01-SUMMARY.md ✓ เสร็จสมบูรณ์
+- {phase}-02-SUMMARY.md ✗ ขาดหาย
+- {phase}-03-SUMMARY.md ✗ ขาดหาย
 
-⚠️ Safety rail: Skipping plans requires confirmation (destructive action)
+⚠️ Safety rail: การข้ามแผนต้องได้รับการยืนยัน (การกระทำที่ทำลายได้)
 
-Options:
-1. Continue current phase (execute remaining plans)
-2. Mark complete anyway (skip remaining plans)
-3. Review what's left
+ตัวเลือก:
+1. ดำเนินการเฟสปัจจุบันต่อ (รันแผนที่เหลือ)
+2. ทำเครื่องหมายว่าเสร็จอยู่ดี (ข้ามแผนที่เหลือ)
+3. ตรวจสอบว่าเหลืออะไรบ้าง
 ```
 
-Wait for user decision.
+รอการตัดสินใจของผู้ใช้
 
 </step>
 
 <step name="cleanup_handoff">
 
-Check for lingering handoffs:
+ตรวจสอบ handoff ที่ค้างอยู่:
 
 ```bash
 ls .planning/phases/XX-current/.continue-here*.md 2>/dev/null
 ```
 
-If found, delete them — phase is complete, handoffs are stale.
+ถ้าพบ ให้ลบออก — เฟสเสร็จสมบูรณ์แล้ว handoff เก่าไม่จำเป็น
 
 </step>
 
 <step name="update_roadmap">
 
-Update the roadmap file:
+อัปเดตไฟล์ roadmap:
 
 ```bash
 ROADMAP_FILE=".planning/ROADMAP.md"
 ```
 
-Update the file:
+อัปเดตไฟล์:
 
-- Mark current phase: `[x] Complete`
-- Add completion date
-- Update plan count to final (e.g., "3/3 plans complete")
-- Update Progress table
-- Keep next phase as `[ ] Not started`
+- ทำเครื่องหมายเฟสปัจจุบัน: `[x] เสร็จสมบูรณ์`
+- เพิ่มวันที่เสร็จสมบูรณ์
+- อัปเดตจำนวนแผนเป็นสุดท้าย (เช่น "3/3 แผนเสร็จสมบูรณ์")
+- อัปเดตตาราง Progress
+- เก็บเฟสถัดไปเป็น `[ ] ยังไม่เริ่ม`
 
-**Example:**
+**ตัวอย่าง:**
 
 ```markdown
 ## Phases
 
-- [x] Phase 1: Foundation (completed 2025-01-15)
-- [ ] Phase 2: Authentication ← Next
-- [ ] Phase 3: Core Features
+- [x] เฟส 1: Foundation (เสร็จสมบูรณ์ 2025-01-15)
+- [ ] เฟส 2: Authentication ← ถัดไป
+- [ ] เฟส 3: Core Features
 
 ## Progress
 
@@ -156,55 +156,55 @@ Update the file:
 
 <step name="archive_prompts">
 
-If prompts were generated for the phase, they stay in place.
-The `completed/` subfolder pattern from create-meta-prompts handles archival.
+ถ้ามีการสร้าง prompts สำหรับเฟสนี้ ให้คงไว้ที่เดิม
+รูปแบบโฟลเดอร์ย่อย `completed/` จาก create-meta-prompts จัดการการเก็บถาวร
 
 </step>
 
 <step name="evolve_project">
 
-Evolve PROJECT.md to reflect learnings from completed phase.
+ปรับปรุง PROJECT.md เพื่อสะท้อนสิ่งที่เรียนรู้จากเฟสที่เสร็จแล้ว
 
-**Read phase summaries:**
+**อ่านสรุปเฟส:**
 
 ```bash
 cat .planning/phases/XX-current/*-SUMMARY.md
 ```
 
-**Assess requirement changes:**
+**ประเมินการเปลี่ยนแปลง requirement:**
 
-1. **Requirements validated?**
-   - Any Active requirements shipped in this phase?
-   - Move to Validated with phase reference: `- ✓ [Requirement] — Phase X`
+1. **Requirements ได้รับการตรวจสอบแล้ว?**
+   - มี Active requirements ที่ส่งมอบในเฟสนี้หรือไม่?
+   - ย้ายไป Validated พร้อมอ้างอิงเฟส: `- ✓ [Requirement] — Phase X`
 
-2. **Requirements invalidated?**
-   - Any Active requirements discovered to be unnecessary or wrong?
-   - Move to Out of Scope with reason: `- [Requirement] — [why invalidated]`
+2. **Requirements ถูกยกเลิก?**
+   - มี Active requirements ที่พบว่าไม่จำเป็นหรือผิดพลาดหรือไม่?
+   - ย้ายไป Out of Scope พร้อมเหตุผล: `- [Requirement] — [เหตุใดจึงยกเลิก]`
 
-3. **Requirements emerged?**
-   - Any new requirements discovered during building?
-   - Add to Active: `- [ ] [New requirement]`
+3. **Requirements ใหม่เกิดขึ้น?**
+   - มี requirements ใหม่ที่ค้นพบระหว่างการสร้างหรือไม่?
+   - เพิ่มไป Active: `- [ ] [Requirement ใหม่]`
 
-4. **Decisions to log?**
-   - Extract decisions from SUMMARY.md files
-   - Add to Key Decisions table with outcome if known
+4. **มีการตัดสินใจที่ต้องบันทึก?**
+   - ดึงการตัดสินใจจากไฟล์ SUMMARY.md
+   - เพิ่มไปตาราง Key Decisions พร้อมผลลัพธ์ถ้ามี
 
-5. **"What This Is" still accurate?**
-   - If the product has meaningfully changed, update the description
-   - Keep it current and accurate
+5. **"What This Is" ยังถูกต้องหรือไม่?**
+   - ถ้าผลิตภัณฑ์เปลี่ยนแปลงอย่างมีนัยสำคัญ ให้อัปเดตคำอธิบาย
+   - ทำให้ปัจจุบันและถูกต้องเสมอ
 
-**Update PROJECT.md:**
+**อัปเดต PROJECT.md:**
 
-Make the edits inline. Update "Last updated" footer:
+แก้ไขในไฟล์โดยตรง อัปเดต footer "Last updated":
 
 ```markdown
 ---
 *Last updated: [date] after Phase [X]*
 ```
 
-**Example evolution:**
+**ตัวอย่างการปรับปรุง:**
 
-Before:
+ก่อน:
 
 ```markdown
 ### Active
@@ -218,7 +218,7 @@ Before:
 - OAuth2 — complexity not needed for v1
 ```
 
-After (Phase 2 shipped JWT auth, discovered rate limiting needed):
+หลัง (เฟส 2 ส่งมอบ JWT auth, ค้นพบว่าต้องการ rate limiting):
 
 ```markdown
 ### Validated
@@ -236,44 +236,44 @@ After (Phase 2 shipped JWT auth, discovered rate limiting needed):
 - OAuth2 — complexity not needed for v1
 ```
 
-**Step complete when:**
+**ขั้นตอนเสร็จสมบูรณ์เมื่อ:**
 
-- [ ] Phase summaries reviewed for learnings
-- [ ] Validated requirements moved from Active
-- [ ] Invalidated requirements moved to Out of Scope with reason
-- [ ] Emerged requirements added to Active
-- [ ] New decisions logged with rationale
-- [ ] "What This Is" updated if product changed
-- [ ] "Last updated" footer reflects this transition
+- [ ] ตรวจสอบสรุปเฟสเพื่อหาบทเรียน
+- [ ] ย้าย Validated requirements จาก Active
+- [ ] ย้าย Requirements ที่ยกเลิกไป Out of Scope พร้อมเหตุผล
+- [ ] เพิ่ม Requirements ที่เกิดขึ้นใหม่ไป Active
+- [ ] บันทึกการตัดสินใจใหม่พร้อมเหตุผล
+- [ ] อัปเดต "What This Is" ถ้าผลิตภัณฑ์เปลี่ยน
+- [ ] Footer "Last updated" สะท้อนการเปลี่ยนผ่านนี้
 
 </step>
 
 <step name="update_current_position_after_transition">
 
-Update Current Position section in STATE.md to reflect phase completion and transition.
+อัปเดตส่วน Current Position ใน STATE.md เพื่อสะท้อนการเสร็จสิ้นและการเปลี่ยนผ่านเฟส
 
-**Format:**
+**รูปแบบ:**
 
 ```markdown
-Phase: [next] of [total] ([Next phase name])
-Plan: Not started
-Status: Ready to plan
-Last activity: [today] — Phase [X] complete, transitioned to Phase [X+1]
+Phase: [next] of [total] ([ชื่อเฟสถัดไป])
+Plan: ยังไม่เริ่ม
+Status: พร้อมวางแผน
+Last activity: [วันนี้] — เฟส [X] เสร็จสมบูรณ์, เปลี่ยนผ่านไปเฟส [X+1]
 
-Progress: [updated progress bar]
+Progress: [progress bar ที่อัปเดต]
 ```
 
-**Instructions:**
+**คำแนะนำ:**
 
-- Increment phase number to next phase
-- Reset plan to "Not started"
-- Set status to "Ready to plan"
-- Update last activity to describe transition
-- Recalculate progress bar based on completed plans
+- เพิ่มหมายเลขเฟสไปเฟสถัดไป
+- รีเซ็ตแผนเป็น "ยังไม่เริ่ม"
+- ตั้งสถานะเป็น "พร้อมวางแผน"
+- อัปเดต last activity เพื่ออธิบายการเปลี่ยนผ่าน
+- คำนวณ progress bar ใหม่ตามแผนที่เสร็จสมบูรณ์
 
-**Example — transitioning from Phase 2 to Phase 3:**
+**ตัวอย่าง — เปลี่ยนผ่านจากเฟส 2 ไปเฟส 3:**
 
-Before:
+ก่อน:
 
 ```markdown
 ## Current Position
@@ -286,71 +286,71 @@ Last activity: 2025-01-20 — Completed 02-02-PLAN.md
 Progress: ███████░░░ 60%
 ```
 
-After:
+หลัง:
 
 ```markdown
 ## Current Position
 
 Phase: 3 of 4 (Core Features)
-Plan: Not started
-Status: Ready to plan
-Last activity: 2025-01-20 — Phase 2 complete, transitioned to Phase 3
+Plan: ยังไม่เริ่ม
+Status: พร้อมวางแผน
+Last activity: 2025-01-20 — เฟส 2 เสร็จสมบูรณ์, เปลี่ยนผ่านไปเฟส 3
 
 Progress: ███████░░░ 60%
 ```
 
-**Step complete when:**
+**ขั้นตอนเสร็จสมบูรณ์เมื่อ:**
 
-- [ ] Phase number incremented to next phase
-- [ ] Plan status reset to "Not started"
-- [ ] Status shows "Ready to plan"
-- [ ] Last activity describes the transition
-- [ ] Progress bar reflects total completed plans
+- [ ] เพิ่มหมายเลขเฟสไปเฟสถัดไป
+- [ ] รีเซ็ตสถานะแผนเป็น "ยังไม่เริ่ม"
+- [ ] สถานะแสดง "พร้อมวางแผน"
+- [ ] Last activity อธิบายการเปลี่ยนผ่าน
+- [ ] Progress bar สะท้อนแผนที่เสร็จสมบูรณ์ทั้งหมด
 
 </step>
 
 <step name="update_project_reference">
 
-Update Project Reference section in STATE.md.
+อัปเดตส่วน Project Reference ใน STATE.md
 
 ```markdown
 ## Project Reference
 
-See: .planning/PROJECT.md (updated [today])
+See: .planning/PROJECT.md (updated [วันนี้])
 
-**Core value:** [Current core value from PROJECT.md]
-**Current focus:** [Next phase name]
+**Core value:** [Core value ปัจจุบันจาก PROJECT.md]
+**Current focus:** [ชื่อเฟสถัดไป]
 ```
 
-Update the date and current focus to reflect the transition.
+อัปเดตวันที่และ current focus เพื่อสะท้อนการเปลี่ยนผ่าน
 
 </step>
 
 <step name="review_accumulated_context">
 
-Review and update Accumulated Context section in STATE.md.
+ตรวจสอบและอัปเดตส่วน Accumulated Context ใน STATE.md
 
 **Decisions:**
 
-- Note recent decisions from this phase (3-5 max)
-- Full log lives in PROJECT.md Key Decisions table
+- บันทึกการตัดสินใจล่าสุดจากเฟสนี้ (สูงสุด 3-5 รายการ)
+- บันทึกฉบับเต็มอยู่ในตาราง Key Decisions ของ PROJECT.md
 
 **Blockers/Concerns:**
 
-- Review blockers from completed phase
-- If addressed in this phase: Remove from list
-- If still relevant for future: Keep with "Phase X" prefix
-- Add any new concerns from completed phase's summaries
+- ตรวจสอบ blockers จากเฟสที่เสร็จแล้ว
+- ถ้าแก้ไขในเฟสนี้: ลบออกจากรายการ
+- ถ้ายังเกี่ยวข้องในอนาคต: เก็บไว้พร้อมคำนำหน้า "Phase X"
+- เพิ่มข้อกังวลใหม่จากสรุปของเฟสที่เสร็จแล้ว
 
 **Deferred Issues:**
 
-- Count open issues in ISSUES.md
-- Update count: "[N] open issues — see ISSUES.md"
-- If many accumulated, note: "Consider addressing ISS-XXX, ISS-YYY in next phase"
+- นับ issues ที่เปิดอยู่ใน ISSUES.md
+- อัปเดตจำนวน: "[N] open issues — see ISSUES.md"
+- ถ้าสะสมมาก บันทึก: "พิจารณาแก้ไข ISS-XXX, ISS-YYY ในเฟสถัดไป"
 
-**Example:**
+**ตัวอย่าง:**
 
-Before:
+ก่อน:
 
 ```markdown
 ### Blockers/Concerns
@@ -363,7 +363,7 @@ Before:
 - ISS-001: Rate limiting on sync endpoint (Phase 2) — Medium
 ```
 
-After (if database indexing was addressed in Phase 2):
+หลัง (ถ้า database indexing ได้รับการแก้ไขในเฟส 2):
 
 ```markdown
 ### Blockers/Concerns
@@ -376,104 +376,104 @@ After (if database indexing was addressed in Phase 2):
 - ISS-002: Better sync error messages (Phase 2) — Quick
 ```
 
-**Step complete when:**
+**ขั้นตอนเสร็จสมบูรณ์เมื่อ:**
 
-- [ ] Recent decisions noted (full log in PROJECT.md)
-- [ ] Resolved blockers removed from list
-- [ ] Unresolved blockers kept with phase prefix
-- [ ] New concerns from completed phase added
-- [ ] Deferred issues count updated
+- [ ] บันทึกการตัดสินใจล่าสุด (บันทึกฉบับเต็มใน PROJECT.md)
+- [ ] ลบ blockers ที่แก้ไขแล้วออกจากรายการ
+- [ ] เก็บ blockers ที่ยังไม่แก้ไขพร้อมคำนำหน้าเฟส
+- [ ] เพิ่มข้อกังวลใหม่จากเฟสที่เสร็จแล้ว
+- [ ] อัปเดตจำนวน deferred issues
 
 </step>
 
 <step name="update_session_continuity_after_transition">
 
-Update Session Continuity section in STATE.md to reflect transition completion.
+อัปเดตส่วน Session Continuity ใน STATE.md เพื่อสะท้อนการเปลี่ยนผ่านที่เสร็จสิ้น
 
-**Format:**
+**รูปแบบ:**
 
 ```markdown
-Last session: [today]
-Stopped at: Phase [X] complete, ready to plan Phase [X+1]
+Last session: [วันนี้]
+Stopped at: เฟส [X] เสร็จสมบูรณ์, พร้อมวางแผนเฟส [X+1]
 Resume file: None
 ```
 
-**Step complete when:**
+**ขั้นตอนเสร็จสมบูรณ์เมื่อ:**
 
-- [ ] Last session timestamp updated to current date and time
-- [ ] Stopped at describes phase completion and next phase
-- [ ] Resume file confirmed as None (transitions don't use resume files)
+- [ ] อัปเดต timestamp ของ last session เป็นวันที่และเวลาปัจจุบัน
+- [ ] Stopped at อธิบายการเสร็จสิ้นเฟสและเฟสถัดไป
+- [ ] ยืนยัน Resume file เป็น None (การเปลี่ยนผ่านไม่ใช้ resume files)
 
 </step>
 
 <step name="offer_next_phase">
 
-**MANDATORY: Verify milestone status before presenting next steps.**
+**บังคับ: ตรวจสอบสถานะ milestone ก่อนนำเสนอขั้นตอนถัดไป**
 
-**Step 1: Read ROADMAP.md and identify phases in current milestone**
+**ขั้นตอน 1: อ่าน ROADMAP.md และระบุเฟสใน milestone ปัจจุบัน**
 
-Read the ROADMAP.md file and extract:
-1. Current phase number (the phase just transitioned from)
-2. All phase numbers in the current milestone section
+อ่านไฟล์ ROADMAP.md และดึง:
+1. หมายเลขเฟสปัจจุบัน (เฟสที่เพิ่งเปลี่ยนผ่านออกไป)
+2. หมายเลขเฟสทั้งหมดในส่วน milestone ปัจจุบัน
 
-To find phases, look for:
-- Phase headers: lines starting with `### Phase` or `#### Phase`
-- Phase list items: lines like `- [ ] **Phase X:` or `- [x] **Phase X:`
+เพื่อหาเฟส ให้ดู:
+- หัวข้อเฟส: บรรทัดที่เริ่มด้วย `### Phase` หรือ `#### Phase`
+- รายการเฟส: บรรทัดเช่น `- [ ] **Phase X:` หรือ `- [x] **Phase X:`
 
-Count total phases and identify the highest phase number in the milestone.
+นับเฟสทั้งหมดและระบุหมายเลขเฟสสูงสุดใน milestone
 
-State: "Current phase is {X}. Milestone has {N} phases (highest: {Y})."
+ระบุ: "เฟสปัจจุบันคือ {X} Milestone มี {N} เฟส (สูงสุด: {Y})"
 
-**Step 2: Route based on milestone status**
+**ขั้นตอน 2: กำหนดเส้นทางตามสถานะ milestone**
 
-| Condition | Meaning | Action |
-|-----------|---------|--------|
-| current phase < highest phase | More phases remain | Go to **Route A** |
-| current phase = highest phase | Milestone complete | Go to **Route B** |
+| เงื่อนไข | ความหมาย | การดำเนินการ |
+|----------|----------|---------------|
+| เฟสปัจจุบัน < เฟสสูงสุด | ยังมีเฟสเหลืออยู่ | ไป **เส้นทาง A** |
+| เฟสปัจจุบัน = เฟสสูงสุด | Milestone เสร็จสมบูรณ์ | ไป **เส้นทาง B** |
 
 ---
 
-**Route A: More phases remain in milestone**
+**เส้นทาง A: ยังมีเฟสเหลือใน milestone**
 
-Read ROADMAP.md to get the next phase's name and goal.
+อ่าน ROADMAP.md เพื่อดึงชื่อและเป้าหมายของเฟสถัดไป
 
-**If next phase exists:**
+**ถ้ามีเฟสถัดไป:**
 
 <if mode="yolo">
 
 ```
-Phase [X] marked complete.
+เฟส [X] ทำเครื่องหมายว่าเสร็จสมบูรณ์
 
-Next: Phase [X+1] — [Name]
+ถัดไป: เฟส [X+1] — [ชื่อ]
 
-⚡ Auto-continuing: Plan Phase [X+1] in detail
+⚡ ดำเนินการต่ออัตโนมัติ: วางแผนเฟส [X+1] โดยละเอียด
 ```
 
-Exit skill and invoke SlashCommand("/gsd:plan-phase [X+1]")
+ออกจาก skill และเรียก SlashCommand("/gsd:plan-phase [X+1]")
 
 </if>
 
 <if mode="interactive" OR="custom with gates.confirm_transition true">
 
 ```
-## ✓ Phase [X] Complete
+## ✓ เฟส [X] เสร็จสมบูรณ์
 
 ---
 
-## ▶ Next Up
+## ▶ ถัดไป
 
-**Phase [X+1]: [Name]** — [Goal from ROADMAP.md]
+**เฟส [X+1]: [ชื่อ]** — [เป้าหมายจาก ROADMAP.md]
 
 `/gsd:plan-phase [X+1]`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → context window ใหม่</sub>
 
 ---
 
-**Also available:**
-- `/gsd:discuss-phase [X+1]` — gather context first
-- `/gsd:research-phase [X+1]` — investigate unknowns
-- Review roadmap
+**ตัวเลือกอื่น:**
+- `/gsd:discuss-phase [X+1]` — รวบรวมบริบทก่อน
+- `/gsd:research-phase [X+1]` — สืบสวนสิ่งที่ไม่ทราบ
+- ตรวจสอบ roadmap
 
 ---
 ```
@@ -482,43 +482,43 @@ Exit skill and invoke SlashCommand("/gsd:plan-phase [X+1]")
 
 ---
 
-**Route B: Milestone complete (all phases done)**
+**เส้นทาง B: Milestone เสร็จสมบูรณ์ (เฟสทั้งหมดเสร็จแล้ว)**
 
 <if mode="yolo">
 
 ```
-Phase {X} marked complete.
+เฟส {X} ทำเครื่องหมายว่าเสร็จสมบูรณ์
 
-🎉 Milestone {version} is 100% complete — all {N} phases finished!
+🎉 Milestone {version} เสร็จสมบูรณ์ 100% — เฟสทั้ง {N} เฟสเสร็จแล้ว!
 
-⚡ Auto-continuing: Complete milestone and archive
+⚡ ดำเนินการต่ออัตโนมัติ: เสร็จสิ้น milestone และเก็บถาวร
 ```
 
-Exit skill and invoke SlashCommand("/gsd:complete-milestone {version}")
+ออกจาก skill และเรียก SlashCommand("/gsd:complete-milestone {version}")
 
 </if>
 
 <if mode="interactive" OR="custom with gates.confirm_transition true">
 
 ```
-## ✓ Phase {X}: {Phase Name} Complete
+## ✓ เฟส {X}: {ชื่อเฟส} เสร็จสมบูรณ์
 
-🎉 Milestone {version} is 100% complete — all {N} phases finished!
+🎉 Milestone {version} เสร็จสมบูรณ์ 100% — เฟสทั้ง {N} เฟสเสร็จแล้ว!
 
 ---
 
-## ▶ Next Up
+## ▶ ถัดไป
 
-**Complete Milestone {version}** — archive and prepare for next
+**เสร็จสิ้น Milestone {version}** — เก็บถาวรและเตรียมพร้อมสำหรับรอบถัดไป
 
 `/gsd:complete-milestone {version}`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → context window ใหม่</sub>
 
 ---
 
-**Also available:**
-- Review accomplishments before archiving
+**ตัวเลือกอื่น:**
+- ตรวจสอบความสำเร็จก่อนเก็บถาวร
 
 ---
 ```
@@ -531,50 +531,50 @@ Exit skill and invoke SlashCommand("/gsd:complete-milestone {version}")
 
 <implicit_tracking>
 
-Progress tracking is IMPLICIT:
+การติดตามความคืบหน้าเป็น IMPLICIT:
 
-- "Plan phase 2" → Phase 1 must be done (or ask)
-- "Plan phase 3" → Phases 1-2 must be done (or ask)
-- Transition workflow makes it explicit in ROADMAP.md
+- "วางแผนเฟส 2" → เฟส 1 ต้องเสร็จแล้ว (หรือถาม)
+- "วางแผนเฟส 3" → เฟส 1-2 ต้องเสร็จแล้ว (หรือถาม)
+- เวิร์กโฟลว์ transition ทำให้ชัดเจนใน ROADMAP.md
 
-No separate "update progress" step. Forward motion IS progress.
+ไม่มีขั้นตอน "อัปเดตความคืบหน้า" แยกต่างหาก การเคลื่อนไหวไปข้างหน้าคือความคืบหน้า
 
 </implicit_tracking>
 
 <partial_completion>
 
-If user wants to move on but phase isn't fully complete:
+ถ้าผู้ใช้ต้องการไปต่อแต่เฟสยังไม่เสร็จสมบูรณ์:
 
 ```
-Phase [X] has incomplete plans:
-- {phase}-02-PLAN.md (not executed)
-- {phase}-03-PLAN.md (not executed)
+เฟส [X] มีแผนที่ยังไม่เสร็จ:
+- {phase}-02-PLAN.md (ยังไม่รัน)
+- {phase}-03-PLAN.md (ยังไม่รัน)
 
-Options:
-1. Mark complete anyway (plans weren't needed)
-2. Defer work to later phase
-3. Stay and finish current phase
+ตัวเลือก:
+1. ทำเครื่องหมายว่าเสร็จอยู่ดี (แผนไม่จำเป็น)
+2. เลื่อนงานไปเฟสหลัง
+3. อยู่และทำเฟสปัจจุบันให้เสร็จ
 ```
 
-Respect user judgment — they know if work matters.
+เคารพการตัดสินใจของผู้ใช้ — พวกเขารู้ว่างานสำคัญหรือไม่
 
-**If marking complete with incomplete plans:**
+**ถ้าทำเครื่องหมายว่าเสร็จพร้อมแผนที่ยังไม่เสร็จ:**
 
-- Update ROADMAP: "2/3 plans complete" (not "3/3")
-- Note in transition message which plans were skipped
+- อัปเดต ROADMAP: "2/3 แผนเสร็จสมบูรณ์" (ไม่ใช่ "3/3")
+- บันทึกในข้อความ transition ว่าแผนใดถูกข้าม
 
 </partial_completion>
 
 <success_criteria>
 
-Transition is complete when:
+การเปลี่ยนผ่านเสร็จสมบูรณ์เมื่อ:
 
-- [ ] Current phase plan summaries verified (all exist or user chose to skip)
-- [ ] Any stale handoffs deleted
-- [ ] ROADMAP.md updated with completion status and plan count
-- [ ] PROJECT.md evolved (requirements, decisions, description if needed)
-- [ ] STATE.md updated (position, project reference, context, session)
-- [ ] Progress table updated
-- [ ] User knows next steps
+- [ ] ตรวจสอบสรุปแผนเฟสปัจจุบันแล้ว (มีครบหรือผู้ใช้เลือกข้าม)
+- [ ] ลบ handoff ที่ค้างอยู่แล้ว
+- [ ] อัปเดต ROADMAP.md พร้อมสถานะเสร็จสิ้นและจำนวนแผน
+- [ ] ปรับปรุง PROJECT.md แล้ว (requirements, decisions, description ถ้าจำเป็น)
+- [ ] อัปเดต STATE.md แล้ว (position, project reference, context, session)
+- [ ] อัปเดตตาราง Progress แล้ว
+- [ ] ผู้ใช้รู้ขั้นตอนถัดไป
 
 </success_criteria>

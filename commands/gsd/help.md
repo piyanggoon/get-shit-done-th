@@ -1,30 +1,30 @@
 ---
 name: gsd:help
-description: Show available GSD commands and usage guide
+description: แสดงคำสั่ง GSD ที่ใช้ได้และคู่มือการใช้งาน
 ---
 
 <objective>
-Display the complete GSD command reference.
+แสดง GSD command reference ทั้งหมด
 
-Output ONLY the reference content below. Do NOT add:
+Output เฉพาะ reference content ด้านล่าง อย่าเพิ่ม:
 
-- Project-specific analysis
-- Git status or file context
-- Next-step suggestions
-- Any commentary beyond the reference
+- การวิเคราะห์เฉพาะโปรเจค
+- Git status หรือ file context
+- คำแนะนำขั้นตอนถัดไป
+- ความเห็นใดๆ นอกเหนือจาก reference
   </objective>
 
 <reference>
 # GSD Command Reference
 
-**GSD** (Get Shit Done) creates hierarchical project plans optimized for solo agentic development with Claude Code.
+**GSD** (Get Shit Done) สร้าง hierarchical project plans ที่ optimize สำหรับ solo agentic development กับ Claude Code
 
 ## Quick Start
 
-1. `/gsd:new-project` - Initialize project with brief
-2. `/gsd:create-roadmap` - Create roadmap and phases
-3. `/gsd:plan-phase <number>` - Create detailed plan for first phase
-4. `/gsd:execute-plan <path>` - Execute the plan
+1. `/gsd:new-project` - Initialize โปรเจคด้วย brief
+2. `/gsd:create-roadmap` - สร้าง roadmap และ phases
+3. `/gsd:plan-phase <number>` - สร้าง detailed plan สำหรับ phase แรก
+4. `/gsd:execute-plan <path>` - Execute plan
 
 ## Core Workflow
 
@@ -35,226 +35,226 @@ Initialization → Planning → Execution → Milestone Completion
 ### Project Initialization
 
 **`/gsd:new-project`**
-Initialize new project with brief and configuration.
+Initialize โปรเจคใหม่ด้วย brief และ configuration
 
-- Creates `.planning/PROJECT.md` (vision and requirements)
-- Creates `.planning/config.json` (workflow mode)
-- Asks for workflow mode (interactive/yolo) upfront
-- Commits initialization files to git
+- สร้าง `.planning/PROJECT.md` (vision และ requirements)
+- สร้าง `.planning/config.json` (workflow mode)
+- ถาม workflow mode (interactive/yolo) ล่วงหน้า
+- Commit initialization files ไปยัง git
 
-Usage: `/gsd:new-project`
+การใช้งาน: `/gsd:new-project`
 
 **`/gsd:create-roadmap`**
-Create roadmap and state tracking for initialized project.
+สร้าง roadmap และ state tracking สำหรับโปรเจคที่ initialized
 
-- Creates `.planning/ROADMAP.md` (phase breakdown)
-- Creates `.planning/STATE.md` (project memory)
-- Creates `.planning/phases/` directories
+- สร้าง `.planning/ROADMAP.md` (phase breakdown)
+- สร้าง `.planning/STATE.md` (project memory)
+- สร้างโฟลเดอร์ `.planning/phases/`
 
-Usage: `/gsd:create-roadmap`
+การใช้งาน: `/gsd:create-roadmap`
 
 **`/gsd:map-codebase`**
-Map an existing codebase for brownfield projects.
+Map codebase ที่มีอยู่สำหรับ brownfield projects
 
-- Analyzes codebase with parallel Explore agents
-- Creates `.planning/codebase/` with 7 focused documents
-- Covers stack, architecture, structure, conventions, testing, integrations, concerns
-- Use before `/gsd:new-project` on existing codebases
+- วิเคราะห์ codebase ด้วย parallel Explore agents
+- สร้าง `.planning/codebase/` พร้อม 7 focused documents
+- ครอบคลุม stack, architecture, structure, conventions, testing, integrations, concerns
+- ใช้ก่อน `/gsd:new-project` บน codebases ที่มีอยู่
 
-Usage: `/gsd:map-codebase`
+การใช้งาน: `/gsd:map-codebase`
 
 ### Phase Planning
 
 **`/gsd:discuss-phase <number>`**
-Help articulate your vision for a phase before planning.
+ช่วยอธิบาย vision สำหรับ phase ก่อนวางแผน
 
-- Captures how you imagine this phase working
-- Creates CONTEXT.md with your vision, essentials, and boundaries
-- Use when you have ideas about how something should look/feel
+- บันทึกว่าคุณจินตนาการว่า phase นี้ทำงานอย่างไร
+- สร้าง CONTEXT.md พร้อม vision, essentials, และ boundaries
+- ใช้เมื่อคุณมีไอเดียว่าบางอย่างควรดู/ให้ความรู้สึกอย่างไร
 
-Usage: `/gsd:discuss-phase 2`
+การใช้งาน: `/gsd:discuss-phase 2`
 
 **`/gsd:research-phase <number>`**
-Comprehensive ecosystem research for niche/complex domains.
+Comprehensive ecosystem research สำหรับ niche/complex domains
 
-- Discovers standard stack, architecture patterns, pitfalls
-- Creates RESEARCH.md with "how experts build this" knowledge
-- Use for 3D, games, audio, shaders, ML, and other specialized domains
-- Goes beyond "which library" to ecosystem knowledge
+- ค้นพบ standard stack, architecture patterns, pitfalls
+- สร้าง RESEARCH.md พร้อม "how experts build this" knowledge
+- ใช้สำหรับ 3D, games, audio, shaders, ML, และ specialized domains อื่น
+- ไปไกลกว่า "which library" สู่ ecosystem knowledge
 
-Usage: `/gsd:research-phase 3`
+การใช้งาน: `/gsd:research-phase 3`
 
 **`/gsd:list-phase-assumptions <number>`**
-See what Claude is planning to do before it starts.
+ดูว่า Claude กำลังจะทำอะไรก่อนเริ่ม
 
-- Shows Claude's intended approach for a phase
-- Lets you course-correct if Claude misunderstood your vision
-- No files created - conversational output only
+- แสดง Claude's intended approach สำหรับ phase
+- ให้คุณ course-correct ถ้า Claude เข้าใจ vision คุณผิด
+- ไม่สร้างไฟล์ - conversational output เท่านั้น
 
-Usage: `/gsd:list-phase-assumptions 3`
+การใช้งาน: `/gsd:list-phase-assumptions 3`
 
 **`/gsd:plan-phase <number>`**
-Create detailed execution plan for a specific phase.
+สร้าง detailed execution plan สำหรับ specific phase
 
-- Generates `.planning/phases/XX-phase-name/XX-YY-PLAN.md`
-- Breaks phase into concrete, actionable tasks
-- Includes verification criteria and success measures
-- Multiple plans per phase supported (XX-01, XX-02, etc.)
+- สร้าง `.planning/phases/XX-phase-name/XX-YY-PLAN.md`
+- แบ่ง phase เป็น concrete, actionable tasks
+- รวม verification criteria และ success measures
+- รองรับหลาย plans ต่อ phase (XX-01, XX-02, etc.)
 
-Usage: `/gsd:plan-phase 1`
-Result: Creates `.planning/phases/01-foundation/01-01-PLAN.md`
+การใช้งาน: `/gsd:plan-phase 1`
+ผลลัพธ์: สร้าง `.planning/phases/01-foundation/01-01-PLAN.md`
 
 ### Execution
 
 **`/gsd:execute-plan <path>`**
-Execute a PLAN.md file directly.
+Execute ไฟล์ PLAN.md โดยตรง
 
-- Runs plan tasks sequentially
-- Creates SUMMARY.md after completion
-- Updates STATE.md with accumulated context
-- Fast execution without loading full skill context
+- รัน plan tasks ตามลำดับ
+- สร้าง SUMMARY.md หลังเสร็จ
+- อัพเดท STATE.md ด้วย accumulated context
+- Execution รวดเร็วโดยไม่ต้องโหลด full skill context
 
-Usage: `/gsd:execute-plan .planning/phases/01-foundation/01-01-PLAN.md`
+การใช้งาน: `/gsd:execute-plan .planning/phases/01-foundation/01-01-PLAN.md`
 
 ### Roadmap Management
 
 **`/gsd:add-phase <description>`**
-Add new phase to end of current milestone.
+เพิ่ม phase ใหม่ต่อท้าย milestone ปัจจุบัน
 
-- Appends to ROADMAP.md
-- Uses next sequential number
-- Updates phase directory structure
+- เพิ่มใน ROADMAP.md
+- ใช้หมายเลขลำดับถัดไป
+- อัพเดท phase directory structure
 
-Usage: `/gsd:add-phase "Add admin dashboard"`
+การใช้งาน: `/gsd:add-phase "Add admin dashboard"`
 
 **`/gsd:insert-phase <after> <description>`**
-Insert urgent work as decimal phase between existing phases.
+แทรกงานเร่งด่วนเป็น decimal phase ระหว่าง phases ที่มีอยู่
 
-- Creates intermediate phase (e.g., 7.1 between 7 and 8)
-- Useful for discovered work that must happen mid-milestone
-- Maintains phase ordering
+- สร้าง intermediate phase (เช่น 7.1 ระหว่าง 7 และ 8)
+- มีประโยชน์สำหรับงานที่ค้นพบซึ่งต้องเกิดกลาง milestone
+- คงการเรียงลำดับ phase
 
-Usage: `/gsd:insert-phase 7 "Fix critical auth bug"`
-Result: Creates Phase 7.1
+การใช้งาน: `/gsd:insert-phase 7 "Fix critical auth bug"`
+ผลลัพธ์: สร้าง Phase 7.1
 
 **`/gsd:remove-phase <number>`**
-Remove a future phase and renumber subsequent phases.
+ลบ future phase และ renumber phases ถัดไป
 
-- Deletes phase directory and all references
-- Renumbers all subsequent phases to close the gap
-- Only works on future (unstarted) phases
-- Git commit preserves historical record
+- ลบ phase directory และ references ทั้งหมด
+- Renumber phases ถัดไปทั้งหมดเพื่อปิด gap
+- ทำงานได้เฉพาะกับ future (unstarted) phases
+- Git commit เก็บ historical record
 
-Usage: `/gsd:remove-phase 17`
-Result: Phase 17 deleted, phases 18-20 become 17-19
+การใช้งาน: `/gsd:remove-phase 17`
+ผลลัพธ์: Phase 17 ถูกลบ, phases 18-20 กลายเป็น 17-19
 
 ### Milestone Management
 
 **`/gsd:discuss-milestone`**
-Figure out what you want to build in the next milestone.
+หาว่าคุณต้องการสร้างอะไรใน milestone ถัดไป
 
-- Reviews what shipped in previous milestone
-- Helps you identify features to add, improve, or fix
-- Routes to /gsd:new-milestone when ready
+- Review สิ่งที่ ship ใน milestone ก่อนหน้า
+- ช่วยคุณระบุ features ที่จะเพิ่ม ปรับปรุง หรือแก้ไข
+- Route ไปยัง /gsd:new-milestone เมื่อพร้อม
 
-Usage: `/gsd:discuss-milestone`
+การใช้งาน: `/gsd:discuss-milestone`
 
 **`/gsd:new-milestone <name>`**
-Create a new milestone with phases for an existing project.
+สร้าง milestone ใหม่พร้อม phases สำหรับโปรเจคที่มีอยู่
 
-- Adds milestone section to ROADMAP.md
-- Creates phase directories
-- Updates STATE.md for new milestone
+- เพิ่ม milestone section ใน ROADMAP.md
+- สร้างโฟลเดอร์ phase
+- อัพเดท STATE.md สำหรับ milestone ใหม่
 
-Usage: `/gsd:new-milestone "v2.0 Features"`
+การใช้งาน: `/gsd:new-milestone "v2.0 Features"`
 
 **`/gsd:complete-milestone <version>`**
-Archive completed milestone and prepare for next version.
+Archive milestone ที่เสร็จแล้วและเตรียมสำหรับ version ถัดไป
 
-- Creates MILESTONES.md entry with stats
-- Archives full details to milestones/ directory
-- Creates git tag for the release
-- Prepares workspace for next version
+- สร้าง MILESTONES.md entry พร้อมสถิติ
+- Archive full details ไปยังโฟลเดอร์ milestones/
+- สร้าง git tag สำหรับ release
+- เตรียม workspace สำหรับ version ถัดไป
 
-Usage: `/gsd:complete-milestone 1.0.0`
+การใช้งาน: `/gsd:complete-milestone 1.0.0`
 
 ### Progress Tracking
 
 **`/gsd:progress`**
-Check project status and intelligently route to next action.
+ตรวจสอบ project status และ route ไปยัง next action อย่างชาญฉลาด
 
-- Shows visual progress bar and completion percentage
-- Summarizes recent work from SUMMARY files
-- Displays current position and what's next
-- Lists key decisions and open issues
-- Offers to execute next plan or create it if missing
-- Detects 100% milestone completion
+- แสดง visual progress bar และ completion percentage
+- สรุปงานล่าสุดจากไฟล์ SUMMARY
+- แสดง current position และสิ่งที่ต้องทำต่อ
+- แสดง key decisions และ open issues
+- เสนอให้ execute next plan หรือสร้างถ้าไม่มี
+- ตรวจจับ 100% milestone completion
 
-Usage: `/gsd:progress`
+การใช้งาน: `/gsd:progress`
 
 ### Session Management
 
 **`/gsd:resume-work`**
-Resume work from previous session with full context restoration.
+Resume work จาก session ก่อนหน้าพร้อม full context restoration
 
-- Reads STATE.md for project context
-- Shows current position and recent progress
-- Offers next actions based on project state
+- อ่าน STATE.md สำหรับ project context
+- แสดง current position และ recent progress
+- เสนอ next actions ตาม project state
 
-Usage: `/gsd:resume-work`
+การใช้งาน: `/gsd:resume-work`
 
 **`/gsd:pause-work`**
-Create context handoff when pausing work mid-phase.
+สร้าง context handoff เมื่อหยุดงานกลาง phase
 
-- Creates .continue-here file with current state
-- Updates STATE.md session continuity section
-- Captures in-progress work context
+- สร้างไฟล์ .continue-here พร้อม current state
+- อัพเดท STATE.md session continuity section
+- บันทึก in-progress work context
 
-Usage: `/gsd:pause-work`
+การใช้งาน: `/gsd:pause-work`
 
 ### Issue Management
 
 **`/gsd:consider-issues`**
-Review deferred issues with codebase context.
+Review deferred issues พร้อม codebase context
 
-- Analyzes all open issues against current codebase state
-- Identifies resolved issues (can close)
-- Identifies urgent issues (should address now)
-- Identifies natural fits for upcoming phases
-- Offers batch actions (close, insert phase, note for planning)
+- วิเคราะห์ open issues ทั้งหมดกับ codebase state ปัจจุบัน
+- ระบุ resolved issues (ปิดได้)
+- ระบุ urgent issues (ควร address ตอนนี้)
+- ระบุ natural fits สำหรับ upcoming phases
+- เสนอ batch actions (close, insert phase, note for planning)
 
-Usage: `/gsd:consider-issues`
+การใช้งาน: `/gsd:consider-issues`
 
 ### Todo Management
 
 **`/gsd:add-todo [description]`**
-Capture idea or task as todo from current conversation.
+บันทึกไอเดียหรืองานเป็น todo จากการสนทนาปัจจุบัน
 
-- Extracts context from conversation (or uses provided description)
-- Creates structured todo file in `.planning/todos/pending/`
-- Infers area from file paths for grouping
-- Checks for duplicates before creating
-- Updates STATE.md todo count
+- ดึง context จากการสนทนา (หรือใช้ description ที่ให้)
+- สร้าง structured todo file ใน `.planning/todos/pending/`
+- อนุมาน area จาก file paths สำหรับ grouping
+- ตรวจสอบ duplicates ก่อนสร้าง
+- อัพเดท STATE.md todo count
 
-Usage: `/gsd:add-todo` (infers from conversation)
-Usage: `/gsd:add-todo Add auth token refresh`
+การใช้งาน: `/gsd:add-todo` (อนุมานจากการสนทนา)
+การใช้งาน: `/gsd:add-todo Fix modal z-index`
 
 **`/gsd:check-todos [area]`**
-List pending todos and select one to work on.
+แสดงรายการ pending todos และเลือกงานที่จะทำ
 
-- Lists all pending todos with title, area, age
-- Optional area filter (e.g., `/gsd:check-todos api`)
-- Loads full context for selected todo
-- Routes to appropriate action (work now, add to phase, brainstorm)
-- Moves todo to done/ when work begins
+- แสดง pending todos ทั้งหมดพร้อม title, area, age
+- Optional area filter (เช่น `/gsd:check-todos api`)
+- โหลด full context สำหรับ todo ที่เลือก
+- Route ไปยัง action ที่เหมาะสม (work now, add to phase, brainstorm)
+- ย้าย todo ไป done/ เมื่อเริ่มทำงาน
 
-Usage: `/gsd:check-todos`
-Usage: `/gsd:check-todos api`
+การใช้งาน: `/gsd:check-todos`
+การใช้งาน: `/gsd:check-todos api`
 
 ### Utility Commands
 
 **`/gsd:help`**
-Show this command reference.
+แสดง command reference นี้
 
 ## Files & Structure
 
@@ -263,11 +263,11 @@ Show this command reference.
 ├── PROJECT.md            # Project vision
 ├── ROADMAP.md            # Current phase breakdown
 ├── STATE.md              # Project memory & context
-├── ISSUES.md             # Deferred enhancements (created when needed)
+├── ISSUES.md             # Deferred enhancements (สร้างเมื่อต้องการ)
 ├── config.json           # Workflow mode & gates
 ├── todos/                # Captured ideas and tasks
-│   ├── pending/          # Todos waiting to be worked on
-│   └── done/             # Completed todos
+│   ├── pending/          # Todos รอทำ
+│   └── done/             # Todos ที่เสร็จแล้ว
 ├── codebase/             # Codebase map (brownfield projects)
 │   ├── STACK.md          # Languages, frameworks, dependencies
 │   ├── ARCHITECTURE.md   # Patterns, layers, data flow
@@ -287,25 +287,25 @@ Show this command reference.
 
 ## Workflow Modes
 
-Set during `/gsd:new-project`:
+ตั้งค่าระหว่าง `/gsd:new-project`:
 
 **Interactive Mode**
 
-- Confirms each major decision
-- Pauses at checkpoints for approval
-- More guidance throughout
+- ยืนยันแต่ละ major decision
+- หยุดที่ checkpoints เพื่อขออนุมัติ
+- มี guidance มากขึ้นตลอด
 
 **YOLO Mode**
 
-- Auto-approves most decisions
-- Executes plans without confirmation
-- Only stops for critical checkpoints
+- Auto-approve decisions ส่วนใหญ่
+- Execute plans โดยไม่ต้องยืนยัน
+- หยุดเฉพาะ critical checkpoints
 
-Change anytime by editing `.planning/config.json`
+เปลี่ยนเมื่อไหร่ก็ได้โดยแก้ไข `.planning/config.json`
 
 ## Common Workflows
 
-**Starting a new project:**
+**เริ่มโปรเจคใหม่:**
 
 ```
 /gsd:new-project
@@ -314,13 +314,13 @@ Change anytime by editing `.planning/config.json`
 /gsd:execute-plan .planning/phases/01-foundation/01-01-PLAN.md
 ```
 
-**Resuming work after a break:**
+**Resume work หลังหยุดพัก:**
 
 ```
-/gsd:progress  # See where you left off and continue
+/gsd:progress  # ดูว่าหยุดตรงไหนและทำต่อ
 ```
 
-**Adding urgent mid-milestone work:**
+**เพิ่มงานเร่งด่วนกลาง milestone:**
 
 ```
 /gsd:insert-phase 5 "Critical security fix"
@@ -328,26 +328,26 @@ Change anytime by editing `.planning/config.json`
 /gsd:execute-plan .planning/phases/05.1-critical-security-fix/05.1-01-PLAN.md
 ```
 
-**Completing a milestone:**
+**Complete milestone:**
 
 ```
 /gsd:complete-milestone 1.0.0
-/gsd:new-project  # Start next milestone
+/gsd:new-project  # เริ่ม milestone ถัดไป
 ```
 
-**Capturing ideas during work:**
+**บันทึกไอเดียระหว่างทำงาน:**
 
 ```
-/gsd:add-todo                    # Capture from conversation context
-/gsd:add-todo Fix modal z-index  # Capture with explicit description
-/gsd:check-todos                 # Review and work on todos
-/gsd:check-todos api             # Filter by area
+/gsd:add-todo                    # บันทึกจาก conversation context
+/gsd:add-todo Fix modal z-index  # บันทึกด้วย explicit description
+/gsd:check-todos                 # Review และทำงาน todos
+/gsd:check-todos api             # Filter ตาม area
 ```
 
 ## Getting Help
 
-- Read `.planning/PROJECT.md` for project vision
-- Read `.planning/STATE.md` for current context
-- Check `.planning/ROADMAP.md` for phase status
-- Run `/gsd:progress` to check where you're up to
+- อ่าน `.planning/PROJECT.md` สำหรับ project vision
+- อ่าน `.planning/STATE.md` สำหรับ current context
+- ตรวจสอบ `.planning/ROADMAP.md` สำหรับ phase status
+- รัน `/gsd:progress` เพื่อดูว่าอยู่ตรงไหน
   </reference>

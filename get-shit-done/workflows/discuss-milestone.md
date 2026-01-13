@@ -1,99 +1,99 @@
 <purpose>
-Help the user figure out what they want to build in the next milestone through collaborative thinking.
+ช่วยผู้ใช้คิดว่าต้องการสร้างอะไรใน milestone ถัดไปผ่านการคิดร่วมกัน
 
-You're a thinking partner helping them crystallize their vision for what's next. Features first — everything else (scope, phases) derives from what they want to build.
+คุณเป็นหุ้นส่วนคิด ช่วยพวกเขาตกผลึกวิสัยทัศน์สำหรับสิ่งถัดไป Features ก่อน — ทุกอย่างอื่น (scope, phases) ได้มาจากสิ่งที่พวกเขาต้องการสร้าง
 </purpose>
 
 <process>
 
 <step name="check_state" priority="first">
-Load project state:
+โหลด project state:
 
 ```bash
 cat .planning/STATE.md
 cat .planning/ROADMAP.md
 ```
 
-**If no active milestone (expected state after completing previous):**
-Continue to milestone_context.
+**หากไม่มี active milestone (สถานะที่คาดหวังหลังจากเสร็จก่อนหน้า):**
+ดำเนินการไป milestone_context
 
-**If active milestone exists:**
+**หากมี active milestone อยู่:**
 
 ```
 Current milestone in progress: v[X.Y] [Name]
 Phases [N]-[M], [P]% complete
 
-Did you want to:
+ต้องการ:
 1. Complete current milestone first (/gsd:complete-milestone)
 2. Add phases to current milestone (/gsd:add-phase)
 3. Continue anyway - discuss next milestone scope
 
 ```
 
-Wait for user response. If "Continue anyway", proceed to milestone_context.
+รอการตอบจากผู้ใช้ หาก "Continue anyway" ดำเนินการไป milestone_context
 </step>
 
 <step name="milestone_context">
-Present context from previous milestone:
+แสดง context จาก milestone ก่อนหน้า:
 
 ```
 Last completed: v[X.Y] [Name] (shipped [DATE])
 Key accomplishments:
-- [From MILESTONES.md or STATE.md]
+- [จาก MILESTONES.md หรือ STATE.md]
 
 Total phases delivered: [N]
 Next phase number: [N+1]
 ```
 
-Continue to intake_gate.
+ดำเนินการไป intake_gate
 </step>
 
 <step name="intake_gate">
-**CRITICAL: ALL questions use AskUserQuestion. Never ask inline text questions.**
+**สำคัญ: ทุกคำถามใช้ AskUserQuestion อย่าถามคำถาม text แบบ inline**
 
-The primary question is: **What do you want to build/add/fix?**
+คำถามหลักคือ: **ต้องการสร้าง/เพิ่ม/แก้ไขอะไร?**
 
-Everything else (scope, priority, constraints) is secondary and derived from features.
+ทุกอย่างอื่น (scope, priority, constraints) เป็นรอง และได้มาจาก features
 
-Check for inputs:
-- Deferred issues from STATE.md (potential features)
-- Known gaps or pain points from usage
-- User's ideas for what's next
+ตรวจสอบ inputs:
+- Deferred issues จาก STATE.md (features ที่เป็นไปได้)
+- Gaps ที่รู้หรือ pain points จากการใช้งาน
+- Ideas ของผู้ใช้สำหรับสิ่งถัดไป
 
 **1. Open:**
 
-Use AskUserQuestion:
+ใช้ AskUserQuestion:
 - header: "Next"
-- question: "What do you want to add, improve, or fix in this milestone?"
-- options: [Deferred issues from STATE.md if any] + ["New features", "Improvements to existing", "Bug fixes", "Let me describe"]
+- question: "ต้องการเพิ่ม ปรับปรุง หรือแก้ไขอะไรใน milestone นี้?"
+- options: [Deferred issues จาก STATE.md หากมี] + ["New features", "Improvements to existing", "Bug fixes", "Let me describe"]
 
 **2. Explore features:**
 
-Based on their response, use AskUserQuestion:
+ตามการตอบ ใช้ AskUserQuestion:
 
-If they named specific features:
+หากตั้งชื่อ features เฉพาะ:
 - header: "Feature Details"
-- question: "Tell me more about [feature] - what should it do?"
-- options: [Contextual options based on feature type + "Let me describe it"]
+- question: "บอกเพิ่มเติมเกี่ยวกับ [feature] - ควรทำอะไร?"
+- options: [Contextual options ตาม feature type + "Let me describe it"]
 
-If they described a general direction:
+หากอธิบายทิศทางทั่วไป:
 - header: "Breaking It Down"
-- question: "That could involve [A], [B], [C] - which matter most?"
+- question: "นั่นอาจรวม [A], [B], [C] - อันไหนสำคัญที่สุด?"
 - options: [Specific sub-features + "All of them" + "Something else"]
 
-If they're not sure:
+หากไม่แน่ใจ:
 - header: "Starting Points"
-- question: "What's been frustrating or missing?"
-- options: [Deferred issues from STATE.md + pain point categories + "Let me think about it"]
+- question: "อะไรน่าหงุดหงิดหรือขาดหายไป?"
+- options: [Deferred issues จาก STATE.md + pain point categories + "Let me think about it"]
 
 **3. Prioritize:**
 
-Use AskUserQuestion:
+ใช้ AskUserQuestion:
 - header: "Priority"
-- question: "Which of these matters most?"
-- options: [Features they mentioned + "All equally important" + "Let me prioritize"]
+- question: "อันไหนสำคัญที่สุด?"
+- options: [Features ที่พวกเขากล่าวถึง + "All equally important" + "Let me prioritize"]
 
-After gathering features, synthesize:
+หลังรวบรวม features สังเคราะห์:
 
 ```
 Based on what you described:
@@ -109,39 +109,39 @@ Based on what you described:
 
 **4. Decision gate:**
 
-Use AskUserQuestion:
+ใช้ AskUserQuestion:
 - header: "Ready?"
-- question: "Ready to create the milestone, or explore more?"
-- options (ALL THREE REQUIRED):
-  - "Create milestone" - Proceed to /gsd:new-milestone
-  - "Ask more questions" - Help me think through this more
-  - "Let me add context" - I have more to share
+- question: "พร้อมสร้าง milestone หรือสำรวจเพิ่ม?"
+- options (ต้องมีทั้งสาม):
+  - "Create milestone" - ดำเนินการไป /gsd:new-milestone
+  - "Ask more questions" - ช่วยฉันคิดเพิ่ม
+  - "Let me add context" - ฉันมีอะไรจะแชร์เพิ่ม
 
-If "Ask more questions" → return to step 2 with new probes.
-If "Let me add context" → receive input → return to step 2.
-Loop until "Create milestone" selected.
+หาก "Ask more questions" → กลับไปขั้นตอน 2 ด้วย probes ใหม่
+หาก "Let me add context" → รับ input → กลับไปขั้นตอน 2
+วนจนกว่าจะเลือก "Create milestone"
 </step>
 
 <step name="write_context">
-Write milestone context to file for handoff.
+เขียน milestone context ลงไฟล์สำหรับ handoff
 
 **File:** `.planning/MILESTONE-CONTEXT.md`
 
-Use template from ~/.claude/get-shit-done/templates/milestone-context.md
+ใช้ template จาก ~/.claude/get-shit-done/templates/milestone-context.md
 
-Populate with:
-- Features identified during discussion
-- Suggested milestone name and theme
-- Estimated phase count
-- How features map to phases
-- Any constraints or scope boundaries mentioned
+กรอกด้วย:
+- Features ที่ระบุระหว่าง discussion
+- ชื่อ milestone และ theme ที่แนะนำ
+- จำนวน phase โดยประมาณ
+- Features map ไป phases อย่างไร
+- Constraints หรือ scope boundaries ใดๆ ที่กล่าวถึง
 
 ```bash
-# Write the context file
+# เขียนไฟล์ context
 cat > .planning/MILESTONE-CONTEXT.md << 'EOF'
 # Milestone Context
 
-**Generated:** [today's date]
+**Generated:** [วันนี้]
 **Status:** Ready for /gsd:new-milestone
 
 <features>
@@ -158,7 +158,7 @@ cat > .planning/MILESTONE-CONTEXT.md << 'EOF'
 
 **Suggested name:** v[X.Y] [Theme Name]
 **Estimated phases:** [N]
-**Focus:** [One sentence theme/focus]
+**Focus:** [หนึ่งประโยค theme/focus]
 
 </scope>
 
@@ -174,26 +174,26 @@ cat > .planning/MILESTONE-CONTEXT.md << 'EOF'
 <constraints>
 ## Constraints
 
-- [Any constraints mentioned]
+- [Constraints ใดๆ ที่กล่าวถึง]
 
 </constraints>
 
 <notes>
 ## Additional Context
 
-[Anything else from discussion]
+[สิ่งอื่นๆ จาก discussion]
 
 </notes>
 
 ---
 
-*This file is temporary. It will be deleted after /gsd:new-milestone creates the milestone.*
+*ไฟล์นี้เป็นชั่วคราว จะถูกลบหลัง /gsd:new-milestone สร้าง milestone*
 EOF
 ```
 </step>
 
 <step name="handoff">
-Present summary and hand off to create-milestone:
+แสดงสรุปและส่งต่อไป create-milestone:
 
 ```
 Milestone scope defined:
@@ -210,13 +210,13 @@ Context saved to `.planning/MILESTONE-CONTEXT.md`
 
 ---
 
-## ▶ Next Up
+## ▶ ถัดไป
 
 **Create Milestone v[X.Y]** — [Theme Name]
 
 `/gsd:new-milestone`
 
-<sub>`/clear` first → fresh context window</sub>
+<sub>`/clear` ก่อน → context window ใหม่</sub>
 
 ---
 ```
@@ -226,11 +226,11 @@ Context saved to `.planning/MILESTONE-CONTEXT.md`
 
 <success_criteria>
 
-- Project state loaded (STATE.md, ROADMAP.md)
-- Previous milestone context presented
-- **Features identified** - What to build/add/fix (the substance)
-- Features explored with clarifying questions
-- Scope synthesized from features (not asked abstractly)
-- **MILESTONE-CONTEXT.md created** with features, scope, and phase mapping
-- Context handed off to /gsd:new-milestone
+- Project state โหลด (STATE.md, ROADMAP.md)
+- Previous milestone context แสดง
+- **Features ระบุ** - อะไรที่จะ build/add/fix (substance)
+- Features สำรวจด้วยคำถามชี้แจง
+- Scope สังเคราะห์จาก features (ไม่ใช่ถามแบบ abstract)
+- **MILESTONE-CONTEXT.md สร้าง** พร้อม features, scope และ phase mapping
+- Context ส่งต่อไป /gsd:new-milestone
 </success_criteria>

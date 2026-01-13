@@ -1,105 +1,105 @@
-# Technology Stack Template
+# เทมเพลต Technology Stack
 
-Template for `.planning/codebase/STACK.md` - captures the technology foundation.
+เทมเพลตสำหรับ `.planning/codebase/STACK.md` - บันทึก technology foundation
 
-**Purpose:** Document what technologies run this codebase. Focused on "what executes when you run the code."
+**วัตถุประสงค์:** บันทึก technologies อะไรรัน codebase นี้ เน้นที่ "อะไร execute เมื่อคุณรันโค้ด"
 
 ---
 
-## File Template
+## เทมเพลตไฟล์
 
 ```markdown
 # Technology Stack
 
-**Analysis Date:** [YYYY-MM-DD]
+**วันที่วิเคราะห์:** [YYYY-MM-DD]
 
 ## Languages
 
-**Primary:**
-- [Language] [Version] - [Where used: e.g., "all application code"]
+**หลัก:**
+- [Language] [Version] - [ใช้ที่ไหน: เช่น "ทุก application code"]
 
-**Secondary:**
-- [Language] [Version] - [Where used: e.g., "build scripts, tooling"]
+**รอง:**
+- [Language] [Version] - [ใช้ที่ไหน: เช่น "build scripts, tooling"]
 
 ## Runtime
 
 **Environment:**
-- [Runtime] [Version] - [e.g., "Node.js 20.x"]
-- [Additional requirements if any]
+- [Runtime] [Version] - [เช่น "Node.js 20.x"]
+- [Additional requirements ถ้ามี]
 
 **Package Manager:**
-- [Manager] [Version] - [e.g., "npm 10.x"]
-- Lockfile: [e.g., "package-lock.json present"]
+- [Manager] [Version] - [เช่น "npm 10.x"]
+- Lockfile: [เช่น "package-lock.json present"]
 
 ## Frameworks
 
 **Core:**
-- [Framework] [Version] - [Purpose: e.g., "web server", "UI framework"]
+- [Framework] [Version] - [วัตถุประสงค์: เช่น "web server", "UI framework"]
 
 **Testing:**
-- [Framework] [Version] - [e.g., "Jest for unit tests"]
-- [Framework] [Version] - [e.g., "Playwright for E2E"]
+- [Framework] [Version] - [เช่น "Jest สำหรับ unit tests"]
+- [Framework] [Version] - [เช่น "Playwright สำหรับ E2E"]
 
 **Build/Dev:**
-- [Tool] [Version] - [e.g., "Vite for bundling"]
-- [Tool] [Version] - [e.g., "TypeScript compiler"]
+- [Tool] [Version] - [เช่น "Vite สำหรับ bundling"]
+- [Tool] [Version] - [เช่น "TypeScript compiler"]
 
 ## Key Dependencies
 
-[Only include dependencies critical to understanding the stack - limit to 5-10 most important]
+[รวมแค่ dependencies ที่สำคัญสำหรับการเข้าใจ stack - จำกัดไว้ 5-10 ที่สำคัญที่สุด]
 
 **Critical:**
-- [Package] [Version] - [Why it matters: e.g., "authentication", "database access"]
-- [Package] [Version] - [Why it matters]
+- [Package] [Version] - [ทำไมสำคัญ: เช่น "authentication", "database access"]
+- [Package] [Version] - [ทำไมสำคัญ]
 
 **Infrastructure:**
-- [Package] [Version] - [e.g., "Express for HTTP routing"]
-- [Package] [Version] - [e.g., "PostgreSQL client"]
+- [Package] [Version] - [เช่น "Express สำหรับ HTTP routing"]
+- [Package] [Version] - [เช่น "PostgreSQL client"]
 
 ## Configuration
 
 **Environment:**
-- [How configured: e.g., ".env files", "environment variables"]
-- [Key configs: e.g., "DATABASE_URL, API_KEY required"]
+- [Configured อย่างไร: เช่น ".env files", "environment variables"]
+- [Key configs: เช่น "DATABASE_URL, API_KEY required"]
 
 **Build:**
-- [Build config files: e.g., "vite.config.ts, tsconfig.json"]
+- [Build config files: เช่น "vite.config.ts, tsconfig.json"]
 
 ## Platform Requirements
 
 **Development:**
-- [OS requirements or "any platform"]
-- [Additional tooling: e.g., "Docker for local DB"]
+- [OS requirements หรือ "any platform"]
+- [Additional tooling: เช่น "Docker สำหรับ local DB"]
 
 **Production:**
-- [Deployment target: e.g., "Vercel", "AWS Lambda", "Docker container"]
+- [Deployment target: เช่น "Vercel", "AWS Lambda", "Docker container"]
 - [Version requirements]
 
 ---
 
-*Stack analysis: [date]*
-*Update after major dependency changes*
+*Stack analysis: [วันที่]*
+*อัปเดตหลังจาก major dependency changes*
 ```
 
 <good_examples>
 ```markdown
 # Technology Stack
 
-**Analysis Date:** 2025-01-20
+**วันที่วิเคราะห์:** 2025-01-20
 
 ## Languages
 
-**Primary:**
-- TypeScript 5.3 - All application code
+**หลัก:**
+- TypeScript 5.3 - ทุก application code
 
-**Secondary:**
+**รอง:**
 - JavaScript - Build scripts, config files
 
 ## Runtime
 
 **Environment:**
 - Node.js 20.x (LTS)
-- No browser runtime (CLI tool only)
+- ไม่มี browser runtime (CLI tool only)
 
 **Package Manager:**
 - npm 10.x
@@ -108,30 +108,30 @@ Template for `.planning/codebase/STACK.md` - captures the technology foundation.
 ## Frameworks
 
 **Core:**
-- None (vanilla Node.js CLI)
+- ไม่มี (vanilla Node.js CLI)
 
 **Testing:**
 - Vitest 1.0 - Unit tests
-- tsx - TypeScript execution without build step
+- tsx - TypeScript execution โดยไม่ต้อง build step
 
 **Build/Dev:**
-- TypeScript 5.3 - Compilation to JavaScript
-- esbuild - Used by Vitest for fast transforms
+- TypeScript 5.3 - Compilation ไปยัง JavaScript
+- esbuild - ใช้โดย Vitest สำหรับ fast transforms
 
 ## Key Dependencies
 
 **Critical:**
-- commander 11.x - CLI argument parsing and command structure
+- commander 11.x - CLI argument parsing และ command structure
 - chalk 5.x - Terminal output styling
 - fs-extra 11.x - Extended file system operations
 
 **Infrastructure:**
-- Node.js built-ins - fs, path, child_process for file operations
+- Node.js built-ins - fs, path, child_process สำหรับ file operations
 
 ## Configuration
 
 **Environment:**
-- No environment variables required
+- ไม่ต้องการ environment variables
 - Configuration via CLI flags only
 
 **Build:**
@@ -141,46 +141,46 @@ Template for `.planning/codebase/STACK.md` - captures the technology foundation.
 ## Platform Requirements
 
 **Development:**
-- macOS/Linux/Windows (any platform with Node.js)
-- No external dependencies
+- macOS/Linux/Windows (any platform ที่มี Node.js)
+- ไม่มี external dependencies
 
 **Production:**
-- Distributed as npm package
+- Distributed เป็น npm package
 - Installed globally via npm install -g
-- Runs on user's Node.js installation
+- รันบน user's Node.js installation
 
 ---
 
 *Stack analysis: 2025-01-20*
-*Update after major dependency changes*
+*อัปเดตหลังจาก major dependency changes*
 ```
 </good_examples>
 
 <guidelines>
-**What belongs in STACK.md:**
-- Languages and versions
+**อะไรควรอยู่ใน STACK.md:**
+- Languages และ versions
 - Runtime requirements (Node, Bun, Deno, browser)
-- Package manager and lockfile
+- Package manager และ lockfile
 - Framework choices
-- Critical dependencies (limit to 5-10 most important)
+- Critical dependencies (จำกัดไว้ 5-10 ที่สำคัญที่สุด)
 - Build tooling
 - Platform/deployment requirements
 
-**What does NOT belong here:**
-- File structure (that's STRUCTURE.md)
-- Architectural patterns (that's ARCHITECTURE.md)
-- Every dependency in package.json (only critical ones)
-- Implementation details (defer to code)
+**อะไรไม่ควรอยู่ที่นี่:**
+- File structure (นั่นคือ STRUCTURE.md)
+- Architectural patterns (นั่นคือ ARCHITECTURE.md)
+- ทุก dependency ใน package.json (แค่ critical ones)
+- Implementation details (defer ไปอ่านโค้ด)
 
-**When filling this template:**
-- Check package.json for dependencies
-- Note runtime version from .nvmrc or package.json engines
-- Include only dependencies that affect understanding (not every utility)
-- Specify versions only when version matters (breaking changes, compatibility)
+**เมื่อกรอกเทมเพลตนี้:**
+- ตรวจสอบ package.json สำหรับ dependencies
+- Note runtime version จาก .nvmrc หรือ package.json engines
+- รวมแค่ dependencies ที่ส่งผลต่อความเข้าใจ (ไม่ใช่ทุก utility)
+- ระบุ versions เมื่อ version สำคัญ (breaking changes, compatibility)
 
-**Useful for phase planning when:**
-- Adding new dependencies (check compatibility)
-- Upgrading frameworks (know what's in use)
-- Choosing implementation approach (must work with existing stack)
-- Understanding build requirements
+**มีประโยชน์สำหรับ phase planning เมื่อ:**
+- เพิ่ม dependencies ใหม่ (check compatibility)
+- Upgrading frameworks (รู้ว่าอะไรใช้อยู่)
+- เลือก implementation approach (ต้องทำงานกับ existing stack)
+- เข้าใจ build requirements
 </guidelines>

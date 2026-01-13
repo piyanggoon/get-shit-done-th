@@ -1,64 +1,64 @@
-# Milestone Entry Template
+# เทมเพลต Milestone Entry
 
-Add this entry to `.planning/MILESTONES.md` when completing a milestone:
+เพิ่ม entry นี้ไปที่ `.planning/MILESTONES.md` เมื่อเสร็จสิ้น milestone:
 
 ```markdown
-## v[X.Y] [Name] (Shipped: YYYY-MM-DD)
+## v[X.Y] [ชื่อ] (Shipped: YYYY-MM-DD)
 
-**Delivered:** [One sentence describing what shipped]
+**ส่งมอบ:** [หนึ่งประโยคอธิบายสิ่งที่ส่งมอบ]
 
-**Phases completed:** [X-Y] ([Z] plans total)
+**เฟสที่เสร็จ:** [X-Y] ([Z] แผนทั้งหมด)
 
-**Key accomplishments:**
-- [Major achievement 1]
-- [Major achievement 2]
-- [Major achievement 3]
-- [Major achievement 4]
+**ความสำเร็จหลัก:**
+- [ความสำเร็จหลัก 1]
+- [ความสำเร็จหลัก 2]
+- [ความสำเร็จหลัก 3]
+- [ความสำเร็จหลัก 4]
 
-**Stats:**
-- [X] files created/modified
-- [Y] lines of code (primary language)
-- [Z] phases, [N] plans, [M] tasks
-- [D] days from start to ship (or milestone to milestone)
+**สถิติ:**
+- [X] ไฟล์ที่สร้าง/แก้ไข
+- [Y] บรรทัดโค้ด (ภาษาหลัก)
+- [Z] เฟส, [N] แผน, [M] งาน
+- [D] วันจากเริ่มต้นถึงส่งมอบ (หรือ milestone ถึง milestone)
 
 **Git range:** `feat(XX-XX)` → `feat(YY-YY)`
 
-**What's next:** [Brief description of next milestone goals, or "Project complete"]
+**ถัดไป:** [คำอธิบายสั้นๆ ของเป้าหมาย milestone ถัดไป หรือ "โปรเจกต์เสร็จสมบูรณ์"]
 
 ---
 ```
 
 <structure>
-If MILESTONES.md doesn't exist, create it with header:
+ถ้า MILESTONES.md ไม่มีอยู่ ให้สร้างพร้อม header:
 
 ```markdown
-# Project Milestones: [Project Name]
+# Project Milestones: [ชื่อโปรเจกต์]
 
-[Entries in reverse chronological order - newest first]
+[Entries เรียงตามลำดับเวลาย้อนกลับ - ใหม่สุดก่อน]
 ```
 </structure>
 
 <guidelines>
-**When to create milestones:**
-- Initial v1.0 MVP shipped
+**เมื่อไหร่ควรสร้าง milestones:**
+- v1.0 MVP เริ่มต้นส่งมอบแล้ว
 - Major version releases (v2.0, v3.0)
-- Significant feature milestones (v1.1, v1.2)
-- Before archiving planning (capture what was shipped)
+- Feature milestones สำคัญ (v1.1, v1.2)
+- ก่อน archiving planning (บันทึกสิ่งที่ส่งมอบแล้ว)
 
-**Don't create milestones for:**
-- Individual phase completions (normal workflow)
-- Work in progress (wait until shipped)
-- Minor bug fixes that don't constitute a release
+**ไม่ควรสร้าง milestones สำหรับ:**
+- Phase completions เดี่ยวๆ (workflow ปกติ)
+- Work in progress (รอจนกว่าจะส่งมอบ)
+- Bug fixes เล็กน้อยที่ไม่ถือเป็น release
 
-**Stats to include:**
-- Count modified files: `git diff --stat feat(XX-XX)..feat(YY-YY) | tail -1`
-- Count LOC: `find . -name "*.swift" -o -name "*.ts" | xargs wc -l` (or relevant extension)
-- Phase/plan/task counts from ROADMAP
-- Timeline from first phase commit to last phase commit
+**สถิติที่ควรรวม:**
+- นับไฟล์ที่แก้ไข: `git diff --stat feat(XX-XX)..feat(YY-YY) | tail -1`
+- นับ LOC: `find . -name "*.swift" -o -name "*.ts" | xargs wc -l` (หรือ extension ที่เกี่ยวข้อง)
+- จำนวน Phase/plan/task จาก ROADMAP
+- Timeline จาก commit แรกของเฟสถึง commit สุดท้าย
 
-**Git range format:**
-- First commit of milestone → last commit of milestone
-- Example: `feat(01-01)` → `feat(04-01)` for phases 1-4
+**รูปแบบ Git range:**
+- Commit แรกของ milestone → commit สุดท้ายของ milestone
+- ตัวอย่าง: `feat(01-01)` → `feat(04-01)` สำหรับเฟส 1-4
 </guidelines>
 
 <example>
@@ -67,49 +67,49 @@ If MILESTONES.md doesn't exist, create it with header:
 
 ## v1.1 Security & Polish (Shipped: 2025-12-10)
 
-**Delivered:** Security hardening with Keychain integration and comprehensive error handling
+**ส่งมอบ:** Security hardening ด้วย Keychain integration และ comprehensive error handling
 
-**Phases completed:** 5-6 (3 plans total)
+**เฟสที่เสร็จ:** 5-6 (3 แผนทั้งหมด)
 
-**Key accomplishments:**
-- Migrated API key storage from plaintext to macOS Keychain
-- Implemented comprehensive error handling for network failures
-- Added Sentry crash reporting integration
-- Fixed memory leak in auto-refresh timer
+**ความสำเร็จหลัก:**
+- ย้าย API key storage จาก plaintext ไปยัง macOS Keychain
+- Implement comprehensive error handling สำหรับ network failures
+- เพิ่ม Sentry crash reporting integration
+- แก้ไข memory leak ใน auto-refresh timer
 
-**Stats:**
-- 23 files modified
-- 650 lines of Swift added
-- 2 phases, 3 plans, 12 tasks
-- 8 days from v1.0 to v1.1
+**สถิติ:**
+- 23 ไฟล์ที่แก้ไข
+- 650 บรรทัด Swift เพิ่ม
+- 2 เฟส, 3 แผน, 12 งาน
+- 8 วันจาก v1.0 ถึง v1.1
 
 **Git range:** `feat(05-01)` → `feat(06-02)`
 
-**What's next:** v2.0 SwiftUI redesign with widget support
+**ถัดไป:** v2.0 SwiftUI redesign พร้อม widget support
 
 ---
 
 ## v1.0 MVP (Shipped: 2025-11-25)
 
-**Delivered:** Menu bar weather app with current conditions and 3-day forecast
+**ส่งมอบ:** Menu bar weather app พร้อมสภาพอากาศปัจจุบันและพยากรณ์ 3 วัน
 
-**Phases completed:** 1-4 (7 plans total)
+**เฟสที่เสร็จ:** 1-4 (7 แผนทั้งหมด)
 
-**Key accomplishments:**
-- Menu bar app with popover UI (AppKit)
-- OpenWeather API integration with auto-refresh
-- Current weather display with conditions icon
-- 3-day forecast list with high/low temperatures
-- Code signed and notarized for distribution
+**ความสำเร็จหลัก:**
+- Menu bar app พร้อม popover UI (AppKit)
+- OpenWeather API integration พร้อม auto-refresh
+- แสดงสภาพอากาศปัจจุบันพร้อมไอคอนสภาพอากาศ
+- รายการพยากรณ์ 3 วันพร้อมอุณหภูมิสูงสุด/ต่ำสุด
+- Code signed และ notarized สำหรับการแจกจ่าย
 
-**Stats:**
-- 47 files created
-- 2,450 lines of Swift
-- 4 phases, 7 plans, 28 tasks
-- 12 days from start to ship
+**สถิติ:**
+- 47 ไฟล์ที่สร้าง
+- 2,450 บรรทัด Swift
+- 4 เฟส, 7 แผน, 28 งาน
+- 12 วันจากเริ่มต้นถึงส่งมอบ
 
 **Git range:** `feat(01-01)` → `feat(04-01)`
 
-**What's next:** Security audit and hardening for v1.1
+**ถัดไป:** Security audit และ hardening สำหรับ v1.1
 ```
 </example>

@@ -1,187 +1,187 @@
-# Phase Prompt Template
+# เทมเพลต Phase Prompt
 
-Template for `.planning/phases/XX-name/{phase}-{plan}-PLAN.md` - executable phase plans.
+เทมเพลตสำหรับ `.planning/phases/XX-name/{phase}-{plan}-PLAN.md` - แผนเฟสที่ executable ได้
 
-**Naming:** Use `{phase}-{plan}-PLAN.md` format (e.g., `01-02-PLAN.md` for Phase 1, Plan 2)
+**การตั้งชื่อ:** ใช้รูปแบบ `{phase}-{plan}-PLAN.md` (เช่น `01-02-PLAN.md` สำหรับเฟส 1 แผน 2)
 
 ---
 
-## File Template
+## เทมเพลตไฟล์
 
 ```markdown
 ---
 phase: XX-name
 type: execute
-domain: [optional - if domain skill loaded]
+domain: [optional - ถ้า domain skill loaded]
 ---
 
 <objective>
-[What this phase accomplishes - from roadmap phase goal]
+[สิ่งที่เฟสนี้สำเร็จ - จาก roadmap phase goal]
 
-Purpose: [Why this matters for the project]
-Output: [What artifacts will be created]
+วัตถุประสงค์: [ทำไมสิ่งนี้สำคัญสำหรับโปรเจกต์]
+Output: [artifacts อะไรจะถูกสร้าง]
 </objective>
 
 <execution_context>
 ~/.claude/get-shit-done/workflows/execute-phase.md
 ./summary.md
-[If plan contains checkpoint tasks (type="checkpoint:*"), add:]
+[ถ้าแผนมี checkpoint tasks (type="checkpoint:*") เพิ่ม:]
 ~/.claude/get-shit-done/references/checkpoints.md
 </execution_context>
 
 <context>
 @.planning/PROJECT.md
 @.planning/ROADMAP.md
-[If discovery exists:]
+[ถ้ามี discovery:]
 @.planning/phases/XX-name/DISCOVERY.md
-[Relevant source files:]
+[Source files ที่เกี่ยวข้อง:]
 @src/path/to/relevant.ts
 </context>
 
 <tasks>
 
 <task type="auto">
-  <name>Task 1: [Action-oriented name]</name>
+  <name>Task 1: [ชื่อที่เน้น action]</name>
   <files>path/to/file.ext, another/file.ext</files>
-  <action>[Specific implementation - what to do, how to do it, what to avoid and WHY]</action>
-  <verify>[Command or check to prove it worked]</verify>
-  <done>[Measurable acceptance criteria]</done>
+  <action>[Implementation เฉพาะ - ทำอะไร ทำอย่างไร หลีกเลี่ยงอะไรและทำไม]</action>
+  <verify>[คำสั่งหรือการตรวจสอบเพื่อพิสูจน์ว่าทำงาน]</verify>
+  <done>[Acceptance criteria ที่วัดได้]</done>
 </task>
 
 <task type="auto">
-  <name>Task 2: [Action-oriented name]</name>
+  <name>Task 2: [ชื่อที่เน้น action]</name>
   <files>path/to/file.ext</files>
-  <action>[Specific implementation]</action>
-  <verify>[Command or check]</verify>
+  <action>[Implementation เฉพาะ]</action>
+  <verify>[คำสั่งหรือการตรวจสอบ]</verify>
   <done>[Acceptance criteria]</done>
 </task>
 
 <task type="checkpoint:decision" gate="blocking">
-  <decision>[What needs deciding]</decision>
-  <context>[Why this decision matters]</context>
+  <decision>[ต้องตัดสินใจอะไร]</decision>
+  <context>[ทำไมการตัดสินใจนี้สำคัญ]</context>
   <options>
     <option id="option-a">
-      <name>[Option name]</name>
-      <pros>[Benefits and advantages]</pros>
-      <cons>[Tradeoffs and limitations]</cons>
+      <name>[ชื่อตัวเลือก]</name>
+      <pros>[ข้อดีและประโยชน์]</pros>
+      <cons>[ข้อเสียและข้อจำกัด]</cons>
     </option>
     <option id="option-b">
-      <name>[Option name]</name>
-      <pros>[Benefits and advantages]</pros>
-      <cons>[Tradeoffs and limitations]</cons>
+      <name>[ชื่อตัวเลือก]</name>
+      <pros>[ข้อดีและประโยชน์]</pros>
+      <cons>[ข้อเสียและข้อจำกัด]</cons>
     </option>
   </options>
-  <resume-signal>[How to indicate choice - "Select: option-a or option-b"]</resume-signal>
+  <resume-signal>[วิธีระบุตัวเลือก - "Select: option-a หรือ option-b"]</resume-signal>
 </task>
 
 <task type="auto">
-  <name>Task 3: [Action-oriented name]</name>
+  <name>Task 3: [ชื่อที่เน้น action]</name>
   <files>path/to/file.ext</files>
-  <action>[Specific implementation]</action>
-  <verify>[Command or check]</verify>
+  <action>[Implementation เฉพาะ]</action>
+  <verify>[คำสั่งหรือการตรวจสอบ]</verify>
   <done>[Acceptance criteria]</done>
 </task>
 
 <task type="checkpoint:human-verify" gate="blocking">
-  <what-built>[What Claude just built that needs verification]</what-built>
+  <what-built>[สิ่งที่ Claude เพิ่งสร้างที่ต้องการ verification]</what-built>
   <how-to-verify>
-    1. Run: [command to start dev server/app]
-    2. Visit: [URL to check]
-    3. Test: [Specific interactions]
+    1. Run: [คำสั่งเริ่ม dev server/app]
+    2. Visit: [URL ที่ต้องตรวจสอบ]
+    3. Test: [Interactions เฉพาะ]
     4. Confirm: [Expected behaviors]
   </how-to-verify>
-  <resume-signal>Type "approved" to continue, or describe issues to fix</resume-signal>
+  <resume-signal>พิมพ์ "approved" เพื่อดำเนินการต่อ หรืออธิบายปัญหาที่ต้องแก้ไข</resume-signal>
 </task>
 
-[Continue for all tasks - mix of auto and checkpoints as needed...]
+[ต่อสำหรับ tasks ทั้งหมด - ผสม auto และ checkpoints ตามต้องการ...]
 
 </tasks>
 
 <verification>
-Before declaring phase complete:
-- [ ] [Specific test command]
-- [ ] [Build/type check passes]
+ก่อนประกาศว่าเฟสเสร็จสมบูรณ์:
+- [ ] [คำสั่ง test เฉพาะ]
+- [ ] [Build/type check ผ่าน]
 - [ ] [Behavior verification]
 </verification>
 
 <success_criteria>
 
-- All tasks completed
-- All verification checks pass
-- No errors or warnings introduced
-- [Phase-specific criteria]
+- Tasks ทั้งหมดเสร็จสมบูรณ์
+- Verification checks ทั้งหมดผ่าน
+- ไม่มี errors หรือ warnings ใหม่
+- [Criteria เฉพาะเฟส]
   </success_criteria>
 
 <output>
-After completion, create `.planning/phases/XX-name/{phase}-{plan}-SUMMARY.md`:
+หลังเสร็จสมบูรณ์ สร้าง `.planning/phases/XX-name/{phase}-{plan}-SUMMARY.md`:
 
-# Phase [X] Plan [Y]: [Name] Summary
+# เฟส [X] แผน [Y]: [ชื่อ] Summary
 
-**[Substantive one-liner - what shipped, not "phase complete"]**
+**[One-liner ที่มีสาระ - อะไร shipped ไม่ใช่ "phase complete"]**
 
-## Accomplishments
+## ความสำเร็จ
 
 - [Key outcome 1]
 - [Key outcome 2]
 
 ## Files Created/Modified
 
-- `path/to/file.ts` - Description
-- `path/to/another.ts` - Description
+- `path/to/file.ts` - คำอธิบาย
+- `path/to/another.ts` - คำอธิบาย
 
-## Decisions Made
+## การตัดสินใจที่ทำ
 
-[Key decisions and rationale, or "None"]
+[การตัดสินใจสำคัญและเหตุผล หรือ "ไม่มี"]
 
-## Issues Encountered
+## ปัญหาที่พบ
 
-[Problems and resolutions, or "None"]
+[ปัญหาและการแก้ไข หรือ "ไม่มี"]
 
-## Next Step
+## ขั้นตอนถัดไป
 
-[If more plans in this phase: "Ready for {phase}-{next-plan}-PLAN.md"]
-[If phase complete: "Phase complete, ready for next phase"]
+[ถ้ามีแผนเพิ่มในเฟสนี้: "พร้อมสำหรับ {phase}-{next-plan}-PLAN.md"]
+[ถ้าเฟสเสร็จ: "เฟสเสร็จสมบูรณ์ พร้อมสำหรับเฟสถัดไป"]
 </output>
 ```
 
 <key_elements>
-From create-meta-prompts patterns:
+จาก patterns ของ create-meta-prompts:
 
-- XML structure for Claude parsing
-- @context references for file loading
+- โครงสร้าง XML สำหรับ Claude parsing
+- @context references สำหรับการโหลดไฟล์
 - Task types: auto, checkpoint:human-action, checkpoint:human-verify, checkpoint:decision
-- Action includes "what to avoid and WHY" (from intelligence-rules)
-- Verification is specific and executable
-- Success criteria is measurable
-- Output specification includes SUMMARY.md structure
+- Action รวม "หลีกเลี่ยงอะไรและทำไม" (จาก intelligence-rules)
+- Verification เฉพาะและ executable
+- Success criteria วัดได้
+- Output specification รวมโครงสร้าง SUMMARY.md
   </key_elements>
 
 <scope_guidance>
-**Plan sizing:**
+**ขนาดแผน:**
 
-- Aim for 2-3 tasks per plan
-- If planning >3 tasks, split into multiple plans (01-01, 01-02, etc.)
-- Target ~50% context usage maximum
-- Complex phases: Create 01-01, 01-02, 01-03 plans instead of one large plan
+- เป้าหมาย 2-3 tasks ต่อแผน
+- ถ้าวางแผน >3 tasks แยกเป็นหลายแผน (01-01, 01-02, เป็นต้น)
+- เป้าหมาย context usage สูงสุด ~50%
+- เฟสซับซ้อน: สร้างแผน 01-01, 01-02, 01-03 แทนแผนใหญ่แผนเดียว
 
-**When to split:**
+**เมื่อไหร่ควรแยก:**
 
-- Different subsystems (auth vs API vs UI)
-- Clear dependency boundaries (setup → implement → test)
-- Risk of context overflow (>50% estimated usage)
-- **TDD candidates** - Features that warrant TDD become their own TDD plans
+- Subsystems ต่างกัน (auth vs API vs UI)
+- Dependency boundaries ชัดเจน (setup → implement → test)
+- เสี่ยง context overflow (>50% estimated usage)
+- **TDD candidates** - Features ที่ควรทำ TDD กลายเป็น TDD plans ของตัวเอง
 </scope_guidance>
 
 <tdd_plan_note>
-**TDD features get dedicated plans.**
+**TDD features ได้แผนเฉพาะ**
 
-TDD requires 2-3 execution cycles (RED → GREEN → REFACTOR) that consume 40-50% context for a single feature. Features warranting TDD (business logic, validation, algorithms, API contracts) each get their own TDD plan.
+TDD ต้องการ 2-3 execution cycles (RED → GREEN → REFACTOR) ที่กิน 40-50% context สำหรับ feature เดียว Features ที่ควรทำ TDD (business logic, validation, algorithms, API contracts) แต่ละตัวได้แผน TDD ของตัวเอง
 
-**Heuristic:** Can you write `expect(fn(input)).toBe(output)` before writing `fn`?
-→ Yes: Create a TDD plan (one feature per plan)
-→ No: Standard task in standard plan
+**Heuristic:** คุณเขียน `expect(fn(input)).toBe(output)` ก่อนเขียน `fn` ได้ไหม?
+→ ได้: สร้าง TDD plan (หนึ่ง feature ต่อแผน)
+→ ไม่ได้: Standard task ในแผน standard
 
-See `~/.claude/get-shit-done/references/tdd.md` for TDD plan structure.
+ดู `~/.claude/get-shit-done/references/tdd.md` สำหรับโครงสร้าง TDD plan
 </tdd_plan_note>
 
 <good_examples>
@@ -194,10 +194,10 @@ domain: next-js
 ---
 
 <objective>
-Set up Next.js project with authentication foundation.
+ตั้งค่า Next.js project พร้อม authentication foundation
 
-Purpose: Establish the core structure and auth patterns all features depend on.
-Output: Working Next.js app with JWT auth, protected routes, and user model.
+วัตถุประสงค์: สร้างโครงสร้างหลักและ auth patterns ที่ features ทั้งหมดขึ้นอยู่กับ
+Output: Working Next.js app พร้อม JWT auth, protected routes และ user model
 </objective>
 
 <execution_context>
@@ -214,41 +214,41 @@ Output: Working Next.js app with JWT auth, protected routes, and user model.
 <tasks>
 
 <task type="auto">
-  <name>Task 1: Add User model to database schema</name>
+  <name>Task 1: เพิ่ม User model ใน database schema</name>
   <files>prisma/schema.prisma</files>
-  <action>Add User model with fields: id (cuid), email (unique), passwordHash, createdAt, updatedAt. Add Session relation. Use @db.VarChar(255) for email to prevent index issues.</action>
-  <verify>npx prisma validate passes, npx prisma generate succeeds</verify>
-  <done>Schema valid, types generated, no errors</done>
+  <action>เพิ่ม User model พร้อม fields: id (cuid), email (unique), passwordHash, createdAt, updatedAt เพิ่ม Session relation ใช้ @db.VarChar(255) สำหรับ email เพื่อป้องกันปัญหา index</action>
+  <verify>npx prisma validate ผ่าน, npx prisma generate สำเร็จ</verify>
+  <done>Schema valid, types generated, ไม่มี errors</done>
 </task>
 
 <task type="auto">
-  <name>Task 2: Create login API endpoint</name>
+  <name>Task 2: สร้าง login API endpoint</name>
   <files>src/app/api/auth/login/route.ts</files>
-  <action>POST endpoint that accepts {email, password}, validates against User table using bcrypt, returns JWT in httpOnly cookie with 15-min expiry. Use jose library for JWT (not jsonwebtoken - it has CommonJS issues with Next.js).</action>
-  <verify>curl -X POST /api/auth/login -d '{"email":"test@test.com","password":"test"}' -H "Content-Type: application/json" returns 200 with Set-Cookie header</verify>
+  <action>POST endpoint ที่รับ {email, password}, validate กับ User table ใช้ bcrypt, return JWT ใน httpOnly cookie พร้อม 15-min expiry ใช้ jose library สำหรับ JWT (ไม่ใช่ jsonwebtoken - มี CommonJS issues กับ Next.js)</action>
+  <verify>curl -X POST /api/auth/login -d '{"email":"test@test.com","password":"test"}' -H "Content-Type: application/json" returns 200 พร้อม Set-Cookie header</verify>
   <done>Valid credentials return 200 + cookie, invalid return 401, missing fields return 400</done>
 </task>
 
 </tasks>
 
 <verification>
-Before declaring phase complete:
-- [ ] `npm run build` succeeds without errors
-- [ ] `npx prisma validate` passes
-- [ ] Login endpoint responds correctly to valid/invalid credentials
-- [ ] Protected route redirects unauthenticated users
+ก่อนประกาศว่าเฟสเสร็จสมบูรณ์:
+- [ ] `npm run build` สำเร็จไม่มี errors
+- [ ] `npx prisma validate` ผ่าน
+- [ ] Login endpoint ตอบสนองถูกต้องกับ valid/invalid credentials
+- [ ] Protected route redirect unauthenticated users
 </verification>
 
 <success_criteria>
 
-- All tasks completed
-- All verification checks pass
-- No TypeScript errors
-- JWT auth flow works end-to-end
+- Tasks ทั้งหมดเสร็จสมบูรณ์
+- Verification checks ทั้งหมดผ่าน
+- ไม่มี TypeScript errors
+- JWT auth flow ทำงาน end-to-end
   </success_criteria>
 
 <output>
-After completion, create `.planning/phases/01-foundation/01-01-SUMMARY.md`
+หลังเสร็จสมบูรณ์ สร้าง `.planning/phases/01-foundation/01-01-SUMMARY.md`
 </output>
 ```
 
@@ -257,47 +257,47 @@ After completion, create `.planning/phases/01-foundation/01-01-SUMMARY.md`
 <bad_examples>
 
 ```markdown
-# Phase 1: Foundation
+# เฟส 1: Foundation
 
 ## Tasks
 
-### Task 1: Set up authentication
+### Task 1: ตั้งค่า authentication
 
-**Action**: Add auth to the app
-**Done when**: Users can log in
+**Action**: เพิ่ม auth ใน app
+**Done when**: Users สามารถ log in ได้
 ```
 
-This is useless. No XML structure, no @context, no verification, no specificity.
+นี่ไร้ประโยชน์ ไม่มีโครงสร้าง XML ไม่มี @context ไม่มี verification ไม่มีความเฉพาะเจาะจง
 </bad_examples>
 
 <guidelines>
-**When to use:**
-- Creating execution plans for each phase
-- One plan per 2-3 tasks, multiple plans per phase if needed
-- Always use XML structure for Claude parsing
+**เมื่อไหร่ใช้:**
+- สร้างแผน execution สำหรับแต่ละเฟส
+- หนึ่งแผนต่อ 2-3 tasks หลายแผนต่อเฟสถ้าต้องการ
+- ใช้โครงสร้าง XML สำหรับ Claude parsing เสมอ
 
 **Task types:**
 
-- `type="auto"`: Execute without stopping
-- `type="checkpoint:human-action"`: User must do something (manual step)
-- `type="checkpoint:human-verify"`: User must verify output (testing, visual check)
-- `type="checkpoint:decision"`: User must choose between options
+- `type="auto"`: Execute โดยไม่หยุด
+- `type="checkpoint:human-action"`: ผู้ใช้ต้องทำอะไร (manual step)
+- `type="checkpoint:human-verify"`: ผู้ใช้ต้อง verify output (testing, visual check)
+- `type="checkpoint:decision"`: ผู้ใช้ต้องเลือกระหว่างตัวเลือก
 
 **Gate values:**
 
-- `gate="blocking"`: Must resolve before continuing
-- `gate="optional"`: Can skip or defer
+- `gate="blocking"`: ต้อง resolve ก่อนดำเนินการต่อ
+- `gate="optional"`: สามารถข้ามหรือเลื่อนได้
 
 **Context references:**
 
-- Use @path/to/file.md to load files
-- Always include @.planning/PROJECT.md and @.planning/ROADMAP.md
-- Include relevant source files for context
-- Include workflow/template references
+- ใช้ @path/to/file.md เพื่อโหลดไฟล์
+- รวม @.planning/PROJECT.md และ @.planning/ROADMAP.md เสมอ
+- รวม source files ที่เกี่ยวข้องสำหรับ context
+- รวม workflow/template references
 
-**After completion:**
+**หลังเสร็จสมบูรณ์:**
 
-- Create SUMMARY.md in same directory
-- Follow summary.md template structure
+- สร้าง SUMMARY.md ใน directory เดียวกัน
+- ทำตามโครงสร้าง summary.md template
 - Document deviations, decisions, issues
   </guidelines>
