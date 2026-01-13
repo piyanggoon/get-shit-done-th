@@ -4,15 +4,15 @@
 
 **ระบบ meta-prompting, context engineering และ spec-driven development ที่เบาและทรงพลังสำหรับ Claude Code โดย TÂCHES**
 
-[![npm version](https://img.shields.io/npm/v/get-shit-done-cc?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/get-shit-done-cc)
-[![npm downloads](https://img.shields.io/npm/dm/get-shit-done-cc?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/get-shit-done-cc)
+[![npm version](https://img.shields.io/npm/v/get-shit-done-th?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/get-shit-done-th)
+[![npm downloads](https://img.shields.io/npm/dm/get-shit-done-th?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/get-shit-done-th)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/glittercowboy/get-shit-done?style=for-the-badge&logo=github&color=181717)](https://github.com/glittercowboy/get-shit-done)
+[![GitHub stars](https://img.shields.io/github/stars/piyanggoon/get-shit-done-th?style=for-the-badge&logo=github&color=181717)](https://github.com/piyanggoon/get-shit-done-th)
 
 <br>
 
 ```bash
-npx get-shit-done-cc
+npx get-shit-done-th
 ```
 
 **ใช้งานได้บน Mac, Windows และ Linux**
@@ -70,7 +70,7 @@ GSD แก้ปัญหานั้น มันเป็นชั้น conte
 ## เริ่มต้นใช้งาน
 
 ```bash
-npx get-shit-done-cc
+npx get-shit-done-th
 ```
 
 แค่นั้นเอง ตรวจสอบด้วย `/gsd:help`
@@ -79,8 +79,8 @@ npx get-shit-done-cc
 <summary><strong>การติดตั้งแบบ Non-interactive (Docker, CI, Scripts)</strong></summary>
 
 ```bash
-npx get-shit-done-cc --global   # ติดตั้งไปที่ ~/.claude/
-npx get-shit-done-cc --local    # ติดตั้งไปที่ ./.claude/
+npx get-shit-done-th --global   # ติดตั้งไปที่ ~/.claude/
+npx get-shit-done-th --local    # ติดตั้งไปที่ ./.claude/
 ```
 
 ใช้ `--global` (`-g`) หรือ `--local` (`-l`) เพื่อข้าม interactive prompt
@@ -93,8 +93,8 @@ npx get-shit-done-cc --local    # ติดตั้งไปที่ ./.claude
 Clone repository และรัน installer ใน local:
 
 ```bash
-git clone https://github.com/glittercowboy/get-shit-done.git
-cd get-shit-done
+git clone https://github.com/piyanggoon/get-shit-done-th.git
+cd get-shit-done-th
 node bin/install.js --local
 ```
 
@@ -358,18 +358,18 @@ lmn012o feat(08-02): create registration endpoint
 
 **คำสั่งไม่ทำงานตามที่คาดหวัง?**
 - รัน `/gsd:help` เพื่อตรวจสอบการติดตั้ง
-- รัน `npx get-shit-done-cc` ใหม่เพื่อติดตั้งซ้ำ
+- รัน `npx get-shit-done-th` ใหม่เพื่อติดตั้งซ้ำ
 
 **อัพเดทเป็นเวอร์ชันล่าสุด?**
 ```bash
-npx get-shit-done-cc@latest
+npx get-shit-done-th@latest
 ```
 
 **ใช้ Docker หรือ containerized environments?**
 
 ถ้าการอ่านไฟล์ล้มเหลวด้วย tilde paths (`~/.claude/...`) ให้ตั้ง `CLAUDE_CONFIG_DIR` ก่อนติดตั้ง:
 ```bash
-CLAUDE_CONFIG_DIR=/home/youruser/.claude npx get-shit-done-cc --global
+CLAUDE_CONFIG_DIR=/home/youruser/.claude npx get-shit-done-th --global
 ```
 สิ่งนี้ทำให้ใช้ absolute paths แทน `~` ซึ่งอาจไม่ขยายอย่างถูกต้องใน containers
 
@@ -377,11 +377,11 @@ CLAUDE_CONFIG_DIR=/home/youruser/.claude npx get-shit-done-cc --global
 
 ## Star History
 
-<a href="https://star-history.com/#glittercowboy/get-shit-done&Date">
+<a href="https://star-history.com/#piyanggoon/get-shit-done-th&Date">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=glittercowboy/get-shit-done&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=glittercowboy/get-shit-done&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=glittercowboy/get-shit-done&type=Date" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=piyanggoon/get-shit-done-th&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=piyanggoon/get-shit-done-th&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=piyanggoon/get-shit-done-th&type=Date" />
  </picture>
 </a>
 
