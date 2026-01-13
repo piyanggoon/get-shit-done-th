@@ -1,7 +1,7 @@
 ---
-name: gsd:execute-plan
-description: ดำเนินการไฟล์ PLAN.md
-argument-hint: "[path-to-PLAN.md]"
+name: gsd:execute-phase
+description: ดำเนินการแผนทั้งหมดในเฟสด้วย intelligent parallelization
+argument-hint: "<phase-number>"
 allowed-tools:
   - Read
   - Write
@@ -10,52 +10,47 @@ allowed-tools:
   - Glob
   - Grep
   - Task
+  - TaskOutput
   - AskUserQuestion
   - SlashCommand
 ---
 
 <objective>
-ดำเนินการไฟล์ PLAN.md พร้อม atomic commits ต่อ task สร้าง SUMMARY.md อัพเดท project state
+ดำเนินการแผนที่ยังไม่ได้ดำเนินการทั้งหมดในเฟสด้วย parallel agent spawning
 
-กลยุทธ์ Commit:
-- แต่ละ task → 1 commit ทันทีหลังเสร็จ (feat/fix/test/refactor)
-- Plan เสร็จ → 1 metadata commit (docs: SUMMARY + STATE + ROADMAP)
+วิเคราะห์ plan dependencies เพื่อระบุแผนอิสระที่สามารถรันพร้อมกันได้
+Spawn background agents สำหรับ parallel execution แต่ละ agent commit tasks ของตัวเองแบบ atomic
 
-ใช้ intelligent segmentation:
-- แผนที่ไม่มี checkpoints → spawn subagent สำหรับการดำเนินการอัตโนมัติเต็มรูปแบบ
-- แผนที่มี verify checkpoints → แบ่งการดำเนินการ หยุดที่ checkpoints
-- แผนที่มี decision checkpoints → ดำเนินการใน main context
+**Critical constraint:** หนึ่ง subagent ต่อหนึ่งแผน เสมอ นี่เป็นสำหรับ context isolation ไม่ใช่ parallelization แม้แผนที่ strictly sequential ก็ spawn subagents แยกเพื่อให้แต่ละตัวเริ่มต้นด้วย 200k context ที่ 0%
+
+ใช้คำสั่งนี้เมื่อ:
+- เฟสมี 2+ แผนที่ยังไม่ได้ดำเนินการ
+- ต้องการการดำเนินการแบบ "walk away, come back to completed work"
+- แผนมี dependency boundaries ที่ชัดเจน
 </objective>
 
 <execution_context>
 @~/.claude/get-shit-done/workflows/execute-plan.md
+@~/.claude/get-shit-done/workflows/execute-phase.md
 @~/.claude/get-shit-done/templates/summary.md
 @~/.claude/get-shit-done/references/checkpoints.md
 @~/.claude/get-shit-done/references/tdd.md
 </execution_context>
 
 <context>
-Plan path: $ARGUMENTS
+Phase number: $ARGUMENTS (required)
 
-**โหลด project state ก่อน:**
 @.planning/STATE.md
-
-**โหลด workflow config:**
 @.planning/config.json
 </context>
 
 <process>
-1. ตรวจสอบว่า .planning/ directory มีอยู่ (error ถ้าไม่มี - user ควรรัน /gsd:new-project)
-2. ตรวจสอบว่าแผนที่ $ARGUMENTS มีอยู่
-3. ตรวจสอบว่า SUMMARY.md มีอยู่แล้วหรือไม่ (แผนถูกดำเนินการแล้ว?)
-4. โหลด workflow config สำหรับ mode (interactive/yolo)
-5. ทำตาม execute-plan.md workflow:
-   - Parse แผนและกำหนด execution strategy (A/B/C)
-   - ดำเนินการ tasks (ผ่าน subagent หรือ main context ตามความเหมาะสม)
-   - จัดการ checkpoints และ deviations
-   - สร้าง SUMMARY.md
-   - อัพเดท STATE.md
-   - Commit การเปลี่ยนแปลง
+1. Validate เฟสมีอยู่ใน roadmap
+2. หาไฟล์ PLAN.md ทั้งหมดที่ไม่มี SUMMARY.md ที่ตรงกัน
+3. ถ้า 0 หรือ 1 แผน: แนะนำ /gsd:execute-plan แทน
+4. ถ้า 2+ แผน: ทำตาม execute-phase.md workflow
+5. Monitor parallel agents จนกว่าจะเสร็จ
+6. แสดงผลลัพธ์และขั้นตอนถัดไป
 </process>
 
 <execution_strategies>
@@ -68,14 +63,14 @@ Plan path: $ARGUMENTS
 **Strategy B: Segmented** (มี verify-only checkpoints)
 
 - ดำเนินการเป็นส่วนๆ ระหว่าง checkpoints
-- Subagent สำหรับส่วนที่ autonomous
+- Subagent สำหรับส่วน autonomous
 - Main context สำหรับ checkpoints
 - รวมผลลัพธ์ → SUMMARY → commit
 
 **Strategy C: Decision-Dependent** (มี decision checkpoints)
 
 - ดำเนินการใน main context
-- ผลลัพธ์ decision มีผลต่อ tasks ถัดไป
+- Decision outcomes มีผลต่อ tasks ถัดไป
 - คุณภาพรักษาไว้ผ่านขอบเขตเล็ก (2-3 tasks ต่อแผน)
 </execution_strategies>
 
@@ -113,17 +108,13 @@ Plan path: $ARGUMENTS
 - `git add src/` หรือ directory กว้างๆ ใดๆ
 
 **Stage ไฟล์ทีละไฟล์เสมอ**
-
-ดู ~/.claude/get-shit-done/references/git-integration.md สำหรับกลยุทธ์ commit เต็มรูปแบบ
 </commit_rules>
 
 <success_criteria>
-
-- [ ] Tasks ทั้งหมดถูกดำเนินการ
+- [ ] แผนอิสระทั้งหมดถูกดำเนินการแบบ parallel
+- [ ] แผนที่ขึ้นต่อกันถูกดำเนินการหลัง dependencies เสร็จ
 - [ ] แต่ละ task ถูก commit ทีละตัว (feat/fix/test/refactor)
-- [ ] SUMMARY.md ถูกสร้างพร้อมเนื้อหาที่มีสาระและ commit hashes
-- [ ] STATE.md ถูกอัพเดท (position, decisions, issues, session)
-- [ ] ROADMAP ถูกอัพเดท (plan count, phase status)
-- [ ] Metadata ถูก committed ด้วย docs({phase}-{plan}): complete [plan-name] plan
-- [ ] User ได้รับแจ้งขั้นตอนถัดไป
+- [ ] ไฟล์ SUMMARY.md ทั้งหมดถูกสร้าง
+- [ ] Metadata ถูก committed โดย orchestrator
+- [ ] Phase progress ถูกอัพเดท
 </success_criteria>
